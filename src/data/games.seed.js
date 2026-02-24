@@ -19,6 +19,27 @@ export const gameCategories = [
 
 export const gameSeed = [
   {
+    id: "meteor-dodge",
+    title: "Meteor Dodge",
+    description: "좌우 이동으로 떨어지는 운석을 피하는 생존형 아케이드 게임.",
+    genre: "아케이드",
+    category: "트렌딩",
+    platform: "cross",
+    tags: ["반응속도", "생존", "하이스코어"],
+    popularity: 96,
+    updatedAt: "2026-02-24",
+    featured: true,
+    version: "0.2.0",
+    playUrl: "./games/meteor-dodge/index.html",
+    studio: "Arcadia Studio",
+    difficulty: "쉬움~보통",
+    estimatedPlayTime: "1~5분",
+    controls: "키보드(←/→, A/D) 또는 터치/드래그",
+    longDescription:
+      "간단한 조작으로 빠른 세션 플레이가 가능한 회피형 게임입니다. 점수가 올라갈수록 운석 생성 빈도와 속도가 증가하며, 최고 점수는 브라우저에 저장됩니다.",
+    thumbGradient: ["#4b7dff", "#22d6b8"],
+  },
+  {
     id: "sky-drift",
     title: "Sky Drift Nitro",
     description: "하늘 트랙에서 부스터를 모아 순위를 다투는 라이트 레이싱.",
