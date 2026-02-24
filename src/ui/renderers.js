@@ -121,11 +121,20 @@ export function renderRecentList(container, games, onOpenDetail) {
     const item = document.createElement("button");
     item.type = "button";
     item.className = "recent-item";
-    item.innerHTML = `
-      <p class="recent-title">${game.title}</p>
-      <span class="recent-meta">${toPlatformLabel(game.platform)} · ${game.genre}</span>
-      <span class="recent-date">${game.updatedAt}</span>
-    `;
+
+    const title = document.createElement("p");
+    title.className = "recent-title";
+    title.textContent = game.title;
+
+    const meta = document.createElement("span");
+    meta.className = "recent-meta";
+    meta.textContent = `${toPlatformLabel(game.platform)} · ${game.genre}`;
+
+    const date = document.createElement("span");
+    date.className = "recent-date";
+    date.textContent = game.updatedAt;
+
+    item.append(title, meta, date);
     item.addEventListener("click", () => onOpenDetail(game.id));
     container.appendChild(item);
   });
