@@ -22,100 +22,109 @@
         font-family: Inter, Pretendard, "Noto Sans KR", system-ui, -apple-system, sans-serif;
         color: var(--text);
         background: radial-gradient(1200px 600px at 15% -10%, #22357d 0%, #070b1f 45%, #030510 100%);
-        display: grid;
-        place-items: center;
-        padding: calc(env(safe-area-inset-top) + 52px) 20px calc(env(safe-area-inset-bottom) + 16px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
       }
 
       .shell {
         width: min(100%, 460px);
+        height: min(100dvh - 20px, 920px);
+        height: min(100svh - 20px, 920px);
         background: color-mix(in srgb, var(--panel) 90%, #050816 10%);
         border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
         border-radius: 18px;
         box-shadow: 0 20px 60px rgba(4, 7, 22, 0.6);
         overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
       }
 
       .topbar {
-        padding: 14px 16px;
+        padding: calc(env(safe-area-inset-top) + 8px) 10px 8px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        display: flex;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
         align-items: center;
-        justify-content: flex-start;
-        gap: 12px;
+        gap: 8px;
+        background: rgba(10, 17, 44, 0.92);
+      }
+
+      .mini-link {
+        color: var(--text);
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 0.76rem;
+        line-height: 1;
+        background: rgba(255, 255, 255, 0.06);
+        white-space: nowrap;
       }
 
       .title-wrap h1 {
         margin: 0;
-        font-size: 1.06rem;
+        font-size: 1rem;
+        line-height: 1.2;
       }
 
       .title-wrap p {
-        margin: 4px 0 0;
+        margin: 2px 0 0;
         color: var(--muted);
-        font-size: 0.83rem;
+        font-size: 0.74rem;
+        line-height: 1.2;
       }
 
       .topbar-actions {
-        margin-left: auto;
         display: flex;
-        gap: 8px;
       }
 
       .topbar-actions .ghost {
-        padding: 8px 12px;
-        font-size: 0.8rem;
-      }
-
-      .portal-top-link {
-        position: fixed;
-        top: calc(env(safe-area-inset-top) + 10px);
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 30;
-        color: var(--text);
-        text-decoration: none;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        background: rgba(8, 15, 43, 0.84);
-        backdrop-filter: blur(8px);
-        border-radius: 999px;
-        padding: 8px 14px;
-        font-size: 0.82rem;
-        line-height: 1;
+        padding: 6px 9px;
+        font-size: 0.76rem;
+        white-space: nowrap;
       }
 
       .hud {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 8px;
-        padding: 10px 12px;
-        background: rgba(7, 12, 35, 0.8);
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 6px;
+        padding: 6px 8px;
+        background: rgba(7, 12, 35, 0.86);
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       }
 
       .hud-card {
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 12px;
-        padding: 8px;
+        border-radius: 10px;
+        padding: 6px 7px;
       }
 
       .hud-label {
         margin: 0;
         color: var(--muted);
-        font-size: 0.7rem;
+        font-size: 0.62rem;
+        line-height: 1;
       }
 
       .hud-value {
-        margin: 2px 0 0;
+        margin: 3px 0 0;
         font-weight: 700;
-        font-size: 0.95rem;
+        font-size: 0.86rem;
+        line-height: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .game-wrap {
         position: relative;
-        aspect-ratio: 9 / 16;
         background: #03071a;
+        flex: 1;
+        min-height: 240px;
       }
 
       canvas {
@@ -130,8 +139,8 @@
         inset: 0;
         display: grid;
         place-items: center;
-        background: linear-gradient(to bottom, rgba(5, 8, 23, 0.3), rgba(5, 8, 23, 0.88));
-        padding: 20px;
+        background: linear-gradient(to bottom, rgba(5, 8, 23, 0.35), rgba(5, 8, 23, 0.9));
+        padding: 18px;
         text-align: center;
       }
 
@@ -140,7 +149,7 @@
       }
 
       .panel {
-        max-width: 290px;
+        max-width: 300px;
       }
 
       .panel h2 {
@@ -150,8 +159,8 @@
       .panel p {
         margin: 0 0 12px;
         color: var(--muted);
-        line-height: 1.5;
-        font-size: 0.92rem;
+        line-height: 1.45;
+        font-size: 0.9rem;
       }
 
       .btn-row {
@@ -181,13 +190,16 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 8px;
-        padding: 10px 12px calc(env(safe-area-inset-bottom) + 14px);
+        padding: 8px 10px calc(env(safe-area-inset-bottom) + 10px);
+        background: rgba(10, 16, 40, 0.92);
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        flex-shrink: 0;
       }
 
       .controls button {
-        min-height: 54px;
-        padding: 12px;
-        font-size: 1rem;
+        min-height: 52px;
+        padding: 11px;
+        font-size: 0.98rem;
         user-select: none;
         touch-action: manipulation;
         transition: transform 0.06s ease, background 0.12s ease, border-color 0.12s ease;
@@ -202,20 +214,53 @@
 
       .hint {
         margin: 0;
-        font-size: 0.76rem;
+        font-size: 0.72rem;
         color: var(--muted);
-        padding: 0 12px 10px;
+        padding: 0 10px calc(env(safe-area-inset-bottom) + 8px);
+        background: rgba(10, 16, 40, 0.92);
+      }
+
+      @media (max-width: 700px) {
+        body {
+          padding: 0;
+          align-items: stretch;
+        }
+
+        .shell {
+          width: 100%;
+          height: 100dvh;
+          height: 100svh;
+          border-radius: 0;
+          border-left: 0;
+          border-right: 0;
+        }
+      }
+
+      @media (max-height: 760px) {
+        .title-wrap p,
+        .hint,
+        .hud-label {
+          display: none;
+        }
+
+        .hud-card {
+          padding: 6px;
+        }
+
+        .hud-value {
+          margin: 0;
+          font-size: 0.82rem;
+        }
       }
     </style>
   </head>
   <body>
-    <a class="portal-top-link" href="../../index.html" aria-label="포털로 이동">← 포털로 이동</a>
-
     <main class="shell">
       <header class="topbar">
+        <a class="mini-link" href="../../index.html" aria-label="포털로 이동">← 포털</a>
         <div class="title-wrap">
           <h1>Meteor Dodge</h1>
-          <p>운석을 피해서 최대한 오래 버티세요</p>
+          <p>운석 회피 아케이드</p>
         </div>
         <div class="topbar-actions">
           <button id="pauseBtn" type="button" class="ghost" aria-label="일시정지">일시정지</button>
@@ -632,24 +677,39 @@
       }
 
       function bindMobileButtons(button, direction) {
-        button.addEventListener("pointerdown", (e) => {
-          e.preventDefault();
+        const press = (e) => {
+          e?.preventDefault?.();
           setMove(direction, true);
           if (!state.running && !state.gameOver) startGame();
-          try { button.setPointerCapture(e.pointerId); } catch {}
-        });
+        };
 
         const release = (e) => {
+          e?.preventDefault?.();
           setMove(direction, false);
           if (e?.pointerId != null) {
             try { button.releasePointerCapture(e.pointerId); } catch {}
           }
         };
 
-        button.addEventListener("pointerup", release);
-        button.addEventListener("pointercancel", release);
-        button.addEventListener("lostpointercapture", release);
-        button.addEventListener("pointerleave", release);
+        if ("PointerEvent" in window) {
+          button.addEventListener("pointerdown", (e) => {
+            press(e);
+            try { button.setPointerCapture(e.pointerId); } catch {}
+          });
+          button.addEventListener("pointerup", release);
+          button.addEventListener("pointercancel", release);
+          button.addEventListener("lostpointercapture", release);
+          button.addEventListener("pointerleave", release);
+        } else {
+          button.addEventListener("touchstart", press, { passive: false });
+          button.addEventListener("touchend", release, { passive: false });
+          button.addEventListener("touchcancel", release, { passive: false });
+          button.addEventListener("mousedown", press);
+          button.addEventListener("mouseup", release);
+          button.addEventListener("mouseleave", release);
+        }
+
+        button.addEventListener("contextmenu", (e) => e.preventDefault());
       }
 
       function releaseAllInput() {
