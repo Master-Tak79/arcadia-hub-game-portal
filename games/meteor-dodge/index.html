@@ -334,7 +334,7 @@
         <div id="overlay" class="overlay">
           <div class="panel">
             <h2 id="overlayTitle">Meteor Dodge</h2>
-            <p id="overlayText">좌우 이동으로 운석을 피하세요.<br />키보드(←/→, A/D) 또는 하단 좌/우 버튼으로 조작할 수 있습니다.</p>
+            <p id="overlayText">직진/가속 운석을 피하세요.<br />키보드(←/→, A/D) 또는 하단 좌/우 버튼으로 조작할 수 있습니다.</p>
             <p id="overlayBadge" class="overlay-badge hidden"></p>
             <div class="btn-row">
               <button id="startBtn" type="button">시작</button>
@@ -348,11 +348,11 @@
         <button id="leftBtn" type="button" class="ghost" aria-label="왼쪽 이동">◀ 왼쪽</button>
         <button id="rightBtn" type="button" class="ghost" aria-label="오른쪽 이동">오른쪽 ▶</button>
       </div>
-      <p class="hint">팁: Normal은 기본, Hard는 더 빠르고 보호구간이 짧습니다.</p>
+      <p class="hint">팁: 직진/가속 운석이 섞여 등장합니다. Hard는 가속 운석 비율이 더 높습니다.</p>
     </main>
 
     <script type="module">
-      import { computeDifficulty, getPresetConfig, normalizePreset } from "./difficulty.js";
+      import { computeDifficulty, getPresetConfig, normalizePreset, selectMeteorType } from "./difficulty.js";
       import { createSfx } from "./sfx.js";
 
       const LEGACY_BEST_KEY = "arcadia_meteor_dodge_best_v1";
@@ -584,15 +584,24 @@
 
       function spawnMeteor() {
         const levelFactor = 1 + state.level * 0.11;
-        const r = Math.random() * 30 + 18;
+        const cfg = getDifficultyConfig();
+        const type = selectMeteorType(state.score, state.difficulty);
+
+        const isAccelerating = type === "accelerating";
+        const r = isAccelerating ? Math.random() * 20 + 14 : Math.random() * 30 + 18;
+        const baseVy = (state.meteorSpeedBase + Math.random() * 130) * levelFactor;
+
         meteors.push({
+          type,
           x: Math.random() * (canvas.width - r * 2) + r,
           y: -r - 10,
           r,
-          vy: (state.meteorSpeedBase + Math.random() * 130) * levelFactor,
-          vx: (Math.random() - 0.5) * 54,
+          vy: isAccelerating ? baseVy * 0.74 : baseVy,
+          ay: isAccelerating ? (85 + Math.random() * 100) * cfg.acceleratingAyMultiplier : 0,
+          vyMax: isAccelerating ? baseVy * 1.9 : baseVy,
+          vx: (Math.random() - 0.5) * (isAccelerating ? 42 : 54),
           rot: Math.random() * Math.PI * 2,
-          spin: (Math.random() - 0.5) * 2.6,
+          spin: (Math.random() - 0.5) * (isAccelerating ? 3.2 : 2.6),
         });
       }
 
@@ -669,6 +678,11 @@
 
         for (let i = meteors.length - 1; i >= 0; i -= 1) {
           const m = meteors[i];
+
+          if (m.type === "accelerating") {
+            m.vy = Math.min(m.vyMax || m.vy, m.vy + m.ay * deltaSec);
+          }
+
           m.x += m.vx * deltaSec;
           m.y += m.vy * deltaSec;
           m.rot += m.spin * deltaSec;
@@ -730,14 +744,37 @@
       }
 
       function drawMeteor(m) {
+        const isAccelerating = m.type === "accelerating";
+
+        if (isAccelerating) {
+          ctx.save();
+          const tailLength = Math.min(90, m.vy * 0.12 + 20);
+          const tail = ctx.createLinearGradient(m.x, m.y - tailLength, m.x, m.y + m.r * 0.8);
+          tail.addColorStop(0, "rgba(104, 230, 255, 0)");
+          tail.addColorStop(1, "rgba(104, 230, 255, 0.35)");
+          ctx.strokeStyle = tail;
+          ctx.lineWidth = Math.max(2, m.r * 0.22);
+          ctx.beginPath();
+          ctx.moveTo(m.x, m.y - tailLength);
+          ctx.lineTo(m.x, m.y);
+          ctx.stroke();
+          ctx.restore();
+        }
+
         ctx.save();
         ctx.translate(m.x, m.y);
         ctx.rotate(m.rot);
 
         const grd = ctx.createRadialGradient(-m.r * 0.3, -m.r * 0.25, m.r * 0.2, 0, 0, m.r * 1.1);
-        grd.addColorStop(0, "#f0b36f");
-        grd.addColorStop(0.46, "#d46f35");
-        grd.addColorStop(1, "#772f1d");
+        if (isAccelerating) {
+          grd.addColorStop(0, "#baf6ff");
+          grd.addColorStop(0.45, "#4fcfff");
+          grd.addColorStop(1, "#1d4c88");
+        } else {
+          grd.addColorStop(0, "#f0b36f");
+          grd.addColorStop(0.46, "#d46f35");
+          grd.addColorStop(1, "#772f1d");
+        }
 
         ctx.fillStyle = grd;
         ctx.beginPath();
@@ -752,10 +789,17 @@
         ctx.closePath();
         ctx.fill();
 
-        ctx.fillStyle = "rgba(0,0,0,0.22)";
+        ctx.fillStyle = isAccelerating ? "rgba(0, 20, 48, 0.3)" : "rgba(0,0,0,0.22)";
         ctx.beginPath();
         ctx.arc(m.r * 0.2, m.r * 0.1, m.r * 0.2, 0, Math.PI * 2);
         ctx.fill();
+
+        if (isAccelerating) {
+          ctx.fillStyle = "rgba(214, 247, 255, 0.85)";
+          ctx.beginPath();
+          ctx.arc(-m.r * 0.2, -m.r * 0.14, m.r * 0.12, 0, Math.PI * 2);
+          ctx.fill();
+        }
 
         ctx.restore();
       }
@@ -948,7 +992,7 @@
       bindAutoPause();
       syncDifficultyUI();
       syncHud();
-      showOverlay("Meteor Dodge", "난이도(Normal/Hard)를 고른 뒤 시작하세요.<br />시작 시 카운트다운과 보호구간이 적용됩니다.");
+      showOverlay("Meteor Dodge", "난이도(Normal/Hard)를 고른 뒤 시작하세요.<br />직진/가속 운석 패턴에 대비해 이동 타이밍을 조절하세요.");
 
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame((ts) => {

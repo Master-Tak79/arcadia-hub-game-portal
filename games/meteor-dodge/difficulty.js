@@ -8,6 +8,10 @@ const PRESET_CONFIG = {
     spawnMultiplier: 1,
     speedMultiplier: 1,
     levelDivisor: 180,
+    acceleratingChanceBase: 0.2,
+    acceleratingChanceMaxBonus: 0.26,
+    acceleratingChanceRamp: 2200,
+    acceleratingAyMultiplier: 1,
   },
   hard: {
     key: "hard",
@@ -18,6 +22,10 @@ const PRESET_CONFIG = {
     spawnMultiplier: 0.82,
     speedMultiplier: 1.2,
     levelDivisor: 150,
+    acceleratingChanceBase: 0.34,
+    acceleratingChanceMaxBonus: 0.32,
+    acceleratingChanceRamp: 1800,
+    acceleratingAyMultiplier: 1.25,
   },
 };
 
@@ -62,4 +70,14 @@ export function computeDifficulty(score, preset = "normal") {
     meteorSpeedBase: base.meteorSpeedBase * cfg.speedMultiplier,
     level: 1 + Math.floor(score / cfg.levelDivisor),
   };
+}
+
+export function getAcceleratingChance(score, preset = "normal") {
+  const cfg = getPresetConfig(preset);
+  const bonus = Math.min(cfg.acceleratingChanceMaxBonus, score / cfg.acceleratingChanceRamp);
+  return Math.min(0.82, cfg.acceleratingChanceBase + bonus);
+}
+
+export function selectMeteorType(score, preset = "normal", rng = Math.random()) {
+  return rng < getAcceleratingChance(score, preset) ? "accelerating" : "straight";
 }
