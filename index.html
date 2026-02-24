@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Arcadia Hub | 웹게임 포털</title>
+    <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+  <body>
+    <div class="bg-grid" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">TAK GAME PORTAL · FOUNDATION</p>
+        <h1>Arcadia Hub</h1>
+        <p class="subtitle">확장 가능한 웹게임 큐레이션 포털 (3차 확장형)</p>
+        <p id="portalVersionText" class="version-text">Portal v0.1.0</p>
+      </div>
+      <div class="topbar-actions">
+        <a class="ghost-btn" href="./admin.html">관리자</a>
+        <button id="refreshBtn" class="ghost-btn" type="button">데이터 새로고침</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="panel filter-panel">
+        <h2>탐색 필터</h2>
+
+        <label class="field">
+          <span>검색</span>
+          <input id="searchInput" type="text" placeholder="게임 이름, 태그 검색" />
+        </label>
+
+        <label class="field">
+          <span>플랫폼</span>
+          <select id="platformSelect">
+            <option value="all">전체</option>
+            <option value="desktop">데스크톱</option>
+            <option value="mobile">모바일</option>
+            <option value="cross">크로스플랫폼</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>정렬</span>
+          <select id="sortSelect">
+            <option value="popularity">인기순</option>
+            <option value="updated">최신 업데이트순</option>
+            <option value="title">이름순</option>
+          </select>
+        </label>
+
+        <section class="field">
+          <span>장르</span>
+          <div id="genreChips" class="chip-wrap"></div>
+        </section>
+
+        <section class="field">
+          <span>퀵 액션</span>
+          <div class="button-row">
+            <button id="showAllBtn" class="small-btn" type="button">전체 보기</button>
+            <button id="showFavoritesBtn" class="small-btn" type="button">즐겨찾기만</button>
+          </div>
+        </section>
+
+        <section class="field note-box">
+          <span>확장 메모</span>
+          <ul>
+            <li>관리자 페이지에서 게임 등록/갱신 가능</li>
+            <li>URL 해시 라우팅 상세 패널 지원</li>
+            <li>무한 스크롤 방식으로 카드 점진 로드</li>
+          </ul>
+        </section>
+      </aside>
+
+      <section class="panel content-panel">
+        <div class="section-head">
+          <h2>Featured</h2>
+          <p id="statsText" class="stats-text"></p>
+        </div>
+        <div id="featuredGrid" class="featured-grid"></div>
+
+        <div class="section-head mt-24">
+          <h2>최근 업데이트</h2>
+        </div>
+        <div id="recentList" class="recent-list"></div>
+
+        <div class="section-head mt-24">
+          <h2>All Games</h2>
+        </div>
+        <div id="categoryTabs" class="category-tabs"></div>
+        <div id="gameGrid" class="game-grid"></div>
+        <div id="loadMoreSentinel" class="load-more" aria-hidden="true">
+          <span id="loadMoreText">아래로 스크롤하면 더 로드됩니다</span>
+        </div>
+      </section>
+    </main>
+
+    <section id="detailOverlay" class="detail-overlay hidden" aria-hidden="true">
+      <div class="detail-backdrop" data-close-detail="true"></div>
+      <article class="detail-panel" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+        <button id="detailCloseBtn" class="detail-close" type="button" aria-label="닫기">×</button>
+        <div id="detailHero" class="detail-hero"></div>
+        <div class="detail-body">
+          <h3 id="detailTitle"></h3>
+          <p id="detailDescription" class="detail-description"></p>
+
+          <div id="detailMeta" class="detail-meta"></div>
+          <div id="detailTags" class="detail-tags"></div>
+
+          <div class="detail-actions">
+            <a id="detailPlayLink" class="play-link" target="_blank" rel="noreferrer">게임 플레이</a>
+            <button id="detailFavBtn" type="button" class="small-btn">☆ 즐겨찾기</button>
+          </div>
+
+          <section class="detail-section">
+            <h4>조작법</h4>
+            <p id="detailControls"></p>
+          </section>
+
+          <section class="detail-section">
+            <h4>상세 설명</h4>
+            <p id="detailLongDescription"></p>
+          </section>
+        </div>
+      </article>
+    </section>
+
+    <template id="gameCardTemplate">
+      <article class="game-card">
+        <div class="thumb"></div>
+        <div class="card-body">
+          <div class="card-top">
+            <h3 class="title"></h3>
+            <button class="fav-btn" type="button" title="즐겨찾기 토글">☆</button>
+          </div>
+          <p class="desc"></p>
+          <div class="meta-row">
+            <span class="platform"></span>
+            <span class="updated"></span>
+          </div>
+          <div class="tag-wrap"></div>
+          <div class="action-row">
+            <button class="detail-btn" type="button">상세 보기</button>
+            <a class="play-link" target="_blank" rel="noreferrer">게임 열기</a>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
