@@ -1,9 +1,9 @@
 const SFX_CONFIG = {
-  start: { file: "start.wav", volume: 0.28 },
-  tick: { file: "tick.wav", volume: 0.2 },
-  hit: { file: "hit.wav", volume: 0.28 },
-  gameover: { file: "gameover.wav", volume: 0.3 },
-  best: { file: "best.wav", volume: 0.32 },
+  start: { file: "start.wav", volume: 0.28, cooldownMs: 120 },
+  tick: { file: "tick.wav", volume: 0.2, cooldownMs: 180 },
+  hit: { file: "hit.wav", volume: 0.28, cooldownMs: 120 },
+  gameover: { file: "gameover.wav", volume: 0.3, cooldownMs: 320 },
+  best: { file: "best.wav", volume: 0.32, cooldownMs: 220 },
 };
 
 function src(file) {
@@ -21,13 +21,12 @@ function createHtmlAudioBackend() {
   );
 
   return {
-    play(name) {
+    play(name, volumeScale = 1) {
       const base = sounds[name];
       if (!base) return;
 
-      // 중첩 재생을 위해 clone 사용
       const audio = base.cloneNode();
-      audio.volume = base.volume;
+      audio.volume = Math.max(0, Math.min(1, base.volume * volumeScale));
       audio.play().catch(() => {});
     },
   };
@@ -45,9 +44,10 @@ async function createHowlerBackend() {
   );
 
   return {
-    play(name) {
+    play(name, volumeScale = 1) {
       const sound = sounds[name];
       if (!sound) return;
+      sound.volume(Math.max(0, Math.min(1, SFX_CONFIG[name].volume * volumeScale)));
       sound.play();
     },
   };
@@ -57,13 +57,25 @@ export function createSfx() {
   let enabled = true;
   let ready = false;
   let backend = null;
+  let volumeScale = 1;
   const queue = [];
+  const lastPlayedAt = new Map();
+
+  function canPlay(name) {
+    const now = performance.now();
+    const cooldown = SFX_CONFIG[name]?.cooldownMs || 0;
+    const prev = lastPlayedAt.get(name) || 0;
+    if (now - prev < cooldown) return false;
+    lastPlayedAt.set(name, now);
+    return true;
+  }
 
   function flushQueue() {
     if (!backend || !enabled) return;
     while (queue.length) {
       const name = queue.shift();
-      backend.play(name);
+      if (!canPlay(name)) continue;
+      backend.play(name, volumeScale);
     }
   }
 
@@ -83,11 +95,12 @@ export function createSfx() {
 
     if (!ready || !backend) {
       queue.push(name);
-      if (queue.length > 12) queue.shift();
+      if (queue.length > 16) queue.shift();
       return;
     }
 
-    backend.play(name);
+    if (!canPlay(name)) return;
+    backend.play(name, volumeScale);
   }
 
   function setEnabled(nextEnabled) {
@@ -95,9 +108,15 @@ export function createSfx() {
     if (enabled) flushQueue();
   }
 
+  function setVolume(nextScale) {
+    const num = Number(nextScale);
+    volumeScale = Number.isFinite(num) ? Math.max(0, Math.min(1, num)) : 1;
+  }
+
   return {
     play,
     setEnabled,
+    setVolume,
     isReady: () => ready,
   };
 }

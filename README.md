@@ -16,7 +16,7 @@ python3 -m http.server 8790
 
 ---
 
-## 현재 구현 기능 (3차)
+## 현재 구현 기능 (0.3.0)
 
 - 게임 카드형 목록 UI
 - 검색 / 장르 필터 / 카테고리 탭 / 플랫폼 필터 / 정렬
@@ -31,13 +31,14 @@ python3 -m http.server 8790
 - 모바일 반응형 레이아웃
 - 내장 플레이 가능 게임 1종: **Meteor Dodge** (`./games/meteor-dodge/index.html`)
   - 조작: 키보드(←/→, A/D) + 하단 좌/우 버튼(모바일 터치)
-  - UX: 앱 전환 시 자동 일시정지, 버튼 눌림 피드백 제공
-  - 모바일 화면에서 상단 메뉴 간소화 + 하단 좌/우 버튼 영역 고정
   - 난이도 프리셋 2종(`Normal`/`Hard`) + 난이도별 카운트다운/보호구간/목숨 차등
   - 운석 패턴 2종(직진형 / 가속형) 적용
-  - 시작 3초 카운트다운 + 3초 보호구간, 결과 화면 강화(재시작/포털 이동/NEW BEST)
-  - 라이브러리: Howler.js 기반 효과음(SFX) + 일부 로직 모듈 리팩토링
-  - 안정화: Howler 로드 실패 시 Audio 폴백, 난이도별 최고점 분리 저장
+  - 세션 미션: 60초 생존 + 미션 보너스 점수
+  - 결과 카드: 최근 점수/최고점/플레이 시간 표시
+  - 설정 오버레이: 효과음/배경음/진동 토글 + SFX 볼륨 슬라이더
+  - 라이브러리: Howler.js 기반 SFX + CDN 실패 시 HTMLAudio 폴백
+  - 데이터: 난이도별 최고점/최고점 타임스탬프/최근 10개 점수 이력(localStorage)
+  - 구조: `main/state/input/renderer/systems` 모듈 분리 + 자동 스모크 체크 스크립트
 
 ---
 
@@ -50,11 +51,20 @@ arcadia-hub-game-portal/
   games/
     meteor-dodge/
       index.html                # 내장 플레이 게임 (회피형 아케이드)
-      difficulty.js             # 난이도 곡선 계산 모듈(리팩토링)
-      sfx.js                    # 오디오 모듈(Howler.js)
+      main.js                   # 게임 엔트리/오케스트레이션
+      state.js                  # 상태/스토리지 계층
+      input.js                  # 키보드/터치 입력 바인딩
+      renderer.js               # 캔버스 렌더링 계층
+      systems.js                # 게임 로직(스폰/충돌/미션)
+      difficulty.js             # 난이도/패턴 파라미터
+      sfx.js                    # 오디오 모듈(Howler + 폴백)
       assets/
         sfx/
-          *.wav                 # 효과음 에셋
+          *.wav                 # 효과음/배경음 에셋
+      tests/
+        QA_CHECKLIST.md         # 수동 QA 체크리스트
+  scripts/
+    meteor-smoke-check.sh       # 기본 자동 스모크 체크
   styles/
     main.css
   src/
@@ -78,7 +88,7 @@ arcadia-hub-game-portal/
 
 ## 버전 정책
 
-- 포털 현재 버전: **`0.2.8`**
+- 포털 현재 버전: **`0.3.0`**
 - 기본 게임 버전: **`0.1.0`**
 - 버전 형식: `MAJOR.MINOR.PATCH` (semver)
 - 게임 등록/수정 시 관리자 페이지에서 `게임 버전` 입력 가능
