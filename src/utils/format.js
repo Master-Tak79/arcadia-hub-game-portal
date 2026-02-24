@@ -11,7 +11,11 @@ export function toPlatformLabel(platform) {
 export function toUpdatedLabel(dateString) {
   const date = new Date(dateString);
   if (Number.isNaN(date.getTime())) return "업데이트 정보 없음";
-  return `업데이트 ${date.toISOString().slice(0, 10)}`;
+
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `업데이트 ${y}-${m}-${d}`;
 }
 
 export function gradient([a, b] = ["#4e62db", "#22c3d8"]) {

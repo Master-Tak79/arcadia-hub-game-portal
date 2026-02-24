@@ -59,23 +59,43 @@ function renderAdminList() {
   games.forEach((game) => {
     const item = document.createElement("article");
     item.className = "admin-item";
-    item.innerHTML = `
-      <h4>${game.title} <small>(${game.id})</small></h4>
-      <p>${game.genre} · ${game.category} · ${game.platform} · 인기도 ${game.popularity} · v${game.version || GAME_DEFAULT_VERSION}</p>
-      <p>${game.updatedAt} · ${game.playUrl}</p>
-      <div class="button-row">
-        <button class="small-btn" data-action="edit">수정</button>
-        <button class="small-btn" data-action="delete">삭제</button>
-      </div>
-    `;
 
-    item.querySelector('[data-action="edit"]').addEventListener("click", () => fillForm(game));
-    item.querySelector('[data-action="delete"]').addEventListener("click", () => {
+    const title = document.createElement("h4");
+    title.textContent = `${game.title} `;
+    const small = document.createElement("small");
+    small.textContent = `(${game.id})`;
+    title.appendChild(small);
+
+    const meta = document.createElement("p");
+    meta.textContent = `${game.genre} · ${game.category} · ${game.platform} · 인기도 ${game.popularity} · v${game.version || GAME_DEFAULT_VERSION}`;
+
+    const linkLine = document.createElement("p");
+    linkLine.textContent = `${game.updatedAt} · ${game.playUrl}`;
+
+    const row = document.createElement("div");
+    row.className = "button-row";
+
+    const editBtn = document.createElement("button");
+    editBtn.className = "small-btn";
+    editBtn.type = "button";
+    editBtn.dataset.action = "edit";
+    editBtn.textContent = "수정";
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.className = "small-btn";
+    deleteBtn.type = "button";
+    deleteBtn.dataset.action = "delete";
+    deleteBtn.textContent = "삭제";
+
+    editBtn.addEventListener("click", () => fillForm(game));
+    deleteBtn.addEventListener("click", () => {
       if (!confirm(`'${game.title}'을(를) 삭제할까요?`)) return;
       removeAdminGame(game.id);
       renderAdminList();
     });
 
+    row.append(editBtn, deleteBtn);
+    item.append(title, meta, linkLine, row);
     els.adminList.appendChild(item);
   });
 }

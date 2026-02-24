@@ -355,7 +355,8 @@
       import { computeDifficulty, getPresetConfig, normalizePreset } from "./difficulty.js";
       import { createSfx } from "./sfx.js";
 
-      const STORAGE_KEY = "arcadia_meteor_dodge_best_v1";
+      const LEGACY_BEST_KEY = "arcadia_meteor_dodge_best_v1";
+      const BEST_KEY_PREFIX = "arcadia_meteor_dodge_best_v2_";
       const DIFFICULTY_KEY = "arcadia_meteor_dodge_difficulty_v1";
 
       const canvas = document.getElementById("gameCanvas");
@@ -384,7 +385,7 @@
         gameOver: false,
         score: 0,
         scoreFloat: 0,
-        best: Number(localStorage.getItem(STORAGE_KEY) || 0),
+        best: 0,
         isNewBest: false,
         difficulty: normalizePreset(localStorage.getItem(DIFFICULTY_KEY) || "normal"),
         level: 1,
@@ -404,6 +405,33 @@
         right: false,
       };
 
+      function getBestKey(difficulty = state.difficulty) {
+        return `${BEST_KEY_PREFIX}${normalizePreset(difficulty)}`;
+      }
+
+      function loadBestScore(difficulty = state.difficulty) {
+        const normalized = normalizePreset(difficulty);
+        const value = Number(localStorage.getItem(getBestKey(normalized)) || 0);
+
+        if (Number.isFinite(value) && value > 0) {
+          return Math.floor(value);
+        }
+
+        // 기존 단일 최고점 키에서 Normal 난이도만 1회 호환
+        if (normalized === "normal") {
+          const legacy = Number(localStorage.getItem(LEGACY_BEST_KEY) || 0);
+          return Number.isFinite(legacy) && legacy > 0 ? Math.floor(legacy) : 0;
+        }
+
+        return 0;
+      }
+
+      function saveBestScore(score, difficulty = state.difficulty) {
+        localStorage.setItem(getBestKey(difficulty), String(Math.floor(score)));
+      }
+
+      state.best = loadBestScore(state.difficulty);
+
       function getDifficultyConfig() {
         return getPresetConfig(state.difficulty);
       }
@@ -417,7 +445,9 @@
       function applyDifficulty(nextDifficulty, { resetRound = false } = {}) {
         state.difficulty = normalizePreset(nextDifficulty);
         localStorage.setItem(DIFFICULTY_KEY, state.difficulty);
+        state.best = loadBestScore(state.difficulty);
         syncDifficultyUI();
+        syncHud();
 
         if (!resetRound) return;
 
@@ -458,6 +488,7 @@
         state.score = 0;
         state.scoreFloat = 0;
         state.isNewBest = false;
+        state.best = loadBestScore(state.difficulty);
         state.level = 1;
         state.lives = cfg.lives;
         state.meteorSpawnMs = 900;
@@ -515,7 +546,7 @@
         state.isNewBest = state.score > state.best;
         if (state.isNewBest) {
           state.best = state.score;
-          localStorage.setItem(STORAGE_KEY, String(state.best));
+          saveBestScore(state.best, state.difficulty);
           sfx.play("best");
         } else {
           sfx.play("gameover");
@@ -532,7 +563,7 @@
 
         showOverlay(
           "게임 오버",
-          `최종 점수 ${state.score}점 · 최고 점수 ${state.best}점\n다시 시작 또는 포털 이동을 선택해 주세요.`
+          `[${getDifficultyConfig().label}] 최종 점수 ${state.score}점 · 최고 점수 ${state.best}점\n다시 시작 또는 포털 이동을 선택해 주세요.`
         );
         startBtn.textContent = "다시 시작";
       }
