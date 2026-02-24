@@ -135,6 +135,22 @@
         text-overflow: ellipsis;
       }
 
+      .mission-strip {
+        margin: 0;
+        padding: 4px 10px;
+        background: rgba(12, 20, 48, 0.92);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .mission-strip p {
+        margin: 0;
+        font-size: 0.73rem;
+        color: #c7f5d9;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
       .game-wrap {
         position: relative;
         background: #03071a;
@@ -161,6 +177,69 @@
 
       .overlay.hidden {
         display: none;
+      }
+
+      .settings-panel {
+        position: absolute;
+        inset: 0;
+        z-index: 7;
+        display: grid;
+        place-items: center;
+        background: rgba(4, 10, 30, 0.72);
+        padding: 16px;
+      }
+
+      .settings-panel.hidden {
+        display: none;
+      }
+
+      .settings-card {
+        width: min(100%, 320px);
+        background: rgba(16, 26, 58, 0.98);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 14px;
+        padding: 12px;
+      }
+
+      .settings-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
+      .settings-head h3 {
+        margin: 0;
+        font-size: 0.94rem;
+      }
+
+      .setting-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 10px;
+        margin: 10px 0;
+        font-size: 0.85rem;
+        color: #dfe7ff;
+      }
+
+      .setting-row input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+      }
+
+      .volume-row {
+        grid-template-columns: 1fr;
+      }
+
+      .volume-row input[type="range"] {
+        width: 100%;
+      }
+
+      .volume-row strong {
+        justify-self: end;
+        font-size: 0.8rem;
+        color: #9fdcff;
       }
 
       .panel {
@@ -305,6 +384,7 @@
             <option value="normal">Normal</option>
             <option value="hard">Hard</option>
           </select>
+          <button id="settingsBtn" type="button" class="ghost" aria-label="설정">설정</button>
           <button id="pauseBtn" type="button" class="ghost" aria-label="일시정지">일시정지</button>
         </div>
       </header>
@@ -328,6 +408,10 @@
         </article>
       </section>
 
+      <section class="mission-strip" aria-live="polite">
+        <p id="missionText">미션: 60초 생존</p>
+      </section>
+
       <section class="game-wrap">
         <canvas id="gameCanvas" width="540" height="960" aria-label="Meteor Dodge game canvas"></canvas>
 
@@ -342,6 +426,36 @@
             </div>
           </div>
         </div>
+
+        <aside id="settingsPanel" class="settings-panel hidden" aria-label="게임 설정">
+          <div class="settings-card">
+            <div class="settings-head">
+              <h3>게임 설정</h3>
+              <button id="closeSettingsBtn" type="button" class="ghost">닫기</button>
+            </div>
+
+            <label class="setting-row">
+              <span>효과음</span>
+              <input id="soundToggle" type="checkbox" checked />
+            </label>
+
+            <label class="setting-row">
+              <span>배경음(BGM)</span>
+              <input id="bgmToggle" type="checkbox" checked />
+            </label>
+
+            <label class="setting-row">
+              <span>진동</span>
+              <input id="vibrationToggle" type="checkbox" checked />
+            </label>
+
+            <label class="setting-row volume-row">
+              <span>효과음 볼륨</span>
+              <input id="sfxVolumeRange" type="range" min="0" max="100" step="1" value="70" />
+              <strong id="sfxVolumeValue">70%</strong>
+            </label>
+          </div>
+        </aside>
       </section>
 
       <div class="controls" aria-label="move controls">
@@ -351,654 +465,6 @@
       <p class="hint">팁: 직진/가속 운석이 섞여 등장합니다. Hard는 가속 운석 비율이 더 높습니다.</p>
     </main>
 
-    <script type="module">
-      import { computeDifficulty, getPresetConfig, normalizePreset, selectMeteorType } from "./difficulty.js";
-      import { createSfx } from "./sfx.js";
-
-      const LEGACY_BEST_KEY = "arcadia_meteor_dodge_best_v1";
-      const BEST_KEY_PREFIX = "arcadia_meteor_dodge_best_v2_";
-      const DIFFICULTY_KEY = "arcadia_meteor_dodge_difficulty_v1";
-
-      const canvas = document.getElementById("gameCanvas");
-      const ctx = canvas.getContext("2d");
-
-      const subtitleText = document.getElementById("subtitleText");
-      const scoreText = document.getElementById("scoreText");
-      const bestText = document.getElementById("bestText");
-      const livesText = document.getElementById("livesText");
-      const levelText = document.getElementById("levelText");
-      const overlay = document.getElementById("overlay");
-      const overlayTitle = document.getElementById("overlayTitle");
-      const overlayText = document.getElementById("overlayText");
-      const overlayBadge = document.getElementById("overlayBadge");
-      const startBtn = document.getElementById("startBtn");
-      const pauseBtn = document.getElementById("pauseBtn");
-      const difficultySelect = document.getElementById("difficultySelect");
-      const leftBtn = document.getElementById("leftBtn");
-      const rightBtn = document.getElementById("rightBtn");
-
-      const sfx = createSfx();
-
-      const state = {
-        running: false,
-        paused: false,
-        gameOver: false,
-        score: 0,
-        scoreFloat: 0,
-        best: 0,
-        isNewBest: false,
-        difficulty: normalizePreset(localStorage.getItem(DIFFICULTY_KEY) || "normal"),
-        level: 1,
-        lives: 3,
-        meteorSpawnMs: 900,
-        spawnElapsed: 0,
-        meteorSpeedBase: 220,
-        hitFlash: 0,
-        invincibleMs: 0,
-        countdownMs: 0,
-        countdownSecondMark: 0,
-        graceMs: 0,
-      };
-
-      const input = {
-        left: false,
-        right: false,
-      };
-
-      function getBestKey(difficulty = state.difficulty) {
-        return `${BEST_KEY_PREFIX}${normalizePreset(difficulty)}`;
-      }
-
-      function loadBestScore(difficulty = state.difficulty) {
-        const normalized = normalizePreset(difficulty);
-        const value = Number(localStorage.getItem(getBestKey(normalized)) || 0);
-
-        if (Number.isFinite(value) && value > 0) {
-          return Math.floor(value);
-        }
-
-        // 기존 단일 최고점 키에서 Normal 난이도만 1회 호환
-        if (normalized === "normal") {
-          const legacy = Number(localStorage.getItem(LEGACY_BEST_KEY) || 0);
-          return Number.isFinite(legacy) && legacy > 0 ? Math.floor(legacy) : 0;
-        }
-
-        return 0;
-      }
-
-      function saveBestScore(score, difficulty = state.difficulty) {
-        localStorage.setItem(getBestKey(difficulty), String(Math.floor(score)));
-      }
-
-      state.best = loadBestScore(state.difficulty);
-
-      function getDifficultyConfig() {
-        return getPresetConfig(state.difficulty);
-      }
-
-      function syncDifficultyUI() {
-        const cfg = getDifficultyConfig();
-        difficultySelect.value = cfg.key;
-        subtitleText.textContent = `운석 회피 아케이드 · ${cfg.label}`;
-      }
-
-      function applyDifficulty(nextDifficulty, { resetRound = false } = {}) {
-        state.difficulty = normalizePreset(nextDifficulty);
-        localStorage.setItem(DIFFICULTY_KEY, state.difficulty);
-        state.best = loadBestScore(state.difficulty);
-        syncDifficultyUI();
-        syncHud();
-
-        if (!resetRound) return;
-
-        releaseAllInput();
-        state.running = false;
-        state.paused = false;
-        state.gameOver = false;
-        resetGame();
-        overlayBadge.classList.add("hidden");
-        showOverlay("난이도 변경", `${getDifficultyConfig().label}로 변경되었습니다.\n시작 버튼으로 새 라운드를 시작해 주세요.`);
-        startBtn.textContent = "시작";
-        pauseBtn.textContent = "일시정지";
-      }
-
-      const player = {
-        x: canvas.width * 0.5,
-        y: canvas.height * 0.86,
-        w: 76,
-        h: 42,
-        speed: 440,
-      };
-
-      const stars = Array.from({ length: 66 }, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 1.4 + 0.4,
-        vy: Math.random() * 34 + 10,
-      }));
-
-      const meteors = [];
-
-      let rafId = 0;
-      let lastTs = performance.now();
-
-      function resetGame() {
-        const cfg = getDifficultyConfig();
-
-        state.score = 0;
-        state.scoreFloat = 0;
-        state.isNewBest = false;
-        state.best = loadBestScore(state.difficulty);
-        state.level = 1;
-        state.lives = cfg.lives;
-        state.meteorSpawnMs = 900;
-        state.meteorSpeedBase = 220;
-        state.spawnElapsed = 0;
-        state.hitFlash = 0;
-        state.invincibleMs = 0;
-        state.countdownMs = cfg.countdownMs;
-        state.countdownSecondMark = Math.max(1, Math.ceil(cfg.countdownMs / 1000));
-        state.graceMs = 0;
-        state.gameOver = false;
-        player.x = canvas.width * 0.5;
-        meteors.length = 0;
-        syncHud();
-      }
-
-      function startGame() {
-        if (!state.gameOver && state.running) return;
-        if (state.gameOver || !state.running) resetGame();
-        state.running = true;
-        state.paused = false;
-        releaseAllInput();
-        startBtn.textContent = "시작";
-        overlayBadge.classList.add("hidden");
-        overlay.classList.add("hidden");
-        pauseBtn.textContent = "일시정지";
-      }
-
-      function setPaused(nextPaused, reason = "") {
-        if (!state.running || state.gameOver) return;
-        state.paused = nextPaused;
-        pauseBtn.textContent = state.paused ? "재개" : "일시정지";
-
-        if (state.paused) {
-          releaseAllInput();
-          overlayBadge.classList.add("hidden");
-          startBtn.textContent = "재개";
-          const reasonLine = reason ? `${reason}\n` : "";
-          showOverlay("일시정지", `${reasonLine}시작 버튼 또는 상단 일시정지 버튼으로 다시 시작할 수 있습니다.`);
-        } else {
-          startBtn.textContent = "시작";
-          overlay.classList.add("hidden");
-        }
-      }
-
-      function pauseGame() {
-        setPaused(!state.paused);
-      }
-
-      function endGame() {
-        state.running = false;
-        state.gameOver = true;
-        releaseAllInput();
-
-        state.isNewBest = state.score > state.best;
-        if (state.isNewBest) {
-          state.best = state.score;
-          saveBestScore(state.best, state.difficulty);
-          sfx.play("best");
-        } else {
-          sfx.play("gameover");
-        }
-
-        syncHud();
-
-        if (state.isNewBest) {
-          overlayBadge.textContent = "🏆 NEW BEST";
-          overlayBadge.classList.remove("hidden");
-        } else {
-          overlayBadge.classList.add("hidden");
-        }
-
-        showOverlay(
-          "게임 오버",
-          `[${getDifficultyConfig().label}] 최종 점수 ${state.score}점 · 최고 점수 ${state.best}점\n다시 시작 또는 포털 이동을 선택해 주세요.`
-        );
-        startBtn.textContent = "다시 시작";
-      }
-
-      function showOverlay(title, text) {
-        overlayTitle.textContent = title;
-        overlayText.innerHTML = text.replace(/\n/g, "<br />");
-        overlay.classList.remove("hidden");
-      }
-
-      function syncHud() {
-        scoreText.textContent = String(state.score);
-        bestText.textContent = String(state.best);
-        const shield = state.graceMs > 0 ? " 🛡" : "";
-        livesText.textContent = (state.lives > 0 ? "❤".repeat(state.lives) : "0") + shield;
-        levelText.textContent = String(state.level);
-      }
-
-      function spawnMeteor() {
-        const levelFactor = 1 + state.level * 0.11;
-        const cfg = getDifficultyConfig();
-        const type = selectMeteorType(state.score, state.difficulty);
-
-        const isAccelerating = type === "accelerating";
-        const r = isAccelerating ? Math.random() * 20 + 14 : Math.random() * 30 + 18;
-        const baseVy = (state.meteorSpeedBase + Math.random() * 130) * levelFactor;
-
-        meteors.push({
-          type,
-          x: Math.random() * (canvas.width - r * 2) + r,
-          y: -r - 10,
-          r,
-          vy: isAccelerating ? baseVy * 0.74 : baseVy,
-          ay: isAccelerating ? (85 + Math.random() * 100) * cfg.acceleratingAyMultiplier : 0,
-          vyMax: isAccelerating ? baseVy * 1.9 : baseVy,
-          vx: (Math.random() - 0.5) * (isAccelerating ? 42 : 54),
-          rot: Math.random() * Math.PI * 2,
-          spin: (Math.random() - 0.5) * (isAccelerating ? 3.2 : 2.6),
-        });
-      }
-
-      function circleRectHit(circle, rect) {
-        const nearestX = Math.max(rect.x, Math.min(circle.x, rect.x + rect.w));
-        const nearestY = Math.max(rect.y, Math.min(circle.y, rect.y + rect.h));
-        const dx = circle.x - nearestX;
-        const dy = circle.y - nearestY;
-        return dx * dx + dy * dy < circle.r * circle.r;
-      }
-
-      function clampPlayer() {
-        const half = player.w * 0.5;
-        player.x = Math.max(half, Math.min(canvas.width - half, player.x));
-      }
-
-      function updateDifficulty() {
-        const next = computeDifficulty(state.score, state.difficulty);
-        state.meteorSpawnMs = next.meteorSpawnMs;
-        state.meteorSpeedBase = next.meteorSpeedBase;
-        state.level = next.level;
-      }
-
-      function step(deltaSec) {
-        if (!state.running || state.paused) return;
-
-        const deltaMs = deltaSec * 1000;
-
-        const move = (input.right ? 1 : 0) - (input.left ? 1 : 0);
-        player.x += move * player.speed * deltaSec;
-        clampPlayer();
-
-        if (state.countdownMs > 0) {
-          const prevSecond = state.countdownSecondMark;
-          state.countdownMs -= deltaMs;
-          const nextSecond = Math.max(0, Math.ceil(state.countdownMs / 1000));
-
-          if (nextSecond > 0 && nextSecond < prevSecond) {
-            sfx.play("tick");
-          }
-
-          state.countdownSecondMark = nextSecond;
-
-          if (state.countdownMs <= 0) {
-            state.countdownMs = 0;
-            state.graceMs = getDifficultyConfig().graceMs;
-            state.spawnElapsed = 0;
-            meteors.length = 0;
-            sfx.play("start");
-          }
-
-          syncHud();
-          return;
-        }
-
-        updateDifficulty();
-
-        state.spawnElapsed += deltaMs;
-        if (state.spawnElapsed >= state.meteorSpawnMs) {
-          spawnMeteor();
-          state.spawnElapsed = 0;
-        }
-
-        if (state.graceMs > 0) state.graceMs -= deltaMs;
-        if (state.invincibleMs > 0) state.invincibleMs -= deltaMs;
-        if (state.hitFlash > 0) state.hitFlash -= deltaSec;
-
-        const playerRect = {
-          x: player.x - player.w * 0.5,
-          y: player.y - player.h * 0.5,
-          w: player.w,
-          h: player.h,
-        };
-
-        for (let i = meteors.length - 1; i >= 0; i -= 1) {
-          const m = meteors[i];
-
-          if (m.type === "accelerating") {
-            m.vy = Math.min(m.vyMax || m.vy, m.vy + m.ay * deltaSec);
-          }
-
-          m.x += m.vx * deltaSec;
-          m.y += m.vy * deltaSec;
-          m.rot += m.spin * deltaSec;
-
-          if (m.x - m.r < 0 || m.x + m.r > canvas.width) m.vx *= -1;
-
-          if (m.y - m.r > canvas.height + 50) {
-            meteors.splice(i, 1);
-            state.scoreFloat += 4;
-            state.score = Math.floor(state.scoreFloat);
-            continue;
-          }
-
-          if (state.graceMs <= 0 && state.invincibleMs <= 0 && circleRectHit(m, playerRect)) {
-            meteors.splice(i, 1);
-            state.lives -= 1;
-            state.hitFlash = 0.36;
-            state.invincibleMs = 780;
-            sfx.play("hit");
-            if (state.lives <= 0) {
-              endGame();
-              break;
-            }
-          }
-        }
-
-        state.scoreFloat += 50 * deltaSec;
-        state.score = Math.floor(state.scoreFloat);
-        syncHud();
-      }
-
-      function drawShip(x, y, w, h) {
-        ctx.save();
-        ctx.translate(x, y);
-
-        ctx.fillStyle = "#5be3ff";
-        ctx.beginPath();
-        ctx.moveTo(0, -h * 0.58);
-        ctx.lineTo(w * 0.52, h * 0.5);
-        ctx.lineTo(0, h * 0.18);
-        ctx.lineTo(-w * 0.52, h * 0.5);
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.fillStyle = "#8bf1ff";
-        ctx.beginPath();
-        ctx.ellipse(0, -h * 0.05, w * 0.12, h * 0.16, 0, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.fillStyle = "#ffa45f";
-        ctx.beginPath();
-        ctx.moveTo(-w * 0.16, h * 0.5);
-        ctx.lineTo(0, h * (0.5 + Math.random() * 0.12));
-        ctx.lineTo(w * 0.16, h * 0.5);
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.restore();
-      }
-
-      function drawMeteor(m) {
-        const isAccelerating = m.type === "accelerating";
-
-        if (isAccelerating) {
-          ctx.save();
-          const tailLength = Math.min(90, m.vy * 0.12 + 20);
-          const tail = ctx.createLinearGradient(m.x, m.y - tailLength, m.x, m.y + m.r * 0.8);
-          tail.addColorStop(0, "rgba(104, 230, 255, 0)");
-          tail.addColorStop(1, "rgba(104, 230, 255, 0.35)");
-          ctx.strokeStyle = tail;
-          ctx.lineWidth = Math.max(2, m.r * 0.22);
-          ctx.beginPath();
-          ctx.moveTo(m.x, m.y - tailLength);
-          ctx.lineTo(m.x, m.y);
-          ctx.stroke();
-          ctx.restore();
-        }
-
-        ctx.save();
-        ctx.translate(m.x, m.y);
-        ctx.rotate(m.rot);
-
-        const grd = ctx.createRadialGradient(-m.r * 0.3, -m.r * 0.25, m.r * 0.2, 0, 0, m.r * 1.1);
-        if (isAccelerating) {
-          grd.addColorStop(0, "#baf6ff");
-          grd.addColorStop(0.45, "#4fcfff");
-          grd.addColorStop(1, "#1d4c88");
-        } else {
-          grd.addColorStop(0, "#f0b36f");
-          grd.addColorStop(0.46, "#d46f35");
-          grd.addColorStop(1, "#772f1d");
-        }
-
-        ctx.fillStyle = grd;
-        ctx.beginPath();
-        for (let i = 0; i < 8; i += 1) {
-          const a = (Math.PI * 2 * i) / 8;
-          const jag = m.r * (0.82 + (i % 2 ? 0.3 : 0));
-          const px = Math.cos(a) * jag;
-          const py = Math.sin(a) * jag;
-          if (i === 0) ctx.moveTo(px, py);
-          else ctx.lineTo(px, py);
-        }
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.fillStyle = isAccelerating ? "rgba(0, 20, 48, 0.3)" : "rgba(0,0,0,0.22)";
-        ctx.beginPath();
-        ctx.arc(m.r * 0.2, m.r * 0.1, m.r * 0.2, 0, Math.PI * 2);
-        ctx.fill();
-
-        if (isAccelerating) {
-          ctx.fillStyle = "rgba(214, 247, 255, 0.85)";
-          ctx.beginPath();
-          ctx.arc(-m.r * 0.2, -m.r * 0.14, m.r * 0.12, 0, Math.PI * 2);
-          ctx.fill();
-        }
-
-        ctx.restore();
-      }
-
-      function drawBackground(deltaSec) {
-        const bg = ctx.createLinearGradient(0, 0, 0, canvas.height);
-        bg.addColorStop(0, "#060f2e");
-        bg.addColorStop(1, "#030716");
-        ctx.fillStyle = bg;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        ctx.fillStyle = "rgba(170, 210, 255, 0.9)";
-        stars.forEach((s) => {
-          s.y += s.vy * deltaSec;
-          if (s.y > canvas.height) {
-            s.y = -5;
-            s.x = Math.random() * canvas.width;
-          }
-          ctx.globalAlpha = 0.35 + (s.r / 2.8);
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-          ctx.fill();
-        });
-        ctx.globalAlpha = 1;
-      }
-
-      function render(deltaSec) {
-        drawBackground(deltaSec);
-
-        meteors.forEach(drawMeteor);
-
-        if (state.invincibleMs > 0 && Math.floor(state.invincibleMs / 90) % 2 === 0) {
-          // blink during invincibility
-        } else {
-          drawShip(player.x, player.y, player.w, player.h);
-        }
-
-        if (state.countdownMs > 0) {
-          const n = Math.max(1, Math.ceil(state.countdownMs / 1000));
-          ctx.fillStyle = "rgba(3, 8, 26, 0.4)";
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          ctx.fillStyle = "#dff6ff";
-          ctx.textAlign = "center";
-          ctx.font = "700 96px system-ui";
-          ctx.fillText(String(n), canvas.width * 0.5, canvas.height * 0.52);
-          ctx.font = "600 24px system-ui";
-          ctx.fillText("준비", canvas.width * 0.5, canvas.height * 0.62);
-        } else if (state.graceMs > 0) {
-          const remain = (state.graceMs / 1000).toFixed(1);
-          ctx.fillStyle = "rgba(35, 211, 255, 0.18)";
-          ctx.fillRect(16, 16, 170, 34);
-          ctx.strokeStyle = "rgba(98, 224, 255, 0.6)";
-          ctx.strokeRect(16, 16, 170, 34);
-          ctx.fillStyle = "#baf4ff";
-          ctx.font = "600 18px system-ui";
-          ctx.textAlign = "left";
-          ctx.fillText(`🛡 보호 ${remain}s`, 26, 39);
-        }
-
-        if (state.hitFlash > 0) {
-          ctx.fillStyle = `rgba(255, 80, 80, ${Math.min(0.34, state.hitFlash)})`;
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-        }
-      }
-
-      function frame(now) {
-        const deltaSec = Math.min(0.033, (now - lastTs) / 1000);
-        lastTs = now;
-
-        step(deltaSec);
-        render(deltaSec);
-
-        rafId = requestAnimationFrame(frame);
-      }
-
-      function syncControlButtons() {
-        leftBtn.classList.toggle("is-pressed", input.left);
-        rightBtn.classList.toggle("is-pressed", input.right);
-      }
-
-      function setMove(direction, active) {
-        if (direction === "left") input.left = active;
-        if (direction === "right") input.right = active;
-        syncControlButtons();
-      }
-
-      function bindKeyboard() {
-        window.addEventListener("keydown", (e) => {
-          const key = e.key.toLowerCase();
-          if (e.key === " ") e.preventDefault();
-          if (e.key === "ArrowLeft" || key === "a") setMove("left", true);
-          if (e.key === "ArrowRight" || key === "d") setMove("right", true);
-          if (key === "p" && !e.repeat) pauseGame();
-          if (e.key === " " && state.paused) setPaused(false);
-          if (e.key === " " && !state.running) startGame();
-        });
-
-        window.addEventListener("keyup", (e) => {
-          if (e.key === "ArrowLeft" || e.key.toLowerCase() === "a") setMove("left", false);
-          if (e.key === "ArrowRight" || e.key.toLowerCase() === "d") setMove("right", false);
-        });
-      }
-
-      function bindCanvasSafety() {
-        canvas.addEventListener(
-          "pointerdown",
-          (e) => {
-            // 캔버스 터치로 플레이어 위치가 순간이동하지 않도록 기본 동작만 차단
-            e.preventDefault();
-          },
-          { passive: false }
-        );
-      }
-
-      function bindMobileButtons(button, direction) {
-        const press = (e) => {
-          e?.preventDefault?.();
-          setMove(direction, true);
-          if (!state.running && !state.gameOver) startGame();
-        };
-
-        const release = (e) => {
-          e?.preventDefault?.();
-          setMove(direction, false);
-          if (e?.pointerId != null) {
-            try { button.releasePointerCapture(e.pointerId); } catch {}
-          }
-        };
-
-        if ("PointerEvent" in window) {
-          button.addEventListener("pointerdown", (e) => {
-            press(e);
-            try { button.setPointerCapture(e.pointerId); } catch {}
-          });
-          button.addEventListener("pointerup", release);
-          button.addEventListener("pointercancel", release);
-          button.addEventListener("lostpointercapture", release);
-          button.addEventListener("pointerleave", release);
-        } else {
-          button.addEventListener("touchstart", press, { passive: false });
-          button.addEventListener("touchend", release, { passive: false });
-          button.addEventListener("touchcancel", release, { passive: false });
-          button.addEventListener("mousedown", press);
-          button.addEventListener("mouseup", release);
-          button.addEventListener("mouseleave", release);
-        }
-
-        button.addEventListener("contextmenu", (e) => e.preventDefault());
-      }
-
-      function releaseAllInput() {
-        input.left = false;
-        input.right = false;
-        syncControlButtons();
-      }
-
-      function bindAutoPause() {
-        document.addEventListener("visibilitychange", () => {
-          if (document.hidden) {
-            releaseAllInput();
-            if (state.running && !state.paused && !state.gameOver) {
-              setPaused(true, "앱 전환으로 자동 일시정지되었습니다.");
-            }
-          }
-        });
-
-        window.addEventListener("blur", () => {
-          releaseAllInput();
-        });
-      }
-
-      startBtn.addEventListener("click", () => {
-        if (state.paused) {
-          setPaused(false);
-          return;
-        }
-        startGame();
-      });
-
-      pauseBtn.addEventListener("click", pauseGame);
-
-      difficultySelect.addEventListener("change", (e) => {
-        applyDifficulty(e.target.value, { resetRound: true });
-      });
-
-      bindMobileButtons(leftBtn, "left");
-      bindMobileButtons(rightBtn, "right");
-      bindKeyboard();
-      bindCanvasSafety();
-      bindAutoPause();
-      syncDifficultyUI();
-      syncHud();
-      showOverlay("Meteor Dodge", "난이도(Normal/Hard)를 고른 뒤 시작하세요.<br />직진/가속 운석 패턴에 대비해 이동 타이밍을 조절하세요.");
-
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame((ts) => {
-        lastTs = ts;
-        frame(ts);
-      });
-    </script>
+        <script type="module" src="./main.js"></script>
   </body>
 </html>
