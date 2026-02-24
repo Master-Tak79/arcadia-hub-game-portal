@@ -79,12 +79,27 @@
 
       .topbar-actions {
         display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .difficulty-select {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: var(--text);
+        border-radius: 8px;
+        padding: 5px 6px;
+        font-size: 0.74rem;
       }
 
       .topbar-actions .ghost {
         padding: 6px 9px;
         font-size: 0.76rem;
         white-space: nowrap;
+      }
+
+      .difficulty-select option {
+        color: #0c1230;
       }
 
       .hud {
@@ -283,9 +298,13 @@
         <a class="mini-link" href="../../index.html" aria-label="포털로 이동">← 포털</a>
         <div class="title-wrap">
           <h1>Meteor Dodge</h1>
-          <p>운석 회피 아케이드</p>
+          <p id="subtitleText">운석 회피 아케이드</p>
         </div>
         <div class="topbar-actions">
+          <select id="difficultySelect" class="difficulty-select" aria-label="난이도 선택">
+            <option value="normal">Normal</option>
+            <option value="hard">Hard</option>
+          </select>
           <button id="pauseBtn" type="button" class="ghost" aria-label="일시정지">일시정지</button>
         </div>
       </header>
@@ -329,18 +348,20 @@
         <button id="leftBtn" type="button" class="ghost" aria-label="왼쪽 이동">◀ 왼쪽</button>
         <button id="rightBtn" type="button" class="ghost" aria-label="오른쪽 이동">오른쪽 ▶</button>
       </div>
-      <p class="hint">팁: 시작 직후 3초 보호구간이 있습니다. 점수가 오를수록 운석 속도/생성 빈도가 증가합니다.</p>
+      <p class="hint">팁: Normal은 기본, Hard는 더 빠르고 보호구간이 짧습니다.</p>
     </main>
 
     <script type="module">
-      import { computeDifficulty } from "./difficulty.js";
+      import { computeDifficulty, getPresetConfig, normalizePreset } from "./difficulty.js";
       import { createSfx } from "./sfx.js";
 
       const STORAGE_KEY = "arcadia_meteor_dodge_best_v1";
+      const DIFFICULTY_KEY = "arcadia_meteor_dodge_difficulty_v1";
 
       const canvas = document.getElementById("gameCanvas");
       const ctx = canvas.getContext("2d");
 
+      const subtitleText = document.getElementById("subtitleText");
       const scoreText = document.getElementById("scoreText");
       const bestText = document.getElementById("bestText");
       const livesText = document.getElementById("livesText");
@@ -351,6 +372,7 @@
       const overlayBadge = document.getElementById("overlayBadge");
       const startBtn = document.getElementById("startBtn");
       const pauseBtn = document.getElementById("pauseBtn");
+      const difficultySelect = document.getElementById("difficultySelect");
       const leftBtn = document.getElementById("leftBtn");
       const rightBtn = document.getElementById("rightBtn");
 
@@ -364,6 +386,7 @@
         scoreFloat: 0,
         best: Number(localStorage.getItem(STORAGE_KEY) || 0),
         isNewBest: false,
+        difficulty: normalizePreset(localStorage.getItem(DIFFICULTY_KEY) || "normal"),
         level: 1,
         lives: 3,
         meteorSpawnMs: 900,
@@ -380,6 +403,34 @@
         left: false,
         right: false,
       };
+
+      function getDifficultyConfig() {
+        return getPresetConfig(state.difficulty);
+      }
+
+      function syncDifficultyUI() {
+        const cfg = getDifficultyConfig();
+        difficultySelect.value = cfg.key;
+        subtitleText.textContent = `운석 회피 아케이드 · ${cfg.label}`;
+      }
+
+      function applyDifficulty(nextDifficulty, { resetRound = false } = {}) {
+        state.difficulty = normalizePreset(nextDifficulty);
+        localStorage.setItem(DIFFICULTY_KEY, state.difficulty);
+        syncDifficultyUI();
+
+        if (!resetRound) return;
+
+        releaseAllInput();
+        state.running = false;
+        state.paused = false;
+        state.gameOver = false;
+        resetGame();
+        overlayBadge.classList.add("hidden");
+        showOverlay("난이도 변경", `${getDifficultyConfig().label}로 변경되었습니다.\n시작 버튼으로 새 라운드를 시작해 주세요.`);
+        startBtn.textContent = "시작";
+        pauseBtn.textContent = "일시정지";
+      }
 
       const player = {
         x: canvas.width * 0.5,
@@ -402,18 +453,20 @@
       let lastTs = performance.now();
 
       function resetGame() {
+        const cfg = getDifficultyConfig();
+
         state.score = 0;
         state.scoreFloat = 0;
         state.isNewBest = false;
         state.level = 1;
-        state.lives = 3;
+        state.lives = cfg.lives;
         state.meteorSpawnMs = 900;
         state.meteorSpeedBase = 220;
         state.spawnElapsed = 0;
         state.hitFlash = 0;
         state.invincibleMs = 0;
-        state.countdownMs = 3000;
-        state.countdownSecondMark = 3;
+        state.countdownMs = cfg.countdownMs;
+        state.countdownSecondMark = Math.max(1, Math.ceil(cfg.countdownMs / 1000));
         state.graceMs = 0;
         state.gameOver = false;
         player.x = canvas.width * 0.5;
@@ -526,7 +579,7 @@
       }
 
       function updateDifficulty() {
-        const next = computeDifficulty(state.score);
+        const next = computeDifficulty(state.score, state.difficulty);
         state.meteorSpawnMs = next.meteorSpawnMs;
         state.meteorSpeedBase = next.meteorSpeedBase;
         state.level = next.level;
@@ -554,7 +607,7 @@
 
           if (state.countdownMs <= 0) {
             state.countdownMs = 0;
-            state.graceMs = 3000;
+            state.graceMs = getDifficultyConfig().graceMs;
             state.spawnElapsed = 0;
             meteors.length = 0;
             sfx.play("start");
@@ -853,13 +906,18 @@
 
       pauseBtn.addEventListener("click", pauseGame);
 
+      difficultySelect.addEventListener("change", (e) => {
+        applyDifficulty(e.target.value, { resetRound: true });
+      });
+
       bindMobileButtons(leftBtn, "left");
       bindMobileButtons(rightBtn, "right");
       bindKeyboard();
       bindCanvasSafety();
       bindAutoPause();
+      syncDifficultyUI();
       syncHud();
-      showOverlay("Meteor Dodge", "좌우 이동으로 운석을 피하세요.<br />시작 시 3초 카운트다운 후 3초 보호구간이 적용됩니다.");
+      showOverlay("Meteor Dodge", "난이도(Normal/Hard)를 고른 뒤 시작하세요.<br />시작 시 카운트다운과 보호구간이 적용됩니다.");
 
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame((ts) => {

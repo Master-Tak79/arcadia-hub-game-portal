@@ -29,7 +29,7 @@ export const gameSeed = [
     popularity: 96,
     updatedAt: "2026-02-24",
     featured: true,
-    version: "0.2.5",
+    version: "0.2.6",
     playUrl: "./games/meteor-dodge/index.html",
     studio: "Arcadia Studio",
     difficulty: "쉬움~보통",
