@@ -190,6 +190,14 @@
         font-size: 1rem;
         user-select: none;
         touch-action: manipulation;
+        transition: transform 0.06s ease, background 0.12s ease, border-color 0.12s ease;
+      }
+
+      .controls button.is-pressed,
+      .controls button:active {
+        transform: translateY(1px) scale(0.985);
+        background: rgba(95, 195, 255, 0.22);
+        border-color: rgba(95, 195, 255, 0.58);
       }
 
       .hint {
@@ -277,6 +285,7 @@
         paused: false,
         gameOver: false,
         score: 0,
+        scoreFloat: 0,
         best: Number(localStorage.getItem(STORAGE_KEY) || 0),
         level: 1,
         lives: 3,
@@ -314,6 +323,7 @@
 
       function resetGame() {
         state.score = 0;
+        state.scoreFloat = 0;
         state.level = 1;
         state.lives = 3;
         state.meteorSpawnMs = 820;
@@ -337,22 +347,30 @@
         pauseBtn.textContent = "일시정지";
       }
 
-      function pauseGame() {
+      function setPaused(nextPaused, reason = "") {
         if (!state.running || state.gameOver) return;
-        state.paused = !state.paused;
+        state.paused = nextPaused;
         pauseBtn.textContent = state.paused ? "재개" : "일시정지";
+
         if (state.paused) {
+          releaseAllInput();
           startBtn.textContent = "재개";
-          showOverlay("일시정지", "시작 버튼 또는 상단 일시정지 버튼으로 다시 시작할 수 있습니다.");
+          const reasonLine = reason ? `${reason}\n` : "";
+          showOverlay("일시정지", `${reasonLine}시작 버튼 또는 상단 일시정지 버튼으로 다시 시작할 수 있습니다.`);
         } else {
           startBtn.textContent = "시작";
           overlay.classList.add("hidden");
         }
       }
 
+      function pauseGame() {
+        setPaused(!state.paused);
+      }
+
       function endGame() {
         state.running = false;
         state.gameOver = true;
+        releaseAllInput();
         if (state.score > state.best) {
           state.best = state.score;
           localStorage.setItem(STORAGE_KEY, String(state.best));
@@ -443,7 +461,8 @@
 
           if (m.y - m.r > canvas.height + 50) {
             meteors.splice(i, 1);
-            state.score += 4;
+            state.scoreFloat += 4;
+            state.score = Math.floor(state.scoreFloat);
             continue;
           }
 
@@ -459,7 +478,8 @@
           }
         }
 
-        state.score += Math.floor(50 * deltaSec);
+        state.scoreFloat += 50 * deltaSec;
+        state.score = Math.floor(state.scoreFloat);
         syncHud();
       }
 
@@ -572,17 +592,25 @@
         rafId = requestAnimationFrame(frame);
       }
 
+      function syncControlButtons() {
+        leftBtn.classList.toggle("is-pressed", input.left);
+        rightBtn.classList.toggle("is-pressed", input.right);
+      }
+
       function setMove(direction, active) {
         if (direction === "left") input.left = active;
         if (direction === "right") input.right = active;
+        syncControlButtons();
       }
 
       function bindKeyboard() {
         window.addEventListener("keydown", (e) => {
           const key = e.key.toLowerCase();
+          if (e.key === " ") e.preventDefault();
           if (e.key === "ArrowLeft" || key === "a") setMove("left", true);
           if (e.key === "ArrowRight" || key === "d") setMove("right", true);
           if (key === "p" && !e.repeat) pauseGame();
+          if (e.key === " " && state.paused) setPaused(false);
           if (e.key === " " && !state.running) startGame();
         });
 
@@ -624,12 +652,30 @@
         button.addEventListener("pointerleave", release);
       }
 
+      function releaseAllInput() {
+        input.left = false;
+        input.right = false;
+        syncControlButtons();
+      }
+
+      function bindAutoPause() {
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden) {
+            releaseAllInput();
+            if (state.running && !state.paused && !state.gameOver) {
+              setPaused(true, "앱 전환으로 자동 일시정지되었습니다.");
+            }
+          }
+        });
+
+        window.addEventListener("blur", () => {
+          releaseAllInput();
+        });
+      }
+
       startBtn.addEventListener("click", () => {
         if (state.paused) {
-          state.paused = false;
-          startBtn.textContent = "시작";
-          overlay.classList.add("hidden");
-          pauseBtn.textContent = "일시정지";
+          setPaused(false);
           return;
         }
         startGame();
@@ -641,6 +687,7 @@
       bindMobileButtons(rightBtn, "right");
       bindKeyboard();
       bindCanvasSafety();
+      bindAutoPause();
       syncHud();
       showOverlay("Meteor Dodge", "좌우 이동으로 운석을 피하세요.<br />키보드(←/→, A/D) 또는 하단 좌/우 버튼으로 조작할 수 있습니다.");
 
