@@ -34,6 +34,7 @@ python3 -m http.server 8790
   - UX: 앱 전환 시 자동 일시정지, 버튼 눌림 피드백 제공
   - 모바일 화면에서 상단 메뉴 간소화 + 하단 좌/우 버튼 영역 고정
   - 시작 3초 카운트다운 + 3초 보호구간, 결과 화면 강화(재시작/포털 이동/NEW BEST)
+  - 라이브러리: Howler.js 기반 효과음(SFX) + 일부 로직 모듈 리팩토링
 
 ---
 
@@ -46,6 +47,11 @@ arcadia-hub-game-portal/
   games/
     meteor-dodge/
       index.html                # 내장 플레이 게임 (회피형 아케이드)
+      difficulty.js             # 난이도 곡선 계산 모듈(리팩토링)
+      sfx.js                    # 오디오 모듈(Howler.js)
+      assets/
+        sfx/
+          *.wav                 # 효과음 에셋
   styles/
     main.css
   src/
@@ -69,7 +75,7 @@ arcadia-hub-game-portal/
 
 ## 버전 정책
 
-- 포털 현재 버전: **`0.2.4`**
+- 포털 현재 버전: **`0.2.5`**
 - 기본 게임 버전: **`0.1.0`**
 - 버전 형식: `MAJOR.MINOR.PATCH` (semver)
 - 게임 등록/수정 시 관리자 페이지에서 `게임 버전` 입력 가능

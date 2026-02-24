@@ -333,6 +333,9 @@
     </main>
 
     <script type="module">
+      import { computeDifficulty } from "./difficulty.js";
+      import { createSfx } from "./sfx.js";
+
       const STORAGE_KEY = "arcadia_meteor_dodge_best_v1";
 
       const canvas = document.getElementById("gameCanvas");
@@ -351,6 +354,8 @@
       const leftBtn = document.getElementById("leftBtn");
       const rightBtn = document.getElementById("rightBtn");
 
+      const sfx = createSfx();
+
       const state = {
         running: false,
         paused: false,
@@ -367,6 +372,7 @@
         hitFlash: 0,
         invincibleMs: 0,
         countdownMs: 0,
+        countdownSecondMark: 0,
         graceMs: 0,
       };
 
@@ -407,6 +413,7 @@
         state.hitFlash = 0;
         state.invincibleMs = 0;
         state.countdownMs = 3000;
+        state.countdownSecondMark = 3;
         state.graceMs = 0;
         state.gameOver = false;
         player.x = canvas.width * 0.5;
@@ -456,6 +463,9 @@
         if (state.isNewBest) {
           state.best = state.score;
           localStorage.setItem(STORAGE_KEY, String(state.best));
+          sfx.play("best");
+        } else {
+          sfx.play("gameover");
         }
 
         syncHud();
@@ -516,21 +526,10 @@
       }
 
       function updateDifficulty() {
-        const s = state.score;
-
-        if (s < 260) {
-          state.meteorSpawnMs = 940 - s * 0.5;
-          state.meteorSpeedBase = 220 + s * 0.16;
-        } else if (s < 980) {
-          state.meteorSpawnMs = 810 - (s - 260) * 0.45;
-          state.meteorSpeedBase = 262 + (s - 260) * 0.24;
-        } else {
-          state.meteorSpawnMs = 486 - (s - 980) * 0.2;
-          state.meteorSpeedBase = 435 + Math.min(190, (s - 980) * 0.1);
-        }
-
-        state.meteorSpawnMs = Math.max(230, state.meteorSpawnMs);
-        state.level = 1 + Math.floor(s / 180);
+        const next = computeDifficulty(state.score);
+        state.meteorSpawnMs = next.meteorSpawnMs;
+        state.meteorSpeedBase = next.meteorSpeedBase;
+        state.level = next.level;
       }
 
       function step(deltaSec) {
@@ -543,13 +542,24 @@
         clampPlayer();
 
         if (state.countdownMs > 0) {
+          const prevSecond = state.countdownSecondMark;
           state.countdownMs -= deltaMs;
+          const nextSecond = Math.max(0, Math.ceil(state.countdownMs / 1000));
+
+          if (nextSecond > 0 && nextSecond < prevSecond) {
+            sfx.play("tick");
+          }
+
+          state.countdownSecondMark = nextSecond;
+
           if (state.countdownMs <= 0) {
             state.countdownMs = 0;
             state.graceMs = 3000;
             state.spawnElapsed = 0;
             meteors.length = 0;
+            sfx.play("start");
           }
+
           syncHud();
           return;
         }
@@ -593,6 +603,7 @@
             state.lives -= 1;
             state.hitFlash = 0.36;
             state.invincibleMs = 780;
+            sfx.play("hit");
             if (state.lives <= 0) {
               endGame();
               break;
