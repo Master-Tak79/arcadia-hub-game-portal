@@ -5,15 +5,15 @@
 
 ## [Unreleased]
 ### Added
-- 버전 관리 기준 문서 추가 (`VERSIONING.md`)
-- 개발 진행 기록 문서 추가 (`DEVLOG.md`)
-- 변경 이력 관리 문서 정비 (`CHANGELOG.md`)
+- 신규 내장 게임 **Meteor Dodge** 추가 (`games/meteor-dodge/index.html`)
+- 포털 게임 시드에 `meteor-dodge` 항목 추가 및 로컬 플레이 링크 연결
 
 ### Changed
-- `.gitignore` 추가로 로컬 OpenClaw 운영 파일(`.openclaw/`, `AGENTS.md` 등)을 버전 관리 대상에서 제외
+- 포털 버전 `0.1.0` → `0.2.0`
+- README 실행 경로 및 프로젝트 구조 문서 최신화
 
 ### Fixed
-- 개발 워크스페이스 파일이 `git status`에 계속 노출되던 노이즈 정리
+- (없음)
 
 ---
 
