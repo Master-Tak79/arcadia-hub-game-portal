@@ -10,10 +10,10 @@
 - 변경 이력 관리 문서 정비 (`CHANGELOG.md`)
 
 ### Changed
-- (없음)
+- `.gitignore` 추가로 로컬 OpenClaw 운영 파일(`.openclaw/`, `AGENTS.md` 등)을 버전 관리 대상에서 제외
 
 ### Fixed
-- (없음)
+- 개발 워크스페이스 파일이 `git status`에 계속 노출되던 노이즈 정리
 
 ---
 

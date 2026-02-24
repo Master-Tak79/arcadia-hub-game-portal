@@ -1,0 +1,9 @@
+# Local OpenClaw workspace/agent files (not part of portal source)
+.openclaw/
+AGENTS.md
+BOOTSTRAP.md
+HEARTBEAT.md
+IDENTITY.md
+SOUL.md
+TOOLS.md
+USER.md
