@@ -24,7 +24,7 @@
         background: radial-gradient(1200px 600px at 15% -10%, #22357d 0%, #070b1f 45%, #030510 100%);
         display: grid;
         place-items: center;
-        padding: 20px;
+        padding: calc(env(safe-area-inset-top) + 52px) 20px calc(env(safe-area-inset-bottom) + 16px);
       }
 
       .shell {
@@ -41,7 +41,7 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-start;
         gap: 12px;
       }
 
@@ -56,13 +56,32 @@
         font-size: 0.83rem;
       }
 
-      .link-btn {
-        color: var(--text);
-        text-decoration: none;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        border-radius: 999px;
+      .topbar-actions {
+        margin-left: auto;
+        display: flex;
+        gap: 8px;
+      }
+
+      .topbar-actions .ghost {
         padding: 8px 12px;
         font-size: 0.8rem;
+      }
+
+      .portal-top-link {
+        position: fixed;
+        top: calc(env(safe-area-inset-top) + 10px);
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 30;
+        color: var(--text);
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(8, 15, 43, 0.84);
+        backdrop-filter: blur(8px);
+        border-radius: 999px;
+        padding: 8px 14px;
+        font-size: 0.82rem;
+        line-height: 1;
       }
 
       .hud {
@@ -162,13 +181,15 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 8px;
-        padding: 10px 12px 14px;
+        padding: 10px 12px calc(env(safe-area-inset-bottom) + 14px);
       }
 
       .controls button {
+        min-height: 54px;
         padding: 12px;
         font-size: 1rem;
         user-select: none;
+        touch-action: manipulation;
       }
 
       .hint {
@@ -177,21 +198,20 @@
         color: var(--muted);
         padding: 0 12px 10px;
       }
-
-      @media (min-width: 700px) {
-        .controls { display: none; }
-        .hint { padding-bottom: 14px; }
-      }
     </style>
   </head>
   <body>
+    <a class="portal-top-link" href="../../index.html" aria-label="포털로 이동">← 포털로 이동</a>
+
     <main class="shell">
       <header class="topbar">
         <div class="title-wrap">
           <h1>Meteor Dodge</h1>
           <p>운석을 피해서 최대한 오래 버티세요</p>
         </div>
-        <a class="link-btn" href="../../index.html">포털로</a>
+        <div class="topbar-actions">
+          <button id="pauseBtn" type="button" class="ghost" aria-label="일시정지">일시정지</button>
+        </div>
       </header>
 
       <section class="hud" aria-live="polite">
@@ -219,20 +239,19 @@
         <div id="overlay" class="overlay">
           <div class="panel">
             <h2 id="overlayTitle">Meteor Dodge</h2>
-            <p id="overlayText">좌우 이동으로 운석을 피하세요.<br />키보드(←/→, A/D) 또는 터치로 조작할 수 있습니다.</p>
+            <p id="overlayText">좌우 이동으로 운석을 피하세요.<br />키보드(←/→, A/D) 또는 하단 좌/우 버튼으로 조작할 수 있습니다.</p>
             <div class="btn-row">
               <button id="startBtn" type="button">시작</button>
-              <button id="pauseBtn" type="button" class="ghost">일시정지</button>
             </div>
           </div>
         </div>
       </section>
 
-      <div class="controls" aria-label="mobile controls">
-        <button id="leftBtn" type="button" class="ghost">◀ 왼쪽</button>
-        <button id="rightBtn" type="button" class="ghost">오른쪽 ▶</button>
+      <div class="controls" aria-label="move controls">
+        <button id="leftBtn" type="button" class="ghost" aria-label="왼쪽 이동">◀ 왼쪽</button>
+        <button id="rightBtn" type="button" class="ghost" aria-label="오른쪽 이동">오른쪽 ▶</button>
       </div>
-      <p class="hint">팁: 점수가 오를수록 운석 속도와 생성 빈도가 증가합니다.</p>
+      <p class="hint">팁: 점수가 오를수록 운석 속도와 생성 빈도가 증가합니다. (터치는 하단 버튼으로 조작)</p>
     </main>
 
     <script type="module">
@@ -271,7 +290,6 @@
       const input = {
         left: false,
         right: false,
-        pointerActive: false,
       };
 
       const player = {
@@ -314,6 +332,7 @@
         if (state.gameOver) resetGame();
         state.running = true;
         state.paused = false;
+        startBtn.textContent = "시작";
         overlay.classList.add("hidden");
         pauseBtn.textContent = "일시정지";
       }
@@ -323,8 +342,10 @@
         state.paused = !state.paused;
         pauseBtn.textContent = state.paused ? "재개" : "일시정지";
         if (state.paused) {
-          showOverlay("일시정지", "재개 버튼 또는 일시정지 버튼으로 다시 시작할 수 있습니다.");
+          startBtn.textContent = "재개";
+          showOverlay("일시정지", "시작 버튼 또는 상단 일시정지 버튼으로 다시 시작할 수 있습니다.");
         } else {
+          startBtn.textContent = "시작";
           overlay.classList.add("hidden");
         }
       }
@@ -353,7 +374,7 @@
       function syncHud() {
         scoreText.textContent = String(state.score);
         bestText.textContent = String(state.best);
-        livesText.textContent = "❤".repeat(Math.max(0, state.lives));
+        livesText.textContent = state.lives > 0 ? "❤".repeat(state.lives) : "0";
         levelText.textContent = String(state.level);
       }
 
@@ -558,9 +579,10 @@
 
       function bindKeyboard() {
         window.addEventListener("keydown", (e) => {
-          if (e.key === "ArrowLeft" || e.key.toLowerCase() === "a") setMove("left", true);
-          if (e.key === "ArrowRight" || e.key.toLowerCase() === "d") setMove("right", true);
-          if (e.key.toLowerCase() === "p") pauseGame();
+          const key = e.key.toLowerCase();
+          if (e.key === "ArrowLeft" || key === "a") setMove("left", true);
+          if (e.key === "ArrowRight" || key === "d") setMove("right", true);
+          if (key === "p" && !e.repeat) pauseGame();
           if (e.key === " " && !state.running) startGame();
         });
 
@@ -570,45 +592,42 @@
         });
       }
 
-      function bindPointer() {
-        const toX = (clientX) => {
-          const rect = canvas.getBoundingClientRect();
-          const norm = (clientX - rect.left) / rect.width;
-          return Math.max(0, Math.min(1, norm)) * canvas.width;
-        };
-
-        canvas.addEventListener("pointerdown", (e) => {
-          input.pointerActive = true;
-          player.x = toX(e.clientX);
-          clampPlayer();
-          canvas.setPointerCapture(e.pointerId);
-          if (!state.running && !state.gameOver) startGame();
-        });
-
-        canvas.addEventListener("pointermove", (e) => {
-          if (!input.pointerActive) return;
-          player.x = toX(e.clientX);
-          clampPlayer();
-        });
-
-        canvas.addEventListener("pointerup", (e) => {
-          input.pointerActive = false;
-          try { canvas.releasePointerCapture(e.pointerId); } catch {}
-        });
+      function bindCanvasSafety() {
+        canvas.addEventListener(
+          "pointerdown",
+          (e) => {
+            // 캔버스 터치로 플레이어 위치가 순간이동하지 않도록 기본 동작만 차단
+            e.preventDefault();
+          },
+          { passive: false }
+        );
       }
 
       function bindMobileButtons(button, direction) {
-        const down = () => setMove(direction, true);
-        const up = () => setMove(direction, false);
-        button.addEventListener("pointerdown", down);
-        button.addEventListener("pointerup", up);
-        button.addEventListener("pointercancel", up);
-        button.addEventListener("pointerleave", up);
+        button.addEventListener("pointerdown", (e) => {
+          e.preventDefault();
+          setMove(direction, true);
+          if (!state.running && !state.gameOver) startGame();
+          try { button.setPointerCapture(e.pointerId); } catch {}
+        });
+
+        const release = (e) => {
+          setMove(direction, false);
+          if (e?.pointerId != null) {
+            try { button.releasePointerCapture(e.pointerId); } catch {}
+          }
+        };
+
+        button.addEventListener("pointerup", release);
+        button.addEventListener("pointercancel", release);
+        button.addEventListener("lostpointercapture", release);
+        button.addEventListener("pointerleave", release);
       }
 
       startBtn.addEventListener("click", () => {
         if (state.paused) {
           state.paused = false;
+          startBtn.textContent = "시작";
           overlay.classList.add("hidden");
           pauseBtn.textContent = "일시정지";
           return;
@@ -621,9 +640,9 @@
       bindMobileButtons(leftBtn, "left");
       bindMobileButtons(rightBtn, "right");
       bindKeyboard();
-      bindPointer();
+      bindCanvasSafety();
       syncHud();
-      showOverlay("Meteor Dodge", "좌우 이동으로 운석을 피하세요.<br />키보드(←/→, A/D) 또는 터치로 조작할 수 있습니다.");
+      showOverlay("Meteor Dodge", "좌우 이동으로 운석을 피하세요.<br />키보드(←/→, A/D) 또는 하단 좌/우 버튼으로 조작할 수 있습니다.");
 
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame((ts) => {
