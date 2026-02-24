@@ -167,6 +167,18 @@
         display: flex;
         justify-content: center;
         gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .overlay-badge {
+        margin: 0 0 10px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #ffe27a;
+      }
+
+      .overlay-badge.hidden {
+        display: none;
       }
 
       button {
@@ -180,10 +192,21 @@
         color: #04121f;
       }
 
-      button.ghost {
+      button.ghost,
+      .ghost-link {
         background: rgba(255, 255, 255, 0.08);
         border: 1px solid rgba(255, 255, 255, 0.2);
         color: var(--text);
+      }
+
+      .ghost-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-weight: 700;
+        text-decoration: none;
       }
 
       .controls {
@@ -293,8 +316,10 @@
           <div class="panel">
             <h2 id="overlayTitle">Meteor Dodge</h2>
             <p id="overlayText">좌우 이동으로 운석을 피하세요.<br />키보드(←/→, A/D) 또는 하단 좌/우 버튼으로 조작할 수 있습니다.</p>
+            <p id="overlayBadge" class="overlay-badge hidden"></p>
             <div class="btn-row">
               <button id="startBtn" type="button">시작</button>
+              <a id="overlayPortalBtn" class="ghost-link" href="../../index.html">포털로</a>
             </div>
           </div>
         </div>
@@ -304,7 +329,7 @@
         <button id="leftBtn" type="button" class="ghost" aria-label="왼쪽 이동">◀ 왼쪽</button>
         <button id="rightBtn" type="button" class="ghost" aria-label="오른쪽 이동">오른쪽 ▶</button>
       </div>
-      <p class="hint">팁: 점수가 오를수록 운석 속도와 생성 빈도가 증가합니다. (터치는 하단 버튼으로 조작)</p>
+      <p class="hint">팁: 시작 직후 3초 보호구간이 있습니다. 점수가 오를수록 운석 속도/생성 빈도가 증가합니다.</p>
     </main>
 
     <script type="module">
@@ -320,6 +345,7 @@
       const overlay = document.getElementById("overlay");
       const overlayTitle = document.getElementById("overlayTitle");
       const overlayText = document.getElementById("overlayText");
+      const overlayBadge = document.getElementById("overlayBadge");
       const startBtn = document.getElementById("startBtn");
       const pauseBtn = document.getElementById("pauseBtn");
       const leftBtn = document.getElementById("leftBtn");
@@ -332,13 +358,16 @@
         score: 0,
         scoreFloat: 0,
         best: Number(localStorage.getItem(STORAGE_KEY) || 0),
+        isNewBest: false,
         level: 1,
         lives: 3,
-        meteorSpawnMs: 820,
+        meteorSpawnMs: 900,
         spawnElapsed: 0,
-        meteorSpeedBase: 255,
+        meteorSpeedBase: 220,
         hitFlash: 0,
         invincibleMs: 0,
+        countdownMs: 0,
+        graceMs: 0,
       };
 
       const input = {
@@ -369,13 +398,16 @@
       function resetGame() {
         state.score = 0;
         state.scoreFloat = 0;
+        state.isNewBest = false;
         state.level = 1;
         state.lives = 3;
-        state.meteorSpawnMs = 820;
-        state.meteorSpeedBase = 255;
+        state.meteorSpawnMs = 900;
+        state.meteorSpeedBase = 220;
         state.spawnElapsed = 0;
         state.hitFlash = 0;
         state.invincibleMs = 0;
+        state.countdownMs = 3000;
+        state.graceMs = 0;
         state.gameOver = false;
         player.x = canvas.width * 0.5;
         meteors.length = 0;
@@ -384,10 +416,12 @@
 
       function startGame() {
         if (!state.gameOver && state.running) return;
-        if (state.gameOver) resetGame();
+        if (state.gameOver || !state.running) resetGame();
         state.running = true;
         state.paused = false;
+        releaseAllInput();
         startBtn.textContent = "시작";
+        overlayBadge.classList.add("hidden");
         overlay.classList.add("hidden");
         pauseBtn.textContent = "일시정지";
       }
@@ -399,6 +433,7 @@
 
         if (state.paused) {
           releaseAllInput();
+          overlayBadge.classList.add("hidden");
           startBtn.textContent = "재개";
           const reasonLine = reason ? `${reason}\n` : "";
           showOverlay("일시정지", `${reasonLine}시작 버튼 또는 상단 일시정지 버튼으로 다시 시작할 수 있습니다.`);
@@ -416,14 +451,25 @@
         state.running = false;
         state.gameOver = true;
         releaseAllInput();
-        if (state.score > state.best) {
+
+        state.isNewBest = state.score > state.best;
+        if (state.isNewBest) {
           state.best = state.score;
           localStorage.setItem(STORAGE_KEY, String(state.best));
         }
+
         syncHud();
+
+        if (state.isNewBest) {
+          overlayBadge.textContent = "🏆 NEW BEST";
+          overlayBadge.classList.remove("hidden");
+        } else {
+          overlayBadge.classList.add("hidden");
+        }
+
         showOverlay(
           "게임 오버",
-          `최종 점수 ${state.score}점 · 최고 점수 ${state.best}점\n다시 시작하려면 시작 버튼을 누르세요.`
+          `최종 점수 ${state.score}점 · 최고 점수 ${state.best}점\n다시 시작 또는 포털 이동을 선택해 주세요.`
         );
         startBtn.textContent = "다시 시작";
       }
@@ -437,7 +483,8 @@
       function syncHud() {
         scoreText.textContent = String(state.score);
         bestText.textContent = String(state.best);
-        livesText.textContent = state.lives > 0 ? "❤".repeat(state.lives) : "0";
+        const shield = state.graceMs > 0 ? " 🛡" : "";
+        livesText.textContent = (state.lives > 0 ? "❤".repeat(state.lives) : "0") + shield;
         levelText.textContent = String(state.level);
       }
 
@@ -468,25 +515,55 @@
         player.x = Math.max(half, Math.min(canvas.width - half, player.x));
       }
 
+      function updateDifficulty() {
+        const s = state.score;
+
+        if (s < 260) {
+          state.meteorSpawnMs = 940 - s * 0.5;
+          state.meteorSpeedBase = 220 + s * 0.16;
+        } else if (s < 980) {
+          state.meteorSpawnMs = 810 - (s - 260) * 0.45;
+          state.meteorSpeedBase = 262 + (s - 260) * 0.24;
+        } else {
+          state.meteorSpawnMs = 486 - (s - 980) * 0.2;
+          state.meteorSpeedBase = 435 + Math.min(190, (s - 980) * 0.1);
+        }
+
+        state.meteorSpawnMs = Math.max(230, state.meteorSpawnMs);
+        state.level = 1 + Math.floor(s / 180);
+      }
+
       function step(deltaSec) {
         if (!state.running || state.paused) return;
+
+        const deltaMs = deltaSec * 1000;
 
         const move = (input.right ? 1 : 0) - (input.left ? 1 : 0);
         player.x += move * player.speed * deltaSec;
         clampPlayer();
 
-        state.spawnElapsed += deltaSec * 1000;
+        if (state.countdownMs > 0) {
+          state.countdownMs -= deltaMs;
+          if (state.countdownMs <= 0) {
+            state.countdownMs = 0;
+            state.graceMs = 3000;
+            state.spawnElapsed = 0;
+            meteors.length = 0;
+          }
+          syncHud();
+          return;
+        }
+
+        updateDifficulty();
+
+        state.spawnElapsed += deltaMs;
         if (state.spawnElapsed >= state.meteorSpawnMs) {
           spawnMeteor();
           state.spawnElapsed = 0;
         }
 
-        const difficultyPulse = Math.min(1.8, state.score / 1000);
-        state.meteorSpawnMs = Math.max(250, 820 - state.score * 0.7);
-        state.meteorSpeedBase = 255 + difficultyPulse * 150;
-        state.level = 1 + Math.floor(state.score / 160);
-
-        if (state.invincibleMs > 0) state.invincibleMs -= deltaSec * 1000;
+        if (state.graceMs > 0) state.graceMs -= deltaMs;
+        if (state.invincibleMs > 0) state.invincibleMs -= deltaMs;
         if (state.hitFlash > 0) state.hitFlash -= deltaSec;
 
         const playerRect = {
@@ -511,7 +588,7 @@
             continue;
           }
 
-          if (state.invincibleMs <= 0 && circleRectHit(m, playerRect)) {
+          if (state.graceMs <= 0 && state.invincibleMs <= 0 && circleRectHit(m, playerRect)) {
             meteors.splice(i, 1);
             state.lives -= 1;
             state.hitFlash = 0.36;
@@ -619,6 +696,28 @@
           // blink during invincibility
         } else {
           drawShip(player.x, player.y, player.w, player.h);
+        }
+
+        if (state.countdownMs > 0) {
+          const n = Math.max(1, Math.ceil(state.countdownMs / 1000));
+          ctx.fillStyle = "rgba(3, 8, 26, 0.4)";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = "#dff6ff";
+          ctx.textAlign = "center";
+          ctx.font = "700 96px system-ui";
+          ctx.fillText(String(n), canvas.width * 0.5, canvas.height * 0.52);
+          ctx.font = "600 24px system-ui";
+          ctx.fillText("준비", canvas.width * 0.5, canvas.height * 0.62);
+        } else if (state.graceMs > 0) {
+          const remain = (state.graceMs / 1000).toFixed(1);
+          ctx.fillStyle = "rgba(35, 211, 255, 0.18)";
+          ctx.fillRect(16, 16, 170, 34);
+          ctx.strokeStyle = "rgba(98, 224, 255, 0.6)";
+          ctx.strokeRect(16, 16, 170, 34);
+          ctx.fillStyle = "#baf4ff";
+          ctx.font = "600 18px system-ui";
+          ctx.textAlign = "left";
+          ctx.fillText(`🛡 보호 ${remain}s`, 26, 39);
         }
 
         if (state.hitFlash > 0) {
@@ -749,7 +848,7 @@
       bindCanvasSafety();
       bindAutoPause();
       syncHud();
-      showOverlay("Meteor Dodge", "좌우 이동으로 운석을 피하세요.<br />키보드(←/→, A/D) 또는 하단 좌/우 버튼으로 조작할 수 있습니다.");
+      showOverlay("Meteor Dodge", "좌우 이동으로 운석을 피하세요.<br />시작 시 3초 카운트다운 후 3초 보호구간이 적용됩니다.");
 
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame((ts) => {
