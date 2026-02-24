@@ -30,6 +30,7 @@ python3 -m http.server 8790
 - 데이터 새로고침
 - 모바일 반응형 레이아웃
 - 내장 플레이 가능 게임 1종: **Meteor Dodge** (`./games/meteor-dodge/index.html`)
+  - 조작: 키보드(←/→, A/D) + 하단 좌/우 버튼(모바일 터치)
 
 ---
 
@@ -65,7 +66,7 @@ arcadia-hub-game-portal/
 
 ## 버전 정책
 
-- 포털 현재 버전: **`0.2.0`**
+- 포털 현재 버전: **`0.2.1`**
 - 기본 게임 버전: **`0.1.0`**
 - 버전 형식: `MAJOR.MINOR.PATCH` (semver)
 - 게임 등록/수정 시 관리자 페이지에서 `게임 버전` 입력 가능
