@@ -37,7 +37,7 @@
       .topbar {
         padding: calc(env(safe-area-inset-top) + 8px) 10px 8px;
         display: grid;
-        grid-template-columns: auto 1fr auto;
+        grid-template-columns: auto 1fr auto auto;
         gap: 8px;
         align-items: center;
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -155,6 +155,23 @@
         color: #dfe7ff;
       }
       .setting-row input[type="checkbox"] { width: 18px; height: 18px; }
+      .setting-row.volume-row {
+        grid-template-columns: 1fr;
+      }
+      .range-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .range-row input[type="range"] {
+        width: 100%;
+      }
+      .range-row strong {
+        min-width: 42px;
+        text-align: right;
+        color: #dff3ff;
+        font-size: 12px;
+      }
       .help-box {
         margin-top: 10px;
         padding-top: 8px;
@@ -261,6 +278,7 @@
           <h1>Lane Switch: Neon Run</h1>
           <p>레인 전환으로 장애물을 피하고 코인을 모으세요</p>
         </div>
+        <button id="pauseBtn" type="button" class="ghost-link" aria-label="일시정지">일시정지</button>
         <button id="settingsBtn" type="button" class="ghost-link" aria-label="설정">설정</button>
       </header>
 
@@ -306,12 +324,30 @@
               <input id="vibrationToggle" type="checkbox" checked />
             </label>
 
+            <label class="setting-row">
+              <span>사운드</span>
+              <input id="soundToggle" type="checkbox" checked />
+            </label>
+
+            <label class="setting-row">
+              <span>BGM</span>
+              <input id="bgmToggle" type="checkbox" checked />
+            </label>
+
+            <div class="setting-row volume-row">
+              <span>효과음 볼륨</span>
+              <div class="range-row">
+                <input id="sfxVolumeRange" type="range" min="0" max="100" step="1" value="70" />
+                <strong id="sfxVolumeValue">70%</strong>
+              </div>
+            </div>
+
             <details class="help-box">
               <summary>도움말 보기</summary>
               <ul class="help-list">
                 <li>목표: 42초 생존 미션 달성 (+120 보너스)</li>
                 <li>코인: +40점, 쉴드: 3초 보호막</li>
-                <li>키보드: ←/→ 또는 A/D, Space(시작)</li>
+                <li>키보드: ←/→ 또는 A/D, Space(시작), P(일시정지/재개)</li>
                 <li>모바일: 하단 버튼 또는 스와이프 좌/우</li>
               </ul>
             </details>

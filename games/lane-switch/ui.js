@@ -33,7 +33,23 @@ export function syncMissionUI({ state, missionText }) {
   missionText.textContent = `미션: ${targetSec}초 생존 · 남은 ${formatDuration(remain / 1000)}`;
 }
 
-export function syncSettingsUI({ settings, effectsToggle, vibrationToggle }) {
-  effectsToggle.checked = settings.effectsEnabled;
-  vibrationToggle.checked = settings.vibrationEnabled;
+export function syncSettingsUI({
+  settings,
+  effectsToggle,
+  vibrationToggle,
+  soundToggle,
+  bgmToggle,
+  sfxVolumeRange,
+  sfxVolumeValue,
+}) {
+  if (effectsToggle) effectsToggle.checked = settings.effectsEnabled;
+  if (vibrationToggle) vibrationToggle.checked = settings.vibrationEnabled;
+
+  if (soundToggle) soundToggle.checked = settings.soundEnabled;
+  if (bgmToggle) {
+    bgmToggle.checked = settings.bgmEnabled;
+    bgmToggle.disabled = !settings.soundEnabled;
+  }
+  if (sfxVolumeRange) sfxVolumeRange.value = String(settings.sfxVolume);
+  if (sfxVolumeValue) sfxVolumeValue.textContent = `${settings.sfxVolume}%`;
 }

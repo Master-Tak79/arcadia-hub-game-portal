@@ -5,6 +5,7 @@ export function bindInput({
   startGame,
   moveLeft,
   moveRight,
+  togglePause,
   isRunning,
 }) {
   const swipe = { active: false, startX: 0 };
@@ -18,9 +19,26 @@ export function bindInput({
   window.addEventListener("keydown", (e) => {
     if (e.repeat) return;
     const key = e.key.toLowerCase();
-    if (e.key === "ArrowLeft" || key === "a") moveLeft();
-    if (e.key === "ArrowRight" || key === "d") moveRight();
-    if (e.key === " " && !isRunning()) startGame();
+
+    if (e.key === "ArrowLeft" || key === "a") {
+      moveLeft();
+      return;
+    }
+
+    if (e.key === "ArrowRight" || key === "d") {
+      moveRight();
+      return;
+    }
+
+    if (e.key === " ") {
+      if (!isRunning()) startGame();
+      return;
+    }
+
+    if (key === "p") {
+      e.preventDefault();
+      togglePause();
+    }
   });
 
   leftBtn.addEventListener("click", moveLeft);

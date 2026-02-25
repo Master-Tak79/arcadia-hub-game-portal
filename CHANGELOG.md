@@ -15,6 +15,25 @@
 
 ---
 
+## [0.3.31] - 2026-02-26
+### Added
+- Lane Switch 사운드 모듈 추가
+  - `games/lane-switch/sfx.js`
+
+### Changed
+- Lane Switch 설정 패널에 `사운드/BGM/효과음 볼륨` 옵션 추가
+- Lane Switch에 일시정지/재개 UX 추가 (`상단 버튼` + `P` 단축키)
+- Lane Switch에 BGM 및 이벤트 SFX(시작/피격/획득/신기록/게임오버) 적용
+- Lane Switch QA 체크리스트를 최신 버전(`0.3.31`) 기준으로 갱신
+- 스모크 체크(`scripts/meteor-smoke-check.sh`)에 Lane Switch `sfx.js` 파일/HTTP 검증 추가
+- Lane Switch 버전 `0.3.26` → `0.3.31`
+- 포털 버전 `0.3.30` → `0.3.31`
+
+### Fixed
+- Lane Switch가 신규 3종 대비 사운드/일시정지 UX가 부족했던 기능 패리티 격차 해소
+
+---
+
 ## [0.3.30] - 2026-02-26
 ### Added
 - `scripts/game-ui-check.mjs`에 신규 3종 게임 UI 검증 케이스 추가

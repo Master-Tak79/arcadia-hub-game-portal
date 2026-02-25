@@ -173,13 +173,33 @@ function runLaneChecks() {
 
   const effectsToggle = { checked: false };
   const vibrationToggle = { checked: false };
+  const soundToggle = { checked: false };
+  const bgmToggle = { checked: false, disabled: false };
+  const sfxVolumeRange = { value: "" };
+  const sfxVolumeValue = { textContent: "" };
+
   laneSyncSettingsUI({
-    settings: { effectsEnabled: true, vibrationEnabled: true },
+    settings: {
+      effectsEnabled: true,
+      vibrationEnabled: true,
+      soundEnabled: false,
+      bgmEnabled: true,
+      sfxVolume: 55,
+    },
     effectsToggle,
     vibrationToggle,
+    soundToggle,
+    bgmToggle,
+    sfxVolumeRange,
+    sfxVolumeValue,
   });
   assert.equal(effectsToggle.checked, true);
   assert.equal(vibrationToggle.checked, true);
+  assert.equal(soundToggle.checked, false);
+  assert.equal(bgmToggle.checked, true);
+  assert.equal(bgmToggle.disabled, true);
+  assert.equal(sfxVolumeRange.value, "55");
+  assert.equal(sfxVolumeValue.textContent, "55%");
 }
 
 function runSkyChecks() {
