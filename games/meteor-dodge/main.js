@@ -25,6 +25,7 @@ import {
   syncMissionUI as syncMissionUIState,
   syncSettingsUI as syncSettingsUIState,
 } from "./ui.js";
+import { celebrateMission, celebrateNewBest } from "../shared/confetti.fx.js";
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -215,6 +216,7 @@ function endGame() {
     state.bestMeta = { score: state.best, at: atIso };
     sfx.play("best");
     vibrate([24, 40, 24]);
+    celebrateNewBest();
   } else {
     sfx.play("gameover");
     vibrate(22);
@@ -332,6 +334,7 @@ function frame(now) {
       onMissionComplete: () => {
         sfx.play("best");
         vibrate([18, 30, 18]);
+        celebrateMission();
       },
       onItemPickup: (effect) => {
         const type = effect?.type;
