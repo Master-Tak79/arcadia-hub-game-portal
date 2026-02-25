@@ -137,6 +137,17 @@ h1 {
   font-size: 13px;
 }
 
+.check-row {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.check-row input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}
+
 input,
 select {
   width: 100%;
