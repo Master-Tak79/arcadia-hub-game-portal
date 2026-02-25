@@ -114,6 +114,9 @@ function syncMissionUI() {
   const effects = [];
   if (state.graceMs > 0) effects.push(`쉴드 ${(state.graceMs / 1000).toFixed(1)}s`);
   if (state.slowMs > 0) effects.push(`슬로우 ${(state.slowMs / 1000).toFixed(1)}s`);
+  if (state.magnetMs > 0) effects.push(`자석 ${(state.magnetMs / 1000).toFixed(1)}s`);
+  if (state.doubleMs > 0) effects.push(`더블 ${(state.doubleMs / 1000).toFixed(1)}s`);
+  if (state.overdriveMs > 0) effects.push(`오버 ${(state.overdriveMs / 1000).toFixed(1)}s`);
 
   if (state.mission.completed) {
     const extra = effects.length ? ` · ${effects.join(" / ")}` : "";
@@ -338,10 +341,12 @@ function frame(now) {
         sfx.play("best");
         vibrate([18, 30, 18]);
       },
-      onItemPickup: (type) => {
+      onItemPickup: (effect) => {
+        const type = effect?.type;
+
         if (type === "coin") {
           sfx.play("item");
-          state.itemNoticeText = "💰 +30 코인";
+          state.itemNoticeText = `💰 +${effect?.gained || 30} 코인`;
           state.itemNoticeMs = 1000;
           vibrate(8);
           return;
@@ -355,10 +360,36 @@ function frame(now) {
           return;
         }
 
-        sfx.play("tick");
-        state.itemNoticeText = "🐢 슬로우 +2.2s";
-        state.itemNoticeMs = 1100;
-        vibrate(10);
+        if (type === "slow") {
+          sfx.play("tick");
+          state.itemNoticeText = "🐢 슬로우 +2.2s";
+          state.itemNoticeMs = 1100;
+          vibrate(10);
+          return;
+        }
+
+        if (type === "magnet") {
+          sfx.play("item");
+          state.itemNoticeText = "🧲 자석 +3.2s";
+          state.itemNoticeMs = 1100;
+          vibrate([6, 12, 6]);
+          return;
+        }
+
+        if (type === "double") {
+          sfx.play("best");
+          state.itemNoticeText = "✨ 더블점수 +2.8s";
+          state.itemNoticeMs = 1200;
+          vibrate([10, 14, 10]);
+          return;
+        }
+
+        if (type === "overdrive") {
+          sfx.play("start");
+          state.itemNoticeText = `⚡ 오버드라이브 +${effect?.gained || 70}`;
+          state.itemNoticeMs = 1300;
+          vibrate([12, 16, 12]);
+        }
       },
       onHit: () => {
         sfx.play("hit");

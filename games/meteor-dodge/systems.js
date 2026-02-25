@@ -13,42 +13,113 @@ function circleRectHit(circle, rect) {
   return dx * dx + dy * dy < circle.r * circle.r;
 }
 
-function pickItemType(random = Math.random) {
-  const r = random();
-  if (r < 0.58) return "coin";
-  if (r < 0.8) return "shield";
-  return "slow";
+function getScoreMultiplier(state) {
+  let mult = 1;
+  if (state.doubleMs > 0) mult *= 2;
+  if (state.overdriveMs > 0) mult *= 1.3;
+  return mult;
+}
+
+function addScore(state, baseScore) {
+  const before = Math.floor(state.scoreFloat);
+  state.scoreFloat += baseScore * getScoreMultiplier(state);
+  state.score = Math.floor(state.scoreFloat);
+  return Math.max(0, state.score - before);
+}
+
+function pickItemType(state, random = Math.random) {
+  const overdriveChance = Math.min(0.08, 0.02 + state.score / 6000);
+  const doubleChance = Math.min(0.14, 0.05 + state.score / 5000);
+  const magnetChance = Math.min(0.2, 0.1 + state.score / 4500);
+  const shieldChance = 0.2;
+  const slowChance = 0.16;
+
+  const coinChance = Math.max(0.3, 1 - (overdriveChance + doubleChance + magnetChance + shieldChance + slowChance));
+
+  let r = random();
+  if (r < coinChance) return "coin";
+  r -= coinChance;
+
+  if (r < shieldChance) return "shield";
+  r -= shieldChance;
+
+  if (r < slowChance) return "slow";
+  r -= slowChance;
+
+  if (r < magnetChance) return "magnet";
+  r -= magnetChance;
+
+  if (r < doubleChance) return "double";
+  return "overdrive";
 }
 
 function applyItemEffect(state, type) {
   if (type === "coin") {
-    state.scoreFloat += 30;
-    state.score = Math.floor(state.scoreFloat);
-    return;
+    const gained = addScore(state, 30);
+    return { type, gained };
   }
 
   if (type === "shield") {
-    state.graceMs = Math.min(9000, Math.max(state.graceMs, 0) + 2600);
-    return;
+    state.graceMs = Math.min(10000, Math.max(state.graceMs, 0) + 2600);
+    return { type, durationMs: 2600 };
   }
 
   if (type === "slow") {
-    state.slowMs = Math.min(8000, Math.max(state.slowMs, 0) + 2200);
+    state.slowMs = Math.min(9000, Math.max(state.slowMs, 0) + 2200);
+    return { type, durationMs: 2200 };
+  }
+
+  if (type === "magnet") {
+    state.magnetMs = Math.min(10000, Math.max(state.magnetMs, 0) + 3200);
+    return { type, durationMs: 3200 };
+  }
+
+  if (type === "double") {
+    state.doubleMs = Math.min(9000, Math.max(state.doubleMs, 0) + 2800);
+    return { type, durationMs: 2800 };
+  }
+
+  if (type === "overdrive") {
+    state.overdriveMs = Math.min(8000, Math.max(state.overdriveMs, 0) + 3600);
+    const gained = addScore(state, 70);
+    return { type, gained, durationMs: 3600 };
+  }
+
+  return { type: "unknown" };
+}
+
+function getItemConfig(type) {
+  switch (type) {
+    case "coin":
+      return { r: 12, vyMin: 120, vyMax: 160, vx: 24 };
+    case "shield":
+      return { r: 14, vyMin: 114, vyMax: 150, vx: 22 };
+    case "slow":
+      return { r: 14, vyMin: 110, vyMax: 146, vx: 22 };
+    case "magnet":
+      return { r: 14, vyMin: 116, vyMax: 154, vx: 24 };
+    case "double":
+      return { r: 13, vyMin: 118, vyMax: 158, vx: 22 };
+    case "overdrive":
+      return { r: 15, vyMin: 126, vyMax: 168, vx: 20 };
+    default:
+      return { r: 13, vyMin: 118, vyMax: 154, vx: 22 };
   }
 }
 
 function spawnCollectible(state, items, random = Math.random) {
-  const type = pickItemType(random);
-  const r = type === "coin" ? 12 : 14;
-  const vy = 120 + random() * 40 + state.level * 5;
+  const type = pickItemType(state, random);
+  const cfg = getItemConfig(type);
+
+  const vy = cfg.vyMin + random() * (cfg.vyMax - cfg.vyMin) + state.level * 5;
 
   items.push({
     type,
-    x: random() * (540 - r * 2) + r,
-    y: -r - 14,
-    r,
+    x: random() * (540 - cfg.r * 2) + cfg.r,
+    y: -cfg.r - 14,
+    r: cfg.r,
     vy,
-    vx: (random() - 0.5) * 24,
+    vx: (random() - 0.5) * cfg.vx,
     bob: random() * Math.PI * 2,
   });
 }
@@ -70,6 +141,9 @@ export function resetRound(state, player, meteors, items = [], preset = getPrese
   state.countdownSecondMark = Math.max(1, Math.ceil(preset.countdownMs / 1000));
   state.graceMs = 0;
   state.slowMs = 0;
+  state.magnetMs = 0;
+  state.doubleMs = 0;
+  state.overdriveMs = 0;
 
   state.itemSpawnElapsed = 0;
   state.itemNoticeText = "";
@@ -168,8 +242,7 @@ export function stepGame({
   if (!state.mission.completed && state.survivalMs >= state.mission.targetMs) {
     state.mission.completed = true;
     state.mission.justCompletedMs = 1800;
-    state.scoreFloat += 120;
-    state.score = Math.floor(state.scoreFloat);
+    addScore(state, 120);
     callbacks?.onMissionComplete?.();
   }
   if (state.mission.justCompletedMs > 0) {
@@ -177,22 +250,28 @@ export function stepGame({
   }
 
   const slowFactor = state.slowMs > 0 ? 0.72 : 1;
+  const overdriveFactor = state.overdriveMs > 0 ? 1.28 : 1;
+  const meteorMovementFactor = slowFactor * overdriveFactor;
+  const spawnPressureFactor = state.overdriveMs > 0 ? 1.22 : 1;
 
-  state.spawnElapsed += deltaMs;
+  state.spawnElapsed += deltaMs * spawnPressureFactor;
   if (state.spawnElapsed >= state.meteorSpawnMs) {
     spawnMeteor(state, meteors);
     state.spawnElapsed = 0;
   }
 
   state.itemSpawnElapsed += deltaMs;
-  const itemSpawnMs = Math.max(2800, 6200 - state.score * 1.6);
-  if (items.length < 2 && state.itemSpawnElapsed >= itemSpawnMs) {
+  const itemSpawnMs = Math.max(2200, 5600 - state.score * 1.4);
+  if (items.length < 3 && state.itemSpawnElapsed >= itemSpawnMs) {
     spawnCollectible(state, items);
     state.itemSpawnElapsed = 0;
   }
 
   if (state.graceMs > 0) state.graceMs -= deltaMs;
   if (state.slowMs > 0) state.slowMs -= deltaMs;
+  if (state.magnetMs > 0) state.magnetMs -= deltaMs;
+  if (state.doubleMs > 0) state.doubleMs -= deltaMs;
+  if (state.overdriveMs > 0) state.overdriveMs -= deltaMs;
   if (state.invincibleMs > 0) state.invincibleMs -= deltaMs;
   if (state.hitFlash > 0) state.hitFlash -= deltaSec;
 
@@ -206,6 +285,24 @@ export function stepGame({
   for (let i = items.length - 1; i >= 0; i -= 1) {
     const item = items[i];
     item.bob += deltaSec * 5;
+
+    if (state.magnetMs > 0 && item.type === "coin") {
+      const dx = player.x - item.x;
+      const dy = player.y - item.y;
+      const dist = Math.hypot(dx, dy) || 1;
+      if (dist < 260) {
+        const pull = Math.max(90, 420 - dist);
+        item.vx += (dx / dist) * pull * deltaSec;
+        item.vy += (dy / dist) * pull * deltaSec;
+      }
+    }
+
+    const speed = Math.hypot(item.vx, item.vy);
+    if (speed > 280) {
+      item.vx = (item.vx / speed) * 280;
+      item.vy = (item.vy / speed) * 280;
+    }
+
     item.x += item.vx * deltaSec;
     item.y += item.vy * deltaSec;
 
@@ -218,8 +315,8 @@ export function stepGame({
 
     if (circleRectHit(item, playerRect)) {
       items.splice(i, 1);
-      applyItemEffect(state, item.type);
-      callbacks?.onItemPickup?.(item.type);
+      const effect = applyItemEffect(state, item.type);
+      callbacks?.onItemPickup?.(effect);
     }
   }
 
@@ -227,19 +324,18 @@ export function stepGame({
     const m = meteors[i];
 
     if (m.type === "accelerating") {
-      m.vy = Math.min(m.vyMax || m.vy, m.vy + m.ay * deltaSec * slowFactor);
+      m.vy = Math.min(m.vyMax || m.vy, m.vy + m.ay * deltaSec * meteorMovementFactor);
     }
 
-    m.x += m.vx * deltaSec * slowFactor;
-    m.y += m.vy * deltaSec * slowFactor;
+    m.x += m.vx * deltaSec * meteorMovementFactor;
+    m.y += m.vy * deltaSec * meteorMovementFactor;
     m.rot += m.spin * deltaSec;
 
     if (m.x - m.r < 0 || m.x + m.r > 540) m.vx *= -1;
 
     if (m.y - m.r > 960 + 50) {
       meteors.splice(i, 1);
-      state.scoreFloat += 4;
-      state.score = Math.floor(state.scoreFloat);
+      addScore(state, 4);
       continue;
     }
 
@@ -256,6 +352,5 @@ export function stepGame({
     }
   }
 
-  state.scoreFloat += 50 * deltaSec;
-  state.score = Math.floor(state.scoreFloat);
+  addScore(state, 50 * deltaSec);
 }
