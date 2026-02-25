@@ -135,6 +135,11 @@ export function createState() {
     countdownMs: 0,
     countdownSecondMark: 0,
     graceMs: 0,
+    slowMs: 0,
+
+    itemSpawnElapsed: 0,
+    itemNoticeText: "",
+    itemNoticeMs: 0,
 
     survivalMs: 0,
     mission: {

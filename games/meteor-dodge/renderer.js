@@ -88,6 +88,64 @@ function drawMeteor(ctx, m) {
   ctx.restore();
 }
 
+function drawItem(ctx, item) {
+  const bobY = Math.sin(item.bob) * 3;
+  const y = item.y + bobY;
+
+  if (item.type === "coin") {
+    ctx.save();
+    ctx.fillStyle = "#ffd66e";
+    ctx.beginPath();
+    ctx.arc(item.x, y, item.r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#ffb73a";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.fillStyle = "#8a5a16";
+    ctx.font = "700 14px system-ui";
+    ctx.textAlign = "center";
+    ctx.fillText("+", item.x, y + 5);
+    ctx.restore();
+    return;
+  }
+
+  if (item.type === "shield") {
+    ctx.save();
+    ctx.fillStyle = "rgba(124, 232, 255, 0.22)";
+    ctx.beginPath();
+    ctx.arc(item.x, y, item.r + 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#7ae7ff";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(item.x, y, item.r, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.fillStyle = "#d9fbff";
+    ctx.font = "700 12px system-ui";
+    ctx.textAlign = "center";
+    ctx.fillText("🛡", item.x, y + 4);
+    ctx.restore();
+    return;
+  }
+
+  // slow
+  ctx.save();
+  ctx.fillStyle = "rgba(150, 220, 255, 0.22)";
+  ctx.beginPath();
+  ctx.arc(item.x, y, item.r + 2, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = "#a6e7ff";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(item.x, y, item.r, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.fillStyle = "#eefbff";
+  ctx.font = "700 12px system-ui";
+  ctx.textAlign = "center";
+  ctx.fillText("🐢", item.x, y + 4);
+  ctx.restore();
+}
+
 export function createRenderer({ canvas, ctx, stars }) {
   function drawBackground(deltaSec) {
     const bg = ctx.createLinearGradient(0, 0, 0, canvas.height);
@@ -111,9 +169,10 @@ export function createRenderer({ canvas, ctx, stars }) {
     ctx.globalAlpha = 1;
   }
 
-  function render(state, player, meteors, deltaSec) {
+  function render(state, player, meteors, items, deltaSec) {
     drawBackground(deltaSec);
 
+    items.forEach((item) => drawItem(ctx, item));
     meteors.forEach((m) => drawMeteor(ctx, m));
 
     if (state.invincibleMs > 0 && Math.floor(state.invincibleMs / 90) % 2 === 0) {
@@ -144,6 +203,18 @@ export function createRenderer({ canvas, ctx, stars }) {
       ctx.fillText(`🛡 보호 ${remain}s`, 26, 39);
     }
 
+    if (state.slowMs > 0) {
+      const remain = (state.slowMs / 1000).toFixed(1);
+      ctx.fillStyle = "rgba(168, 222, 255, 0.18)";
+      ctx.fillRect(354, 16, 170, 34);
+      ctx.strokeStyle = "rgba(196, 239, 255, 0.6)";
+      ctx.strokeRect(354, 16, 170, 34);
+      ctx.fillStyle = "#dff6ff";
+      ctx.font = "600 18px system-ui";
+      ctx.textAlign = "left";
+      ctx.fillText(`🐢 슬로우 ${remain}s`, 364, 39);
+    }
+
     if (state.mission.justCompletedMs > 0) {
       ctx.fillStyle = "rgba(113, 255, 174, 0.18)";
       ctx.fillRect(110, 90, 320, 46);
@@ -153,6 +224,17 @@ export function createRenderer({ canvas, ctx, stars }) {
       ctx.textAlign = "center";
       ctx.font = "700 22px system-ui";
       ctx.fillText("🎯 미션 완료! +120", canvas.width * 0.5, 121);
+    }
+
+    if (state.itemNoticeMs > 0 && state.itemNoticeText) {
+      ctx.fillStyle = "rgba(255, 244, 188, 0.18)";
+      ctx.fillRect(140, 145, 260, 40);
+      ctx.strokeStyle = "rgba(255, 234, 150, 0.7)";
+      ctx.strokeRect(140, 145, 260, 40);
+      ctx.fillStyle = "#fff5c4";
+      ctx.textAlign = "center";
+      ctx.font = "700 20px system-ui";
+      ctx.fillText(state.itemNoticeText, canvas.width * 0.5, 171);
     }
 
     if (state.hitFlash > 0) {

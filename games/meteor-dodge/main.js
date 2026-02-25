@@ -52,6 +52,7 @@ const input = createInputState();
 const player = createPlayerState(canvas);
 const stars = createStars(canvas);
 const meteors = [];
+const items = [];
 const sfx = createSfx();
 const renderer = createRenderer({ canvas, ctx, stars });
 
@@ -110,13 +111,19 @@ function syncHud() {
 }
 
 function syncMissionUI() {
+  const effects = [];
+  if (state.graceMs > 0) effects.push(`쉴드 ${(state.graceMs / 1000).toFixed(1)}s`);
+  if (state.slowMs > 0) effects.push(`슬로우 ${(state.slowMs / 1000).toFixed(1)}s`);
+
   if (state.mission.completed) {
-    missionText.textContent = `🎯 미션 완료! (${state.mission.title})`;
+    const extra = effects.length ? ` · ${effects.join(" / ")}` : "";
+    missionText.textContent = `🎯 미션 완료! (${state.mission.title})${extra}`;
     return;
   }
 
   const remain = Math.max(0, state.mission.targetMs - state.survivalMs);
-  missionText.textContent = `미션: ${state.mission.title} · 남은 ${formatDuration(remain / 1000)}`;
+  const extra = effects.length ? ` · ${effects.join(" / ")}` : "";
+  missionText.textContent = `미션: ${state.mission.title} · 남은 ${formatDuration(remain / 1000)}${extra}`;
 }
 
 function syncDifficultyUI() {
@@ -148,7 +155,7 @@ function setMove(direction, active) {
 function startGame() {
   if (!state.gameOver && state.running) return;
 
-  resetRound(state, player, meteors, getPresetConfig(state.difficulty));
+  resetRound(state, player, meteors, items, getPresetConfig(state.difficulty));
   state.best = loadBestScore(state.difficulty);
   state.bestMeta = loadBestMeta(state.difficulty);
 
@@ -269,7 +276,7 @@ function applyDifficulty(nextDifficulty, { resetRound: shouldReset = false } = {
   state.running = false;
   state.paused = false;
   state.gameOver = false;
-  resetRound(state, player, meteors, getPresetConfig(state.difficulty));
+  resetRound(state, player, meteors, items, getPresetConfig(state.difficulty));
   overlayBadge.classList.add("hidden");
   showOverlay("난이도 변경", `${getPresetConfig(state.difficulty).label}로 변경되었습니다.\n시작 버튼으로 새 라운드를 시작해 주세요.`);
   startBtn.textContent = "시작";
@@ -319,6 +326,7 @@ function frame(now) {
     input,
     player,
     meteors,
+    items,
     deltaSec,
     callbacks: {
       onCountdownTick: () => sfx.play("tick"),
@@ -330,6 +338,28 @@ function frame(now) {
         sfx.play("best");
         vibrate([18, 30, 18]);
       },
+      onItemPickup: (type) => {
+        if (type === "coin") {
+          sfx.play("item");
+          state.itemNoticeText = "💰 +30 코인";
+          state.itemNoticeMs = 1000;
+          vibrate(8);
+          return;
+        }
+
+        if (type === "shield") {
+          sfx.play("start");
+          state.itemNoticeText = "🛡 쉴드 +2.6s";
+          state.itemNoticeMs = 1100;
+          vibrate([8, 18, 8]);
+          return;
+        }
+
+        sfx.play("tick");
+        state.itemNoticeText = "🐢 슬로우 +2.2s";
+        state.itemNoticeMs = 1100;
+        vibrate(10);
+      },
       onHit: () => {
         sfx.play("hit");
         vibrate(10);
@@ -338,7 +368,7 @@ function frame(now) {
     },
   });
 
-  renderer.render(state, player, meteors, deltaSec);
+  renderer.render(state, player, meteors, items, deltaSec);
   syncHud();
   syncMissionUI();
 

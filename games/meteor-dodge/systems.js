@@ -13,7 +13,47 @@ function circleRectHit(circle, rect) {
   return dx * dx + dy * dy < circle.r * circle.r;
 }
 
-export function resetRound(state, player, meteors, preset = getPresetConfig(state.difficulty)) {
+function pickItemType(random = Math.random) {
+  const r = random();
+  if (r < 0.58) return "coin";
+  if (r < 0.8) return "shield";
+  return "slow";
+}
+
+function applyItemEffect(state, type) {
+  if (type === "coin") {
+    state.scoreFloat += 30;
+    state.score = Math.floor(state.scoreFloat);
+    return;
+  }
+
+  if (type === "shield") {
+    state.graceMs = Math.min(9000, Math.max(state.graceMs, 0) + 2600);
+    return;
+  }
+
+  if (type === "slow") {
+    state.slowMs = Math.min(8000, Math.max(state.slowMs, 0) + 2200);
+  }
+}
+
+function spawnCollectible(state, items, random = Math.random) {
+  const type = pickItemType(random);
+  const r = type === "coin" ? 12 : 14;
+  const vy = 120 + random() * 40 + state.level * 5;
+
+  items.push({
+    type,
+    x: random() * (540 - r * 2) + r,
+    y: -r - 14,
+    r,
+    vy,
+    vx: (random() - 0.5) * 24,
+    bob: random() * Math.PI * 2,
+  });
+}
+
+export function resetRound(state, player, meteors, items = [], preset = getPresetConfig(state.difficulty)) {
   state.score = 0;
   state.scoreFloat = 0;
   state.isNewBest = false;
@@ -29,6 +69,11 @@ export function resetRound(state, player, meteors, preset = getPresetConfig(stat
   state.countdownMs = preset.countdownMs;
   state.countdownSecondMark = Math.max(1, Math.ceil(preset.countdownMs / 1000));
   state.graceMs = 0;
+  state.slowMs = 0;
+
+  state.itemSpawnElapsed = 0;
+  state.itemNoticeText = "";
+  state.itemNoticeMs = 0;
 
   state.survivalMs = 0;
   state.mission.completed = false;
@@ -38,6 +83,7 @@ export function resetRound(state, player, meteors, preset = getPresetConfig(stat
 
   player.x = 540 * 0.5;
   meteors.length = 0;
+  items.length = 0;
 }
 
 export function updateDifficulty(state) {
@@ -75,6 +121,7 @@ export function stepGame({
   input,
   player,
   meteors,
+  items,
   deltaSec,
   callbacks,
 }) {
@@ -86,6 +133,10 @@ export function stepGame({
   const move = (input.right ? 1 : 0) - (input.left ? 1 : 0);
   player.x += move * player.speed * deltaSec;
   clampPlayer(player, 540);
+
+  if (state.itemNoticeMs > 0) {
+    state.itemNoticeMs -= deltaMs;
+  }
 
   if (state.countdownMs > 0) {
     const prevSecond = state.countdownSecondMark;
@@ -102,7 +153,9 @@ export function stepGame({
       state.countdownMs = 0;
       state.graceMs = preset.graceMs;
       state.spawnElapsed = 0;
+      state.itemSpawnElapsed = 0;
       meteors.length = 0;
+      items.length = 0;
       callbacks?.onCountdownDone?.();
     }
 
@@ -123,13 +176,23 @@ export function stepGame({
     state.mission.justCompletedMs -= deltaMs;
   }
 
+  const slowFactor = state.slowMs > 0 ? 0.72 : 1;
+
   state.spawnElapsed += deltaMs;
   if (state.spawnElapsed >= state.meteorSpawnMs) {
     spawnMeteor(state, meteors);
     state.spawnElapsed = 0;
   }
 
+  state.itemSpawnElapsed += deltaMs;
+  const itemSpawnMs = Math.max(2800, 6200 - state.score * 1.6);
+  if (items.length < 2 && state.itemSpawnElapsed >= itemSpawnMs) {
+    spawnCollectible(state, items);
+    state.itemSpawnElapsed = 0;
+  }
+
   if (state.graceMs > 0) state.graceMs -= deltaMs;
+  if (state.slowMs > 0) state.slowMs -= deltaMs;
   if (state.invincibleMs > 0) state.invincibleMs -= deltaMs;
   if (state.hitFlash > 0) state.hitFlash -= deltaSec;
 
@@ -140,15 +203,35 @@ export function stepGame({
     h: player.h,
   };
 
+  for (let i = items.length - 1; i >= 0; i -= 1) {
+    const item = items[i];
+    item.bob += deltaSec * 5;
+    item.x += item.vx * deltaSec;
+    item.y += item.vy * deltaSec;
+
+    if (item.x - item.r < 0 || item.x + item.r > 540) item.vx *= -1;
+
+    if (item.y - item.r > 960 + 40) {
+      items.splice(i, 1);
+      continue;
+    }
+
+    if (circleRectHit(item, playerRect)) {
+      items.splice(i, 1);
+      applyItemEffect(state, item.type);
+      callbacks?.onItemPickup?.(item.type);
+    }
+  }
+
   for (let i = meteors.length - 1; i >= 0; i -= 1) {
     const m = meteors[i];
 
     if (m.type === "accelerating") {
-      m.vy = Math.min(m.vyMax || m.vy, m.vy + m.ay * deltaSec);
+      m.vy = Math.min(m.vyMax || m.vy, m.vy + m.ay * deltaSec * slowFactor);
     }
 
-    m.x += m.vx * deltaSec;
-    m.y += m.vy * deltaSec;
+    m.x += m.vx * deltaSec * slowFactor;
+    m.y += m.vy * deltaSec * slowFactor;
     m.rot += m.spin * deltaSec;
 
     if (m.x - m.r < 0 || m.x + m.r > 540) m.vx *= -1;
