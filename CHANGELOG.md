@@ -15,6 +15,20 @@
 
 ---
 
+## [0.3.23] - 2026-02-25
+### Added
+- `QA_FINAL_STATUS.md` 추가 (QA 최종 상태를 PASS/HOLD로 분리한 요약 문서)
+
+### Changed
+- `QA_MOBILE_2DEVICES.md`에 현재 판정(PASS/HOLD) 섹션 추가
+- Meteor/Lane Switch QA 체크리스트에 현재 판정(PASS/HOLD) 섹션 추가
+- 포털 버전 `0.3.22` → `0.3.23`
+
+### Fixed
+- 실행 확인 완료와 정량 증빙 필요 항목이 혼재되던 QA 상태를 분리해 후속 작업 우선순위 명확화
+
+---
+
 ## [0.3.22] - 2026-02-25
 ### Changed
 - 모바일 실기기 2기종 QA 로그에 Device-B 정보 반영: `Galaxy A24 Ultra`
