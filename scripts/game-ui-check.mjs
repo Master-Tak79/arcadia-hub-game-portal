@@ -12,6 +12,18 @@ import {
   syncMissionUI as laneSyncMissionUI,
   syncSettingsUI as laneSyncSettingsUI,
 } from "../games/lane-switch/ui.js";
+import {
+  syncHud as skySyncHud,
+  syncSettingsUI as skySyncSettingsUI,
+} from "../games/sky-drift/ui.js";
+import {
+  syncHud as brickSyncHud,
+  syncSettingsUI as brickSyncSettingsUI,
+} from "../games/neon-brick-breaker/ui.js";
+import {
+  syncHud as orbitSyncHud,
+  syncSettingsUI as orbitSyncSettingsUI,
+} from "../games/orbit-survivor/ui.js";
 
 function createClassList() {
   return {
@@ -170,9 +182,267 @@ function runLaneChecks() {
   assert.equal(vibrationToggle.checked, true);
 }
 
+function runSkyChecks() {
+  const scoreText = { textContent: "" };
+  const bestText = { textContent: "" };
+  const speedText = { textContent: "" };
+  const livesText = { textContent: "" };
+  const nitroText = { textContent: "" };
+  const missionText = { textContent: "" };
+
+  skySyncHud({
+    state: {
+      score: 155.3,
+      best: 811.9,
+      speed: 286,
+      lives: 2,
+      nitro: 63.4,
+      missionCompleted: false,
+      missionTargetMs: 45000,
+      survivalMs: 12000,
+    },
+    scoreText,
+    bestText,
+    speedText,
+    livesText,
+    nitroText,
+    missionText,
+  });
+
+  assert.equal(scoreText.textContent, "155");
+  assert.equal(bestText.textContent, "811");
+  assert.equal(speedText.textContent, "1.3x");
+  assert.equal(livesText.textContent, "❤❤");
+  assert.equal(nitroText.textContent, "63%");
+  assert.equal(missionText.textContent, "미션: 45초 생존 · 남은 00:33");
+
+  skySyncHud({
+    state: {
+      score: 200,
+      best: 811,
+      speed: 300,
+      lives: 1,
+      nitro: 30,
+      missionCompleted: true,
+      missionTargetMs: 45000,
+      survivalMs: 47000,
+    },
+    scoreText,
+    bestText,
+    speedText,
+    livesText,
+    nitroText,
+    missionText,
+  });
+  assert.equal(missionText.textContent, "🎯 45초 생존 미션 완료!");
+
+  const settings = {
+    effectsEnabled: true,
+    vibrationEnabled: false,
+    soundEnabled: false,
+    bgmEnabled: true,
+    sfxVolume: 37,
+  };
+  const effectsToggle = { checked: false };
+  const vibrationToggle = { checked: false };
+  const soundToggle = { checked: false };
+  const bgmToggle = { checked: false, disabled: false };
+  const sfxVolumeRange = { value: "" };
+  const sfxVolumeValue = { textContent: "" };
+
+  skySyncSettingsUI({
+    settings,
+    effectsToggle,
+    vibrationToggle,
+    soundToggle,
+    bgmToggle,
+    sfxVolumeRange,
+    sfxVolumeValue,
+  });
+
+  assert.equal(effectsToggle.checked, true);
+  assert.equal(vibrationToggle.checked, false);
+  assert.equal(soundToggle.checked, false);
+  assert.equal(bgmToggle.checked, true);
+  assert.equal(bgmToggle.disabled, true);
+  assert.equal(sfxVolumeRange.value, "37");
+  assert.equal(sfxVolumeValue.textContent, "37%");
+}
+
+function runBrickChecks() {
+  const scoreText = { textContent: "" };
+  const bestText = { textContent: "" };
+  const levelText = { textContent: "" };
+  const livesText = { textContent: "" };
+  const missionText = { textContent: "" };
+
+  brickSyncHud({
+    state: {
+      score: 210,
+      best: 999,
+      level: 2,
+      lives: 3,
+      missionCompleted: false,
+      missionTargetLevel: 3,
+    },
+    scoreText,
+    bestText,
+    levelText,
+    livesText,
+    missionText,
+  });
+
+  assert.equal(scoreText.textContent, "210");
+  assert.equal(bestText.textContent, "999");
+  assert.equal(levelText.textContent, "2");
+  assert.equal(livesText.textContent, "❤❤❤");
+  assert.equal(missionText.textContent, "미션: 레벨 3 도달");
+
+  brickSyncHud({
+    state: {
+      score: 320,
+      best: 999,
+      level: 3,
+      lives: 2,
+      missionCompleted: true,
+      missionTargetLevel: 3,
+    },
+    scoreText,
+    bestText,
+    levelText,
+    livesText,
+    missionText,
+  });
+  assert.equal(missionText.textContent, "🎯 레벨 3 미션 완료!");
+
+  const settings = {
+    effectsEnabled: false,
+    vibrationEnabled: true,
+    soundEnabled: true,
+    bgmEnabled: false,
+    sfxVolume: 81,
+  };
+  const effectsToggle = { checked: false };
+  const vibrationToggle = { checked: false };
+  const soundToggle = { checked: false };
+  const bgmToggle = { checked: false, disabled: false };
+  const sfxVolumeRange = { value: "" };
+  const sfxVolumeValue = { textContent: "" };
+
+  brickSyncSettingsUI({
+    settings,
+    effectsToggle,
+    vibrationToggle,
+    soundToggle,
+    bgmToggle,
+    sfxVolumeRange,
+    sfxVolumeValue,
+  });
+
+  assert.equal(effectsToggle.checked, false);
+  assert.equal(vibrationToggle.checked, true);
+  assert.equal(soundToggle.checked, true);
+  assert.equal(bgmToggle.checked, false);
+  assert.equal(bgmToggle.disabled, false);
+  assert.equal(sfxVolumeRange.value, "81");
+  assert.equal(sfxVolumeValue.textContent, "81%");
+}
+
+function runOrbitChecks() {
+  const scoreText = { textContent: "" };
+  const bestText = { textContent: "" };
+  const levelText = { textContent: "" };
+  const livesText = { textContent: "" };
+  const dashText = { textContent: "" };
+  const missionText = { textContent: "" };
+
+  orbitSyncHud({
+    state: {
+      score: 501.3,
+      best: 1200,
+      level: 4,
+      lives: 2,
+      dashCooldownMs: 0,
+      missionCompleted: false,
+      missionTargetMs: 60000,
+      survivalMs: 15000,
+    },
+    scoreText,
+    bestText,
+    levelText,
+    livesText,
+    dashText,
+    missionText,
+  });
+
+  assert.equal(scoreText.textContent, "501");
+  assert.equal(bestText.textContent, "1200");
+  assert.equal(levelText.textContent, "4");
+  assert.equal(livesText.textContent, "❤❤");
+  assert.equal(dashText.textContent, "READY");
+  assert.equal(missionText.textContent, "미션: 60초 생존 · 남은 00:45");
+
+  orbitSyncHud({
+    state: {
+      score: 660,
+      best: 1200,
+      level: 5,
+      lives: 1,
+      dashCooldownMs: 1340,
+      missionCompleted: true,
+      missionTargetMs: 60000,
+      survivalMs: 61000,
+    },
+    scoreText,
+    bestText,
+    levelText,
+    livesText,
+    dashText,
+    missionText,
+  });
+
+  assert.equal(dashText.textContent, "1.3s");
+  assert.equal(missionText.textContent, "🎯 60초 생존 미션 완료!");
+
+  const settings = {
+    effectsEnabled: true,
+    vibrationEnabled: true,
+    soundEnabled: true,
+    bgmEnabled: true,
+    sfxVolume: 64,
+  };
+  const effectsToggle = { checked: false };
+  const vibrationToggle = { checked: false };
+  const soundToggle = { checked: false };
+  const bgmToggle = { checked: false, disabled: false };
+  const sfxVolumeRange = { value: "" };
+  const sfxVolumeValue = { textContent: "" };
+
+  orbitSyncSettingsUI({
+    settings,
+    effectsToggle,
+    vibrationToggle,
+    soundToggle,
+    bgmToggle,
+    sfxVolumeRange,
+    sfxVolumeValue,
+  });
+
+  assert.equal(effectsToggle.checked, true);
+  assert.equal(vibrationToggle.checked, true);
+  assert.equal(soundToggle.checked, true);
+  assert.equal(bgmToggle.checked, true);
+  assert.equal(bgmToggle.disabled, false);
+  assert.equal(sfxVolumeRange.value, "64");
+  assert.equal(sfxVolumeValue.textContent, "64%");
+}
+
 function run() {
   runMeteorChecks();
   runLaneChecks();
+  runSkyChecks();
+  runBrickChecks();
+  runOrbitChecks();
   console.log("game ui check passed ✅");
 }
 

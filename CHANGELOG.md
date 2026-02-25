@@ -15,6 +15,28 @@
 
 ---
 
+## [0.3.30] - 2026-02-26
+### Added
+- `scripts/game-ui-check.mjs`에 신규 3종 게임 UI 검증 케이스 추가
+  - Sky Drift Nitro
+  - Neon Brick Breaker
+  - Orbit Survivor
+
+### Changed
+- 신규 3종 게임에 공용 사운드 런타임(`games/shared/sfx.runtime.js`) 기반 SFX/BGM 적용
+- 신규 3종 게임 상단에 일시정지 버튼 및 `P` 단축키 재개/정지 UX 반영
+- 신규 3종 게임 설정 패널에 `사운드/BGM/효과음 볼륨` 저장 옵션 추가
+- 통합 QA 문서(`QA_MOBILE_2DEVICES.md`, `QA_3RUN_LOG_TEMPLATE.md`, `QA_FINAL_STATUS.md`)를 5개 로컬 게임 기준으로 확장
+- 스모크 체크에 신규 사운드 모듈/공유 런타임 파일 검증 반영
+- 신규 3종 게임 버전 `0.3.29` → `0.3.30`
+- 포털 버전 `0.3.29` → `0.3.30`
+
+### Fixed
+- 신규 3종 게임에서 사운드 설정/일시정지 부재로 인한 세션 연속성 저하 문제 개선
+- UI 회귀 스크립트가 기존 2종 게임 중심이던 커버리지 편중 문제 개선
+
+---
+
 ## [0.3.29] - 2026-02-25
 ### Added
 - 신규 3종 게임 사운드 모듈 추가
