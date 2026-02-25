@@ -20,6 +20,46 @@ function playerRect(player) {
   };
 }
 
+const OBSTACLE_VARIANTS = [
+  {
+    type: "truck",
+    w: 72,
+    h: 58,
+    colorA: "#ff7e73",
+    colorB: "#ff5c67",
+    stripe: "rgba(255,236,227,0.62)",
+    glow: "rgba(255, 128, 121, 0.58)",
+    speedMulMin: 0.84,
+    speedMulMax: 1.0,
+  },
+  {
+    type: "barrier",
+    w: 68,
+    h: 50,
+    colorA: "#ffaf6f",
+    colorB: "#ff8451",
+    stripe: "rgba(255,243,219,0.64)",
+    glow: "rgba(255, 176, 124, 0.54)",
+    speedMulMin: 0.82,
+    speedMulMax: 0.96,
+  },
+  {
+    type: "armored",
+    w: 76,
+    h: 54,
+    colorA: "#ff8fb1",
+    colorB: "#ff658e",
+    stripe: "rgba(255,232,244,0.56)",
+    glow: "rgba(255, 133, 177, 0.52)",
+    speedMulMin: 0.86,
+    speedMulMax: 1.04,
+  },
+];
+
+function pickObstacleVariant() {
+  return OBSTACLE_VARIANTS[Math.floor(Math.random() * OBSTACLE_VARIANTS.length)];
+}
+
 function getOccupiedLanes(obstacles, minY, maxY) {
   const occupied = new Set();
   obstacles.forEach((o) => {
@@ -30,8 +70,8 @@ function getOccupiedLanes(obstacles, minY, maxY) {
   return occupied;
 }
 
-function hasTooCloseInLane(obstacles, lane, minGapY = 180) {
-  return obstacles.some((o) => o.lane === lane && o.y < minGapY);
+function hasTooCloseInLane(obstacles, lane, minGapY = 186) {
+  return obstacles.some((o) => o.lane === lane && o.y < minGapY + o.h * 0.2);
 }
 
 function spawnObstacle(state, obstacles, lanes, canvasHeight) {
@@ -55,14 +95,22 @@ function spawnObstacle(state, obstacles, lanes, canvasHeight) {
   if (!candidates.length) return false;
 
   const lane = candidates[Math.floor(Math.random() * candidates.length)];
+  const variant = pickObstacleVariant();
+  const speedMul = variant.speedMulMin + Math.random() * (variant.speedMulMax - variant.speedMulMin);
+
   obstacles.push({
     lane,
     x: lanes[lane],
-    y: -74,
-    w: 66,
-    h: 58,
-    vy: state.speed * (0.88 + Math.random() * 0.16),
-    color: Math.random() < 0.5 ? "#ff7b66" : "#ff9c5f",
+    y: -72,
+    w: variant.w,
+    h: variant.h,
+    vy: state.speed * speedMul,
+    type: variant.type,
+    colorA: variant.colorA,
+    colorB: variant.colorB,
+    stripe: variant.stripe,
+    glow: variant.glow,
+    wobbleSeed: Math.random() * Math.PI * 2,
   });
 
   return true;
@@ -205,6 +253,7 @@ export function stepGame({
   for (let i = obstacles.length - 1; i >= 0; i -= 1) {
     const o = obstacles[i];
     o.y += o.vy * deltaSec;
+    o.wobbleSeed += deltaSec * (o.type === "armored" ? 2.1 : 1.2);
 
     const oRect = { x: o.x - o.w * 0.5, y: o.y - o.h * 0.5, w: o.w, h: o.h };
     if (oRect.y > canvasHeight + 50) {
