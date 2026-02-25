@@ -37,9 +37,9 @@ export function createState(bestScore = 0) {
     speed: 260,
     lives: 3,
 
-    obstacleSpawnMs: 900,
-    coinSpawnMs: 1650,
-    shieldSpawnMs: 7400,
+    obstacleSpawnMs: 980,
+    coinSpawnMs: 1600,
+    shieldSpawnMs: 6200,
     obstacleElapsed: 0,
     coinElapsed: 0,
     shieldElapsed: 0,
@@ -53,7 +53,7 @@ export function createState(bestScore = 0) {
     shieldMs: 0,
 
     survivalMs: 0,
-    missionTargetMs: 45000,
+    missionTargetMs: 42000,
     missionCompleted: false,
     missionNoticeMs: 0,
   };
