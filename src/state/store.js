@@ -55,16 +55,38 @@ export function createStore(initialGames = []) {
     return str.toLowerCase().trim();
   }
 
+  function isImplementedGame(game) {
+    return typeof game?.playUrl === "string" && game.playUrl.startsWith("./games/");
+  }
+
+  function compareImplementedFirst(a, b) {
+    const ai = isImplementedGame(a) ? 1 : 0;
+    const bi = isImplementedGame(b) ? 1 : 0;
+    return bi - ai;
+  }
+
   function getSorted(list) {
     if (filters.sort === "title") {
-      return [...list].sort((a, b) => a.title.localeCompare(b.title, "ko"));
+      return [...list].sort((a, b) => {
+        const impl = compareImplementedFirst(a, b);
+        if (impl !== 0) return impl;
+        return a.title.localeCompare(b.title, "ko");
+      });
     }
 
     if (filters.sort === "updated") {
-      return [...list].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+      return [...list].sort((a, b) => {
+        const impl = compareImplementedFirst(a, b);
+        if (impl !== 0) return impl;
+        return new Date(b.updatedAt) - new Date(a.updatedAt);
+      });
     }
 
-    return [...list].sort((a, b) => b.popularity - a.popularity);
+    return [...list].sort((a, b) => {
+      const impl = compareImplementedFirst(a, b);
+      if (impl !== 0) return impl;
+      return b.popularity - a.popularity;
+    });
   }
 
   function getFilteredGames() {
@@ -93,7 +115,13 @@ export function createStore(initialGames = []) {
   }
 
   function getRecentUpdatedGames(limit = 6) {
-    return [...games].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)).slice(0, limit);
+    return [...games]
+      .sort((a, b) => {
+        const impl = compareImplementedFirst(a, b);
+        if (impl !== 0) return impl;
+        return new Date(b.updatedAt) - new Date(a.updatedAt);
+      })
+      .slice(0, limit);
   }
 
   function getGameById(id) {
