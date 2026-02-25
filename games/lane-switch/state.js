@@ -1,7 +1,27 @@
 export const STORAGE_KEY = "arcadia_lane_switch_best_v1";
+export const SETTINGS_KEY = "arcadia_lane_switch_settings_v1";
 
 export function createLanes(canvas) {
   return [canvas.width * 0.2, canvas.width * 0.5, canvas.width * 0.8];
+}
+
+export function loadSettings() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(SETTINGS_KEY) || "{}");
+    return {
+      vibrationEnabled: parsed.vibrationEnabled !== false,
+      effectsEnabled: parsed.effectsEnabled !== false,
+    };
+  } catch {
+    return {
+      vibrationEnabled: true,
+      effectsEnabled: true,
+    };
+  }
+}
+
+export function saveSettings(settings) {
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
 }
 
 export function createState(bestScore = 0) {
@@ -19,14 +39,23 @@ export function createState(bestScore = 0) {
 
     obstacleSpawnMs: 900,
     coinSpawnMs: 1650,
+    shieldSpawnMs: 7400,
     obstacleElapsed: 0,
     coinElapsed: 0,
+    shieldElapsed: 0,
 
     invincibleMs: 0,
     flash: 0,
     laneMoveCooldownMs: 0,
     roadOffset: 0,
     noticeMs: 0,
+
+    shieldMs: 0,
+
+    survivalMs: 0,
+    missionTargetMs: 45000,
+    missionCompleted: false,
+    missionNoticeMs: 0,
   };
 }
 
