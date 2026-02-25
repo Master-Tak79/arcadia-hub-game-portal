@@ -115,6 +115,11 @@
 - `games/meteor-dodge/main.js`는 게임 루프/상태 전환 중심으로 경량화
 - `scripts/meteor-smoke-check.sh`에 `ui.js` 파일/HTTP 경로 검증 추가
 - 포털 버전 `0.3.15`로 패치 업데이트
+- `refactor/lane-switch-ui-module-0.3.16` 브랜치에서 Lane Switch UI 모듈 분리 진행
+- `games/lane-switch/ui.js` 신설: HUD/미션/설정/오버레이/알림 UI 동기화 함수 분리
+- `games/lane-switch/main.js`는 루프/시스템 콜백 중심 구조로 정리
+- `scripts/meteor-smoke-check.sh`에 Lane Switch `ui.js` 파일/HTTP 검증 추가
+- 포털 버전 `0.3.16`으로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
