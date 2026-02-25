@@ -15,6 +15,18 @@
 
 ---
 
+## [0.3.8] - 2026-02-25
+### Added
+- 신규 내장 게임 **Lane Switch: Neon Run** 추가 (`./games/lane-switch/index.html`)
+- Lane Switch 프리뷰/스크린샷 에셋 추가 (`assets/previews/lane-switch-*.png`)
+
+### Changed
+- 포털 시드 데이터에 Lane Switch 카드/상세/미디어 정보 연동
+- 스모크 체크 스크립트에 Lane Switch 경로/에셋 검증 항목 추가
+- 포털 버전 `0.3.7` → `0.3.8`
+
+---
+
 ## [0.3.7] - 2026-02-25
 ### Added
 - 아이템 확장 3종 추가
