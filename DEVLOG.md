@@ -151,6 +151,10 @@
 - `QA_FINAL_STATUS.md` 신설 및 모바일/게임 QA 문서에 현재 판정 섹션 추가
 - 실행 확인 완료 항목과 정량 증빙 필요 항목을 분리해 후속 우선순위 명확화
 - 포털 버전 `0.3.23`으로 패치 업데이트
+- `docs/qa-quant-log-template-0.3.24` 브랜치에서 정량(3회/60초) 로그 템플릿 추가
+- `QA_3RUN_LOG_TEMPLATE.md` 신설 및 QA 문서들에 템플릿 참조 섹션 반영
+- `scripts/meteor-smoke-check.sh`에 `QA_FINAL_STATUS.md`, `QA_3RUN_LOG_TEMPLATE.md` 존재 검증 추가
+- 포털 버전 `0.3.24`로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
@@ -174,7 +178,7 @@
 - 모바일 포털은 핵심 탐색(게임 카드)이 최근 업데이트보다 우선 노출되도록 유지
 
 ### 다음 작업
-- 모바일/게임 QA의 HOLD 항목(3회/60초 정량 기록) 해소 및 체크박스 최종 마감
+- `QA_3RUN_LOG_TEMPLATE.md` 기반으로 HOLD 항목(3회/60초 정량 기록) 해소 및 체크박스 최종 마감
 - Meteor Dodge 확장 아이템 밸런스 튜닝(출현율/지속시간/점수 배율)
 - Lane Switch 2차 밸런스 튜닝(후반 스폰 압력/코인 보상 비율)
 - 관리자 미디어 입력 UI(썸네일 업로드/미리보기) 개선 검토
