@@ -1,6 +1,6 @@
 # QA Final Status (2026-02-25)
 
-대상: Arcadia Hub Portal v0.3.22 기준
+대상: Arcadia Hub Portal v0.3.23 기준
 
 ## ✅ PASS (확인 완료)
 - 자동 검증 체인
@@ -26,6 +26,6 @@
   - Lane Switch: 42초 미션 달성, 레인 전환 쿨다운 체감, 쉴드 소모 시점 체감 등
 
 ## 다음 액션(권장)
-1. Device A/B 각각 3회 플레이 로그(시간/점수/이상 여부) 작성
+1. `QA_3RUN_LOG_TEMPLATE.md`로 Device A/B 각각 3회 플레이 로그(시간/점수/이상 여부) 작성
 2. HOLD 항목 체크 후 `QA_MOBILE_2DEVICES.md` 및 게임별 QA 체크리스트의 체크박스 최종 마감
 3. 완료 시 QA 상태를 `READY_FOR_BALANCE_TUNING`으로 전환

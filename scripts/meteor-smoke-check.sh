@@ -25,6 +25,8 @@ required=(
   "games/meteor-dodge/tests/QA_CHECKLIST.md"
   "games/lane-switch/tests/QA_CHECKLIST.md"
   "QA_MOBILE_2DEVICES.md"
+  "QA_FINAL_STATUS.md"
+  "QA_3RUN_LOG_TEMPLATE.md"
   "assets/previews/meteor-dodge-preview.png"
   "assets/previews/meteor-dodge-shot-1.png"
   "games/lane-switch/index.html"

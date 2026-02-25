@@ -15,6 +15,21 @@
 
 ---
 
+## [0.3.24] - 2026-02-25
+### Added
+- `QA_3RUN_LOG_TEMPLATE.md` 추가 (기기/게임별 3회·60초 정량 로그 템플릿)
+
+### Changed
+- `QA_MOBILE_2DEVICES.md`에 정량 로그 템플릿 참조 섹션 추가
+- Meteor/Lane Switch QA 체크리스트에 정량 실행 로그 안내 섹션 추가
+- 스모크 체크 필수 파일 목록에 `QA_FINAL_STATUS.md`, `QA_3RUN_LOG_TEMPLATE.md` 추가
+- 포털 버전 `0.3.23` → `0.3.24`
+
+### Fixed
+- HOLD 항목(정량 검증) 수행 시 로그 형식 불일치로 인한 문서 누락 위험 완화
+
+---
+
 ## [0.3.23] - 2026-02-25
 ### Added
 - `QA_FINAL_STATUS.md` 추가 (QA 최종 상태를 PASS/HOLD로 분리한 요약 문서)
