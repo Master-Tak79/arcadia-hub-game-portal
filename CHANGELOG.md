@@ -15,6 +15,21 @@
 
 ---
 
+## [0.3.9] - 2026-02-25
+### Added
+- Lane Switch 모듈 파일 추가
+  - `main.js`, `state.js`, `input.js`, `renderer.js`, `systems.js`
+
+### Changed
+- Lane Switch 런타임 스크립트를 `index.html` 인라인에서 모듈 구조로 분리
+- 스모크 체크 스크립트에 Lane Switch 모듈 존재/HTTP 검증 항목 추가
+- 포털 버전 `0.3.8` → `0.3.9`
+
+### Fixed
+- 단일 인라인 스크립트 유지보수 부담을 낮추고 향후 기능 확장 충돌 가능성 완화
+
+---
+
 ## [0.3.8] - 2026-02-25
 ### Added
 - 신규 내장 게임 **Lane Switch: Neon Run** 추가 (`./games/lane-switch/index.html`)

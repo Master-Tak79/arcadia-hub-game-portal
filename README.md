@@ -16,7 +16,7 @@ python3 -m http.server 8790
 
 ---
 
-## 현재 구현 기능 (0.3.8)
+## 현재 구현 기능 (0.3.9)
 
 - 게임 카드형 목록 UI
 - 검색 / 장르 필터 / 카테고리 탭 / 플랫폼 필터 / 정렬
@@ -50,6 +50,7 @@ python3 -m http.server 8790
     - 조작: 키보드(←/→, A/D) + 하단 버튼 + 스와이프
     - 레인 전환 기반 회피 + 코인 수집 점수 어택
     - 속도 상승형 난이도 곡선 + 최고점 저장(localStorage)
+    - 구조: `main/state/input/renderer/systems` 모듈 분리
 
 ---
 
@@ -79,6 +80,11 @@ arcadia-hub-game-portal/
         QA_CHECKLIST.md         # 수동 QA 체크리스트
     lane-switch/
       index.html                # 레인 전환형 아케이드 러너
+      main.js                   # 게임 엔트리/오케스트레이션
+      state.js                  # 상태/스토리지 계층
+      input.js                  # 키보드/터치/스와이프 입력 바인딩
+      renderer.js               # 캔버스 렌더링 계층
+      systems.js                # 게임 로직(스폰/충돌/점수/난이도)
   scripts/
     meteor-smoke-check.sh       # 기본 자동 스모크 체크
   styles/
@@ -104,7 +110,7 @@ arcadia-hub-game-portal/
 
 ## 버전 정책
 
-- 포털 현재 버전: **`0.3.8`**
+- 포털 현재 버전: **`0.3.9`**
 - 기본 게임 버전: **`0.1.0`**
 - 버전 형식: `MAJOR.MINOR.PATCH` (semver)
 - 게임 등록/수정 시 관리자 페이지에서 `게임 버전` 입력 가능
