@@ -4,6 +4,7 @@ const SFX_CONFIG = {
   hit: { file: "hit.wav", volume: 0.28, cooldownMs: 120 },
   gameover: { file: "gameover.wav", volume: 0.3, cooldownMs: 320 },
   best: { file: "best.wav", volume: 0.32, cooldownMs: 220 },
+  item: { file: "item.wav", volume: 0.26, cooldownMs: 90 },
 };
 
 function src(file) {
