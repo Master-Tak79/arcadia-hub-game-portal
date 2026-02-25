@@ -29,7 +29,7 @@ export const gameSeed = [
     popularity: 96,
     updatedAt: "2026-02-24",
     featured: true,
-    version: "0.3.2",
+    version: "0.3.3",
     playUrl: "./games/meteor-dodge/index.html",
     studio: "Arcadia Studio",
     difficulty: "쉬움~어려움",
@@ -57,6 +57,8 @@ export const gameSeed = [
     featured: true,
     playUrl: "https://www.crazygames.com/kr/",
     thumbGradient: ["#5b7dff", "#1ec8db"],
+    previewImage: "./assets/previews/sky-drift-preview.png",
+    screenshots: ["./assets/previews/sky-drift-preview.png"],
   },
   {
     id: "block-sage",
@@ -71,6 +73,8 @@ export const gameSeed = [
     featured: true,
     playUrl: "https://www.crazygames.com/kr/",
     thumbGradient: ["#3f53c7", "#8f4cff"],
+    previewImage: "./assets/previews/block-sage-preview.png",
+    screenshots: ["./assets/previews/block-sage-preview.png"],
   },
   {
     id: "orbit-gunner",
@@ -85,6 +89,8 @@ export const gameSeed = [
     featured: true,
     playUrl: "https://www.crazygames.com/kr/",
     thumbGradient: ["#335ac8", "#1db677"],
+    previewImage: "./assets/previews/orbit-gunner-preview.png",
+    screenshots: ["./assets/previews/orbit-gunner-preview.png"],
   },
   {
     id: "mini-empire",
@@ -99,6 +105,8 @@ export const gameSeed = [
     featured: false,
     playUrl: "https://www.crazygames.com/kr/",
     thumbGradient: ["#4368e8", "#2ac1a8"],
+    previewImage: "./assets/previews/mini-empire-preview.png",
+    screenshots: ["./assets/previews/mini-empire-preview.png"],
   },
   {
     id: "pixel-clash",
@@ -113,6 +121,8 @@ export const gameSeed = [
     featured: false,
     playUrl: "https://www.crazygames.com/kr/",
     thumbGradient: ["#6e4dff", "#39c6f4"],
+    previewImage: "./assets/previews/pixel-clash-preview.png",
+    screenshots: ["./assets/previews/pixel-clash-preview.png"],
   },
   {
     id: "idle-foundry",
@@ -127,6 +137,8 @@ export const gameSeed = [
     featured: false,
     playUrl: "https://www.crazygames.com/kr/",
     thumbGradient: ["#2f64ba", "#4de0af"],
+    previewImage: "./assets/previews/idle-foundry-preview.png",
+    screenshots: ["./assets/previews/idle-foundry-preview.png"],
   },
   {
     id: "dash-to-core",
@@ -141,6 +153,8 @@ export const gameSeed = [
     featured: false,
     playUrl: "https://www.crazygames.com/kr/",
     thumbGradient: ["#4661ff", "#14b7cf"],
+    previewImage: "./assets/previews/dash-to-core-preview.png",
+    screenshots: ["./assets/previews/dash-to-core-preview.png"],
   },
   {
     id: "farm-harbor",
@@ -155,6 +169,8 @@ export const gameSeed = [
     featured: false,
     playUrl: "https://www.crazygames.com/kr/",
     thumbGradient: ["#4b6adf", "#7dc757"],
+    previewImage: "./assets/previews/farm-harbor-preview.png",
+    screenshots: ["./assets/previews/farm-harbor-preview.png"],
   },
   {
     id: "mecha-sprint",
@@ -169,6 +185,8 @@ export const gameSeed = [
     featured: false,
     playUrl: "https://www.crazygames.com/kr/",
     thumbGradient: ["#3552c1", "#17c4d1"],
+    previewImage: "./assets/previews/mecha-sprint-preview.png",
+    screenshots: ["./assets/previews/mecha-sprint-preview.png"],
   },
   {
     id: "maze-signal",
@@ -183,6 +201,8 @@ export const gameSeed = [
     featured: false,
     playUrl: "https://www.crazygames.com/kr/",
     thumbGradient: ["#5961d0", "#15b7bb"],
+    previewImage: "./assets/previews/maze-signal-preview.png",
+    screenshots: ["./assets/previews/maze-signal-preview.png"],
   },
   {
     id: "void-raiders",
@@ -197,6 +217,8 @@ export const gameSeed = [
     featured: false,
     playUrl: "https://www.crazygames.com/kr/",
     thumbGradient: ["#364db5", "#17b7ff"],
+    previewImage: "./assets/previews/void-raiders-preview.png",
+    screenshots: ["./assets/previews/void-raiders-preview.png"],
   },
   {
     id: "rail-commander",
@@ -211,5 +233,7 @@ export const gameSeed = [
     featured: false,
     playUrl: "https://www.crazygames.com/kr/",
     thumbGradient: ["#4a58ce", "#21b7e2"],
+    previewImage: "./assets/previews/rail-commander-preview.png",
+    screenshots: ["./assets/previews/rail-commander-preview.png"],
   },
 ];

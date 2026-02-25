@@ -625,7 +625,12 @@ textarea {
     width: 100%;
   }
 
+  .content-panel {
+    order: 1;
+  }
+
   .filter-panel {
+    order: 2;
     position: static;
     padding: 12px;
   }

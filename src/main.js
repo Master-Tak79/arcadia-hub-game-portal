@@ -137,7 +137,7 @@ function bindInfiniteScroll() {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         if (!store.canLoadMore()) return;
-        store.increaseVisibleLimit(9);
+        store.increaseVisibleLimit(12);
         render();
       });
     },
