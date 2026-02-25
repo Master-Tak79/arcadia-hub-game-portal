@@ -15,6 +15,31 @@
 
 ---
 
+## [0.3.28] - 2026-02-25
+### Added
+- 신규 내장 게임 3종 구현
+  - `games/sky-drift/*` (Sky Drift Nitro)
+  - `games/neon-brick-breaker/*` (Neon Brick Breaker)
+  - `games/orbit-survivor/*` (Orbit Survivor)
+- 신규 게임별 QA 체크리스트 추가
+  - `games/sky-drift/tests/QA_CHECKLIST.md`
+  - `games/neon-brick-breaker/tests/QA_CHECKLIST.md`
+  - `games/orbit-survivor/tests/QA_CHECKLIST.md`
+- 신규 프리뷰 에셋 추가
+  - `assets/previews/sky-drift-shot-1.svg`
+  - `assets/previews/neon-brick-breaker-*.svg`
+  - `assets/previews/orbit-survivor-*.svg`
+
+### Changed
+- `src/data/games.seed.js`에서 3개 신규 게임을 포털 내 로컬 플레이 URL로 연결
+- 스모크 체크(`scripts/meteor-smoke-check.sh`)에 신규 게임 파일/프리뷰/QA 문서 존재 및 HTTP 검증 항목 확장
+- 포털 버전 `0.3.27` → `0.3.28`
+
+### Fixed
+- 외부 링크 placeholder로 남아 있던 추천 후보 게임들의 즉시 플레이 불가 상태 해소
+
+---
+
 ## [0.3.27] - 2026-02-25
 ### Changed
 - Meteor Dodge 운석 아트를 타입/팔레트 기반 스타일로 고도화

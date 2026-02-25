@@ -1,0 +1,24 @@
+import { formatDuration, showOverlay } from "../shared/ui.common.js";
+
+export { showOverlay };
+
+export function syncHud({ state, scoreText, bestText, speedText, livesText, nitroText, missionText }) {
+  scoreText.textContent = String(Math.floor(state.score));
+  bestText.textContent = String(Math.floor(state.best));
+  speedText.textContent = `${(state.speed / 220).toFixed(1)}x`;
+  livesText.textContent = state.lives > 0 ? "❤".repeat(state.lives) : "0";
+  nitroText.textContent = `${Math.floor(state.nitro)}%`;
+
+  if (state.missionCompleted) {
+    missionText.textContent = "🎯 45초 생존 미션 완료!";
+    return;
+  }
+
+  const remain = Math.max(0, state.missionTargetMs - state.survivalMs);
+  missionText.textContent = `미션: 45초 생존 · 남은 ${formatDuration(remain / 1000)}`;
+}
+
+export function syncSettingsUI({ settings, effectsToggle, vibrationToggle }) {
+  effectsToggle.checked = settings.effectsEnabled;
+  vibrationToggle.checked = settings.vibrationEnabled;
+}

@@ -1,0 +1,19 @@
+# Orbit Survivor QA Checklist (0.3.28)
+
+## 자동 점검
+- [x] `./scripts/meteor-smoke-check.sh` 통과
+
+## 수동 기능 점검
+- [ ] 시작/재시작 정상 동작
+- [ ] 궤도 회전 입력(버튼/키보드/터치) 정상
+- [ ] 자동 사격 및 적 충돌 판정 정상
+- [ ] 대시 발동/쿨다운/무적 판정 정상
+- [ ] 피격/체력 감소/게임오버 판정 정상
+- [ ] 레벨 상승 및 난이도 증가 정상
+- [ ] 60초 생존 미션 보상(+140) 정상
+- [ ] 게임오버 오버레이 점수/최고점 정상
+
+## 실기기 점검 기록
+| Date | Device | Browser | Result | Notes |
+| --- | --- | --- | --- | --- |
+| 2026-02-25 | Galaxy A24 Ultra | Chrome / Edge / Samsung Internet | PENDING | 신규 게임 실기기 확인 필요 |
