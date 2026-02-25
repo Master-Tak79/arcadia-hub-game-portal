@@ -17,6 +17,7 @@ import {
   syncMissionUI as syncMissionUIState,
   syncSettingsUI as syncSettingsUIState,
 } from "./ui.js";
+import { celebrateMission, celebrateNewBest } from "../shared/confetti.fx.js";
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -132,6 +133,7 @@ function endGame() {
     state.best = Math.floor(state.score);
     localStorage.setItem(STORAGE_KEY, String(state.best));
     showNotice("🏆 NEW BEST", 1300);
+    celebrateNewBest();
   }
 
   syncHud();
@@ -178,6 +180,7 @@ function frame(now) {
       onMissionComplete: () => {
         showNotice("🎯 미션 완료 +120", 1300);
         vibrate([10, 20, 10]);
+        celebrateMission();
       },
       onNoticeEnd: hideNotice,
       onHit: () => vibrate(10),

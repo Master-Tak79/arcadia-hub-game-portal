@@ -34,12 +34,12 @@ export function createState(bestScore = 0) {
     scoreFloat: 0,
     best: Number(bestScore || 0),
 
-    speed: 260,
+    speed: 242,
     lives: 3,
 
-    obstacleSpawnMs: 980,
-    coinSpawnMs: 1600,
-    shieldSpawnMs: 6200,
+    obstacleSpawnMs: 1060,
+    coinSpawnMs: 1680,
+    shieldSpawnMs: 5600,
     obstacleElapsed: 0,
     coinElapsed: 0,
     shieldElapsed: 0,
@@ -64,7 +64,7 @@ export function createPlayer(canvas, lanes) {
     lane: 1,
     x: lanes[1],
     y: canvas.height * 0.83,
-    w: 72,
-    h: 108,
+    w: 58,
+    h: 90,
   };
 }

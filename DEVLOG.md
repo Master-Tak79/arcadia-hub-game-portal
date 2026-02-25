@@ -155,6 +155,13 @@
 - `QA_3RUN_LOG_TEMPLATE.md` 신설 및 QA 문서들에 템플릿 참조 섹션 반영
 - `scripts/meteor-smoke-check.sh`에 `QA_FINAL_STATUS.md`, `QA_3RUN_LOG_TEMPLATE.md` 존재 검증 추가
 - 포털 버전 `0.3.24`로 패치 업데이트
+- `fix/portal-align-laneswitch-balance-0.3.25` 브랜치에서 포털 정렬 + Lane Switch 난이도/그래픽 개선 진행
+- 포털 카드 버튼 행을 하단 고정 정렬로 보정(`card-body flex:1`, `action-row margin-top:auto`, 제목 2줄 정규화)
+- Lane Switch 오브젝트 크기 축소(플레이어/장애물/코인/쉴드), 난이도 곡선 완화, 레인 쿨다운 단축
+- Lane Switch 스폰 가드(위험 구간 레인 점유 기반) 추가로 회피 불가 패턴 발생 확률 억제
+- Meteor/Lane 그래픽 업그레이드(네온 글로우/배경 심도 강화) + confetti 라이브러리 연출 추가
+- confetti 공유 파일(`games/shared/confetti.fx.js`, vendor) 추가 및 스모크 체크 검증 항목 확장
+- 포털 버전 `0.3.25`로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용

@@ -317,6 +317,7 @@ select {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  flex: 1;
 }
 
 .card-top {
@@ -329,6 +330,12 @@ select {
 .title {
   margin: 0;
   font-size: 16px;
+  line-height: 1.28;
+  min-height: 2.56em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 
 .fav-btn {
@@ -370,10 +377,11 @@ select {
 }
 
 .action-row {
-  margin-top: 2px;
+  margin-top: auto;
   display: grid;
   grid-template-columns: 1fr 1.2fr;
   gap: 8px;
+  align-items: stretch;
 }
 
 .play-link {

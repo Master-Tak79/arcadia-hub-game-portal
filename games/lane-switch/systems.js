@@ -20,17 +20,52 @@ function playerRect(player) {
   };
 }
 
-function spawnObstacle(state, obstacles, lanes) {
-  const lane = Math.floor(Math.random() * lanes.length);
+function getOccupiedLanes(obstacles, minY, maxY) {
+  const occupied = new Set();
+  obstacles.forEach((o) => {
+    const top = o.y - o.h * 0.5;
+    const bottom = o.y + o.h * 0.5;
+    if (bottom >= minY && top <= maxY) occupied.add(o.lane);
+  });
+  return occupied;
+}
+
+function hasTooCloseInLane(obstacles, lane, minGapY = 180) {
+  return obstacles.some((o) => o.lane === lane && o.y < minGapY);
+}
+
+function spawnObstacle(state, obstacles, lanes, canvasHeight) {
+  const dangerMinY = canvasHeight * 0.46;
+  const dangerMaxY = canvasHeight * 0.92;
+  const occupiedDangerLanes = getOccupiedLanes(obstacles, dangerMinY, dangerMaxY);
+
+  // 화면 하단 위험 구간에 이미 2개 레인이 막혀 있으면 새로운 장애물 생성을 지연해
+  // 절대 회피 불가 패턴을 방지한다.
+  if (occupiedDangerLanes.size >= 2) {
+    return false;
+  }
+
+  let candidates = lanes.map((_, idx) => idx).filter((lane) => !hasTooCloseInLane(obstacles, lane));
+
+  if (occupiedDangerLanes.size === 1) {
+    const blocked = [...occupiedDangerLanes][0];
+    candidates = candidates.filter((lane) => lane !== blocked);
+  }
+
+  if (!candidates.length) return false;
+
+  const lane = candidates[Math.floor(Math.random() * candidates.length)];
   obstacles.push({
     lane,
     x: lanes[lane],
-    y: -90,
-    w: 84,
-    h: 80,
-    vy: state.speed * (0.92 + Math.random() * 0.2),
+    y: -74,
+    w: 66,
+    h: 58,
+    vy: state.speed * (0.88 + Math.random() * 0.16),
     color: Math.random() < 0.5 ? "#ff7b66" : "#ff9c5f",
   });
+
+  return true;
 }
 
 function spawnCoin(state, coins, lanes) {
@@ -38,9 +73,9 @@ function spawnCoin(state, coins, lanes) {
   coins.push({
     lane,
     x: lanes[lane],
-    y: -40,
-    r: 14,
-    vy: state.speed * (0.78 + Math.random() * 0.12),
+    y: -34,
+    r: 11,
+    vy: state.speed * (0.74 + Math.random() * 0.1),
     spin: Math.random() * Math.PI * 2,
   });
 }
@@ -50,9 +85,9 @@ function spawnShield(state, shields, lanes) {
   shields.push({
     lane,
     x: lanes[lane],
-    y: -46,
-    r: 16,
-    vy: state.speed * 0.72,
+    y: -38,
+    r: 13,
+    vy: state.speed * 0.68,
     phase: Math.random() * Math.PI * 2,
   });
 }
@@ -60,26 +95,26 @@ function spawnShield(state, shields, lanes) {
 function updateDifficulty(state) {
   const s = state.score;
 
-  if (s < 800) {
-    state.speed = clamp(250 + s * 0.055, 250, 560);
-    state.obstacleSpawnMs = clamp(980 - s * 0.55, 350, 980);
+  if (s < 900) {
+    state.speed = clamp(238 + s * 0.045, 238, 470);
+    state.obstacleSpawnMs = clamp(1060 - s * 0.42, 440, 1060);
   } else {
-    state.speed = clamp(294 + (s - 800) * 0.08, 250, 560);
-    state.obstacleSpawnMs = clamp(540 - (s - 800) * 0.34, 320, 980);
+    state.speed = clamp(279 + (s - 900) * 0.055, 238, 500);
+    state.obstacleSpawnMs = clamp(680 - (s - 900) * 0.2, 410, 1060);
   }
 
-  state.coinSpawnMs = clamp(1600 - s * 0.28, 920, 1600);
-  state.shieldSpawnMs = clamp(6200 - s * 0.45, 3800, 6200);
+  state.coinSpawnMs = clamp(1680 - s * 0.22, 980, 1680);
+  state.shieldSpawnMs = clamp(5600 - s * 0.35, 3600, 5600);
 }
 
 export function resetRound(state, player, obstacles, coins, shields, lanes) {
   state.score = 0;
   state.scoreFloat = 0;
-  state.speed = 250;
+  state.speed = 238;
   state.lives = 3;
-  state.obstacleSpawnMs = 980;
-  state.coinSpawnMs = 1600;
-  state.shieldSpawnMs = 6200;
+  state.obstacleSpawnMs = 1060;
+  state.coinSpawnMs = 1680;
+  state.shieldSpawnMs = 5600;
   state.obstacleElapsed = 0;
   state.coinElapsed = 0;
   state.shieldElapsed = 0;
@@ -106,7 +141,7 @@ export function resetRound(state, player, obstacles, coins, shields, lanes) {
 export function moveLane(state, player, direction, laneCount) {
   if (state.laneMoveCooldownMs > 0) return;
   player.lane = clamp(player.lane + direction, 0, laneCount - 1);
-  state.laneMoveCooldownMs = 80;
+  state.laneMoveCooldownMs = 72;
 }
 
 export function stepGame({
@@ -149,8 +184,8 @@ export function stepGame({
 
   state.obstacleElapsed += deltaMs;
   if (state.obstacleElapsed >= state.obstacleSpawnMs) {
-    state.obstacleElapsed = 0;
-    spawnObstacle(state, obstacles, lanes);
+    const spawned = spawnObstacle(state, obstacles, lanes, canvasHeight);
+    state.obstacleElapsed = spawned ? 0 : state.obstacleSpawnMs * 0.65;
   }
 
   state.coinElapsed += deltaMs;
