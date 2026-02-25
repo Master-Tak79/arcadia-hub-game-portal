@@ -15,6 +15,20 @@
 
 ---
 
+## [0.3.19] - 2026-02-25
+### Added
+- `scripts/game-ui-check.mjs` 추가 (Meteor/Lane Switch UI 모듈 핵심 동작 단위 검증)
+
+### Changed
+- 스모크 체크(`scripts/meteor-smoke-check.sh`)에 Game UI check 단계 추가 (`[6/6]`)
+- 스모크 체크 파일 존재 검증 목록에 UI 체크 스크립트 2종 추가
+- 포털 버전 `0.3.18` → `0.3.19`
+
+### Fixed
+- 게임 UI 상태 텍스트/알림/설정 동기화 변경 시 회귀 누락 가능성 추가 완화
+
+---
+
 ## [0.3.18] - 2026-02-25
 ### Added
 - `scripts/shared-ui-common-check.mjs` 추가 (shared UI 공통 유틸 단위 검증 스크립트)

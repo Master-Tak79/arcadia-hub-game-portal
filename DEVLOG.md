@@ -129,6 +129,10 @@
 - `scripts/shared-ui-common-check.mjs` 신설: duration/datetime/overlay multiline 렌더 단위 검증
 - `scripts/meteor-smoke-check.sh`에 shared UI common check 단계(5/5) 추가
 - 포털 버전 `0.3.18`로 패치 업데이트
+- `test/game-ui-check-0.3.19` 브랜치에서 게임별 UI 회귀 체크 자동화 추가
+- `scripts/game-ui-check.mjs` 신설: Meteor/Lane Switch UI 모듈(HUD/미션/설정/알림) 단위 검증
+- `scripts/meteor-smoke-check.sh`에 Game UI check 단계(6/6) 추가 및 단계 번호 정합성 보정
+- 포털 버전 `0.3.19`로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
