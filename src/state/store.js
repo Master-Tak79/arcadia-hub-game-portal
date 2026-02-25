@@ -3,7 +3,7 @@ const FAVORITES_KEY = "arcadia_hub_favorites_v1";
 export function createStore(initialGames = []) {
   let games = [...initialGames];
   let onlyFavorites = false;
-  let visibleLimit = 9;
+  let visibleLimit = 12;
 
   const filters = {
     query: "",
@@ -104,12 +104,12 @@ export function createStore(initialGames = []) {
     return visibleLimit < getFilteredGames().length;
   }
 
-  function increaseVisibleLimit(step = 9) {
+  function increaseVisibleLimit(step = 12) {
     visibleLimit += step;
   }
 
   function resetVisibleLimit() {
-    visibleLimit = 9;
+    visibleLimit = 12;
   }
 
   return {
