@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a5ac3"/>
+      <stop offset="100%" stop-color="#091331"/>
+    </linearGradient>
+    <linearGradient id="track" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0e274f"/>
+      <stop offset="100%" stop-color="#040b1d"/>
+    </linearGradient>
+    <linearGradient id="car" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9cf6ff"/>
+      <stop offset="100%" stop-color="#4cd8ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <polygon points="300,120 980,120 1240,720 40,720" fill="url(#track)"/>
+  <line x1="640" y1="140" x2="640" y2="720" stroke="#9ad7ff" stroke-opacity="0.45" stroke-dasharray="22 22" stroke-width="4"/>
+  <rect x="565" y="500" width="150" height="180" rx="18" fill="url(#car)"/>
+  <rect x="598" y="525" width="84" height="46" rx="10" fill="#c8fbff"/>
+  <rect x="585" y="640" width="30" height="34" rx="5" fill="#1a2d53"/>
+  <rect x="665" y="640" width="30" height="34" rx="5" fill="#1a2d53"/>
+  <rect x="820" y="360" width="120" height="86" rx="12" fill="#ff8f7c"/>
+  <rect x="360" y="310" width="116" height="84" rx="12" fill="#ffb07f"/>
+</svg>
