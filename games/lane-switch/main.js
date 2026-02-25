@@ -75,20 +75,21 @@ function hideNotice() {
 function syncHud() {
   scoreText.textContent = String(Math.floor(state.score));
   bestText.textContent = String(Math.floor(state.best));
-  speedText.textContent = `${(state.speed / 260).toFixed(1)}x`;
+  speedText.textContent = `${(state.speed / 250).toFixed(1)}x`;
 
   const shield = state.shieldMs > 0 ? " 🛡" : "";
   livesText.textContent = (state.lives > 0 ? "❤".repeat(state.lives) : "0") + shield;
 }
 
 function syncMissionUI() {
+  const targetSec = Math.floor(state.missionTargetMs / 1000);
   if (state.missionCompleted) {
-    missionText.textContent = "🎯 미션 완료! (+120)";
+    missionText.textContent = `🎯 ${targetSec}초 미션 완료! (+120)`;
     return;
   }
 
   const remain = Math.max(0, state.missionTargetMs - state.survivalMs);
-  missionText.textContent = `미션: 45초 생존 · 남은 ${formatDuration(remain / 1000)}`;
+  missionText.textContent = `미션: ${targetSec}초 생존 · 남은 ${formatDuration(remain / 1000)}`;
 }
 
 function syncSettingsUI() {

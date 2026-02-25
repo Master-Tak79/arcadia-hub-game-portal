@@ -49,8 +49,8 @@ python3 -m http.server 8790
   - **Lane Switch: Neon Run** (`./games/lane-switch/index.html`)
     - 조작: 키보드(←/→, A/D) + 하단 버튼 + 스와이프
     - 레인 전환 기반 회피 + 코인 수집 점수 어택
-    - 45초 생존 미션 + 쉴드 아이템 + 설정 패널(효과/진동/도움말)
-    - 속도 상승형 난이도 곡선 + 최고점 저장(localStorage)
+    - 42초 생존 미션 + 쉴드 아이템 + 설정 패널(효과/진동/도움말)
+    - 초반 완화/중반 가속형 난이도 곡선 + 최고점 저장(localStorage)
     - 구조: `main/state/input/renderer/systems` 모듈 분리
 
 ---
@@ -111,7 +111,7 @@ arcadia-hub-game-portal/
 
 ## 버전 정책
 
-- 포털 현재 버전: **`0.3.10`**
+- 포털 현재 버전: **`0.3.11`**
 - 기본 게임 버전: **`0.1.0`**
 - 버전 형식: `MAJOR.MINOR.PATCH` (semver)
 - 게임 등록/수정 시 관리자 페이지에서 `게임 버전` 입력 가능
