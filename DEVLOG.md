@@ -133,6 +133,10 @@
 - `scripts/game-ui-check.mjs` 신설: Meteor/Lane Switch UI 모듈(HUD/미션/설정/알림) 단위 검증
 - `scripts/meteor-smoke-check.sh`에 Game UI check 단계(6/6) 추가 및 단계 번호 정합성 보정
 - 포털 버전 `0.3.19`로 패치 업데이트
+- `ci/ui-regression-workflow-0.3.20` 브랜치에서 GitHub Actions 자동 검증 파이프라인 구성
+- `.github/workflows/ui-regression-checks.yml` 신설 (pull_request/push/workflow_dispatch)
+- CI 단계: shared UI check → game UI check → full smoke check 순으로 실행
+- 포털 버전 `0.3.20`으로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
