@@ -8,6 +8,7 @@ import {
   saveSettings,
   STORAGE_KEY,
 } from "./state.js";
+import { createSfx } from "./sfx.js";
 import {
   showOverlay as showOverlayUI,
   syncHud as syncHudState,
@@ -35,11 +36,16 @@ const leftBtn = document.getElementById("leftBtn");
 const dashBtn = document.getElementById("dashBtn");
 const rightBtn = document.getElementById("rightBtn");
 
+const pauseBtn = document.getElementById("pauseBtn");
 const settingsBtn = document.getElementById("settingsBtn");
 const settingsPanel = document.getElementById("settingsPanel");
 const closeSettingsBtn = document.getElementById("closeSettingsBtn");
 const effectsToggle = document.getElementById("effectsToggle");
 const vibrationToggle = document.getElementById("vibrationToggle");
+const soundToggle = document.getElementById("soundToggle");
+const bgmToggle = document.getElementById("bgmToggle");
+const sfxVolumeRange = document.getElementById("sfxVolumeRange");
+const sfxVolumeValue = document.getElementById("sfxVolumeValue");
 
 const state = createState(localStorage.getItem(STORAGE_KEY));
 const settings = loadSettings();
@@ -49,6 +55,7 @@ const bullets = [];
 const input = { left: false, right: false };
 
 const renderer = createRenderer({ canvas, ctx });
+const sfx = createSfx();
 
 let rafId = 0;
 let lastTs = performance.now();
@@ -88,11 +95,27 @@ function syncHud() {
 }
 
 function syncSettingsUI() {
-  syncSettingsUIState({ settings, effectsToggle, vibrationToggle });
+  syncSettingsUIState({
+    settings,
+    effectsToggle,
+    vibrationToggle,
+    soundToggle,
+    bgmToggle,
+    sfxVolumeRange,
+    sfxVolumeValue,
+  });
 }
 
 function applySettings() {
   saveSettings(settings);
+  sfx.setEnabled(settings.soundEnabled);
+  sfx.setBgmEnabled(settings.soundEnabled && settings.bgmEnabled);
+  sfx.setVolume(settings.sfxVolume / 100);
+  if (state.running && !state.paused) {
+    sfx.startBgm();
+  } else {
+    sfx.pauseBgm();
+  }
   syncSettingsUI();
 }
 
@@ -105,10 +128,39 @@ function closeSettings() {
   settingsPanel.classList.add("hidden");
 }
 
+function resumeGame() {
+  if (!state.running || !state.paused || state.gameOver) return;
+  state.paused = false;
+  overlay.classList.add("hidden");
+  startBtn.textContent = "다시 시작";
+  pauseBtn.textContent = "일시정지";
+  sfx.startBgm();
+}
+
+function togglePause() {
+  if (!state.running || state.gameOver) return;
+
+  if (state.paused) {
+    resumeGame();
+    return;
+  }
+
+  state.paused = true;
+  showOverlayUI(
+    { overlay, overlayTitle, overlayText },
+    "일시정지",
+    "게임이 일시정지되었습니다.\n재개 버튼 또는 P 키로 계속할 수 있습니다."
+  );
+  startBtn.textContent = "재개";
+  pauseBtn.textContent = "재개";
+  sfx.pauseBgm();
+}
+
 function doDash() {
   const ok = triggerDash(state);
   if (!ok) return;
   showNotice("⚡ ORBIT DASH", 760);
+  sfx.play("start");
   vibrate([8, 12, 8]);
 }
 
@@ -122,18 +174,25 @@ function startGame() {
   overlay.classList.add("hidden");
   hideNotice();
   startBtn.textContent = "다시 시작";
+  pauseBtn.textContent = "일시정지";
+  sfx.play("start");
+  sfx.startBgm();
   syncHud();
 }
 
 function endGame() {
   state.running = false;
   state.gameOver = true;
+  state.paused = false;
+  sfx.play("gameover");
+  sfx.pauseBgm();
 
   if (state.score > state.best) {
     state.best = Math.floor(state.score);
     localStorage.setItem(STORAGE_KEY, String(state.best));
     showNotice("🏆 NEW BEST", 1300);
     celebrateNewBest();
+    sfx.play("best");
   }
 
   syncHud();
@@ -143,6 +202,7 @@ function endGame() {
     "게임 오버",
     `최종 점수 ${Math.floor(state.score)}점 · 최고 점수 ${state.best}점\n시작 버튼으로 새 라운드를 시작하세요.`
   );
+  pauseBtn.textContent = "일시정지";
 }
 
 function frame(now) {
@@ -161,18 +221,22 @@ function frame(now) {
     callbacks: {
       onNoticeEnd: hideNotice,
       onEnemyHit: () => {
+        sfx.play("tick");
         if (settings.effectsEnabled) vibrate(4);
       },
       onEnemyDestroyed: () => {
+        sfx.play("item");
         if (settings.effectsEnabled) vibrate(6);
       },
       onHit: () => {
         showNotice("💥 피격", 760);
+        sfx.play("hit");
         vibrate([10, 16, 10]);
       },
       onMissionComplete: () => {
         showNotice("🎯 미션 완료 +140", 1300);
         celebrateMission();
+        sfx.play("best");
         vibrate([12, 18, 12]);
       },
       onGameOver: endGame,
@@ -185,7 +249,14 @@ function frame(now) {
   rafId = requestAnimationFrame(frame);
 }
 
-startBtn.addEventListener("click", startGame);
+startBtn.addEventListener("click", () => {
+  if (state.paused) {
+    resumeGame();
+    return;
+  }
+  startGame();
+});
+pauseBtn.addEventListener("click", () => togglePause());
 settingsBtn.addEventListener("click", openSettings);
 closeSettingsBtn.addEventListener("click", closeSettings);
 
@@ -199,6 +270,26 @@ vibrationToggle.addEventListener("change", (e) => {
   applySettings();
 });
 
+soundToggle.addEventListener("change", (e) => {
+  settings.soundEnabled = e.target.checked;
+  applySettings();
+});
+
+bgmToggle.addEventListener("change", (e) => {
+  settings.bgmEnabled = e.target.checked;
+  applySettings();
+});
+
+sfxVolumeRange.addEventListener("input", (e) => {
+  settings.sfxVolume = Math.max(0, Math.min(100, Number(e.target.value) || 0));
+  sfx.setVolume(settings.sfxVolume / 100);
+  syncSettingsUI();
+});
+
+sfxVolumeRange.addEventListener("change", () => {
+  applySettings();
+});
+
 bindInput({
   canvas,
   leftBtn,
@@ -206,8 +297,20 @@ bindInput({
   dashBtn,
   startGame,
   triggerDash: doDash,
+  togglePause,
   setMove,
   isRunning: () => state.running,
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    sfx.pauseBgm();
+    return;
+  }
+
+  if (state.running && !state.paused) {
+    sfx.startBgm();
+  }
 });
 
 syncHud();

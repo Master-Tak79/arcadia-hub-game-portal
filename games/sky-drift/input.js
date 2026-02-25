@@ -5,6 +5,7 @@ export function bindInput({
   boostBtn,
   startGame,
   triggerBoost,
+  togglePause,
   setMove,
   isRunning,
 }) {
@@ -80,6 +81,12 @@ export function bindInput({
       } else {
         triggerBoost();
       }
+      return;
+    }
+
+    if (e.key === "p" || e.key === "P") {
+      e.preventDefault();
+      togglePause();
     }
   });
 

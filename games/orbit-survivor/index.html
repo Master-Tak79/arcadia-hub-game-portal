@@ -36,7 +36,7 @@
       .topbar {
         padding: calc(env(safe-area-inset-top) + 8px) 10px 8px;
         display: grid;
-        grid-template-columns: auto 1fr auto;
+        grid-template-columns: auto 1fr auto auto;
         gap: 8px;
         align-items: center;
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -132,6 +132,23 @@
         font-size: 13px;
         color: #dfe7ff;
       }
+      .setting-row.volume-row {
+        grid-template-columns: 1fr;
+      }
+      .range-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .range-row input[type="range"] {
+        width: 100%;
+      }
+      .range-row strong {
+        min-width: 42px;
+        text-align: right;
+        color: #dff3ff;
+        font-size: 12px;
+      }
       .controls {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
@@ -188,6 +205,7 @@
           <h1>Orbit Survivor</h1>
           <p>궤도를 회전하며 적 파동을 버티세요</p>
         </div>
+        <button id="pauseBtn" type="button" class="ghost-btn">일시정지</button>
         <button id="settingsBtn" type="button" class="ghost-btn">설정</button>
       </header>
 
@@ -232,6 +250,24 @@
               <span>진동</span>
               <input id="vibrationToggle" type="checkbox" checked />
             </label>
+
+            <label class="setting-row">
+              <span>사운드</span>
+              <input id="soundToggle" type="checkbox" checked />
+            </label>
+
+            <label class="setting-row">
+              <span>BGM</span>
+              <input id="bgmToggle" type="checkbox" checked />
+            </label>
+
+            <div class="setting-row volume-row">
+              <span>효과음 볼륨</span>
+              <div class="range-row">
+                <input id="sfxVolumeRange" type="range" min="0" max="100" step="1" value="70" />
+                <strong id="sfxVolumeValue">70%</strong>
+              </div>
+            </div>
           </div>
         </aside>
       </section>

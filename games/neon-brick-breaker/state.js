@@ -7,11 +7,19 @@ export function loadSettings() {
     return {
       vibrationEnabled: parsed.vibrationEnabled !== false,
       effectsEnabled: parsed.effectsEnabled !== false,
+      soundEnabled: parsed.soundEnabled !== false,
+      bgmEnabled: parsed.bgmEnabled !== false,
+      sfxVolume: Number.isFinite(parsed.sfxVolume)
+        ? Math.max(0, Math.min(100, parsed.sfxVolume))
+        : 70,
     };
   } catch {
     return {
       vibrationEnabled: true,
       effectsEnabled: true,
+      soundEnabled: true,
+      bgmEnabled: true,
+      sfxVolume: 70,
     };
   }
 }
