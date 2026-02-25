@@ -191,6 +191,14 @@
 - `QA_MOBILE_2DEVICES.md`, `QA_3RUN_LOG_TEMPLATE.md`, `QA_FINAL_STATUS.md`를 5개 로컬 게임 기준으로 재정렬
 - 신규 3종 seed 버전을 `0.3.30`으로 상향해 변경 추적성 확보
 - 포털 버전 `0.3.30`으로 패치 업데이트
+- `feat/lane-switch-audio-pause-parity-0.3.31` 브랜치에서 Lane Switch 기능 패리티 보완 진행
+- Lane Switch에 `sfx.js` 추가 및 공용 오디오 런타임(`games/shared/sfx.runtime.js`) 연동
+- Lane Switch 설정 패널 확장: 사운드/BGM/효과음 볼륨 저장 옵션 추가
+- Lane Switch 일시정지/재개 UX 추가: 상단 버튼 + `P` 단축키 + BGM 상태 동기화
+- `scripts/meteor-smoke-check.sh`에 Lane Switch `sfx.js` 파일/HTTP 검증 추가
+- `games/lane-switch/tests/QA_CHECKLIST.md`를 `0.3.31` 기준으로 갱신
+- Lane Switch seed 버전 `0.3.26` → `0.3.31` 상향
+- 포털 버전 `0.3.31`로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
@@ -215,7 +223,7 @@
 - 모바일 포털은 핵심 탐색(게임 카드)이 최근 업데이트보다 우선 노출되도록 유지
 
 ### 다음 작업
-- `QA_3RUN_LOG_TEMPLATE.md` 기반으로 신규 3종 포함 HOLD 항목(3회/60초 정량 기록) 해소
-- Sky Drift / Neon Brick Breaker / Orbit Survivor 실기기 난이도 곡선 및 사운드 볼륨 1차 밸런스 튜닝
+- `QA_3RUN_LOG_TEMPLATE.md` 기반으로 5종 로컬 게임 HOLD 항목(3회/60초 정량 기록) 해소
+- Sky Drift / Neon Brick Breaker / Orbit Survivor / Lane Switch 실기기 난이도 곡선 및 사운드 볼륨 1차 밸런스 튜닝
 - 기존 Meteor/Lane 포함 5종 게임 공통 성능 프리셋(저사양 품질 스케일) 검토
 - 관리자 미디어 입력 UI(썸네일 업로드/미리보기) 개선 검토
