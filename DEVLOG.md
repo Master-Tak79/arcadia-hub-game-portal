@@ -110,6 +110,11 @@
 - 포털/관리자/상세 패널의 DOM clear를 `replaceChildren()`로 전환
 - Meteor/Lane Switch 오버레이 문구 렌더를 줄바꿈 텍스트 노드 방식으로 전환
 - 포털 버전 `0.3.14`로 패치 업데이트
+- `refactor/meteor-ui-module-0.3.15` 브랜치에서 Meteor Dodge 추가 모듈 분리 진행
+- `games/meteor-dodge/ui.js` 신설: HUD/미션/난이도/오버레이/설정 UI 동기화 함수 분리
+- `games/meteor-dodge/main.js`는 게임 루프/상태 전환 중심으로 경량화
+- `scripts/meteor-smoke-check.sh`에 `ui.js` 파일/HTTP 경로 검증 추가
+- 포털 버전 `0.3.15`로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
