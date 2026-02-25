@@ -49,13 +49,18 @@ const els = {
 const store = createStore([]);
 let currentRouteGameId = null;
 let observer = null;
+let resizeTimer = null;
+
+function getRecentLimit() {
+  return window.matchMedia("(max-width: 860px)").matches ? 4 : 6;
+}
 
 function render() {
   const filters = store.getFilters();
   const allGames = store.getFilteredGames();
   const visibleGames = store.getVisibleGames();
   const featuredGames = store.getFeaturedGames();
-  const recentGames = store.getRecentUpdatedGames();
+  const recentGames = store.getRecentUpdatedGames(getRecentLimit());
 
   renderGenreChips(els.genreChips, gameGenres, filters.genre);
   renderCategoryTabs(els.categoryTabs, gameCategories, filters.category);
@@ -202,6 +207,13 @@ function bindEvents() {
 
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape") clearGameRoute();
+  });
+
+  window.addEventListener("resize", () => {
+    if (resizeTimer) clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      render();
+    }, 80);
   });
 
   onRouteChange((gameId) => {
