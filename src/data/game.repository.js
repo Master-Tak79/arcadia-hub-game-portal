@@ -3,6 +3,11 @@ import { GAME_DEFAULT_VERSION, normalizeVersion } from "../config/version.js";
 import { listAdminGames } from "./admin.storage.js";
 
 function withDefaults(game) {
+  const previewImage = String(game.previewImage || "").trim();
+  const screenshots = Array.isArray(game.screenshots)
+    ? game.screenshots.map((v) => String(v || "").trim()).filter(Boolean)
+    : [];
+
   return {
     studio: "Arcadia Studio",
     difficulty: "보통",
@@ -11,6 +16,8 @@ function withDefaults(game) {
     longDescription: `${game.description} 반복 플레이 중심으로 설계되어 짧은 세션에서도 성취감을 주는 구조입니다. 향후 랭킹/도전과제/이벤트 모드를 연동하기 좋도록 데이터 키를 분리해 둔 상태입니다.`,
     category: "트렌딩",
     ...game,
+    previewImage,
+    screenshots: screenshots.length ? screenshots : previewImage ? [previewImage] : [],
     version: normalizeVersion(game.version, GAME_DEFAULT_VERSION),
   };
 }

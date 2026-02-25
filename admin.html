@@ -48,8 +48,15 @@
           </div>
 
           <label class="field"><span>태그(쉼표 구분)</span><input name="tags" placeholder="레이싱, 3D, 멀티" /></label>
+          <label class="field"><span>대표 미리보기 이미지(URL/상대경로)</span><input name="previewImage" placeholder="예: ./assets/previews/my-game.png" /></label>
+          <label class="field"><span>스크린샷 목록(줄바꿈 또는 쉼표 구분)</span><textarea name="screenshots" rows="3" placeholder="./assets/previews/my-game-1.png&#10;./assets/previews/my-game-2.png"></textarea></label>
           <label class="field"><span>짧은 설명</span><textarea name="description" required rows="3"></textarea></label>
           <label class="field"><span>상세 설명</span><textarea name="longDescription" rows="4"></textarea></label>
+
+          <label class="field check-row">
+            <input name="featured" type="checkbox" />
+            <span>Featured 섹션에 노출</span>
+          </label>
 
           <div class="button-row">
             <button class="small-btn" type="submit">저장/업데이트</button>
