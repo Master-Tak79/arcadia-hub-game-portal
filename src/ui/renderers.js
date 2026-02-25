@@ -88,12 +88,21 @@ export function renderGameCards({
       thumbImg.classList.add("visible");
       thumbChip.hidden = false;
       node.classList.add("has-preview");
+
+      thumbImg.onerror = () => {
+        thumbImg.removeAttribute("src");
+        thumbImg.alt = "";
+        thumbImg.classList.remove("visible");
+        thumbChip.hidden = true;
+        node.classList.remove("has-preview");
+      };
     } else {
       thumbImg.removeAttribute("src");
       thumbImg.alt = "";
       thumbImg.classList.remove("visible");
       thumbChip.hidden = true;
       node.classList.remove("has-preview");
+      thumbImg.onerror = null;
     }
 
     node.querySelector(".title").textContent = game.title;
