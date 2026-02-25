@@ -15,6 +15,19 @@
 
 ---
 
+## [0.3.20] - 2026-02-25
+### Added
+- GitHub Actions 워크플로우 `.github/workflows/ui-regression-checks.yml` 추가
+
+### Changed
+- `main` 대상 push/PR에서 shared UI check + game UI check + smoke check 자동 실행
+- 포털 버전 `0.3.19` → `0.3.20`
+
+### Fixed
+- 로컬 수동 검증에 의존하던 UI 회귀 점검 흐름을 CI로 상시화
+
+---
+
 ## [0.3.19] - 2026-02-25
 ### Added
 - `scripts/game-ui-check.mjs` 추가 (Meteor/Lane Switch UI 모듈 핵심 동작 단위 검증)
