@@ -17,13 +17,44 @@ export function setDetailVisible(overlay, visible) {
   document.body.classList.toggle("lock-scroll", visible);
 }
 
+function renderScreenshots(node, game) {
+  clear(node);
+
+  const shots = [...(game.screenshots || [])];
+  if (!shots.length && game.previewImage) {
+    shots.push(game.previewImage);
+  }
+
+  if (!shots.length) {
+    const empty = document.createElement("p");
+    empty.className = "detail-screenshots-empty";
+    empty.textContent = "등록된 스크린샷이 없습니다.";
+    node.appendChild(empty);
+    return;
+  }
+
+  shots.slice(0, 6).forEach((src, idx) => {
+    const img = document.createElement("img");
+    img.className = "detail-shot";
+    img.src = src;
+    img.alt = `${game.title} 스크린샷 ${idx + 1}`;
+    img.loading = "lazy";
+    img.decoding = "async";
+    node.appendChild(img);
+  });
+}
+
 export function renderDetail({
   refs,
   game,
   isFavorite,
   onToggleFavorite,
 }) {
-  refs.hero.style.background = gradient(game.thumbGradient);
+  const heroBg = game.previewImage
+    ? `linear-gradient(180deg, rgba(9,16,39,0.15), rgba(9,16,39,0.65)), url("${game.previewImage}") center / cover`
+    : gradient(game.thumbGradient);
+
+  refs.hero.style.background = heroBg;
   refs.title.textContent = game.title;
   refs.description.textContent = game.description;
   refs.controls.textContent = game.controls;
@@ -46,6 +77,8 @@ export function renderDetail({
     tag.textContent = `#${tagText}`;
     refs.tags.appendChild(tag);
   });
+
+  renderScreenshots(refs.screenshots, game);
 
   refs.playLink.href = game.playUrl;
 

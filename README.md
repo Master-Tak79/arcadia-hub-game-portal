@@ -28,7 +28,8 @@ python3 -m http.server 8790
 - 무한 스크롤(점진 로드)
 - 관리자 등록/수정/삭제 페이지(localStorage 기반)
 - 데이터 새로고침
-- 모바일 반응형 레이아웃
+- 모바일 반응형 레이아웃 (모바일 2열 카드 최적화)
+- 카드/상세에 게임 미리보기(프리뷰 이미지/스크린샷) 표시 지원
 - 내장 플레이 가능 게임 1종: **Meteor Dodge** (`./games/meteor-dodge/index.html`)
   - 조작: 키보드(←/→, A/D) + 하단 좌/우 버튼(모바일 터치)
   - 난이도 프리셋 2종(`Normal`/`Hard`) + 난이도별 카운트다운/보호구간/목숨 차등
@@ -49,6 +50,9 @@ python3 -m http.server 8790
 arcadia-hub-game-portal/
   index.html
   admin.html
+  assets/
+    previews/
+      *.png                     # 포털 카드/상세 미리보기 이미지
   games/
     meteor-dodge/
       index.html                # 내장 플레이 게임 (회피형 아케이드)
@@ -56,7 +60,7 @@ arcadia-hub-game-portal/
       state.js                  # 상태/스토리지 계층
       input.js                  # 키보드/터치 입력 바인딩
       renderer.js               # 캔버스 렌더링 계층
-      systems.js                # 게임 로직(스폰/충돌/미션)
+      systems.js                # 게임 로직(스폰/충돌/미션/아이템)
       difficulty.js             # 난이도/패턴 파라미터
       sfx.js                    # 오디오 모듈(Howler + 폴백)
       assets/
@@ -89,7 +93,7 @@ arcadia-hub-game-portal/
 
 ## 버전 정책
 
-- 포털 현재 버전: **`0.3.1`**
+- 포털 현재 버전: **`0.3.2`**
 - 기본 게임 버전: **`0.1.0`**
 - 버전 형식: `MAJOR.MINOR.PATCH` (semver)
 - 게임 등록/수정 시 관리자 페이지에서 `게임 버전` 입력 가능

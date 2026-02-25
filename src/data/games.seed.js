@@ -29,7 +29,7 @@ export const gameSeed = [
     popularity: 96,
     updatedAt: "2026-02-24",
     featured: true,
-    version: "0.3.1",
+    version: "0.3.2",
     playUrl: "./games/meteor-dodge/index.html",
     studio: "Arcadia Studio",
     difficulty: "쉬움~어려움",
@@ -38,6 +38,11 @@ export const gameSeed = [
     longDescription:
       "직진형/가속형 운석 패턴을 회피하며 60초 생존 미션을 달성하는 아케이드 게임입니다. 코인/쉴드/슬로우 아이템과 설정 내 도움말을 지원하며, Normal/Hard 난이도와 최근 기록 저장을 제공합니다.",
     thumbGradient: ["#4b7dff", "#22d6b8"],
+    previewImage: "./assets/previews/meteor-dodge-preview.png",
+    screenshots: [
+      "./assets/previews/meteor-dodge-preview.png",
+      "./assets/previews/meteor-dodge-shot-1.png",
+    ],
   },
   {
     id: "sky-drift",

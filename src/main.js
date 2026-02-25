@@ -43,6 +43,7 @@ const els = {
   detailFavBtn: document.getElementById("detailFavBtn"),
   detailControls: document.getElementById("detailControls"),
   detailLongDescription: document.getElementById("detailLongDescription"),
+  detailScreenshots: document.getElementById("detailScreenshots"),
 };
 
 const store = createStore([]);
@@ -118,6 +119,7 @@ function syncDetailPanel() {
       favBtn: els.detailFavBtn,
       controls: els.detailControls,
       longDescription: els.detailLongDescription,
+      screenshots: els.detailScreenshots,
     },
     game,
     isFavorite: store.isFavorite,
