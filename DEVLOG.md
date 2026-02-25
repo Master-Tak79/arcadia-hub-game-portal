@@ -120,6 +120,11 @@
 - `games/lane-switch/main.js`는 루프/시스템 콜백 중심 구조로 정리
 - `scripts/meteor-smoke-check.sh`에 Lane Switch `ui.js` 파일/HTTP 검증 추가
 - 포털 버전 `0.3.16`으로 패치 업데이트
+- `refactor/shared-ui-utils-0.3.17` 브랜치에서 게임 UI 공통 유틸 모듈화 진행
+- `games/shared/ui.common.js` 신설: `formatDuration`/`formatLocalDateTime`/`showOverlay` 공통화
+- `games/meteor-dodge/ui.js`, `games/lane-switch/ui.js`에서 중복 유틸 제거 후 shared 모듈 참조로 전환
+- `scripts/meteor-smoke-check.sh`에 shared 유틸 파일/HTTP 검증 추가
+- 포털 버전 `0.3.17`로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
