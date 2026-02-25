@@ -1,7 +1,9 @@
-# Meteor Dodge QA Checklist (0.3.7)
+# Meteor Dodge QA Checklist (0.3.21)
 
 ## 자동 점검
 - [x] `./scripts/meteor-smoke-check.sh` 통과
+- [x] `node scripts/shared-ui-common-check.mjs` 통과
+- [x] `node scripts/game-ui-check.mjs` 통과
 
 ## 수동 기능 점검
 - [ ] 게임 시작/일시정지/재개/재시작 정상 동작
@@ -19,9 +21,14 @@
 - [ ] 관리자 미디어 입력(미리보기/스크린샷) 저장/수정/삭제 흐름 확인
 - [ ] 관리자 입력에서 잘못된 스킴(`javascript:`) 차단 확인
 
-## 모바일 실기기 점검 기록
+## 모바일 실기기 점검(2기종)
+- [ ] 기기 A: 3회 플레이(각 60초 이상) 중 프레임 급락/입력 누락 없음
+- [ ] 기기 B: 3회 플레이(각 60초 이상) 중 프레임 급락/입력 누락 없음
+- [ ] 포털 모바일 2열 카드 가독성/터치 오동작 없음
+
+## 실기기 점검 기록
 | Date | Device | Browser | Result | Notes |
 | --- | --- | --- | --- | --- |
 | 2026-02-24 | Galaxy (사용자 실기기) | Telegram in-app browser | PASS | 하단 버튼 노출/조작 정상 사용자 확인 |
 | 2026-02-25 | 사용자 폰(모델 미확인) | 모바일 브라우저 | PASS(사용자 보고) | "문제 없는듯" 피드백 수신 |
-| 2026-02-25 | TBD (2nd distinct device) | TBD | PENDING | 2기종 검증 요건 충족 위해 추가 1대 필요 |
+| 2026-02-25 | Device-B (TBD) | TBD | PENDING | 2기종 충족을 위한 추가 1대 필요 |

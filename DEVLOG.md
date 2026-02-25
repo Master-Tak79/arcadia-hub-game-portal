@@ -137,6 +137,12 @@
 - `.github/workflows/ui-regression-checks.yml` 신설 (pull_request/push/workflow_dispatch)
 - CI 단계: shared UI check → game UI check → full smoke check 순으로 실행
 - 포털 버전 `0.3.20`으로 패치 업데이트
+- `docs/mobile-qa-2devices-0.3.21` 브랜치에서 실기기 2대 QA 문서/체크리스트 정비
+- `games/lane-switch/tests/QA_CHECKLIST.md` 신설 및 최신 검증 항목 반영
+- `games/meteor-dodge/tests/QA_CHECKLIST.md`를 0.3.21 기준으로 갱신
+- `QA_MOBILE_2DEVICES.md` 신설로 포털+게임 통합 실기기 QA 로그 템플릿 추가
+- `scripts/meteor-smoke-check.sh`에 모바일 QA 문서/체크리스트 존재 검증 추가
+- 포털 버전 `0.3.21`로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
@@ -160,7 +166,7 @@
 - 모바일 포털은 핵심 탐색(게임 카드)이 최근 업데이트보다 우선 노출되도록 유지
 
 ### 다음 작업
-- 모바일 실기기 2대 체크 기록 업데이트(포털 2열 카드 가독성 포함)
+- 모바일 실기기 2대 실제 검증 실행 및 Device-B 결과 입력(포털 2열 카드 가독성 포함)
 - Meteor Dodge 확장 아이템 밸런스 튜닝(출현율/지속시간/점수 배율)
 - Lane Switch 2차 밸런스 튜닝(후반 스폰 압력/코인 보상 비율)
 - 관리자 미디어 입력 UI(썸네일 업로드/미리보기) 개선 검토

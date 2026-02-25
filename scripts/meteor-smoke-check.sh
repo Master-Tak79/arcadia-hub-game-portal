@@ -23,6 +23,8 @@ required=(
   "scripts/game-ui-check.mjs"
   "games/meteor-dodge/assets/sfx/item.wav"
   "games/meteor-dodge/tests/QA_CHECKLIST.md"
+  "games/lane-switch/tests/QA_CHECKLIST.md"
+  "QA_MOBILE_2DEVICES.md"
   "assets/previews/meteor-dodge-preview.png"
   "assets/previews/meteor-dodge-shot-1.png"
   "games/lane-switch/index.html"
