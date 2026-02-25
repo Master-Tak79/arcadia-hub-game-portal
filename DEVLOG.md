@@ -106,6 +106,10 @@
 - `./games/*` 외에 `/games/<id>/index.html` 형태 URL(예: raw.githack 배포 링크)도 구현 게임으로 인식하도록 확장
 - Featured/목록 정렬에서 배포 URL 기반 구현 게임이 미구현 카드보다 뒤로 밀리던 문제 수정
 - 포털 버전 `0.3.13`으로 패치 업데이트
+- `fix/remove-innerhtml-0.3.14` 브랜치에서 `innerHTML` 잔여 구간 제거 패치
+- 포털/관리자/상세 패널의 DOM clear를 `replaceChildren()`로 전환
+- Meteor/Lane Switch 오버레이 문구 렌더를 줄바꿈 텍스트 노드 방식으로 전환
+- 포털 버전 `0.3.14`로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용

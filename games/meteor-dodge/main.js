@@ -135,9 +135,21 @@ function syncDifficultyUI() {
   subtitleText.textContent = `운석 회피 아케이드 · ${preset.label}`;
 }
 
+function setMultilineText(node, text) {
+  node.replaceChildren();
+  const lines = String(text || "").split(/<br\s*\/?>|\n/g);
+
+  lines.forEach((line, index) => {
+    if (index > 0) {
+      node.appendChild(document.createElement("br"));
+    }
+    node.appendChild(document.createTextNode(line));
+  });
+}
+
 function showOverlay(title, text) {
   overlayTitle.textContent = title;
-  overlayText.innerHTML = text.replace(/\n/g, "<br />");
+  setMultilineText(overlayText, text);
   overlay.classList.remove("hidden");
 }
 

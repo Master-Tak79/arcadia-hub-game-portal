@@ -1,7 +1,7 @@
 import { gradient, toPlatformLabel, toUpdatedLabel } from "../utils/format.js";
 
 function clear(node) {
-  node.innerHTML = "";
+  node.replaceChildren();
 }
 
 function createPill(text) {

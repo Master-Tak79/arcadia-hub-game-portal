@@ -68,6 +68,18 @@ function showNotice(text, ms = 900) {
   notice.classList.add("visible");
 }
 
+function setMultilineText(node, text) {
+  node.replaceChildren();
+  const lines = String(text || "").split(/<br\s*\/?>|\n/g);
+
+  lines.forEach((line, index) => {
+    if (index > 0) {
+      node.appendChild(document.createElement("br"));
+    }
+    node.appendChild(document.createTextNode(line));
+  });
+}
+
 function hideNotice() {
   notice.classList.remove("visible");
 }
@@ -140,7 +152,10 @@ function endGame() {
   syncMissionUI();
 
   overlayTitle.textContent = "게임 오버";
-  overlayText.innerHTML = `최종 점수 ${Math.floor(state.score)}점 · 최고 점수 ${state.best}점<br />다시 시작하려면 시작 버튼을 누르세요.`;
+  setMultilineText(
+    overlayText,
+    `최종 점수 ${Math.floor(state.score)}점 · 최고 점수 ${state.best}점\n다시 시작하려면 시작 버튼을 누르세요.`
+  );
   overlay.classList.remove("hidden");
   startBtn.textContent = "다시 시작";
 }
