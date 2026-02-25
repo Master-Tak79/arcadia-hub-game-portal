@@ -15,6 +15,18 @@
 
 ---
 
+## [0.3.22] - 2026-02-25
+### Changed
+- 모바일 실기기 2기종 QA 로그에 Device-B 정보 반영: `Galaxy A24 Ultra`
+- Browser 실행 확인 범위를 `Chrome / Edge / Samsung Internet`으로 기록
+- Meteor/Lane Switch QA 체크리스트의 Device-B 상태를 `PASS(사용자 실행)`으로 갱신
+- 포털 버전 `0.3.21` → `0.3.22`
+
+### Fixed
+- Device-B가 `TBD/PENDING`으로 남아 있던 QA 기록 최신화
+
+---
+
 ## [0.3.21] - 2026-02-25
 ### Added
 - `games/lane-switch/tests/QA_CHECKLIST.md` 추가 (Lane Switch 수동/실기기 QA 체크리스트)
