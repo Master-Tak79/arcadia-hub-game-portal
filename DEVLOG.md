@@ -125,6 +125,10 @@
 - `games/meteor-dodge/ui.js`, `games/lane-switch/ui.js`에서 중복 유틸 제거 후 shared 모듈 참조로 전환
 - `scripts/meteor-smoke-check.sh`에 shared 유틸 파일/HTTP 검증 추가
 - 포털 버전 `0.3.17`로 패치 업데이트
+- `test/shared-ui-common-check-0.3.18` 브랜치에서 shared UI 공통 유틸 검증 자동화 추가
+- `scripts/shared-ui-common-check.mjs` 신설: duration/datetime/overlay multiline 렌더 단위 검증
+- `scripts/meteor-smoke-check.sh`에 shared UI common check 단계(5/5) 추가
+- 포털 버전 `0.3.18`로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용

@@ -15,6 +15,19 @@
 
 ---
 
+## [0.3.18] - 2026-02-25
+### Added
+- `scripts/shared-ui-common-check.mjs` 추가 (shared UI 공통 유틸 단위 검증 스크립트)
+
+### Changed
+- 스모크 체크(`scripts/meteor-smoke-check.sh`)에 shared UI 공통 유틸 검증 단계 추가
+- 포털 버전 `0.3.17` → `0.3.18`
+
+### Fixed
+- 공통 UI 유틸 변경 시 수동 확인 의존도를 낮추고 회귀 누락 가능성 완화
+
+---
+
 ## [0.3.17] - 2026-02-25
 ### Added
 - `games/shared/ui.common.js` 추가 (멀티라인 텍스트/오버레이/시간 포맷 공통 유틸)
