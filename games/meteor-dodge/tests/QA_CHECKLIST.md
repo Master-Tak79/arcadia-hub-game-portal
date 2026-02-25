@@ -31,4 +31,4 @@
 | --- | --- | --- | --- | --- |
 | 2026-02-24 | Galaxy (사용자 실기기) | Telegram in-app browser | PASS | 하단 버튼 노출/조작 정상 사용자 확인 |
 | 2026-02-25 | 사용자 폰(모델 미확인) | 모바일 브라우저 | PASS(사용자 보고) | "문제 없는듯" 피드백 수신 |
-| 2026-02-25 | Device-B (TBD) | TBD | PENDING | 2기종 충족을 위한 추가 1대 필요 |
+| 2026-02-25 | Galaxy A24 Ultra | Chrome / Edge / Samsung Internet | PASS(사용자 실행) | 실행 확인, 특이 이슈 미보고 |

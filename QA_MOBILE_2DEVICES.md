@@ -6,7 +6,7 @@
 | Slot | Device | OS | Browser/App | Owner |
 | --- | --- | --- | --- | --- |
 | A | Galaxy (사용자 실기기) | TBD | Telegram in-app browser | User |
-| B | TBD | TBD | TBD | TBD |
+| B | Galaxy A24 Ultra | Android (TBD) | Chrome / Edge / Samsung Internet | User |
 
 ## 공통 점검 항목 (기기별)
 - [ ] 포털 첫 진입 로딩 3초 이내(체감 기준)
@@ -30,7 +30,7 @@
 | Date | Device Slot | Area | Result | Notes |
 | --- | --- | --- | --- | --- |
 | 2026-02-25 | A | Portal + Meteor + Lane | PASS(사용자 보고) | 사용자 피드백 기준 "문제 없는듯" |
-| 2026-02-25 | B | Portal + Meteor + Lane | PENDING | 2기종 충족 위해 추가 검증 필요 |
+| 2026-02-25 | B | Portal + Meteor + Lane | PASS(사용자 실행) | Galaxy A24 Ultra에서 Chrome/Edge/Samsung Internet 실행 확인(이슈 미보고) |
 
 ## 완료 기준
 - Slot A/B 모두에서 공통 + 게임별 필수 체크 PASS
