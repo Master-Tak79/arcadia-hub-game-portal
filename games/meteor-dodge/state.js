@@ -136,6 +136,9 @@ export function createState() {
     countdownSecondMark: 0,
     graceMs: 0,
     slowMs: 0,
+    magnetMs: 0,
+    doubleMs: 0,
+    overdriveMs: 0,
 
     itemSpawnElapsed: 0,
     itemNoticeText: "",

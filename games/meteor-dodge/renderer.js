@@ -128,21 +128,78 @@ function drawItem(ctx, item) {
     return;
   }
 
-  // slow
+  if (item.type === "slow") {
+    ctx.save();
+    ctx.fillStyle = "rgba(150, 220, 255, 0.22)";
+    ctx.beginPath();
+    ctx.arc(item.x, y, item.r + 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#a6e7ff";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(item.x, y, item.r, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.fillStyle = "#eefbff";
+    ctx.font = "700 12px system-ui";
+    ctx.textAlign = "center";
+    ctx.fillText("🐢", item.x, y + 4);
+    ctx.restore();
+    return;
+  }
+
+  if (item.type === "magnet") {
+    ctx.save();
+    ctx.fillStyle = "rgba(255, 171, 204, 0.22)";
+    ctx.beginPath();
+    ctx.arc(item.x, y, item.r + 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#ffc6e0";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(item.x, y, item.r, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.fillStyle = "#ffe7f3";
+    ctx.font = "700 12px system-ui";
+    ctx.textAlign = "center";
+    ctx.fillText("🧲", item.x, y + 4);
+    ctx.restore();
+    return;
+  }
+
+  if (item.type === "double") {
+    ctx.save();
+    ctx.fillStyle = "rgba(255, 225, 159, 0.22)";
+    ctx.beginPath();
+    ctx.arc(item.x, y, item.r + 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#ffe9a5";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(item.x, y, item.r, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.fillStyle = "#fff8d5";
+    ctx.font = "700 11px system-ui";
+    ctx.textAlign = "center";
+    ctx.fillText("x2", item.x, y + 4);
+    ctx.restore();
+    return;
+  }
+
+  // overdrive (risk-reward)
   ctx.save();
-  ctx.fillStyle = "rgba(150, 220, 255, 0.22)";
+  ctx.fillStyle = "rgba(255, 151, 120, 0.24)";
   ctx.beginPath();
   ctx.arc(item.x, y, item.r + 2, 0, Math.PI * 2);
   ctx.fill();
-  ctx.strokeStyle = "#a6e7ff";
+  ctx.strokeStyle = "#ffba96";
   ctx.lineWidth = 2;
   ctx.beginPath();
   ctx.arc(item.x, y, item.r, 0, Math.PI * 2);
   ctx.stroke();
-  ctx.fillStyle = "#eefbff";
+  ctx.fillStyle = "#ffe3d3";
   ctx.font = "700 12px system-ui";
   ctx.textAlign = "center";
-  ctx.fillText("🐢", item.x, y + 4);
+  ctx.fillText("⚡", item.x, y + 4);
   ctx.restore();
 }
 
@@ -213,6 +270,42 @@ export function createRenderer({ canvas, ctx, stars }) {
       ctx.font = "600 18px system-ui";
       ctx.textAlign = "left";
       ctx.fillText(`🐢 슬로우 ${remain}s`, 364, 39);
+    }
+
+    if (state.magnetMs > 0) {
+      const remain = (state.magnetMs / 1000).toFixed(1);
+      ctx.fillStyle = "rgba(255, 192, 223, 0.16)";
+      ctx.fillRect(16, 56, 170, 30);
+      ctx.strokeStyle = "rgba(255, 211, 235, 0.6)";
+      ctx.strokeRect(16, 56, 170, 30);
+      ctx.fillStyle = "#ffe8f4";
+      ctx.font = "600 16px system-ui";
+      ctx.textAlign = "left";
+      ctx.fillText(`🧲 자석 ${remain}s`, 24, 77);
+    }
+
+    if (state.doubleMs > 0) {
+      const remain = (state.doubleMs / 1000).toFixed(1);
+      ctx.fillStyle = "rgba(255, 232, 177, 0.16)";
+      ctx.fillRect(188, 56, 170, 30);
+      ctx.strokeStyle = "rgba(255, 244, 196, 0.6)";
+      ctx.strokeRect(188, 56, 170, 30);
+      ctx.fillStyle = "#fff6d7";
+      ctx.font = "600 16px system-ui";
+      ctx.textAlign = "left";
+      ctx.fillText(`✨ 더블 ${remain}s`, 196, 77);
+    }
+
+    if (state.overdriveMs > 0) {
+      const remain = (state.overdriveMs / 1000).toFixed(1);
+      ctx.fillStyle = "rgba(255, 170, 120, 0.16)";
+      ctx.fillRect(360, 56, 164, 30);
+      ctx.strokeStyle = "rgba(255, 198, 151, 0.6)";
+      ctx.strokeRect(360, 56, 164, 30);
+      ctx.fillStyle = "#ffe7d6";
+      ctx.font = "600 16px system-ui";
+      ctx.textAlign = "left";
+      ctx.fillText(`⚡ 오버 ${remain}s`, 368, 77);
     }
 
     if (state.mission.justCompletedMs > 0) {
