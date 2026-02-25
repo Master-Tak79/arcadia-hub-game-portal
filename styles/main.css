@@ -660,9 +660,29 @@ textarea {
     grid-template-columns: 1fr;
   }
 
+  .recent-list {
+    max-height: 188px;
+    overflow: auto;
+  }
+
   .recent-item {
-    grid-template-columns: 1fr;
-    align-items: start;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+  }
+
+  .recent-title {
+    font-size: 13px;
+  }
+
+  .recent-meta {
+    display: none;
+  }
+
+  .recent-date {
+    font-size: 11px;
+    white-space: nowrap;
   }
 
   .detail-actions {
@@ -682,6 +702,18 @@ textarea {
   .game-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
+  }
+
+  .recent-list {
+    max-height: 160px;
+  }
+
+  .recent-item {
+    padding: 7px 8px;
+  }
+
+  .recent-date {
+    display: none;
   }
 
   .thumb {
