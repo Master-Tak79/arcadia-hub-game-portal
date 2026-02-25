@@ -72,7 +72,7 @@ function resetForm() {
 
 function renderAdminList() {
   const games = listAdminGames();
-  els.adminList.innerHTML = "";
+  els.adminList.replaceChildren();
 
   if (!games.length) {
     const empty = document.createElement("div");
