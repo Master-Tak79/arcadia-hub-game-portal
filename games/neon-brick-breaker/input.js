@@ -5,6 +5,7 @@ export function bindInput({
   launchBtn,
   startGame,
   launchBall,
+  togglePause,
   setMove,
 }) {
   const leftDown = () => setMove(-1, true);
@@ -70,6 +71,12 @@ export function bindInput({
       e.preventDefault();
       startGame();
       launchBall();
+      return;
+    }
+
+    if (e.key === "p" || e.key === "P") {
+      e.preventDefault();
+      togglePause();
     }
   });
 

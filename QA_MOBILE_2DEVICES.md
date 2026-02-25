@@ -1,6 +1,6 @@
 # QA_MOBILE_2DEVICES
 
-목표: 모바일 실기기 2대 기준으로 포털 + 내장 게임(Meteor Dodge, Lane Switch) 핵심 동작을 점검합니다.
+목표: 모바일 실기기 2대 기준으로 포털 + 내장 게임(Meteor Dodge, Lane Switch, Sky Drift Nitro, Neon Brick Breaker, Orbit Survivor) 핵심 동작을 점검합니다.
 
 ## 기기 정보
 | Slot | Device | OS | Browser/App | Owner |
@@ -26,11 +26,30 @@
 - [ ] 쉴드 획득/소모 정상
 - [ ] 게임오버 오버레이(점수/최고점) 정상
 
+## Sky Drift Nitro 점검 (기기별)
+- [ ] 3회 플레이(각 60초 이상) 중 조작 누락/급격한 프레임 저하 없음
+- [ ] 니트로 획득/발동/쿨다운 체감 정상
+- [ ] 일시정지/재개(P 버튼/상단 버튼) 정상
+- [ ] 사운드/BGM/볼륨 설정 저장 정상
+
+## Neon Brick Breaker 점검 (기기별)
+- [ ] 3회 플레이(각 60초 이상) 중 반사각/충돌 판정 이상 없음
+- [ ] 레벨업/미션 보상(레벨3) 정상
+- [ ] 일시정지/재개(P 버튼/상단 버튼) 정상
+- [ ] 사운드/BGM/볼륨 설정 저장 정상
+
+## Orbit Survivor 점검 (기기별)
+- [ ] 3회 플레이(각 60초 이상) 중 회전/대시/자동사격 판정 이상 없음
+- [ ] 60초 미션 보상 정상
+- [ ] 일시정지/재개(P 버튼/상단 버튼) 정상
+- [ ] 사운드/BGM/볼륨 설정 저장 정상
+
 ## 실행 로그
 | Date | Device Slot | Area | Result | Notes |
 | --- | --- | --- | --- | --- |
 | 2026-02-25 | A | Portal + Meteor + Lane | PASS(사용자 보고) | 사용자 피드백 기준 "문제 없는듯" |
 | 2026-02-25 | B | Portal + Meteor + Lane | PASS(사용자 실행) | Galaxy A24 Ultra에서 Chrome/Edge/Samsung Internet 실행 확인(이슈 미보고) |
+| 2026-02-25 | A/B | Sky Drift + Brick Breaker + Orbit Survivor | PENDING | 신규 3종 게임 실기기 점검 로그 수집 필요 |
 
 ## 완료 기준
 - Slot A/B 모두에서 공통 + 게임별 필수 체크 PASS

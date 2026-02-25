@@ -18,7 +18,20 @@ export function syncHud({ state, scoreText, bestText, speedText, livesText, nitr
   missionText.textContent = `미션: 45초 생존 · 남은 ${formatDuration(remain / 1000)}`;
 }
 
-export function syncSettingsUI({ settings, effectsToggle, vibrationToggle }) {
+export function syncSettingsUI({
+  settings,
+  effectsToggle,
+  vibrationToggle,
+  soundToggle,
+  bgmToggle,
+  sfxVolumeRange,
+  sfxVolumeValue,
+}) {
   effectsToggle.checked = settings.effectsEnabled;
   vibrationToggle.checked = settings.vibrationEnabled;
+  soundToggle.checked = settings.soundEnabled;
+  bgmToggle.checked = settings.bgmEnabled;
+  bgmToggle.disabled = !settings.soundEnabled;
+  sfxVolumeRange.value = String(settings.sfxVolume);
+  sfxVolumeValue.textContent = `${settings.sfxVolume}%`;
 }

@@ -179,6 +179,12 @@
 - 신규 프리뷰 에셋/QA 체크리스트 생성 및 `games.seed` 로컬 플레이 URL 연결
 - 스모크 체크에 3개 신규 게임의 파일/HTTP/문서 검증 항목 확장
 - 포털 버전 `0.3.28`로 패치 업데이트
+- `feat/new-games-trilogy-0.3.28` 후속으로 신규 3종 게임 UX/오디오 1차 개선 진행
+- `games/shared/sfx.runtime.js` 신설 및 신규 3종 게임에 Howler 기반 SFX/BGM 런타임 적용
+- 신규 3종 게임 설정 패널에 `사운드/BGM/효과음 볼륨` 옵션 추가
+- 신규 3종 게임에 일시정지/재개 UX 반영(상단 버튼 + `P` 단축키)
+- 신규 3종 QA 체크리스트/통합 QA 문서에 사운드·일시정지 항목 및 정량 로그 범위 확장
+- 포털 버전 `0.3.29`로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
@@ -203,6 +209,6 @@
 
 ### 다음 작업
 - `QA_3RUN_LOG_TEMPLATE.md` 기반으로 신규 3종 포함 HOLD 항목(3회/60초 정량 기록) 해소
-- Sky Drift / Neon Brick Breaker / Orbit Survivor 실기기 난이도 곡선 1차 밸런스 튜닝
+- Sky Drift / Neon Brick Breaker / Orbit Survivor 실기기 난이도 곡선 및 사운드 볼륨 1차 밸런스 튜닝
 - 기존 Meteor/Lane 포함 5종 게임 공통 성능 프리셋(저사양 품질 스케일) 검토
 - 관리자 미디어 입력 UI(썸네일 업로드/미리보기) 개선 검토

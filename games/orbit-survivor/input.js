@@ -5,6 +5,7 @@ export function bindInput({
   dashBtn,
   startGame,
   triggerDash,
+  togglePause,
   setMove,
   isRunning,
 }) {
@@ -77,6 +78,12 @@ export function bindInput({
       } else {
         triggerDash();
       }
+      return;
+    }
+
+    if (e.key === "p" || e.key === "P") {
+      e.preventDefault();
+      togglePause();
     }
   });
 

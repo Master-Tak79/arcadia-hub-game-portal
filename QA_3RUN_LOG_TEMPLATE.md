@@ -21,3 +21,24 @@
 | YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 1 | 60+ | PASS | 없음 | - |
 | YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 2 | 60+ | PASS | 없음 | - |
 | YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 3 | 60+ | PASS | 없음 | - |
+
+## Sky Drift Nitro
+| Date | Device Slot | Browser | Run# | DurationSec | Result | 니트로/충돌 이상 | Issue |
+| --- | --- | --- | --- | ---: | --- | --- | --- |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 1 | 60+ | PASS | 없음 | - |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 2 | 60+ | PASS | 없음 | - |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 3 | 60+ | PASS | 없음 | - |
+
+## Neon Brick Breaker
+| Date | Device Slot | Browser | Run# | DurationSec | Result | 반사각/프레임 이상 | Issue |
+| --- | --- | --- | --- | ---: | --- | --- | --- |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 1 | 60+ | PASS | 없음 | - |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 2 | 60+ | PASS | 없음 | - |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 3 | 60+ | PASS | 없음 | - |
+
+## Orbit Survivor
+| Date | Device Slot | Browser | Run# | DurationSec | Result | 회전/대시/자동사격 이상 | Issue |
+| --- | --- | --- | --- | ---: | --- | --- | --- |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 1 | 60+ | PASS | 없음 | - |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 2 | 60+ | PASS | 없음 | - |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 3 | 60+ | PASS | 없음 | - |

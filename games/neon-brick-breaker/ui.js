@@ -15,7 +15,20 @@ export function syncHud({ state, scoreText, bestText, levelText, livesText, miss
   missionText.textContent = `미션: 레벨 ${state.missionTargetLevel} 도달`;
 }
 
-export function syncSettingsUI({ settings, effectsToggle, vibrationToggle }) {
+export function syncSettingsUI({
+  settings,
+  effectsToggle,
+  vibrationToggle,
+  soundToggle,
+  bgmToggle,
+  sfxVolumeRange,
+  sfxVolumeValue,
+}) {
   effectsToggle.checked = settings.effectsEnabled;
   vibrationToggle.checked = settings.vibrationEnabled;
+  soundToggle.checked = settings.soundEnabled;
+  bgmToggle.checked = settings.bgmEnabled;
+  bgmToggle.disabled = !settings.soundEnabled;
+  sfxVolumeRange.value = String(settings.sfxVolume);
+  sfxVolumeValue.textContent = `${settings.sfxVolume}%`;
 }
