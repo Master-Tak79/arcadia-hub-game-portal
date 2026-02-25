@@ -15,6 +15,20 @@
 
 ---
 
+## [0.3.17] - 2026-02-25
+### Added
+- `games/shared/ui.common.js` 추가 (멀티라인 텍스트/오버레이/시간 포맷 공통 유틸)
+
+### Changed
+- Meteor Dodge / Lane Switch UI 모듈이 공통 유틸(`games/shared/ui.common.js`)을 참조하도록 정리
+- 스모크 체크에 `games/shared/ui.common.js` 파일/HTTP 검증 항목 추가
+- 포털 버전 `0.3.16` → `0.3.17`
+
+### Fixed
+- 게임별 UI 모듈에 중복되어 있던 포맷/오버레이 코드 제거로 유지보수 중복 리스크 완화
+
+---
+
 ## [0.3.16] - 2026-02-25
 ### Added
 - `games/lane-switch/ui.js` 추가 (HUD/미션/설정/오버레이/알림 UI 동기화 유틸 분리)
