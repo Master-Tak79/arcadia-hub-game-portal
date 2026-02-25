@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Lane Switch: Neon Run | Arcadia Hub</title>
+    <style>
+      :root {
+        --bg: #060a1d;
+        --panel: #101734;
+        --text: #ecf1ff;
+        --muted: #9aa9d8;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        font-family: Inter, Pretendard, "Noto Sans KR", system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        background: radial-gradient(1200px 600px at 15% -10%, #22357d 0%, #070b1f 45%, #030510 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+      }
+      .shell {
+        width: min(100%, 460px);
+        height: min(100dvh - 20px, 920px);
+        height: min(100svh - 20px, 920px);
+        background: color-mix(in srgb, var(--panel) 90%, #050816 10%);
+        border: 1px solid rgba(120, 175, 255, 0.25);
+        border-radius: 18px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      .topbar {
+        padding: calc(env(safe-area-inset-top) + 8px) 10px 8px;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 8px;
+        align-items: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(11, 18, 44, 0.95);
+      }
+      .mini-link {
+        color: var(--text);
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 12px;
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .title-wrap h1 {
+        margin: 0;
+        font-size: 15px;
+      }
+      .title-wrap p {
+        margin: 2px 0 0;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .hud {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 6px;
+        padding: 6px 8px;
+        background: rgba(7, 12, 35, 0.88);
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+      }
+      .hud-card {
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 10px;
+        background: rgba(255,255,255,0.04);
+        padding: 6px 7px;
+      }
+      .hud-label {
+        margin: 0;
+        color: var(--muted);
+        font-size: 10px;
+      }
+      .hud-value {
+        margin: 3px 0 0;
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .game-wrap {
+        position: relative;
+        flex: 1;
+        min-height: 240px;
+        background: #030716;
+      }
+      canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+        touch-action: none;
+      }
+      .overlay {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 20px;
+        background: linear-gradient(to bottom, rgba(5,8,23,0.3), rgba(5,8,23,0.9));
+      }
+      .overlay.hidden { display: none; }
+      .panel { max-width: 300px; }
+      .panel h2 { margin: 0 0 8px; }
+      .panel p {
+        margin: 0 0 12px;
+        font-size: 14px;
+        line-height: 1.45;
+        color: var(--muted);
+      }
+      .btn-row {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      button, .ghost-link {
+        appearance: none;
+        border: 0;
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-weight: 700;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      button {
+        color: #04121f;
+        background: linear-gradient(135deg, #6fb4ff, #4ee8d3);
+      }
+      .ghost-link {
+        color: var(--text);
+        border: 1px solid rgba(255,255,255,0.2);
+        background: rgba(255,255,255,0.08);
+      }
+      .controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        padding: 8px 10px calc(env(safe-area-inset-bottom) + 10px);
+        background: rgba(10,16,40,0.92);
+        border-top: 1px solid rgba(255,255,255,0.08);
+      }
+      .controls button {
+        min-height: 52px;
+        color: var(--text);
+        border: 1px solid rgba(255,255,255,0.2);
+        background: rgba(255,255,255,0.08);
+      }
+      .hint {
+        margin: 0;
+        font-size: 12px;
+        color: var(--muted);
+        padding: 0 10px calc(env(safe-area-inset-bottom) + 8px);
+        background: rgba(10,16,40,0.92);
+      }
+      .notice {
+        position: absolute;
+        top: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 13px;
+        font-weight: 700;
+        color: #fff4b1;
+        text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+        opacity: 0;
+        transition: opacity 0.12s ease;
+        pointer-events: none;
+      }
+      .notice.visible { opacity: 1; }
+      @media (max-width: 700px) {
+        body { padding: 0; align-items: stretch; }
+        .shell {
+          width: 100%;
+          height: 100dvh;
+          height: 100svh;
+          border-radius: 0;
+          border-left: 0;
+          border-right: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="mini-link" href="../../index.html" aria-label="포털로 이동">← 포털</a>
+        <div class="title-wrap">
+          <h1>Lane Switch: Neon Run</h1>
+          <p>레인 전환으로 장애물을 피하고 코인을 모으세요</p>
+        </div>
+        <div></div>
+      </header>
+
+      <section class="hud" aria-live="polite">
+        <article class="hud-card"><p class="hud-label">점수</p><p id="scoreText" class="hud-value">0</p></article>
+        <article class="hud-card"><p class="hud-label">최고</p><p id="bestText" class="hud-value">0</p></article>
+        <article class="hud-card"><p class="hud-label">속도</p><p id="speedText" class="hud-value">1x</p></article>
+        <article class="hud-card"><p class="hud-label">체력</p><p id="livesText" class="hud-value">❤❤❤</p></article>
+      </section>
+
+      <section class="game-wrap">
+        <canvas id="gameCanvas" width="540" height="960" aria-label="Lane Switch canvas"></canvas>
+        <p id="notice" class="notice"></p>
+        <div id="overlay" class="overlay">
+          <div class="panel">
+            <h2 id="overlayTitle">Lane Switch: Neon Run</h2>
+            <p id="overlayText">좌/우로 레인을 전환해 장애물을 피하세요.<br />코인을 먹으면 점수를 크게 올릴 수 있습니다.</p>
+            <div class="btn-row">
+              <button id="startBtn" type="button">시작</button>
+              <a class="ghost-link" href="../../index.html">포털로</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="controls" aria-label="move controls">
+        <button id="leftBtn" type="button">◀ 왼쪽</button>
+        <button id="rightBtn" type="button">오른쪽 ▶</button>
+      </div>
+      <p class="hint">팁: 터치 스와이프(좌/우)도 가능합니다. 속도가 올라갈수록 레인 전환 타이밍이 중요합니다.</p>
+    </main>
+
+    <script type="module">
+      const STORAGE_KEY = "arcadia_lane_switch_best_v1";
+      const canvas = document.getElementById("gameCanvas");
+      const ctx = canvas.getContext("2d");
+
+      const scoreText = document.getElementById("scoreText");
+      const bestText = document.getElementById("bestText");
+      const speedText = document.getElementById("speedText");
+      const livesText = document.getElementById("livesText");
+
+      const overlay = document.getElementById("overlay");
+      const overlayTitle = document.getElementById("overlayTitle");
+      const overlayText = document.getElementById("overlayText");
+      const startBtn = document.getElementById("startBtn");
+      const notice = document.getElementById("notice");
+
+      const leftBtn = document.getElementById("leftBtn");
+      const rightBtn = document.getElementById("rightBtn");
+
+      const lanes = [canvas.width * 0.2, canvas.width * 0.5, canvas.width * 0.8];
+
+      const state = {
+        running: false,
+        paused: false,
+        gameOver: false,
+        score: 0,
+        scoreFloat: 0,
+        best: Number(localStorage.getItem(STORAGE_KEY) || 0),
+        speed: 260,
+        lives: 3,
+        obstacleSpawnMs: 900,
+        coinSpawnMs: 1650,
+        obstacleElapsed: 0,
+        coinElapsed: 0,
+        invincibleMs: 0,
+        flash: 0,
+        laneMoveCooldownMs: 0,
+        roadOffset: 0,
+        noticeMs: 0,
+      };
+
+      const player = {
+        lane: 1,
+        x: lanes[1],
+        y: canvas.height * 0.83,
+        w: 72,
+        h: 108,
+      };
+
+      const obstacles = [];
+      const coins = [];
+
+      const swipe = { active: false, startX: 0 };
+
+      let rafId = 0;
+      let lastTs = performance.now();
+
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+      }
+
+      function showNotice(text, ms = 900) {
+        notice.textContent = text;
+        state.noticeMs = ms;
+        notice.classList.add("visible");
+      }
+
+      function syncHud() {
+        scoreText.textContent = String(Math.floor(state.score));
+        bestText.textContent = String(Math.floor(state.best));
+        speedText.textContent = `${(state.speed / 260).toFixed(1)}x`;
+        livesText.textContent = state.lives > 0 ? "❤".repeat(state.lives) : "0";
+      }
+
+      function resetRound() {
+        state.score = 0;
+        state.scoreFloat = 0;
+        state.speed = 260;
+        state.lives = 3;
+        state.obstacleSpawnMs = 900;
+        state.coinSpawnMs = 1650;
+        state.obstacleElapsed = 0;
+        state.coinElapsed = 0;
+        state.invincibleMs = 0;
+        state.flash = 0;
+        state.roadOffset = 0;
+        state.noticeMs = 0;
+        state.laneMoveCooldownMs = 0;
+        state.gameOver = false;
+
+        player.lane = 1;
+        player.x = lanes[1];
+
+        obstacles.length = 0;
+        coins.length = 0;
+
+        syncHud();
+      }
+
+      function startGame() {
+        if (!state.gameOver && state.running) return;
+        resetRound();
+        state.running = true;
+        state.paused = false;
+        overlay.classList.add("hidden");
+        startBtn.textContent = "시작";
+      }
+
+      function endGame() {
+        state.running = false;
+        state.gameOver = true;
+        if (state.score > state.best) {
+          state.best = Math.floor(state.score);
+          localStorage.setItem(STORAGE_KEY, String(state.best));
+          showNotice("🏆 NEW BEST", 1300);
+        }
+        syncHud();
+        overlayTitle.textContent = "게임 오버";
+        overlayText.innerHTML = `최종 점수 ${Math.floor(state.score)}점 · 최고 점수 ${state.best}점<br />다시 시작하려면 시작 버튼을 누르세요.`;
+        overlay.classList.remove("hidden");
+        startBtn.textContent = "다시 시작";
+      }
+
+      function moveLane(direction) {
+        if (state.laneMoveCooldownMs > 0) return;
+        player.lane = clamp(player.lane + direction, 0, lanes.length - 1);
+        state.laneMoveCooldownMs = 90;
+      }
+
+      function playerRect() {
+        return {
+          x: player.x - player.w * 0.5,
+          y: player.y - player.h * 0.5,
+          w: player.w,
+          h: player.h,
+        };
+      }
+
+      function rectHit(a, b) {
+        return !(
+          a.x + a.w < b.x ||
+          a.x > b.x + b.w ||
+          a.y + a.h < b.y ||
+          a.y > b.y + b.h
+        );
+      }
+
+      function spawnObstacle() {
+        const lane = Math.floor(Math.random() * lanes.length);
+        obstacles.push({
+          lane,
+          x: lanes[lane],
+          y: -90,
+          w: 84,
+          h: 80,
+          vy: state.speed * (0.92 + Math.random() * 0.2),
+          color: Math.random() < 0.5 ? "#ff7b66" : "#ff9c5f",
+        });
+      }
+
+      function spawnCoin() {
+        const lane = Math.floor(Math.random() * lanes.length);
+        coins.push({
+          lane,
+          x: lanes[lane],
+          y: -40,
+          r: 14,
+          vy: state.speed * (0.78 + Math.random() * 0.12),
+          spin: Math.random() * Math.PI * 2,
+        });
+      }
+
+      function updateDifficulty() {
+        state.speed = clamp(260 + state.score * 0.08, 260, 560);
+        state.obstacleSpawnMs = clamp(900 - state.score * 0.9, 320, 900);
+        state.coinSpawnMs = clamp(1650 - state.score * 0.35, 1000, 1650);
+      }
+
+      function step(deltaSec) {
+        if (!state.running || state.paused) return;
+
+        const deltaMs = deltaSec * 1000;
+
+        if (state.laneMoveCooldownMs > 0) state.laneMoveCooldownMs -= deltaMs;
+        if (state.invincibleMs > 0) state.invincibleMs -= deltaMs;
+        if (state.noticeMs > 0) {
+          state.noticeMs -= deltaMs;
+          if (state.noticeMs <= 0) notice.classList.remove("visible");
+        }
+        if (state.flash > 0) state.flash -= deltaSec;
+
+        const targetX = lanes[player.lane];
+        player.x += (targetX - player.x) * Math.min(1, deltaSec * 12);
+
+        updateDifficulty();
+
+        state.obstacleElapsed += deltaMs;
+        if (state.obstacleElapsed >= state.obstacleSpawnMs) {
+          state.obstacleElapsed = 0;
+          spawnObstacle();
+        }
+
+        state.coinElapsed += deltaMs;
+        if (state.coinElapsed >= state.coinSpawnMs) {
+          state.coinElapsed = 0;
+          spawnCoin();
+        }
+
+        const pRect = playerRect();
+
+        for (let i = obstacles.length - 1; i >= 0; i -= 1) {
+          const o = obstacles[i];
+          o.y += o.vy * deltaSec;
+
+          const oRect = { x: o.x - o.w * 0.5, y: o.y - o.h * 0.5, w: o.w, h: o.h };
+          if (oRect.y > canvas.height + 50) {
+            obstacles.splice(i, 1);
+            state.scoreFloat += 2;
+            continue;
+          }
+
+          if (state.invincibleMs <= 0 && rectHit(pRect, oRect)) {
+            obstacles.splice(i, 1);
+            state.lives -= 1;
+            state.invincibleMs = 760;
+            state.flash = 0.28;
+            if (state.lives <= 0) {
+              endGame();
+              break;
+            }
+          }
+        }
+
+        for (let i = coins.length - 1; i >= 0; i -= 1) {
+          const c = coins[i];
+          c.spin += deltaSec * 5;
+          c.y += c.vy * deltaSec;
+
+          if (c.y - c.r > canvas.height + 40) {
+            coins.splice(i, 1);
+            continue;
+          }
+
+          const cRect = { x: c.x - c.r, y: c.y - c.r, w: c.r * 2, h: c.r * 2 };
+          if (rectHit(pRect, cRect)) {
+            coins.splice(i, 1);
+            state.scoreFloat += 40;
+            showNotice("💰 +40", 700);
+          }
+        }
+
+        state.scoreFloat += 30 * deltaSec;
+        state.score = Math.floor(state.scoreFloat);
+        state.roadOffset += state.speed * deltaSec;
+
+        syncHud();
+      }
+
+      function drawRoad(deltaSec) {
+        const grd = ctx.createLinearGradient(0, 0, 0, canvas.height);
+        grd.addColorStop(0, "#0a1638");
+        grd.addColorStop(1, "#040a1e");
+        ctx.fillStyle = grd;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.strokeStyle = "rgba(170, 220, 255, 0.16)";
+        ctx.lineWidth = 2;
+        const laneGap = canvas.width / 3;
+        for (let i = 1; i < 3; i += 1) {
+          const x = laneGap * i;
+          ctx.setLineDash([24, 18]);
+          ctx.lineDashOffset = -state.roadOffset * 0.4;
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, canvas.height);
+          ctx.stroke();
+        }
+        ctx.setLineDash([]);
+      }
+
+      function drawObstacle(o) {
+        ctx.save();
+        ctx.translate(o.x, o.y);
+        ctx.fillStyle = o.color;
+        ctx.fillRect(-o.w * 0.5, -o.h * 0.5, o.w, o.h);
+
+        ctx.strokeStyle = "rgba(255,255,255,0.55)";
+        ctx.lineWidth = 2;
+        for (let i = -3; i <= 3; i++) {
+          ctx.beginPath();
+          ctx.moveTo(-o.w * 0.5 + i * 14, -o.h * 0.5);
+          ctx.lineTo(-o.w * 0.5 + i * 14 + o.h * 0.6, o.h * 0.5);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      function drawCoin(c) {
+        ctx.save();
+        ctx.translate(c.x, c.y);
+        ctx.rotate(Math.sin(c.spin) * 0.6);
+        ctx.fillStyle = "#ffd773";
+        ctx.beginPath();
+        ctx.ellipse(0, 0, c.r, c.r * 0.82, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "#ffbd4a";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fillStyle = "#8f6316";
+        ctx.font = "700 14px system-ui";
+        ctx.textAlign = "center";
+        ctx.fillText("C", 0, 5);
+        ctx.restore();
+      }
+
+      function drawPlayer() {
+        if (state.invincibleMs > 0 && Math.floor(state.invincibleMs / 80) % 2 === 0) {
+          return;
+        }
+
+        ctx.save();
+        ctx.translate(player.x, player.y);
+
+        ctx.fillStyle = "#53dbff";
+        ctx.fillRect(-player.w * 0.5, -player.h * 0.5, player.w, player.h);
+        ctx.fillStyle = "#9cf1ff";
+        ctx.fillRect(-player.w * 0.2, -player.h * 0.42, player.w * 0.4, player.h * 0.26);
+
+        ctx.fillStyle = "#1d2d52";
+        ctx.fillRect(-player.w * 0.45, player.h * 0.28, player.w * 0.2, player.h * 0.2);
+        ctx.fillRect(player.w * 0.25, player.h * 0.28, player.w * 0.2, player.h * 0.2);
+
+        ctx.restore();
+      }
+
+      function render(deltaSec) {
+        drawRoad(deltaSec);
+        obstacles.forEach(drawObstacle);
+        coins.forEach(drawCoin);
+        drawPlayer();
+
+        if (state.flash > 0) {
+          ctx.fillStyle = `rgba(255, 80, 80, ${Math.min(0.35, state.flash)})`;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+      }
+
+      function frame(now) {
+        const deltaSec = Math.min(0.033, (now - lastTs) / 1000);
+        lastTs = now;
+
+        step(deltaSec);
+        render(deltaSec);
+
+        rafId = requestAnimationFrame(frame);
+      }
+
+      function bindKeyboard() {
+        window.addEventListener("keydown", (e) => {
+          if (e.repeat) return;
+          if (e.key === "ArrowLeft" || e.key.toLowerCase() === "a") moveLane(-1);
+          if (e.key === "ArrowRight" || e.key.toLowerCase() === "d") moveLane(1);
+          if (e.key === " " && !state.running) startGame();
+        });
+      }
+
+      function bindButtons() {
+        leftBtn.addEventListener("click", () => moveLane(-1));
+        rightBtn.addEventListener("click", () => moveLane(1));
+      }
+
+      function bindSwipe() {
+        canvas.addEventListener("pointerdown", (e) => {
+          swipe.active = true;
+          swipe.startX = e.clientX;
+        });
+
+        canvas.addEventListener("pointerup", (e) => {
+          if (!swipe.active) return;
+          swipe.active = false;
+          const dx = e.clientX - swipe.startX;
+          if (Math.abs(dx) > 24) {
+            moveLane(dx > 0 ? 1 : -1);
+          }
+        });
+
+        canvas.addEventListener("pointercancel", () => {
+          swipe.active = false;
+        });
+      }
+
+      startBtn.addEventListener("click", startGame);
+
+      bindKeyboard();
+      bindButtons();
+      bindSwipe();
+      syncHud();
+
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame((ts) => {
+        lastTs = ts;
+        frame(ts);
+      });
+    </script>
+  </body>
+</html>
