@@ -13,7 +13,7 @@
       <div>
         <p class="eyebrow">TAK GAME PORTAL · FOUNDATION</p>
         <h1>Arcadia Hub</h1>
-        <p class="subtitle">확장 가능한 웹게임 큐레이션 포털 (3차 확장형)</p>
+        <p class="subtitle">모바일 최적화 웹게임 큐레이션 포털 (0.3.x)</p>
         <p id="portalVersionText" class="version-text">Portal v0.1.0</p>
       </div>
       <div class="topbar-actions">
@@ -122,13 +122,21 @@
             <h4>상세 설명</h4>
             <p id="detailLongDescription"></p>
           </section>
+
+          <section class="detail-section">
+            <h4>스크린샷</h4>
+            <div id="detailScreenshots" class="detail-screenshots"></div>
+          </section>
         </div>
       </article>
     </section>
 
     <template id="gameCardTemplate">
       <article class="game-card">
-        <div class="thumb"></div>
+        <div class="thumb">
+          <img class="thumb-img" alt="" loading="lazy" decoding="async" />
+          <span class="thumb-chip">PREVIEW</span>
+        </div>
         <div class="card-body">
           <div class="card-top">
             <h3 class="title"></h3>

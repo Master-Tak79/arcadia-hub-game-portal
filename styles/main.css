@@ -254,9 +254,51 @@ select {
 }
 
 .thumb {
+  position: relative;
   height: 118px;
   border-bottom: 1px solid rgba(145, 165, 245, 0.2);
   background: linear-gradient(135deg, #3554b9, #1cc6dd);
+  overflow: hidden;
+}
+
+.thumb-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.thumb-img.visible {
+  display: block;
+}
+
+.thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(8, 14, 30, 0.55), rgba(8, 14, 30, 0.08));
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.game-card.has-preview .thumb::after {
+  opacity: 1;
+}
+
+.thumb-chip {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  padding: 4px 7px;
+  border-radius: 999px;
+  border: 1px solid rgba(210, 236, 255, 0.6);
+  background: rgba(8, 16, 38, 0.74);
+  color: #dceeff;
 }
 
 .card-body {
@@ -529,6 +571,27 @@ textarea {
   line-height: 1.5;
 }
 
+.detail-screenshots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.detail-shot {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid rgba(145, 165, 245, 0.24);
+  background: rgba(10, 16, 34, 0.8);
+}
+
+.detail-screenshots-empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
 @media (max-width: 1100px) {
   .featured-grid,
   .game-grid {
@@ -540,10 +603,22 @@ textarea {
   .layout,
   .admin-layout {
     grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 0 12px;
   }
 
   .topbar {
     flex-direction: column;
+    margin: 10px auto 8px;
+    padding: 0 12px;
+  }
+
+  h1 {
+    font-size: 26px;
+  }
+
+  .subtitle {
+    font-size: 13px;
   }
 
   .topbar-actions {
@@ -552,10 +627,19 @@ textarea {
 
   .filter-panel {
     position: static;
+    padding: 12px;
+  }
+
+  .note-box {
+    display: none;
   }
 
   .featured-grid,
-  .game-grid,
+  .game-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
   .form-grid {
     grid-template-columns: 1fr;
   }
@@ -569,7 +653,58 @@ textarea {
     flex-direction: column;
   }
 
+  .detail-screenshots {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .action-row {
     grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .featured-grid,
+  .game-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .thumb {
+    height: 86px;
+  }
+
+  .card-body {
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .title {
+    font-size: 13px;
+  }
+
+  .desc {
+    min-height: 0;
+    font-size: 12px;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .meta-row {
+    font-size: 11px;
+    flex-direction: column;
+    gap: 2px;
+    align-items: flex-start;
+  }
+
+  .tag-wrap {
+    display: none;
+  }
+
+  .detail-btn,
+  .play-link {
+    font-size: 12px;
+    padding: 8px 9px;
   }
 }

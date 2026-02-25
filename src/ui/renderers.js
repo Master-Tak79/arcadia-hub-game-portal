@@ -80,6 +80,22 @@ export function renderGameCards({
     const thumb = node.querySelector(".thumb");
     thumb.style.background = gradient(game.thumbGradient);
 
+    const thumbImg = node.querySelector(".thumb-img");
+    const thumbChip = node.querySelector(".thumb-chip");
+    if (game.previewImage) {
+      thumbImg.src = game.previewImage;
+      thumbImg.alt = `${game.title} 미리보기`;
+      thumbImg.classList.add("visible");
+      thumbChip.hidden = false;
+      node.classList.add("has-preview");
+    } else {
+      thumbImg.removeAttribute("src");
+      thumbImg.alt = "";
+      thumbImg.classList.remove("visible");
+      thumbChip.hidden = true;
+      node.classList.remove("has-preview");
+    }
+
     node.querySelector(".title").textContent = game.title;
     node.querySelector(".desc").textContent = game.description;
     node.querySelector(".platform").textContent = toPlatformLabel(game.platform);
