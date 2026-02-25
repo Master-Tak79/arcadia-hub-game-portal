@@ -56,7 +56,22 @@ export function createStore(initialGames = []) {
   }
 
   function isImplementedGame(game) {
-    return typeof game?.playUrl === "string" && game.playUrl.startsWith("./games/");
+    const raw = String(game?.playUrl || "").trim();
+    if (!raw) return false;
+
+    const lowerRaw = raw.toLowerCase();
+    if (/^(?:\.\/)?games\//.test(lowerRaw) || /^\/games\//.test(lowerRaw)) {
+      return true;
+    }
+
+    try {
+      const parsed = new URL(raw, "https://arcadia.local");
+      const path = parsed.pathname.toLowerCase();
+      if (!path.includes("/games/")) return false;
+      return /\/games\/[^/?#]+(?:\/index\.html|\/?)$/.test(path);
+    } catch {
+      return false;
+    }
   }
 
   function compareImplementedFirst(a, b) {

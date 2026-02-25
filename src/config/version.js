@@ -1,4 +1,4 @@
-export const PORTAL_VERSION = "0.3.12";
+export const PORTAL_VERSION = "0.3.13";
 export const GAME_DEFAULT_VERSION = "0.1.0";
 
 const SEMVER_RE = /^\d+\.\d+\.\d+$/;
