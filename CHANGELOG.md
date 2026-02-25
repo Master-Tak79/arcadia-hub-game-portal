@@ -15,6 +15,21 @@
 
 ---
 
+## [0.3.21] - 2026-02-25
+### Added
+- `games/lane-switch/tests/QA_CHECKLIST.md` 추가 (Lane Switch 수동/실기기 QA 체크리스트)
+- `QA_MOBILE_2DEVICES.md` 추가 (포털+게임 2기종 실기기 QA 통합 로그)
+
+### Changed
+- `games/meteor-dodge/tests/QA_CHECKLIST.md`를 최신 버전 기준(0.3.21)으로 갱신
+- 스모크 체크 필수 파일 목록에 모바일 QA 문서/체크리스트(`QA_MOBILE_2DEVICES.md`, Lane Switch QA 체크리스트) 추가
+- 포털 버전 `0.3.20` → `0.3.21`
+
+### Fixed
+- 실기기 2대 검증 진행 상황을 게임별/통합 문서에서 동시에 추적할 수 있도록 QA 기록 누락 위험 완화
+
+---
+
 ## [0.3.20] - 2026-02-25
 ### Added
 - GitHub Actions 워크플로우 `.github/workflows/ui-regression-checks.yml` 추가
