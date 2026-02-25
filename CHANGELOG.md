@@ -15,6 +15,20 @@
 
 ---
 
+## [0.3.16] - 2026-02-25
+### Added
+- `games/lane-switch/ui.js` 추가 (HUD/미션/설정/오버레이/알림 UI 동기화 유틸 분리)
+
+### Changed
+- Lane Switch `main.js`에서 UI 로직을 모듈로 분리해 게임 루프/시스템 제어 책임 중심으로 정리
+- 스모크 체크에 `games/lane-switch/ui.js` 파일/HTTP 검증 항목 추가
+- 포털 버전 `0.3.15` → `0.3.16`
+
+### Fixed
+- Meteor/Lane Switch 간 구조 불일치로 발생하던 유지보수 맥락 전환 비용 완화
+
+---
+
 ## [0.3.15] - 2026-02-25
 ### Added
 - `games/meteor-dodge/ui.js` 추가 (HUD/미션/난이도/오버레이/설정 UI 동기화 유틸 분리)

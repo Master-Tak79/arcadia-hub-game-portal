@@ -9,6 +9,14 @@ import {
   STORAGE_KEY,
 } from "./state.js";
 import { moveLane, resetRound, stepGame } from "./systems.js";
+import {
+  hideNotice as hideNoticeUI,
+  showNotice as showNoticeUI,
+  showOverlay as showOverlayUI,
+  syncHud as syncHudState,
+  syncMissionUI as syncMissionUIState,
+  syncSettingsUI as syncSettingsUIState,
+} from "./ui.js";
 
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -48,13 +56,6 @@ const renderer = createRenderer({ canvas, ctx });
 let rafId = 0;
 let lastTs = performance.now();
 
-function formatDuration(seconds) {
-  const sec = Math.max(0, Math.floor(seconds));
-  const m = String(Math.floor(sec / 60)).padStart(2, "0");
-  const s = String(sec % 60).padStart(2, "0");
-  return `${m}:${s}`;
-}
-
 function vibrate(pattern) {
   if (!settings.vibrationEnabled) return;
   if (typeof navigator.vibrate !== "function") return;
@@ -62,51 +63,36 @@ function vibrate(pattern) {
 }
 
 function showNotice(text, ms = 900) {
-  if (!settings.effectsEnabled) return;
-  notice.textContent = text;
-  state.noticeMs = ms;
-  notice.classList.add("visible");
-}
-
-function setMultilineText(node, text) {
-  node.replaceChildren();
-  const lines = String(text || "").split(/<br\s*\/?>|\n/g);
-
-  lines.forEach((line, index) => {
-    if (index > 0) {
-      node.appendChild(document.createElement("br"));
-    }
-    node.appendChild(document.createTextNode(line));
-  });
+  showNoticeUI({ notice, settings, state }, text, ms);
 }
 
 function hideNotice() {
-  notice.classList.remove("visible");
+  hideNoticeUI(notice);
 }
 
 function syncHud() {
-  scoreText.textContent = String(Math.floor(state.score));
-  bestText.textContent = String(Math.floor(state.best));
-  speedText.textContent = `${(state.speed / 250).toFixed(1)}x`;
-
-  const shield = state.shieldMs > 0 ? " 🛡" : "";
-  livesText.textContent = (state.lives > 0 ? "❤".repeat(state.lives) : "0") + shield;
+  syncHudState({
+    state,
+    scoreText,
+    bestText,
+    speedText,
+    livesText,
+  });
 }
 
 function syncMissionUI() {
-  const targetSec = Math.floor(state.missionTargetMs / 1000);
-  if (state.missionCompleted) {
-    missionText.textContent = `🎯 ${targetSec}초 미션 완료! (+120)`;
-    return;
-  }
-
-  const remain = Math.max(0, state.missionTargetMs - state.survivalMs);
-  missionText.textContent = `미션: ${targetSec}초 생존 · 남은 ${formatDuration(remain / 1000)}`;
+  syncMissionUIState({
+    state,
+    missionText,
+  });
 }
 
 function syncSettingsUI() {
-  effectsToggle.checked = settings.effectsEnabled;
-  vibrationToggle.checked = settings.vibrationEnabled;
+  syncSettingsUIState({
+    settings,
+    effectsToggle,
+    vibrationToggle,
+  });
 }
 
 function applySettings() {
@@ -151,12 +137,15 @@ function endGame() {
   syncHud();
   syncMissionUI();
 
-  overlayTitle.textContent = "게임 오버";
-  setMultilineText(
-    overlayText,
+  showOverlayUI(
+    {
+      overlay,
+      overlayTitle,
+      overlayText,
+    },
+    "게임 오버",
     `최종 점수 ${Math.floor(state.score)}점 · 최고 점수 ${state.best}점\n다시 시작하려면 시작 버튼을 누르세요.`
   );
-  overlay.classList.remove("hidden");
   startBtn.textContent = "다시 시작";
 }
 
