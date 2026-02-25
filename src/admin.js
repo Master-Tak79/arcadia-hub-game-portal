@@ -12,11 +12,24 @@ function today() {
   return new Date().toISOString().slice(0, 10);
 }
 
+function sanitizeMediaPath(value) {
+  const path = String(value || "").trim();
+  if (!path) return "";
+  if (/^javascript:/i.test(path)) return "";
+  return path;
+}
+
 function parsePathList(value) {
+  const seen = new Set();
   return String(value || "")
     .split(/[\n,]/g)
-    .map((v) => v.trim())
-    .filter(Boolean);
+    .map((v) => sanitizeMediaPath(v))
+    .filter(Boolean)
+    .filter((v) => {
+      if (seen.has(v)) return false;
+      seen.add(v);
+      return true;
+    });
 }
 
 function fillForm(game) {
@@ -122,12 +135,13 @@ function bindEvents() {
     e.preventDefault();
     const f = new FormData(els.gameForm);
 
-    const previewImage = String(f.get("previewImage") || "").trim();
+    const previewImage = sanitizeMediaPath(f.get("previewImage"));
     let screenshots = parsePathList(f.get("screenshots"));
     if (!screenshots.length && previewImage) {
       screenshots = [previewImage];
     }
 
+    const normalizedPreview = previewImage || screenshots[0] || "";
     const popularity = Math.max(0, Math.min(100, Number(f.get("popularity") || 80)));
 
     const game = {
@@ -148,7 +162,7 @@ function bindEvents() {
         .split(",")
         .map((x) => x.trim())
         .filter(Boolean),
-      previewImage,
+      previewImage: normalizedPreview,
       screenshots,
       description: String(f.get("description") || "").trim(),
       longDescription: String(f.get("longDescription") || "").trim(),

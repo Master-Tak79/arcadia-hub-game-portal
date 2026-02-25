@@ -2,11 +2,31 @@ import { gameSeed } from "./games.seed.js";
 import { GAME_DEFAULT_VERSION, normalizeVersion } from "../config/version.js";
 import { listAdminGames } from "./admin.storage.js";
 
+function sanitizeMediaPath(value) {
+  const path = String(value || "").trim();
+  if (!path) return "";
+  if (/^javascript:/i.test(path)) return "";
+  return path;
+}
+
+function uniqueList(list) {
+  const seen = new Set();
+  const out = [];
+  list.forEach((item) => {
+    if (!item || seen.has(item)) return;
+    seen.add(item);
+    out.push(item);
+  });
+  return out;
+}
+
 function withDefaults(game) {
-  const previewImage = String(game.previewImage || "").trim();
-  const screenshots = Array.isArray(game.screenshots)
-    ? game.screenshots.map((v) => String(v || "").trim()).filter(Boolean)
+  const screenshotsRaw = Array.isArray(game.screenshots)
+    ? game.screenshots.map((v) => sanitizeMediaPath(v)).filter(Boolean)
     : [];
+
+  const screenshots = uniqueList(screenshotsRaw);
+  const previewImage = sanitizeMediaPath(game.previewImage) || screenshots[0] || "";
 
   return {
     studio: "Arcadia Studio",

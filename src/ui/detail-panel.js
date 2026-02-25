@@ -17,6 +17,13 @@ export function setDetailVisible(overlay, visible) {
   document.body.classList.toggle("lock-scroll", visible);
 }
 
+function appendScreenshotEmpty(node) {
+  const empty = document.createElement("p");
+  empty.className = "detail-screenshots-empty";
+  empty.textContent = "등록된 스크린샷이 없습니다.";
+  node.appendChild(empty);
+}
+
 function renderScreenshots(node, game) {
   clear(node);
 
@@ -26,10 +33,7 @@ function renderScreenshots(node, game) {
   }
 
   if (!shots.length) {
-    const empty = document.createElement("p");
-    empty.className = "detail-screenshots-empty";
-    empty.textContent = "등록된 스크린샷이 없습니다.";
-    node.appendChild(empty);
+    appendScreenshotEmpty(node);
     return;
   }
 
@@ -40,6 +44,12 @@ function renderScreenshots(node, game) {
     img.alt = `${game.title} 스크린샷 ${idx + 1}`;
     img.loading = "lazy";
     img.decoding = "async";
+    img.onerror = () => {
+      img.remove();
+      if (!node.querySelector(".detail-shot")) {
+        appendScreenshotEmpty(node);
+      }
+    };
     node.appendChild(img);
   });
 }
