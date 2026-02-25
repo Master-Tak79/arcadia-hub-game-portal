@@ -49,30 +49,87 @@ function drawRoad(ctx, canvas, state) {
   ctx.fillRect(0, sweepY - 120, canvas.width, 240);
 }
 
-function drawObstacle(ctx, o) {
-  const x = o.x - o.w * 0.5;
-  const y = o.y - o.h * 0.5;
-
+function drawObstacleBase(ctx, o, x, y) {
   ctx.save();
-  ctx.shadowColor = "rgba(255, 126, 117, 0.55)";
+  ctx.shadowColor = o.glow || "rgba(255, 126, 117, 0.55)";
   ctx.shadowBlur = 12;
   roundRectPath(ctx, x, y, o.w, o.h, 9);
   const grd = ctx.createLinearGradient(x, y, x, y + o.h);
-  grd.addColorStop(0, "#ff9d87");
-  grd.addColorStop(1, "#ff6e63");
+  grd.addColorStop(0, o.colorA || "#ff9d87");
+  grd.addColorStop(1, o.colorB || "#ff6e63");
   ctx.fillStyle = grd;
   ctx.fill();
   ctx.restore();
+}
 
-  ctx.save();
-  ctx.strokeStyle = "rgba(255, 245, 240, 0.62)";
-  ctx.lineWidth = 1.5;
+function drawObstacleVariant(ctx, o, x, y) {
+  if (o.type === "truck") {
+    ctx.fillStyle = "rgba(233, 247, 255, 0.88)";
+    roundRectPath(ctx, x + o.w * 0.12, y + o.h * 0.08, o.w * 0.76, o.h * 0.24, 6);
+    ctx.fill();
+
+    ctx.fillStyle = "rgba(29, 44, 86, 0.45)";
+    roundRectPath(ctx, x + o.w * 0.2, y + o.h * 0.28, o.w * 0.6, o.h * 0.2, 5);
+    ctx.fill();
+
+    ctx.fillStyle = "#1d2d52";
+    roundRectPath(ctx, x + o.w * 0.1, y + o.h * 0.78, o.w * 0.22, o.h * 0.18, 3);
+    ctx.fill();
+    roundRectPath(ctx, x + o.w * 0.68, y + o.h * 0.78, o.w * 0.22, o.h * 0.18, 3);
+    ctx.fill();
+    return;
+  }
+
+  if (o.type === "barrier") {
+    ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
+    roundRectPath(ctx, x + o.w * 0.07, y + o.h * 0.12, o.w * 0.86, o.h * 0.18, 5);
+    ctx.fill();
+
+    ctx.strokeStyle = o.stripe || "rgba(255, 243, 219, 0.64)";
+    ctx.lineWidth = 1.6;
+    for (let i = -1; i <= 3; i += 1) {
+      ctx.beginPath();
+      ctx.moveTo(x + 2 + i * 14, y + o.h * 0.2);
+      ctx.lineTo(x + 12 + i * 14, y + o.h * 0.92);
+      ctx.stroke();
+    }
+
+    ctx.fillStyle = "rgba(31, 45, 86, 0.55)";
+    roundRectPath(ctx, x + o.w * 0.18, y + o.h * 0.76, o.w * 0.16, o.h * 0.2, 3);
+    ctx.fill();
+    roundRectPath(ctx, x + o.w * 0.66, y + o.h * 0.76, o.w * 0.16, o.h * 0.2, 3);
+    ctx.fill();
+    return;
+  }
+
+  // armored
+  ctx.fillStyle = "rgba(255, 242, 250, 0.88)";
+  roundRectPath(ctx, x + o.w * 0.14, y + o.h * 0.08, o.w * 0.72, o.h * 0.2, 6);
+  ctx.fill();
+
+  ctx.fillStyle = "rgba(255, 223, 239, 0.42)";
+  roundRectPath(ctx, x + o.w * 0.06, y + o.h * 0.36, o.w * 0.88, o.h * 0.18, 5);
+  ctx.fill();
+
+  ctx.strokeStyle = o.stripe || "rgba(255,232,244,0.56)";
+  ctx.lineWidth = 1.4;
   for (let i = -2; i <= 4; i += 1) {
     ctx.beginPath();
     ctx.moveTo(x - 6 + i * 12, y + 4);
-    ctx.lineTo(x + 10 + i * 12, y + o.h - 4);
+    ctx.lineTo(x + 8 + i * 12, y + o.h - 4);
     ctx.stroke();
   }
+}
+
+function drawObstacle(ctx, o) {
+  const wobble = Math.sin(o.wobbleSeed || 0) * 1.8;
+  const x = o.x - o.w * 0.5 + wobble;
+  const y = o.y - o.h * 0.5;
+
+  drawObstacleBase(ctx, o, x, y);
+
+  ctx.save();
+  drawObstacleVariant(ctx, o, x, y);
   ctx.restore();
 }
 
@@ -171,14 +228,39 @@ function drawPlayer(ctx, state, player) {
   ctx.fill();
 
   ctx.shadowBlur = 0;
+
+  // roof + windshield
   ctx.fillStyle = "#bdf6ff";
-  roundRectPath(ctx, -w * 0.22, -h * 0.4, w * 0.44, h * 0.26, 6);
+  roundRectPath(ctx, -w * 0.23, -h * 0.42, w * 0.46, h * 0.3, 6);
   ctx.fill();
 
-  ctx.fillStyle = "#1d2d52";
-  roundRectPath(ctx, -w * 0.44, h * 0.28, w * 0.22, h * 0.18, 3);
+  ctx.fillStyle = "rgba(28, 74, 128, 0.34)";
+  roundRectPath(ctx, -w * 0.2, -h * 0.22, w * 0.4, h * 0.12, 5);
   ctx.fill();
-  roundRectPath(ctx, w * 0.22, h * 0.28, w * 0.22, h * 0.18, 3);
+
+  // neon side accents
+  ctx.fillStyle = "rgba(207, 251, 255, 0.88)";
+  roundRectPath(ctx, -w * 0.42, -h * 0.08, w * 0.1, h * 0.36, 3);
+  ctx.fill();
+  roundRectPath(ctx, w * 0.32, -h * 0.08, w * 0.1, h * 0.36, 3);
+  ctx.fill();
+
+  // headlights / brake line
+  ctx.fillStyle = "rgba(242, 255, 225, 0.95)";
+  roundRectPath(ctx, -w * 0.34, -h * 0.48, w * 0.14, h * 0.06, 2);
+  ctx.fill();
+  roundRectPath(ctx, w * 0.2, -h * 0.48, w * 0.14, h * 0.06, 2);
+  ctx.fill();
+
+  ctx.fillStyle = "rgba(255, 150, 120, 0.9)";
+  roundRectPath(ctx, -w * 0.22, h * 0.38, w * 0.44, h * 0.06, 2);
+  ctx.fill();
+
+  // wheels
+  ctx.fillStyle = "#1d2d52";
+  roundRectPath(ctx, -w * 0.44, h * 0.26, w * 0.2, h * 0.2, 3);
+  ctx.fill();
+  roundRectPath(ctx, w * 0.24, h * 0.26, w * 0.2, h * 0.2, 3);
   ctx.fill();
 
   ctx.restore();
