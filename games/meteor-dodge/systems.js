@@ -1,5 +1,63 @@
 import { computeDifficulty, getPresetConfig, selectMeteorType } from "./difficulty.js";
 
+const METEOR_STYLE_STRAIGHT = [
+  {
+    coreA: "#ffc38b",
+    coreB: "#d76f3c",
+    rim: "#6f2f1f",
+    crater: "rgba(20, 8, 4, 0.34)",
+    glow: "rgba(255, 158, 108, 0.36)",
+    shard: "rgba(255, 206, 169, 0.64)",
+    spikes: 8,
+  },
+  {
+    coreA: "#ffd9ad",
+    coreB: "#df8448",
+    rim: "#7a3725",
+    crater: "rgba(26, 10, 5, 0.33)",
+    glow: "rgba(255, 185, 138, 0.34)",
+    shard: "rgba(255, 224, 190, 0.62)",
+    spikes: 9,
+  },
+  {
+    coreA: "#ffb7a2",
+    coreB: "#c85b4b",
+    rim: "#6f2a29",
+    crater: "rgba(25, 6, 9, 0.36)",
+    glow: "rgba(255, 132, 129, 0.33)",
+    shard: "rgba(255, 203, 204, 0.58)",
+    spikes: 10,
+  },
+];
+
+const METEOR_STYLE_ACCEL = [
+  {
+    coreA: "#d9fbff",
+    coreB: "#65d8ff",
+    rim: "#1f5b96",
+    crater: "rgba(2, 28, 58, 0.32)",
+    glow: "rgba(121, 232, 255, 0.4)",
+    shard: "rgba(207, 250, 255, 0.72)",
+    tail: "rgba(117, 230, 255, 0.44)",
+    spikes: 8,
+  },
+  {
+    coreA: "#f0f8ff",
+    coreB: "#6ec7ff",
+    rim: "#2462a5",
+    crater: "rgba(8, 34, 75, 0.34)",
+    glow: "rgba(144, 218, 255, 0.4)",
+    shard: "rgba(219, 246, 255, 0.68)",
+    tail: "rgba(146, 220, 255, 0.4)",
+    spikes: 9,
+  },
+];
+
+function pickMeteorStyle(isAccelerating, random = Math.random) {
+  const list = isAccelerating ? METEOR_STYLE_ACCEL : METEOR_STYLE_STRAIGHT;
+  return list[Math.floor(random() * list.length)];
+}
+
 function clampPlayer(player, canvasWidth) {
   const half = player.w * 0.5;
   player.x = Math.max(half, Math.min(canvasWidth - half, player.x));
@@ -173,6 +231,7 @@ export function spawnMeteor(state, meteors, random = Math.random) {
   const type = selectMeteorType(state.score, state.difficulty, random());
 
   const isAccelerating = type === "accelerating";
+  const style = pickMeteorStyle(isAccelerating, random);
   const r = isAccelerating ? random() * 20 + 14 : random() * 30 + 18;
   const baseVy = (state.meteorSpeedBase + random() * 130) * levelFactor;
 
@@ -187,6 +246,14 @@ export function spawnMeteor(state, meteors, random = Math.random) {
     vx: (random() - 0.5) * (isAccelerating ? 42 : 54),
     rot: random() * Math.PI * 2,
     spin: (random() - 0.5) * (isAccelerating ? 3.2 : 2.6),
+    spikes: style.spikes,
+    colorCoreA: style.coreA,
+    colorCoreB: style.coreB,
+    colorRim: style.rim,
+    colorCrater: style.crater,
+    colorGlow: style.glow,
+    colorShard: style.shard,
+    colorTail: style.tail || style.glow,
   });
 }
 

@@ -49,15 +49,24 @@ function drawMeteor(ctx, m) {
 
   if (isAccelerating) {
     ctx.save();
-    const tailLength = Math.min(90, m.vy * 0.12 + 20);
-    const tail = ctx.createLinearGradient(m.x, m.y - tailLength, m.x, m.y + m.r * 0.8);
+    const tailLength = Math.min(104, m.vy * 0.14 + 24);
+    const tail = ctx.createLinearGradient(m.x, m.y - tailLength, m.x, m.y + m.r * 0.9);
     tail.addColorStop(0, "rgba(104, 230, 255, 0)");
-    tail.addColorStop(1, "rgba(104, 230, 255, 0.35)");
+    tail.addColorStop(1, m.colorTail || "rgba(104, 230, 255, 0.35)");
     ctx.strokeStyle = tail;
-    ctx.lineWidth = Math.max(2, m.r * 0.22);
+    ctx.lineWidth = Math.max(2, m.r * 0.24);
     ctx.beginPath();
     ctx.moveTo(m.x, m.y - tailLength);
-    ctx.lineTo(m.x, m.y);
+    ctx.lineTo(m.x, m.y + m.r * 0.24);
+    ctx.stroke();
+
+    ctx.strokeStyle = "rgba(219, 248, 255, 0.52)";
+    ctx.lineWidth = Math.max(1, m.r * 0.08);
+    ctx.beginPath();
+    ctx.moveTo(m.x - m.r * 0.18, m.y - tailLength * 0.72);
+    ctx.lineTo(m.x - m.r * 0.05, m.y - m.r * 0.15);
+    ctx.moveTo(m.x + m.r * 0.18, m.y - tailLength * 0.66);
+    ctx.lineTo(m.x + m.r * 0.05, m.y - m.r * 0.18);
     ctx.stroke();
     ctx.restore();
   }
@@ -66,30 +75,25 @@ function drawMeteor(ctx, m) {
   ctx.translate(m.x, m.y);
   ctx.rotate(m.rot);
 
-  const halo = ctx.createRadialGradient(0, 0, 0, 0, 0, m.r * 2.1);
-  halo.addColorStop(0, isAccelerating ? "rgba(120, 224, 255, 0.28)" : "rgba(255, 166, 114, 0.24)");
+  const halo = ctx.createRadialGradient(0, 0, 0, 0, 0, m.r * 2.3);
+  halo.addColorStop(0, m.colorGlow || (isAccelerating ? "rgba(120, 224, 255, 0.28)" : "rgba(255, 166, 114, 0.24)"));
   halo.addColorStop(1, "rgba(0,0,0,0)");
   ctx.fillStyle = halo;
   ctx.beginPath();
-  ctx.arc(0, 0, m.r * 2.1, 0, Math.PI * 2);
+  ctx.arc(0, 0, m.r * 2.2, 0, Math.PI * 2);
   ctx.fill();
 
-  const grd = ctx.createRadialGradient(-m.r * 0.3, -m.r * 0.25, m.r * 0.2, 0, 0, m.r * 1.1);
-  if (isAccelerating) {
-    grd.addColorStop(0, "#baf6ff");
-    grd.addColorStop(0.45, "#4fcfff");
-    grd.addColorStop(1, "#1d4c88");
-  } else {
-    grd.addColorStop(0, "#f0b36f");
-    grd.addColorStop(0.46, "#d46f35");
-    grd.addColorStop(1, "#772f1d");
-  }
+  const grd = ctx.createRadialGradient(-m.r * 0.3, -m.r * 0.25, m.r * 0.18, 0, 0, m.r * 1.12);
+  grd.addColorStop(0, m.colorCoreA || (isAccelerating ? "#baf6ff" : "#f0b36f"));
+  grd.addColorStop(0.44, m.colorCoreB || (isAccelerating ? "#4fcfff" : "#d46f35"));
+  grd.addColorStop(1, m.colorRim || (isAccelerating ? "#1d4c88" : "#772f1d"));
 
   ctx.fillStyle = grd;
   ctx.beginPath();
-  for (let i = 0; i < 8; i += 1) {
-    const a = (Math.PI * 2 * i) / 8;
-    const jag = m.r * (0.82 + (i % 2 ? 0.3 : 0));
+  const spikes = m.spikes || 8;
+  for (let i = 0; i < spikes; i += 1) {
+    const a = (Math.PI * 2 * i) / spikes;
+    const jag = m.r * (0.8 + (i % 2 ? 0.32 : 0.05));
     const px = Math.cos(a) * jag;
     const py = Math.sin(a) * jag;
     if (i === 0) ctx.moveTo(px, py);
@@ -98,18 +102,52 @@ function drawMeteor(ctx, m) {
   ctx.closePath();
   ctx.fill();
 
-  ctx.fillStyle = isAccelerating ? "rgba(0, 20, 48, 0.3)" : "rgba(0,0,0,0.22)";
+  ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
+  ctx.lineWidth = Math.max(1, m.r * 0.06);
+  ctx.stroke();
+
+  ctx.fillStyle = m.colorCrater || (isAccelerating ? "rgba(0, 20, 48, 0.3)" : "rgba(0,0,0,0.22)");
   ctx.beginPath();
   ctx.arc(m.r * 0.2, m.r * 0.1, m.r * 0.2, 0, Math.PI * 2);
   ctx.fill();
+  ctx.beginPath();
+  ctx.arc(-m.r * 0.16, m.r * 0.24, m.r * 0.14, 0, Math.PI * 2);
+  ctx.fill();
 
-  if (isAccelerating) {
-    ctx.fillStyle = "rgba(214, 247, 255, 0.85)";
-    ctx.beginPath();
-    ctx.arc(-m.r * 0.2, -m.r * 0.14, m.r * 0.12, 0, Math.PI * 2);
-    ctx.fill();
-  }
+  ctx.fillStyle = m.colorShard || (isAccelerating ? "rgba(214, 247, 255, 0.85)" : "rgba(255, 226, 180, 0.62)");
+  ctx.beginPath();
+  ctx.arc(-m.r * 0.24, -m.r * 0.16, m.r * 0.12, 0, Math.PI * 2);
+  ctx.fill();
 
+  ctx.restore();
+}
+
+function drawItemBadge(ctx, x, y, r, palette, drawIcon) {
+  const glow = ctx.createRadialGradient(x, y, 0, x, y, r * 2.2);
+  glow.addColorStop(0, palette.glow);
+  glow.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.fillStyle = glow;
+  ctx.beginPath();
+  ctx.arc(x, y, r * 2.2, 0, Math.PI * 2);
+  ctx.fill();
+
+  const core = ctx.createRadialGradient(x - r * 0.3, y - r * 0.3, r * 0.2, x, y, r * 1.1);
+  core.addColorStop(0, palette.coreA);
+  core.addColorStop(1, palette.coreB);
+  ctx.fillStyle = core;
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.strokeStyle = palette.ring;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.stroke();
+
+  ctx.save();
+  ctx.translate(x, y);
+  drawIcon();
   ctx.restore();
 }
 
@@ -117,114 +155,167 @@ function drawItem(ctx, item) {
   const bobY = Math.sin(item.bob) * 3;
   const y = item.y + bobY;
 
+  ctx.save();
+
   if (item.type === "coin") {
-    ctx.save();
-    ctx.fillStyle = "#ffd66e";
-    ctx.beginPath();
-    ctx.arc(item.x, y, item.r, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = "#ffb73a";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.fillStyle = "#8a5a16";
-    ctx.font = "700 14px system-ui";
-    ctx.textAlign = "center";
-    ctx.fillText("+", item.x, y + 5);
+    drawItemBadge(
+      ctx,
+      item.x,
+      y,
+      item.r,
+      {
+        glow: "rgba(255, 219, 122, 0.42)",
+        coreA: "#ffe8a6",
+        coreB: "#ffc447",
+        ring: "#ffb73a",
+      },
+      () => {
+        ctx.fillStyle = "#8a5a16";
+        ctx.font = "700 12px system-ui";
+        ctx.textAlign = "center";
+        ctx.fillText("C", 0, 4);
+      }
+    );
     ctx.restore();
     return;
   }
 
   if (item.type === "shield") {
-    ctx.save();
-    ctx.fillStyle = "rgba(124, 232, 255, 0.22)";
-    ctx.beginPath();
-    ctx.arc(item.x, y, item.r + 2, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = "#7ae7ff";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.arc(item.x, y, item.r, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.fillStyle = "#d9fbff";
-    ctx.font = "700 12px system-ui";
-    ctx.textAlign = "center";
-    ctx.fillText("🛡", item.x, y + 4);
+    drawItemBadge(
+      ctx,
+      item.x,
+      y,
+      item.r,
+      {
+        glow: "rgba(124, 232, 255, 0.24)",
+        coreA: "#d4fbff",
+        coreB: "#82e9ff",
+        ring: "#7ae7ff",
+      },
+      () => {
+        ctx.strokeStyle = "#1f597f";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, -item.r * 0.5);
+        ctx.lineTo(item.r * 0.46, -item.r * 0.14);
+        ctx.lineTo(item.r * 0.3, item.r * 0.46);
+        ctx.lineTo(0, item.r * 0.68);
+        ctx.lineTo(-item.r * 0.3, item.r * 0.46);
+        ctx.lineTo(-item.r * 0.46, -item.r * 0.14);
+        ctx.closePath();
+        ctx.stroke();
+      }
+    );
     ctx.restore();
     return;
   }
 
   if (item.type === "slow") {
-    ctx.save();
-    ctx.fillStyle = "rgba(150, 220, 255, 0.22)";
-    ctx.beginPath();
-    ctx.arc(item.x, y, item.r + 2, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = "#a6e7ff";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.arc(item.x, y, item.r, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.fillStyle = "#eefbff";
-    ctx.font = "700 12px system-ui";
-    ctx.textAlign = "center";
-    ctx.fillText("🐢", item.x, y + 4);
+    drawItemBadge(
+      ctx,
+      item.x,
+      y,
+      item.r,
+      {
+        glow: "rgba(150, 220, 255, 0.22)",
+        coreA: "#eaf8ff",
+        coreB: "#9fddff",
+        ring: "#a6e7ff",
+      },
+      () => {
+        ctx.strokeStyle = "#22507a";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(0, 0, item.r * 0.42, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(item.r * 0.18, -item.r * 0.14);
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, -item.r * 0.24);
+        ctx.stroke();
+      }
+    );
     ctx.restore();
     return;
   }
 
   if (item.type === "magnet") {
-    ctx.save();
-    ctx.fillStyle = "rgba(255, 171, 204, 0.22)";
-    ctx.beginPath();
-    ctx.arc(item.x, y, item.r + 2, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = "#ffc6e0";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.arc(item.x, y, item.r, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.fillStyle = "#ffe7f3";
-    ctx.font = "700 12px system-ui";
-    ctx.textAlign = "center";
-    ctx.fillText("🧲", item.x, y + 4);
+    drawItemBadge(
+      ctx,
+      item.x,
+      y,
+      item.r,
+      {
+        glow: "rgba(255, 171, 204, 0.22)",
+        coreA: "#ffe9f4",
+        coreB: "#ffc6e0",
+        ring: "#ffc6e0",
+      },
+      () => {
+        ctx.lineWidth = 2.2;
+        ctx.strokeStyle = "#a33f77";
+        ctx.beginPath();
+        ctx.arc(0, 0, item.r * 0.36, Math.PI * 0.15, Math.PI * 0.85);
+        ctx.stroke();
+        ctx.fillStyle = "#f25786";
+        ctx.fillRect(-item.r * 0.34, -item.r * 0.05, item.r * 0.16, item.r * 0.24);
+        ctx.fillRect(item.r * 0.18, -item.r * 0.05, item.r * 0.16, item.r * 0.24);
+      }
+    );
     ctx.restore();
     return;
   }
 
   if (item.type === "double") {
-    ctx.save();
-    ctx.fillStyle = "rgba(255, 225, 159, 0.22)";
-    ctx.beginPath();
-    ctx.arc(item.x, y, item.r + 2, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = "#ffe9a5";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.arc(item.x, y, item.r, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.fillStyle = "#fff8d5";
-    ctx.font = "700 11px system-ui";
-    ctx.textAlign = "center";
-    ctx.fillText("x2", item.x, y + 4);
+    drawItemBadge(
+      ctx,
+      item.x,
+      y,
+      item.r,
+      {
+        glow: "rgba(255, 225, 159, 0.24)",
+        coreA: "#fff5d1",
+        coreB: "#ffe19a",
+        ring: "#ffe9a5",
+      },
+      () => {
+        ctx.fillStyle = "#8d6a15";
+        ctx.font = "700 10px system-ui";
+        ctx.textAlign = "center";
+        ctx.fillText("x2", 0, 3.5);
+      }
+    );
     ctx.restore();
     return;
   }
 
-  // overdrive (risk-reward)
-  ctx.save();
-  ctx.fillStyle = "rgba(255, 151, 120, 0.24)";
-  ctx.beginPath();
-  ctx.arc(item.x, y, item.r + 2, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.strokeStyle = "#ffba96";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.arc(item.x, y, item.r, 0, Math.PI * 2);
-  ctx.stroke();
-  ctx.fillStyle = "#ffe3d3";
-  ctx.font = "700 12px system-ui";
-  ctx.textAlign = "center";
-  ctx.fillText("⚡", item.x, y + 4);
+  // overdrive
+  drawItemBadge(
+    ctx,
+    item.x,
+    y,
+    item.r,
+    {
+      glow: "rgba(255, 151, 120, 0.24)",
+      coreA: "#ffd8c6",
+      coreB: "#ff9a78",
+      ring: "#ffba96",
+    },
+    () => {
+      ctx.fillStyle = "#8c351c";
+      ctx.beginPath();
+      ctx.moveTo(-item.r * 0.1, -item.r * 0.35);
+      ctx.lineTo(item.r * 0.18, -item.r * 0.05);
+      ctx.lineTo(0, -item.r * 0.05);
+      ctx.lineTo(item.r * 0.1, item.r * 0.34);
+      ctx.lineTo(-item.r * 0.2, 0.05 * item.r);
+      ctx.lineTo(0, 0.05 * item.r);
+      ctx.closePath();
+      ctx.fill();
+    }
+  );
+
   ctx.restore();
 }
 
