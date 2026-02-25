@@ -15,6 +15,20 @@
 
 ---
 
+## [0.3.15] - 2026-02-25
+### Added
+- `games/meteor-dodge/ui.js` 추가 (HUD/미션/난이도/오버레이/설정 UI 동기화 유틸 분리)
+
+### Changed
+- Meteor Dodge `main.js`에서 UI 렌더/포맷 로직을 모듈로 분리해 메인 루프 책임 경량화
+- 스모크 체크에 `games/meteor-dodge/ui.js` 파일/HTTP 검증 항목 추가
+- 포털 버전 `0.3.14` → `0.3.15`
+
+### Fixed
+- 단일 파일 집중으로 발생하던 유지보수 복잡도를 완화해 후속 튜닝/패치 충돌 가능성 축소
+
+---
+
 ## [0.3.14] - 2026-02-25
 ### Changed
 - 포털/관리자/게임 런타임의 DOM 초기화에서 `innerHTML = ""` 대신 `replaceChildren()` 사용
