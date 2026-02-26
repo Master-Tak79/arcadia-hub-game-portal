@@ -4,10 +4,10 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
-echo "[1/6] JS syntax check"
+echo "[1/7] JS syntax check"
 find src games -name '*.js' -print0 | xargs -0 -n1 node --check >/dev/null
 
-echo "[2/6] Game modules existence"
+echo "[2/7] Game modules existence"
 required=(
   "games/meteor-dodge/index.html"
   "games/meteor-dodge/main.js"
@@ -24,6 +24,7 @@ required=(
   "games/shared/vendor/confetti.browser.min.js"
   "scripts/shared-ui-common-check.mjs"
   "scripts/game-ui-check.mjs"
+  "scripts/mission-index-sync-check.mjs"
   "games/meteor-dodge/assets/sfx/item.wav"
   "games/meteor-dodge/tests/QA_CHECKLIST.md"
   "games/lane-switch/tests/QA_CHECKLIST.md"
@@ -180,7 +181,7 @@ for f in "${required[@]}"; do
   [[ -f "$f" ]] || { echo "Missing: $f"; exit 1; }
 done
 
-echo "[3/6] HTTP smoke check"
+echo "[3/7] HTTP smoke check"
 python3 -m http.server 8790 >/tmp/meteor_smoke_http.log 2>&1 &
 SERVER_PID=$!
 trap 'kill $SERVER_PID >/dev/null 2>&1 || true' EXIT
@@ -196,13 +197,16 @@ done
 kill $SERVER_PID >/dev/null 2>&1 || true
 trap - EXIT
 
-echo "[4/6] Roadmap file check"
+echo "[4/7] Roadmap file check"
 [[ -f ROADMAP_0.3.0.md ]] || { echo "Missing ROADMAP_0.3.0.md"; exit 1; }
 
-echo "[5/6] Shared UI common check"
+echo "[5/7] Shared UI common check"
 node scripts/shared-ui-common-check.mjs >/dev/null
 
-echo "[6/6] Game UI check"
+echo "[6/7] Mission index sync check"
+node scripts/mission-index-sync-check.mjs >/dev/null
+
+echo "[7/7] Game UI check"
 node scripts/game-ui-check.mjs >/dev/null
 
 echo "Smoke check passed ✅"
