@@ -15,6 +15,26 @@
 
 ---
 
+## [0.3.34] - 2026-02-26
+### Added
+- 신규 로컬 게임 `games/block-sage/*` 추가
+  - 제한 턴(40턴) 기반 라인 클리어 퍼즐 루프
+  - 미션(12라인) 보너스/사운드/BGM/일시정지 UX 포함
+- `games/block-sage/tests/QA_CHECKLIST.md` 추가
+- `scripts/game-ui-check.mjs`에 Block Sage UI 검증 케이스 추가
+
+### Changed
+- `src/data/games.seed.js`의 `Block Sage`를 외부 placeholder에서 로컬 플레이 URL로 전환
+- 통합 QA 문서(`QA_MOBILE_2DEVICES.md`, `QA_3RUN_LOG_TEMPLATE.md`, `QA_FINAL_STATUS.md`)를 6개 로컬 게임 기준으로 확장
+- 스모크 체크(`scripts/meteor-smoke-check.sh`)에 Block Sage 파일/HTTP/QA 문서 검증 항목 추가
+- Block Sage 버전 `0.1.0`(placeholder) → `0.3.34`
+- 포털 버전 `0.3.33` → `0.3.34`
+
+### Fixed
+- 외부 링크로 남아 있던 Block Sage의 실제 플레이 불가 상태 해소
+
+---
+
 ## [0.3.33] - 2026-02-26
 ### Changed
 - 최근 업데이트 리스트 버튼 스타일을 모바일/인앱 브라우저 기본 버튼 테마와 분리

@@ -42,3 +42,10 @@
 | YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 1 | 60+ | PASS | 없음 | - |
 | YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 2 | 60+ | PASS | 없음 | - |
 | YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 3 | 60+ | PASS | 없음 | - |
+
+## Block Sage
+| Date | Device Slot | Browser | Run# | DurationSec | Result | 회전/낙하/턴제한 이상 | Issue |
+| --- | --- | --- | --- | ---: | --- | --- | --- |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 1 | 60+ | PASS | 없음 | - |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 2 | 60+ | PASS | 없음 | - |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 3 | 60+ | PASS | 없음 | - |
