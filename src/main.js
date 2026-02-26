@@ -50,6 +50,7 @@ const store = createStore([]);
 let currentRouteGameId = null;
 let observer = null;
 let resizeTimer = null;
+let featuredExcludeIds = [];
 
 function getRecentLimit() {
   return window.matchMedia("(max-width: 860px)").matches ? 4 : 6;
@@ -58,8 +59,10 @@ function getRecentLimit() {
 function render() {
   const filters = store.getFilters();
   const allGames = store.getFilteredGames();
-  const visibleGames = store.getVisibleGames();
   const featuredGames = store.getFeaturedGames();
+  featuredExcludeIds = featuredGames.map((g) => g.id);
+
+  const visibleGames = store.getVisibleGames(featuredExcludeIds);
   const recentGames = store.getRecentUpdatedGames(getRecentLimit());
 
   renderGenreChips(els.genreChips, gameGenres, filters.genre);
@@ -87,12 +90,12 @@ function render() {
 
   updateStats(els.statsText, {
     totalCount: store.getTotalCount(),
-    visibleCount: visibleGames.length,
+    visibleCount: visibleGames.length + featuredGames.length,
     favoriteCount: store.getFavoriteCount(),
     onlyFavorites: store.isOnlyFavorites(),
   });
 
-  updateLoadMoreStatus(els.loadMoreText, store.canLoadMore());
+  updateLoadMoreStatus(els.loadMoreText, store.canLoadMore(featuredExcludeIds));
   syncDetailPanel();
 }
 
@@ -141,7 +144,7 @@ function bindInfiniteScroll() {
     (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        if (!store.canLoadMore()) return;
+        if (!store.canLoadMore(featuredExcludeIds)) return;
         store.increaseVisibleLimit(12);
         render();
       });
