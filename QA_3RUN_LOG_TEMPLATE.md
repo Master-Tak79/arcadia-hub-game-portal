@@ -84,3 +84,10 @@
 | YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 1 | 60+ | PASS | 없음 | - |
 | YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 2 | 60+ | PASS | 없음 | - |
 | YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 3 | 60+ | PASS | 없음 | - |
+
+## Mecha Sprint
+| Date | Device Slot | Browser | Run# | DurationSec | Result | 레인/충돌/BOOST 판정 이상 | Issue |
+| --- | --- | --- | --- | ---: | --- | --- | --- |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 1 | 60+ | PASS | 없음 | - |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 2 | 60+ | PASS | 없음 | - |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 3 | 60+ | PASS | 없음 | - |
