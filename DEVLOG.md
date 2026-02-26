@@ -224,6 +224,16 @@
 - QA 통합 문서(`QA_MOBILE_2DEVICES.md`, `QA_3RUN_LOG_TEMPLATE.md`, `QA_FINAL_STATUS.md`)를 7개 로컬 게임 기준으로 확장
 - `scripts/meteor-smoke-check.sh`에 Mini Empire Grid 파일/HTTP/QA 검증 항목 추가
 - 포털 버전 `0.3.35`로 패치 업데이트
+- `feat/pixel-clash-local-0.3.36` 브랜치에서 Pixel Clash Arena 로컬 게임 전환 + 포털 가독성 보완 진행
+- `games/pixel-clash/*` 신규 구현 (4방향 이동 + 자동사격 + 대시 무적 + 점수 260 미션 + 사운드/BGM + 일시정지 UX)
+- `src/data/games.seed.js`의 Pixel Clash Arena를 외부 링크에서 로컬 URL(`./games/pixel-clash/index.html`)로 전환
+- `src/ui/renderers.js`, `index.html`, `styles/main.css` 보완:
+  - 최근 업데이트 항목에 `LOCAL/외부` 배지 + 버전 표기 + 메타 정렬 개선
+  - 통계 문구를 `전체/현재 노출/즐겨찾기` 기준으로 명확화하고 안내 문구 추가
+- `scripts/game-ui-check.mjs`에 Pixel Clash UI 검증 케이스 추가
+- QA 통합 문서(`QA_MOBILE_2DEVICES.md`, `QA_3RUN_LOG_TEMPLATE.md`, `QA_FINAL_STATUS.md`)를 8개 로컬 게임 기준으로 확장
+- `scripts/meteor-smoke-check.sh`에 Pixel Clash 파일/HTTP/QA 검증 항목 추가
+- 포털 버전 `0.3.36`으로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
@@ -249,7 +259,7 @@
 - 포털 병합 우선순위는 `구현 게임 > featured > 최신성` 원칙으로 중복/하향 덮어쓰기를 방지
 
 ### 다음 작업
-- `QA_3RUN_LOG_TEMPLATE.md` 기반으로 7종 로컬 게임 HOLD 항목(3회/60초 정량 기록) 해소
-- Sky Drift / Neon Brick Breaker / Orbit Survivor / Lane Switch / Block Sage / Mini Empire Grid 실기기 난이도 곡선 및 사운드 볼륨 1차 밸런스 튜닝
-- 기존 Meteor/Lane 포함 7종 게임 공통 성능 프리셋(저사양 품질 스케일) 검토
+- `QA_3RUN_LOG_TEMPLATE.md` 기반으로 8종 로컬 게임 HOLD 항목(3회/60초 정량 기록) 해소
+- Sky Drift / Neon Brick Breaker / Orbit Survivor / Lane Switch / Block Sage / Mini Empire Grid / Pixel Clash 실기기 난이도 곡선 및 사운드 볼륨 1차 밸런스 튜닝
+- 기존 Meteor/Lane 포함 8종 게임 공통 성능 프리셋(저사양 품질 스케일) 검토
 - 관리자 미디어 입력 UI(썸네일 업로드/미리보기) 개선 검토

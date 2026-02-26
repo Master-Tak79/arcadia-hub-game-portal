@@ -203,10 +203,32 @@ select {
   gap: 8px;
 }
 
+.section-head h2 {
+  margin: 0;
+}
+
+.stats-wrap {
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+}
+
 .stats-text {
   margin: 0;
   color: var(--muted);
   font-size: 13px;
+}
+
+.stats-note {
+  margin: 0;
+  color: #9cb0df;
+  font-size: 11px;
+}
+
+.recent-guide {
+  margin: 0;
+  color: #a5b8e8;
+  font-size: 12px;
 }
 
 .mt-24 {
@@ -242,11 +264,24 @@ select {
   cursor: pointer;
 
   display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: 8px;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
   align-items: center;
   padding: 10px 12px;
   border-bottom: 1px solid rgba(145, 165, 245, 0.15);
+}
+
+.recent-main {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.recent-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
 }
 
 .recent-item:hover {
@@ -265,12 +300,48 @@ select {
 .recent-title {
   margin: 0;
   font-size: 14px;
+  font-weight: 650;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.recent-meta,
-.recent-date {
+.recent-badge {
+  border-radius: 999px;
+  border: 1px solid rgba(145, 165, 245, 0.42);
+  padding: 2px 7px;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: #d6e3ff;
+  background: rgba(46, 68, 130, 0.48);
+  flex-shrink: 0;
+}
+
+.recent-badge.local {
+  border-color: rgba(122, 240, 198, 0.5);
+  color: #d9fff1;
+  background: rgba(46, 138, 110, 0.32);
+}
+
+.recent-badge.external {
+  border-color: rgba(255, 205, 130, 0.5);
+  color: #ffefcf;
+  background: rgba(146, 96, 48, 0.32);
+}
+
+.recent-meta {
   color: var(--muted);
   font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recent-date {
+  color: #bfd0ff;
+  font-size: 12px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .game-card {
@@ -686,16 +757,28 @@ textarea {
     grid-template-columns: 1fr;
   }
 
+  .section-head {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .stats-wrap {
+    justify-items: start;
+  }
+
+  .stats-note,
+  .recent-guide {
+    font-size: 11px;
+  }
+
   .recent-list {
-    max-height: 188px;
+    max-height: 204px;
     overflow: auto;
   }
 
   .recent-item {
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 10px;
+    gap: 8px;
+    padding: 9px 10px;
   }
 
   .recent-title {
@@ -703,7 +786,7 @@ textarea {
   }
 
   .recent-meta {
-    display: none;
+    font-size: 11px;
   }
 
   .recent-date {
@@ -731,11 +814,20 @@ textarea {
   }
 
   .recent-list {
-    max-height: 160px;
+    max-height: 176px;
   }
 
   .recent-item {
     padding: 7px 8px;
+  }
+
+  .recent-meta {
+    font-size: 10px;
+  }
+
+  .recent-badge {
+    padding: 2px 6px;
+    font-size: 9px;
   }
 
   .recent-date {

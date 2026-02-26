@@ -32,6 +32,10 @@ import {
   syncHud as miniSyncHud,
   syncSettingsUI as miniSyncSettingsUI,
 } from "../games/mini-empire/ui.js";
+import {
+  syncHud as pixelSyncHud,
+  syncSettingsUI as pixelSyncSettingsUI,
+} from "../games/pixel-clash/ui.js";
 
 function createClassList() {
   return {
@@ -630,6 +634,94 @@ function runMiniEmpireChecks() {
   assert.equal(sfxVolumeValue.textContent, "35%");
 }
 
+function runPixelClashChecks() {
+  const scoreText = { textContent: "" };
+  const bestText = { textContent: "" };
+  const levelText = { textContent: "" };
+  const hpText = { textContent: "" };
+  const dashText = { textContent: "" };
+  const missionText = { textContent: "" };
+
+  pixelSyncHud({
+    state: {
+      score: 188.9,
+      best: 420,
+      level: 3,
+      hp: 2,
+      dashCooldownMs: 0,
+      missionCompleted: false,
+      missionTargetScore: 260,
+    },
+    scoreText,
+    bestText,
+    levelText,
+    hpText,
+    dashText,
+    missionText,
+  });
+
+  assert.equal(scoreText.textContent, "188");
+  assert.equal(bestText.textContent, "420");
+  assert.equal(levelText.textContent, "3");
+  assert.equal(hpText.textContent, "❤❤");
+  assert.equal(dashText.textContent, "READY");
+  assert.equal(missionText.textContent, "미션: 점수 260 (188/260)");
+
+  pixelSyncHud({
+    state: {
+      score: 320,
+      best: 420,
+      level: 4,
+      hp: 1,
+      dashCooldownMs: 1540,
+      missionCompleted: true,
+      missionTargetScore: 260,
+    },
+    scoreText,
+    bestText,
+    levelText,
+    hpText,
+    dashText,
+    missionText,
+  });
+
+  assert.equal(hpText.textContent, "❤");
+  assert.equal(dashText.textContent, "1.5s");
+  assert.equal(missionText.textContent, "🎯 점수 260 미션 완료!");
+
+  const settings = {
+    effectsEnabled: true,
+    vibrationEnabled: false,
+    soundEnabled: true,
+    bgmEnabled: false,
+    sfxVolume: 68,
+  };
+  const effectsToggle = { checked: false };
+  const vibrationToggle = { checked: false };
+  const soundToggle = { checked: false };
+  const bgmToggle = { checked: false, disabled: false };
+  const sfxVolumeRange = { value: "" };
+  const sfxVolumeValue = { textContent: "" };
+
+  pixelSyncSettingsUI({
+    settings,
+    effectsToggle,
+    vibrationToggle,
+    soundToggle,
+    bgmToggle,
+    sfxVolumeRange,
+    sfxVolumeValue,
+  });
+
+  assert.equal(effectsToggle.checked, true);
+  assert.equal(vibrationToggle.checked, false);
+  assert.equal(soundToggle.checked, true);
+  assert.equal(bgmToggle.checked, false);
+  assert.equal(bgmToggle.disabled, false);
+  assert.equal(sfxVolumeRange.value, "68");
+  assert.equal(sfxVolumeValue.textContent, "68%");
+}
+
 function run() {
   runMeteorChecks();
   runLaneChecks();
@@ -638,6 +730,7 @@ function run() {
   runOrbitChecks();
   runBlockSageChecks();
   runMiniEmpireChecks();
+  runPixelClashChecks();
   console.log("game ui check passed ✅");
 }
 
