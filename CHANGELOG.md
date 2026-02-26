@@ -15,6 +15,26 @@
 
 ---
 
+## [0.3.38] - 2026-02-26
+### Added
+- 신규 로컬 게임 `games/dash-to-core/*` 추가
+  - 3레인 강하 + 비트 타이밍 `SYNC` 액션 기반 리듬 아케이드 루프
+  - 미션(코어 2000m) 보너스/사운드/BGM/일시정지 UX 포함
+- `games/dash-to-core/tests/QA_CHECKLIST.md` 추가
+- `scripts/game-ui-check.mjs`에 Dash to Core UI 검증 케이스 추가
+
+### Changed
+- `src/data/games.seed.js`의 `Dash to Core`를 외부 placeholder에서 로컬 플레이 URL로 전환
+- 통합 QA 문서(`QA_MOBILE_2DEVICES.md`, `QA_3RUN_LOG_TEMPLATE.md`, `QA_FINAL_STATUS.md`)를 10개 로컬 게임 기준으로 확장
+- 스모크 체크(`scripts/meteor-smoke-check.sh`)에 Dash to Core 파일/HTTP/QA 검증 항목 추가
+- Dash to Core 버전 `0.1.0`(placeholder) → `0.3.38`
+- 포털 버전 `0.3.37` → `0.3.38`
+
+### Fixed
+- 외부 링크로 남아 있던 Dash to Core의 실제 플레이 불가 상태 해소
+
+---
+
 ## [0.3.37] - 2026-02-26
 ### Added
 - 신규 로컬 게임 `games/idle-foundry/*` 추가

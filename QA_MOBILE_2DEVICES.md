@@ -1,6 +1,6 @@
 # QA_MOBILE_2DEVICES
 
-목표: 모바일 실기기 2대 기준으로 포털 + 내장 게임(Meteor Dodge, Lane Switch, Sky Drift Nitro, Neon Brick Breaker, Orbit Survivor, Block Sage, Mini Empire Grid, Pixel Clash Arena, Idle Foundry) 핵심 동작을 점검합니다.
+목표: 모바일 실기기 2대 기준으로 포털 + 내장 게임(Meteor Dodge, Lane Switch, Sky Drift Nitro, Neon Brick Breaker, Orbit Survivor, Block Sage, Mini Empire Grid, Pixel Clash Arena, Idle Foundry, Dash to Core) 핵심 동작을 점검합니다.
 
 ## 기기 정보
 | Slot | Device | OS | Browser/App | Owner |
@@ -73,6 +73,14 @@
 - [ ] 일시정지/재개(P 버튼/상단 버튼) 정상
 - [ ] 사운드/BGM/볼륨 설정 저장 정상
 
+## Dash to Core 점검 (기기별)
+- [ ] 3회 플레이(각 60초 이상) 중 좌/우 이동/레인 판정 이상 없음
+- [ ] 비트 타이밍(ON BEAT) 및 SYNC 판정 정상
+- [ ] 피격/무적 프레임/게임오버 판정 정상
+- [ ] 코어 2000m 미션 보상 정상
+- [ ] 일시정지/재개(P 버튼/상단 버튼) 정상
+- [ ] 사운드/BGM/볼륨 설정 저장 정상
+
 ## 실행 로그
 | Date | Device Slot | Area | Result | Notes |
 | --- | --- | --- | --- | --- |
@@ -83,6 +91,7 @@
 | 2026-02-26 | A/B | Mini Empire Grid | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
 | 2026-02-26 | A/B | Pixel Clash Arena | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
 | 2026-02-26 | A/B | Idle Foundry | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
+| 2026-02-26 | A/B | Dash to Core | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
 
 ## 완료 기준
 - Slot A/B 모두에서 공통 + 게임별 필수 체크 PASS
@@ -98,7 +107,7 @@
 
 ### ⏸ HOLD
 - 체크리스트의 정량 항목(예: 기기별 3회 플레이/60초 이상) 증빙 로그 추가 필요
-- 신규 3종 + Lane Switch + Block Sage + Mini Empire Grid + Pixel Clash + Idle Foundry 실기기 로그 및 사운드/일시정지 항목 체크박스 마감 필요
+- 신규 3종 + Lane Switch + Block Sage + Mini Empire Grid + Pixel Clash + Idle Foundry + Dash to Core 실기기 로그 및 사운드/일시정지 항목 체크박스 마감 필요
 - 세부 체감 항목(가독성/오터치/입력 누락) 항목별 체크박스 최종 마감 필요
 
 상세 요약은 `QA_FINAL_STATUS.md` 참조.
