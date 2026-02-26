@@ -1,6 +1,6 @@
 # QA_MOBILE_2DEVICES
 
-목표: 모바일 실기기 2대 기준으로 포털 + 내장 게임(Meteor Dodge, Lane Switch, Sky Drift Nitro, Neon Brick Breaker, Orbit Survivor, Block Sage, Mini Empire Grid, Pixel Clash Arena, Idle Foundry, Dash to Core, Farm Harbor) 핵심 동작을 점검합니다.
+목표: 모바일 실기기 2대 기준으로 포털 + 내장 게임(Meteor Dodge, Lane Switch, Sky Drift Nitro, Neon Brick Breaker, Orbit Survivor, Block Sage, Mini Empire Grid, Pixel Clash Arena, Idle Foundry, Dash to Core, Farm Harbor, Mecha Sprint) 핵심 동작을 점검합니다.
 
 ## 기기 정보
 | Slot | Device | OS | Browser/App | Owner |
@@ -89,6 +89,14 @@
 - [ ] 일시정지/재개(P 버튼/상단 버튼) 정상
 - [ ] 사운드/BGM/볼륨 설정 저장 정상
 
+## Mecha Sprint 점검 (기기별)
+- [ ] 3회 플레이(각 60초 이상) 중 좌/우 이동/스와이프 입력 판정 이상 없음
+- [ ] 장애물/아이템 스폰 및 충돌 판정 정상
+- [ ] BOOST 발동/쿨다운/무적 프레임 정상
+- [ ] 체크포인트 18 미션 보상 정상
+- [ ] 일시정지/재개(P 버튼/상단 버튼) 정상
+- [ ] 사운드/BGM/볼륨 설정 저장 정상
+
 ## 실행 로그
 | Date | Device Slot | Area | Result | Notes |
 | --- | --- | --- | --- | --- |
@@ -101,6 +109,7 @@
 | 2026-02-26 | A/B | Idle Foundry | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
 | 2026-02-26 | A/B | Dash to Core | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
 | 2026-02-26 | A/B | Farm Harbor | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
+| 2026-02-26 | A/B | Mecha Sprint | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
 
 ## 완료 기준
 - Slot A/B 모두에서 공통 + 게임별 필수 체크 PASS
@@ -116,7 +125,7 @@
 
 ### ⏸ HOLD
 - 체크리스트의 정량 항목(예: 기기별 3회 플레이/60초 이상) 증빙 로그 추가 필요
-- 신규 3종 + Lane Switch + Block Sage + Mini Empire Grid + Pixel Clash + Idle Foundry + Dash to Core + Farm Harbor 실기기 로그 및 사운드/일시정지 항목 체크박스 마감 필요
+- 신규 3종 + Lane Switch + Block Sage + Mini Empire Grid + Pixel Clash + Idle Foundry + Dash to Core + Farm Harbor + Mecha Sprint 실기기 로그 및 사운드/일시정지 항목 체크박스 마감 필요
 - 세부 체감 항목(가독성/오터치/입력 누락) 항목별 체크박스 최종 마감 필요
 
 상세 요약은 `QA_FINAL_STATUS.md` 참조.

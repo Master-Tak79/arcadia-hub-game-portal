@@ -15,6 +15,26 @@
 
 ---
 
+## [0.3.40] - 2026-02-26
+### Added
+- 신규 로컬 게임 `games/mecha-sprint/*` 추가
+  - 레인 체인지 + BOOST 기반 메카 러너 루프
+  - 미션(체크포인트 18) 보너스/사운드/BGM/일시정지 UX 포함
+- `games/mecha-sprint/tests/QA_CHECKLIST.md` 추가
+- `scripts/game-ui-check.mjs`에 Mecha Sprint UI 검증 케이스 추가
+
+### Changed
+- `src/data/games.seed.js`의 `Mecha Sprint`를 외부 placeholder에서 로컬 플레이 URL로 전환
+- 통합 QA 문서(`QA_MOBILE_2DEVICES.md`, `QA_3RUN_LOG_TEMPLATE.md`, `QA_FINAL_STATUS.md`)를 12개 로컬 게임 기준으로 확장
+- 스모크 체크(`scripts/meteor-smoke-check.sh`)에 Mecha Sprint 파일/HTTP/QA 검증 항목 추가
+- Mecha Sprint 버전 `0.1.0`(placeholder) → `0.3.40`
+- 포털 버전 `0.3.39` → `0.3.40`
+
+### Fixed
+- 외부 링크로 남아 있던 Mecha Sprint의 실제 플레이 불가 상태 해소
+
+---
+
 ## [0.3.39] - 2026-02-26
 ### Added
 - 신규 로컬 게임 `games/farm-harbor/*` 추가

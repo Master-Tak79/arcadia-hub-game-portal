@@ -48,6 +48,10 @@ import {
   syncHud as farmSyncHud,
   syncSettingsUI as farmSyncSettingsUI,
 } from "../games/farm-harbor/ui.js";
+import {
+  syncHud as mechaSyncHud,
+  syncSettingsUI as mechaSyncSettingsUI,
+} from "../games/mecha-sprint/ui.js";
 
 function createClassList() {
   return {
@@ -1009,6 +1013,95 @@ function runFarmHarborChecks() {
   assert.equal(sfxVolumeValue.textContent, "39%");
 }
 
+function runMechaSprintChecks() {
+  const scoreText = { textContent: "" };
+  const bestText = { textContent: "" };
+  const lapText = { textContent: "" };
+  const hpText = { textContent: "" };
+  const boostText = { textContent: "" };
+  const missionText = { textContent: "" };
+
+  mechaSyncHud({
+    state: {
+      score: 172.6,
+      best: 410,
+      lap: 3,
+      hp: 2,
+      boostMs: 0,
+      boostCooldownMs: 0,
+      checkpoints: 7,
+      missionCompleted: false,
+    },
+    scoreText,
+    bestText,
+    lapText,
+    hpText,
+    boostText,
+    missionText,
+  });
+
+  assert.equal(scoreText.textContent, "172");
+  assert.equal(bestText.textContent, "410");
+  assert.equal(lapText.textContent, "3");
+  assert.equal(hpText.textContent, "❤❤");
+  assert.equal(boostText.textContent, "READY");
+  assert.equal(missionText.textContent, "미션: 체크포인트 18 (7/18)");
+
+  mechaSyncHud({
+    state: {
+      score: 398,
+      best: 410,
+      lap: 5,
+      hp: 1,
+      boostMs: 1400,
+      boostCooldownMs: 6200,
+      checkpoints: 18,
+      missionCompleted: true,
+    },
+    scoreText,
+    bestText,
+    lapText,
+    hpText,
+    boostText,
+    missionText,
+  });
+
+  assert.equal(boostText.textContent, "BOOST ON");
+  assert.equal(missionText.textContent, "🎯 체크포인트 18 미션 완료!");
+
+  const settings = {
+    effectsEnabled: true,
+    vibrationEnabled: false,
+    soundEnabled: true,
+    bgmEnabled: false,
+    sfxVolume: 61,
+  };
+  const effectsToggle = { checked: false };
+  const vibrationToggle = { checked: false };
+  const soundToggle = { checked: false };
+  const bgmToggle = { checked: false, disabled: false };
+  const sfxVolumeRange = { value: "" };
+  const sfxVolumeValue = { textContent: "" };
+
+  mechaSyncSettingsUI({
+    settings,
+    effectsToggle,
+    vibrationToggle,
+    soundToggle,
+    bgmToggle,
+    sfxVolumeRange,
+    sfxVolumeValue,
+  });
+
+  assert.equal(effectsToggle.checked, true);
+  assert.equal(vibrationToggle.checked, false);
+  assert.equal(soundToggle.checked, true);
+  assert.equal(bgmToggle.checked, false);
+  assert.equal(bgmToggle.disabled, false);
+  assert.equal(sfxVolumeRange.value, "61");
+  assert.equal(sfxVolumeValue.textContent, "61%");
+}
+
 function run() {
   runMeteorChecks();
   runLaneChecks();
@@ -1021,6 +1114,7 @@ function run() {
   runIdleFoundryChecks();
   runDashToCoreChecks();
   runFarmHarborChecks();
+  runMechaSprintChecks();
   console.log("game ui check passed ✅");
 }
 
