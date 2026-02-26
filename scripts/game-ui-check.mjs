@@ -36,6 +36,10 @@ import {
   syncHud as pixelSyncHud,
   syncSettingsUI as pixelSyncSettingsUI,
 } from "../games/pixel-clash/ui.js";
+import {
+  syncHud as idleSyncHud,
+  syncSettingsUI as idleSyncSettingsUI,
+} from "../games/idle-foundry/ui.js";
 
 function createClassList() {
   return {
@@ -722,6 +726,99 @@ function runPixelClashChecks() {
   assert.equal(sfxVolumeValue.textContent, "68%");
 }
 
+function runIdleFoundryChecks() {
+  const scoreText = { textContent: "" };
+  const bestText = { textContent: "" };
+  const tierText = { textContent: "" };
+  const resourceText = { textContent: "" };
+  const shiftText = { textContent: "" };
+  const missionText = { textContent: "" };
+
+  idleSyncHud({
+    state: {
+      score: 211.6,
+      best: 500,
+      tier: 2,
+      energy: 14,
+      scrap: 9,
+      ingot: 4,
+      credits: 132,
+      shiftRemainSec: 72,
+      overclockCooldownMs: 0,
+      missionCompleted: false,
+    },
+    scoreText,
+    bestText,
+    tierText,
+    resourceText,
+    shiftText,
+    missionText,
+  });
+
+  assert.equal(scoreText.textContent, "211");
+  assert.equal(bestText.textContent, "500");
+  assert.equal(tierText.textContent, "2");
+  assert.equal(resourceText.textContent, "E14 S9 I4 C132");
+  assert.equal(shiftText.textContent, "01:12");
+  assert.equal(missionText.textContent, "미션: 처리량 360 (211/360)");
+
+  idleSyncHud({
+    state: {
+      score: 402,
+      best: 500,
+      tier: 3,
+      energy: 10,
+      scrap: 4,
+      ingot: 2,
+      credits: 220,
+      shiftRemainSec: 5,
+      overclockCooldownMs: 4200,
+      missionCompleted: true,
+    },
+    scoreText,
+    bestText,
+    tierText,
+    resourceText,
+    shiftText,
+    missionText,
+  });
+
+  assert.equal(shiftText.textContent, "00:05 · OC 4.2s");
+  assert.equal(missionText.textContent, "🎯 처리량 360 미션 완료!");
+
+  const settings = {
+    effectsEnabled: false,
+    vibrationEnabled: true,
+    soundEnabled: false,
+    bgmEnabled: true,
+    sfxVolume: 44,
+  };
+  const effectsToggle = { checked: false };
+  const vibrationToggle = { checked: false };
+  const soundToggle = { checked: false };
+  const bgmToggle = { checked: false, disabled: false };
+  const sfxVolumeRange = { value: "" };
+  const sfxVolumeValue = { textContent: "" };
+
+  idleSyncSettingsUI({
+    settings,
+    effectsToggle,
+    vibrationToggle,
+    soundToggle,
+    bgmToggle,
+    sfxVolumeRange,
+    sfxVolumeValue,
+  });
+
+  assert.equal(effectsToggle.checked, false);
+  assert.equal(vibrationToggle.checked, true);
+  assert.equal(soundToggle.checked, false);
+  assert.equal(bgmToggle.checked, true);
+  assert.equal(bgmToggle.disabled, true);
+  assert.equal(sfxVolumeRange.value, "44");
+  assert.equal(sfxVolumeValue.textContent, "44%");
+}
+
 function run() {
   runMeteorChecks();
   runLaneChecks();
@@ -731,6 +828,7 @@ function run() {
   runBlockSageChecks();
   runMiniEmpireChecks();
   runPixelClashChecks();
+  runIdleFoundryChecks();
   console.log("game ui check passed ✅");
 }
 
