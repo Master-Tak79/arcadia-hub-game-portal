@@ -207,6 +207,9 @@
   - Featured 섹션 노출 게임을 메인 리스트에서 제외해 중복 카드 제거
   - 무한 스크롤 로드 가능 계산을 Featured 제외 규칙과 동기화
 - 포털 버전 `0.3.32`로 패치 업데이트
+- `fix/recent-updates-button-style-0.3.33` 브랜치에서 최근 업데이트 UI 스타일 보완 진행
+- `styles/main.css`의 `.recent-item` 버튼 리셋/텍스트 색상/포커스 스타일을 추가해 인앱 브라우저 기본 버튼 테마 영향 제거
+- 포털 버전 `0.3.33`으로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
