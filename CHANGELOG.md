@@ -15,6 +15,32 @@
 
 ---
 
+## [0.3.36] - 2026-02-26
+### Added
+- 신규 로컬 게임 `games/pixel-clash/*` 추가
+  - 4방향 이동 + 자동 사격 + 대시 무적 기반 서바이벌 루프
+  - 미션(점수 260) 보너스/사운드/BGM/일시정지 UX 포함
+- `games/pixel-clash/tests/QA_CHECKLIST.md` 추가
+- `scripts/game-ui-check.mjs`에 Pixel Clash UI 검증 케이스 추가
+
+### Changed
+- `src/data/games.seed.js`의 `Pixel Clash Arena`를 외부 placeholder에서 로컬 플레이 URL로 전환
+- 포털 최근 업데이트 가독성 보강
+  - 항목별 `LOCAL/외부` 배지, 버전 표기, 메타 정보 정렬 개선
+- 통계 문구 의미 명확화
+  - `전체/현재 노출/즐겨찾기` 기준으로 문구 정리
+  - `표시 수 = Featured + 목록(중복 제외)` 안내 문구 추가
+- 통합 QA 문서(`QA_MOBILE_2DEVICES.md`, `QA_3RUN_LOG_TEMPLATE.md`, `QA_FINAL_STATUS.md`)를 8개 로컬 게임 기준으로 확장
+- 스모크 체크(`scripts/meteor-smoke-check.sh`)에 Pixel Clash 파일/HTTP/QA 검증 항목 추가
+- Pixel Clash Arena 버전 `0.1.0`(placeholder) → `0.3.36`
+- 포털 버전 `0.3.35` → `0.3.36`
+
+### Fixed
+- 외부 링크로 남아 있던 Pixel Clash Arena의 실제 플레이 불가 상태 해소
+- Pixel Clash 미션 보너스 점수가 프레임 갱신 시 누락될 수 있던 누적 로직 보정
+
+---
+
 ## [0.3.35] - 2026-02-26
 ### Added
 - 신규 로컬 게임 `games/mini-empire/*` 추가

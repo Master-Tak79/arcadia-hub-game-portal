@@ -1,6 +1,6 @@
 # QA_MOBILE_2DEVICES
 
-목표: 모바일 실기기 2대 기준으로 포털 + 내장 게임(Meteor Dodge, Lane Switch, Sky Drift Nitro, Neon Brick Breaker, Orbit Survivor, Block Sage, Mini Empire Grid) 핵심 동작을 점검합니다.
+목표: 모바일 실기기 2대 기준으로 포털 + 내장 게임(Meteor Dodge, Lane Switch, Sky Drift Nitro, Neon Brick Breaker, Orbit Survivor, Block Sage, Mini Empire Grid, Pixel Clash Arena) 핵심 동작을 점검합니다.
 
 ## 기기 정보
 | Slot | Device | OS | Browser/App | Owner |
@@ -58,6 +58,13 @@
 - [ ] 일시정지/재개(P 버튼/상단 버튼) 정상
 - [ ] 사운드/BGM/볼륨 설정 저장 정상
 
+## Pixel Clash Arena 점검 (기기별)
+- [ ] 3회 플레이(각 60초 이상) 중 4방향 입력/자동 사격 판정 이상 없음
+- [ ] 대시 발동/쿨다운/무적 판정 정상
+- [ ] 점수 260 미션 보상 정상
+- [ ] 일시정지/재개(P 버튼/상단 버튼) 정상
+- [ ] 사운드/BGM/볼륨 설정 저장 정상
+
 ## 실행 로그
 | Date | Device Slot | Area | Result | Notes |
 | --- | --- | --- | --- | --- |
@@ -66,6 +73,7 @@
 | 2026-02-25 | A/B | Sky Drift + Brick Breaker + Orbit Survivor | PENDING | 신규 3종 게임 실기기 점검 로그 수집 필요 |
 | 2026-02-26 | A/B | Block Sage | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
 | 2026-02-26 | A/B | Mini Empire Grid | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
+| 2026-02-26 | A/B | Pixel Clash Arena | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
 
 ## 완료 기준
 - Slot A/B 모두에서 공통 + 게임별 필수 체크 PASS
@@ -74,14 +82,14 @@
 ## 정량 로그 템플릿
 - `QA_3RUN_LOG_TEMPLATE.md`를 사용해 기기별/게임별 3회(각 60초 이상) 실행 기록을 남깁니다.
 
-## 현재 판정 (2026-02-25)
+## 현재 판정 (2026-02-26)
 ### ✅ PASS
 - Slot A/B 모두 실행 확인됨
 - Device-B(`Galaxy A24 Ultra`) 브라우저 3종(Chrome/Edge/Samsung Internet) 실행 확인
 
 ### ⏸ HOLD
 - 체크리스트의 정량 항목(예: 기기별 3회 플레이/60초 이상) 증빙 로그 추가 필요
-- 신규 3종 + Lane Switch + Block Sage + Mini Empire Grid 실기기 로그 및 사운드/일시정지 항목 체크박스 마감 필요
+- 신규 3종 + Lane Switch + Block Sage + Mini Empire Grid + Pixel Clash 실기기 로그 및 사운드/일시정지 항목 체크박스 마감 필요
 - 세부 체감 항목(가독성/오터치/입력 누락) 항목별 체크박스 최종 마감 필요
 
 상세 요약은 `QA_FINAL_STATUS.md` 참조.

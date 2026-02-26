@@ -1,5 +1,24 @@
 import { gradient, toPlatformLabel, toUpdatedLabel } from "../utils/format.js";
 
+function isLocalPlayUrl(playUrl = "") {
+  const raw = String(playUrl).trim();
+  if (!raw) return false;
+
+  const lowerRaw = raw.toLowerCase();
+  if (/^(?:\.\/)?games\//.test(lowerRaw) || /^\/games\//.test(lowerRaw)) {
+    return true;
+  }
+
+  try {
+    const parsed = new URL(raw, "https://arcadia.local");
+    const path = parsed.pathname.toLowerCase();
+    if (!path.includes("/games/")) return false;
+    return /\/games\/[^/?#]+(?:\/index\.html|\/?)$/.test(path);
+  } catch {
+    return false;
+  }
+}
+
 function clear(node) {
   node.replaceChildren();
 }
@@ -147,27 +166,41 @@ export function renderRecentList(container, games, onOpenDetail) {
     item.type = "button";
     item.className = "recent-item";
 
+    const main = document.createElement("div");
+    main.className = "recent-main";
+
+    const titleRow = document.createElement("div");
+    titleRow.className = "recent-title-row";
+
     const title = document.createElement("p");
     title.className = "recent-title";
     title.textContent = game.title;
 
+    const badge = document.createElement("span");
+    const isLocal = isLocalPlayUrl(game.playUrl);
+    badge.className = `recent-badge ${isLocal ? "local" : "external"}`;
+    badge.textContent = isLocal ? "LOCAL" : "외부";
+
     const meta = document.createElement("span");
     meta.className = "recent-meta";
-    meta.textContent = `${toPlatformLabel(game.platform)} · ${game.genre}`;
+    meta.textContent = `${toPlatformLabel(game.platform)} · ${game.genre} · v${game.version || "0.1.0"}`;
 
     const date = document.createElement("span");
     date.className = "recent-date";
     date.textContent = game.updatedAt;
 
-    item.append(title, meta, date);
+    titleRow.append(title, badge);
+    main.append(titleRow, meta);
+    item.append(main, date);
+
     item.addEventListener("click", () => onOpenDetail(game.id));
     container.appendChild(item);
   });
 }
 
 export function updateStats(node, { totalCount, visibleCount, favoriteCount, onlyFavorites }) {
-  node.textContent = `표시 ${visibleCount}/${totalCount} · 즐겨찾기 ${favoriteCount}${
-    onlyFavorites ? " · 즐겨찾기 필터 ON" : ""
+  node.textContent = `전체 ${totalCount} · 현재 노출 ${visibleCount} · 즐겨찾기 ${favoriteCount}${
+    onlyFavorites ? " · 즐겨찾기만 보기 ON" : ""
   }`;
 }
 
