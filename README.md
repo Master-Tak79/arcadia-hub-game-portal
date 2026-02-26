@@ -16,7 +16,7 @@ python3 -m http.server 8790
 
 ---
 
-## 현재 구현 기능 (0.3.41)
+## 현재 구현 기능 (0.3.42)
 
 - 게임 카드형 목록 UI
 - 검색 / 장르 필터 / 카테고리 탭 / 플랫폼 필터 / 정렬
@@ -35,7 +35,7 @@ python3 -m http.server 8790
   - 최근 업데이트 섹션 컴팩트 모드(모바일 4개 표시)
 - 카드/상세에 게임 미리보기(프리뷰 이미지/스크린샷) 표시 지원
   - 현재 시드 게임 전체에 프리뷰/스크린샷 1차 적용 완료
-- 내장 플레이 가능 게임 13종
+- 내장 플레이 가능 게임 14종
   - **Meteor Dodge** (`./games/meteor-dodge/index.html`)
     - 조작: 키보드(←/→, A/D) + 하단 좌/우 버튼(모바일 터치)
     - 난이도 프리셋 2종(`Normal`/`Hard`) + 난이도별 카운트다운/보호구간/목숨 차등
@@ -53,9 +53,9 @@ python3 -m http.server 8790
     - 42초 생존 미션 + 쉴드 아이템 + 설정 패널(효과/진동/도움말)
     - 초반 완화/중반 가속형 난이도 곡선 + 최고점 저장(localStorage)
     - 구조: `main/state/input/renderer/systems` 모듈 분리
-  - **추가 내장 게임 11종**
+  - **추가 내장 게임 12종**
     - Sky Drift Nitro / Neon Brick Breaker / Orbit Survivor
-    - Block Sage / Mini Empire Grid / Pixel Clash Arena / Idle Foundry / Dash to Core / Farm Harbor / Mecha Sprint / Maze Signal
+    - Block Sage / Mini Empire Grid / Pixel Clash Arena / Idle Foundry / Dash to Core / Farm Harbor / Mecha Sprint / Maze Signal / Void Raiders
     - 공통: 사운드/BGM/효과음 볼륨 저장 + 일시정지(`P`) UX + QA 체크리스트 적용
 
 ---
@@ -116,7 +116,7 @@ arcadia-hub-game-portal/
 
 ## 버전 정책
 
-- 포털 현재 버전: **`0.3.41`**
+- 포털 현재 버전: **`0.3.42`**
 - 기본 게임 버전: **`0.1.0`**
 - 버전 형식: `MAJOR.MINOR.PATCH` (semver)
 - 게임 등록/수정 시 관리자 페이지에서 `게임 버전` 입력 가능
