@@ -15,6 +15,32 @@
 
 ---
 
+## [0.3.44] - 2026-02-26
+### Changed
+- 전체 로컬 게임 15종 1차 밸런스 패스 적용
+  - 초반 진입 난이도 완화 + 중반 가속 구간 강화 중심으로 수치 재조정
+- 게임별 미션 타깃/라운드 조건 보정
+  - Lane Switch 42초 → 39초
+  - Sky Drift 45초 → 42초
+  - Orbit Survivor 60초 → 54초
+  - Block Sage 12라인/40턴 → 11라인/44턴
+  - Mini Empire 번영 180/30턴 → 170/32턴
+  - Pixel Clash 점수 260 → 240
+  - Idle Foundry 처리량 360/90초 → 340/96초
+  - Dash to Core 2000m → 1800m
+  - Farm Harbor 번영 340/30일 → 320/32일
+  - Mecha Sprint 체크포인트 18 → 16
+  - Maze Signal 링크 5회/24회전 → 4회/26회전
+  - Void Raiders 격추 40 → 36
+  - Rail Commander 배차 24/90초 → 22/96초
+- 난이도 보정에 맞춰 인게임 미션 문구/오버레이 설명/QA 체크리스트 동기화
+- `scripts/game-ui-check.mjs` 시나리오 기대값을 신규 밸런스 값으로 갱신
+
+### Fixed
+- 밸런스 수치 변경 후 일부 게임 UI/문서에 남아 있던 구버전 목표값(미션/라운드 조건) 불일치 수정
+
+---
+
 ## [0.3.43] - 2026-02-26
 ### Added
 - 신규 로컬 게임 `games/rail-commander/*` 추가

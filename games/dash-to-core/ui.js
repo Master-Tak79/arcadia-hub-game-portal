@@ -24,12 +24,14 @@ export function syncHud({
     beatText.textContent = "READY";
   }
 
+  const target = state.missionTargetDepth;
+
   if (state.missionCompleted) {
-    missionText.textContent = "🎯 코어 2000m 미션 완료!";
+    missionText.textContent = `🎯 코어 ${target}m 미션 완료!`;
     return;
   }
 
-  missionText.textContent = `미션: 코어 2000m (${Math.floor(state.depth)}/2000)`;
+  missionText.textContent = `미션: 코어 ${target}m (${Math.floor(state.depth)}/${target})`;
 }
 
 export function syncSettingsUI({

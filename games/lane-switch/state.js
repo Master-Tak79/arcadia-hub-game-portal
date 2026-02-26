@@ -42,12 +42,12 @@ export function createState(bestScore = 0) {
     scoreFloat: 0,
     best: Number(bestScore || 0),
 
-    speed: 242,
+    speed: 232,
     lives: 3,
 
-    obstacleSpawnMs: 1060,
-    coinSpawnMs: 1680,
-    shieldSpawnMs: 5600,
+    obstacleSpawnMs: 1120,
+    coinSpawnMs: 1640,
+    shieldSpawnMs: 5200,
     obstacleElapsed: 0,
     coinElapsed: 0,
     shieldElapsed: 0,
@@ -61,7 +61,7 @@ export function createState(bestScore = 0) {
     shieldMs: 0,
 
     survivalMs: 0,
-    missionTargetMs: 42000,
+    missionTargetMs: 39000,
     missionCompleted: false,
     missionNoticeMs: 0,
   };

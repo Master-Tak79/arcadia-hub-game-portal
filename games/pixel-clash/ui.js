@@ -22,13 +22,15 @@ export function syncHud({
     dashText.textContent = `${(state.dashCooldownMs / 1000).toFixed(1)}s`;
   }
 
+  const target = state.missionTargetScore;
+
   if (state.missionCompleted) {
-    missionText.textContent = "🎯 점수 260 미션 완료!";
+    missionText.textContent = `🎯 점수 ${target} 미션 완료!`;
     return;
   }
 
-  const progress = Math.min(state.missionTargetScore, Math.floor(state.score));
-  missionText.textContent = `미션: 점수 260 (${progress}/260)`;
+  const progress = Math.min(target, Math.floor(state.score));
+  missionText.textContent = `미션: 점수 ${target} (${progress}/${target})`;
 }
 
 export function syncSettingsUI({

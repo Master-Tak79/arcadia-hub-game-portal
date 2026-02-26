@@ -55,7 +55,7 @@ export function createPaddle(canvas) {
     y: canvas.height * 0.9,
     w: 110,
     h: 16,
-    speed: 390,
+    speed: 410,
   };
 }
 
@@ -66,6 +66,6 @@ export function createBall(canvas) {
     vx: 0,
     vy: 0,
     r: 9,
-    speedBase: 300,
+    speedBase: 288,
   };
 }

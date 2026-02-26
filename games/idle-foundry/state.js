@@ -39,15 +39,15 @@ export function createState(bestScore = 0) {
     best: Number(bestScore || 0),
     tier: 1,
 
-    energy: 12,
-    scrap: 6,
+    energy: 14,
+    scrap: 7,
     ingot: 0,
-    credits: 80,
+    credits: 90,
 
-    shiftLimitSec: 90,
-    shiftRemainSec: 90,
+    shiftLimitSec: 96,
+    shiftRemainSec: 96,
 
-    missionTargetScore: 360,
+    missionTargetScore: 340,
     missionCompleted: false,
     missionNoticeMs: 0,
 

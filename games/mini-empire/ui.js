@@ -15,12 +15,14 @@ export function syncHud({
   turnText.textContent = `${state.turn}/${state.turnLimit}`;
   resourceText.textContent = `F${state.food} O${state.ore} E${state.energy} P${state.population}`;
 
+  const target = state.missionTargetScore;
+
   if (state.missionCompleted) {
-    missionText.textContent = "🎯 번영 180 미션 완료!";
+    missionText.textContent = `🎯 번영 ${target} 미션 완료!`;
     return;
   }
 
-  missionText.textContent = `미션: 번영 180 (${Math.floor(state.score)}/180)`;
+  missionText.textContent = `미션: 번영 ${target} (${Math.floor(state.score)}/${target})`;
 }
 
 export function syncSettingsUI({

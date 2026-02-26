@@ -22,12 +22,14 @@ export function syncHud({
     scanText.textContent = "READY";
   }
 
+  const target = state.missionTargetClears;
+
   if (state.missionCompleted) {
-    missionText.textContent = "🎯 링크 5회 미션 완료!";
+    missionText.textContent = `🎯 링크 ${target}회 미션 완료!`;
     return;
   }
 
-  missionText.textContent = `미션: 링크 5회 (${state.clears}/5)`;
+  missionText.textContent = `미션: 링크 ${target}회 (${state.clears}/${target})`;
 }
 
 export function syncSettingsUI({

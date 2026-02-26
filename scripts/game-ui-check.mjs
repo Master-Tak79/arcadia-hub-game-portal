@@ -200,16 +200,16 @@ function runLaneChecks() {
 
   const missionText = { textContent: "" };
   laneSyncMissionUI({
-    state: { missionTargetMs: 42000, missionCompleted: false, survivalMs: 10000 },
+    state: { missionTargetMs: 39000, missionCompleted: false, survivalMs: 10000 },
     missionText,
   });
-  assert.equal(missionText.textContent, "미션: 42초 생존 · 남은 00:32");
+  assert.equal(missionText.textContent, "미션: 39초 생존 · 남은 00:29");
 
   laneSyncMissionUI({
-    state: { missionTargetMs: 42000, missionCompleted: true, survivalMs: 43000 },
+    state: { missionTargetMs: 39000, missionCompleted: true, survivalMs: 43000 },
     missionText,
   });
-  assert.equal(missionText.textContent, "🎯 42초 미션 완료! (+120)");
+  assert.equal(missionText.textContent, "🎯 39초 미션 완료! (+120)");
 
   const effectsToggle = { checked: false };
   const vibrationToggle = { checked: false };
@@ -258,7 +258,7 @@ function runSkyChecks() {
       lives: 2,
       nitro: 63.4,
       missionCompleted: false,
-      missionTargetMs: 45000,
+      missionTargetMs: 42000,
       survivalMs: 12000,
     },
     scoreText,
@@ -274,7 +274,7 @@ function runSkyChecks() {
   assert.equal(speedText.textContent, "1.3x");
   assert.equal(livesText.textContent, "❤❤");
   assert.equal(nitroText.textContent, "63%");
-  assert.equal(missionText.textContent, "미션: 45초 생존 · 남은 00:33");
+  assert.equal(missionText.textContent, "미션: 42초 생존 · 남은 00:30");
 
   skySyncHud({
     state: {
@@ -284,7 +284,7 @@ function runSkyChecks() {
       lives: 1,
       nitro: 30,
       missionCompleted: true,
-      missionTargetMs: 45000,
+      missionTargetMs: 42000,
       survivalMs: 47000,
     },
     scoreText,
@@ -294,7 +294,7 @@ function runSkyChecks() {
     nitroText,
     missionText,
   });
-  assert.equal(missionText.textContent, "🎯 45초 생존 미션 완료!");
+  assert.equal(missionText.textContent, "🎯 42초 생존 미션 완료!");
 
   const settings = {
     effectsEnabled: true,
@@ -424,7 +424,7 @@ function runOrbitChecks() {
       lives: 2,
       dashCooldownMs: 0,
       missionCompleted: false,
-      missionTargetMs: 60000,
+      missionTargetMs: 54000,
       survivalMs: 15000,
     },
     scoreText,
@@ -440,7 +440,7 @@ function runOrbitChecks() {
   assert.equal(levelText.textContent, "4");
   assert.equal(livesText.textContent, "❤❤");
   assert.equal(dashText.textContent, "READY");
-  assert.equal(missionText.textContent, "미션: 60초 생존 · 남은 00:45");
+  assert.equal(missionText.textContent, "미션: 54초 생존 · 남은 00:39");
 
   orbitSyncHud({
     state: {
@@ -450,7 +450,7 @@ function runOrbitChecks() {
       lives: 1,
       dashCooldownMs: 1340,
       missionCompleted: true,
-      missionTargetMs: 60000,
+      missionTargetMs: 54000,
       survivalMs: 61000,
     },
     scoreText,
@@ -462,7 +462,7 @@ function runOrbitChecks() {
   });
 
   assert.equal(dashText.textContent, "1.3s");
-  assert.equal(missionText.textContent, "🎯 60초 생존 미션 완료!");
+  assert.equal(missionText.textContent, "🎯 54초 생존 미션 완료!");
 
   const settings = {
     effectsEnabled: true,
@@ -510,8 +510,9 @@ function runBlockSageChecks() {
       best: 500,
       lines: 7,
       turnsUsed: 14,
-      turnLimit: 40,
+      turnLimit: 44,
       missionCompleted: false,
+      missionTargetLines: 11,
     },
     scoreText,
     bestText,
@@ -523,17 +524,18 @@ function runBlockSageChecks() {
   assert.equal(scoreText.textContent, "120");
   assert.equal(bestText.textContent, "500");
   assert.equal(linesText.textContent, "7");
-  assert.equal(turnsText.textContent, "26턴");
-  assert.equal(missionText.textContent, "미션: 12라인 클리어 (7/12)");
+  assert.equal(turnsText.textContent, "30턴");
+  assert.equal(missionText.textContent, "미션: 11라인 클리어 (7/11)");
 
   blockSyncHud({
     state: {
       score: 240,
       best: 500,
-      lines: 12,
+      lines: 11,
       turnsUsed: 20,
-      turnLimit: 40,
+      turnLimit: 44,
       missionCompleted: true,
+      missionTargetLines: 11,
     },
     scoreText,
     bestText,
@@ -541,7 +543,7 @@ function runBlockSageChecks() {
     turnsText,
     missionText,
   });
-  assert.equal(missionText.textContent, "🎯 12라인 미션 완료!");
+  assert.equal(missionText.textContent, "🎯 11라인 미션 완료!");
 
   const settings = {
     effectsEnabled: true,
@@ -588,12 +590,13 @@ function runMiniEmpireChecks() {
       score: 132,
       best: 410,
       turn: 8,
-      turnLimit: 30,
+      turnLimit: 32,
       food: 6,
       ore: 5,
       energy: 4,
       population: 3,
       missionCompleted: false,
+      missionTargetScore: 170,
     },
     scoreText,
     bestText,
@@ -604,21 +607,22 @@ function runMiniEmpireChecks() {
 
   assert.equal(scoreText.textContent, "132");
   assert.equal(bestText.textContent, "410");
-  assert.equal(turnText.textContent, "8/30");
+  assert.equal(turnText.textContent, "8/32");
   assert.equal(resourceText.textContent, "F6 O5 E4 P3");
-  assert.equal(missionText.textContent, "미션: 번영 180 (132/180)");
+  assert.equal(missionText.textContent, "미션: 번영 170 (132/170)");
 
   miniSyncHud({
     state: {
       score: 195,
       best: 410,
       turn: 19,
-      turnLimit: 30,
+      turnLimit: 32,
       food: 8,
       ore: 7,
       energy: 6,
       population: 5,
       missionCompleted: true,
+      missionTargetScore: 170,
     },
     scoreText,
     bestText,
@@ -627,7 +631,7 @@ function runMiniEmpireChecks() {
     missionText,
   });
 
-  assert.equal(missionText.textContent, "🎯 번영 180 미션 완료!");
+  assert.equal(missionText.textContent, "🎯 번영 170 미션 완료!");
 
   const settings = {
     effectsEnabled: false,
@@ -678,7 +682,7 @@ function runPixelClashChecks() {
       hp: 2,
       dashCooldownMs: 0,
       missionCompleted: false,
-      missionTargetScore: 260,
+      missionTargetScore: 240,
     },
     scoreText,
     bestText,
@@ -693,7 +697,7 @@ function runPixelClashChecks() {
   assert.equal(levelText.textContent, "3");
   assert.equal(hpText.textContent, "❤❤");
   assert.equal(dashText.textContent, "READY");
-  assert.equal(missionText.textContent, "미션: 점수 260 (188/260)");
+  assert.equal(missionText.textContent, "미션: 점수 240 (188/240)");
 
   pixelSyncHud({
     state: {
@@ -703,7 +707,7 @@ function runPixelClashChecks() {
       hp: 1,
       dashCooldownMs: 1540,
       missionCompleted: true,
-      missionTargetScore: 260,
+      missionTargetScore: 240,
     },
     scoreText,
     bestText,
@@ -715,7 +719,7 @@ function runPixelClashChecks() {
 
   assert.equal(hpText.textContent, "❤");
   assert.equal(dashText.textContent, "1.5s");
-  assert.equal(missionText.textContent, "🎯 점수 260 미션 완료!");
+  assert.equal(missionText.textContent, "🎯 점수 240 미션 완료!");
 
   const settings = {
     effectsEnabled: true,
@@ -770,6 +774,7 @@ function runIdleFoundryChecks() {
       shiftRemainSec: 72,
       overclockCooldownMs: 0,
       missionCompleted: false,
+      missionTargetScore: 340,
     },
     scoreText,
     bestText,
@@ -784,7 +789,7 @@ function runIdleFoundryChecks() {
   assert.equal(tierText.textContent, "2");
   assert.equal(resourceText.textContent, "E14 S9 I4 C132");
   assert.equal(shiftText.textContent, "01:12");
-  assert.equal(missionText.textContent, "미션: 처리량 360 (211/360)");
+  assert.equal(missionText.textContent, "미션: 처리량 340 (211/340)");
 
   idleSyncHud({
     state: {
@@ -798,6 +803,7 @@ function runIdleFoundryChecks() {
       shiftRemainSec: 5,
       overclockCooldownMs: 4200,
       missionCompleted: true,
+      missionTargetScore: 340,
     },
     scoreText,
     bestText,
@@ -808,7 +814,7 @@ function runIdleFoundryChecks() {
   });
 
   assert.equal(shiftText.textContent, "00:05 · OC 4.2s");
-  assert.equal(missionText.textContent, "🎯 처리량 360 미션 완료!");
+  assert.equal(missionText.textContent, "🎯 처리량 340 미션 완료!");
 
   const settings = {
     effectsEnabled: false,
@@ -860,6 +866,7 @@ function runDashToCoreChecks() {
       pulseMs: 120,
       syncCooldownMs: 0,
       missionCompleted: false,
+      missionTargetDepth: 1800,
     },
     scoreText,
     bestText,
@@ -874,7 +881,7 @@ function runDashToCoreChecks() {
   assert.equal(depthText.textContent, "912m");
   assert.equal(livesText.textContent, "❤❤");
   assert.equal(beatText.textContent, "ON BEAT");
-  assert.equal(missionText.textContent, "미션: 코어 2000m (912/2000)");
+  assert.equal(missionText.textContent, "미션: 코어 1800m (912/1800)");
 
   dashSyncHud({
     state: {
@@ -885,6 +892,7 @@ function runDashToCoreChecks() {
       pulseMs: 0,
       syncCooldownMs: 1340,
       missionCompleted: true,
+      missionTargetDepth: 1800,
     },
     scoreText,
     bestText,
@@ -895,7 +903,7 @@ function runDashToCoreChecks() {
   });
 
   assert.equal(beatText.textContent, "SYNC 1.3s");
-  assert.equal(missionText.textContent, "🎯 코어 2000m 미션 완료!");
+  assert.equal(missionText.textContent, "🎯 코어 1800m 미션 완료!");
 
   const settings = {
     effectsEnabled: true,
@@ -948,9 +956,10 @@ function runFarmHarborChecks() {
       crates: 4,
       coins: 140,
       day: 12,
-      dayLimit: 30,
+      dayLimit: 32,
       rushCooldownMs: 0,
       missionCompleted: false,
+      missionTargetScore: 320,
     },
     scoreText,
     bestText,
@@ -964,8 +973,8 @@ function runFarmHarborChecks() {
   assert.equal(bestText.textContent, "450");
   assert.equal(tierText.textContent, "2");
   assert.equal(resourceText.textContent, "F12 H9 X4 C140");
-  assert.equal(dayText.textContent, "12/30");
-  assert.equal(missionText.textContent, "미션: 번영 340 (198/340)");
+  assert.equal(dayText.textContent, "12/32");
+  assert.equal(missionText.textContent, "미션: 번영 320 (198/320)");
 
   farmSyncHud({
     state: {
@@ -977,9 +986,10 @@ function runFarmHarborChecks() {
       crates: 2,
       coins: 210,
       day: 24,
-      dayLimit: 30,
+      dayLimit: 32,
       rushCooldownMs: 5300,
       missionCompleted: true,
+      missionTargetScore: 320,
     },
     scoreText,
     bestText,
@@ -989,8 +999,8 @@ function runFarmHarborChecks() {
     missionText,
   });
 
-  assert.equal(dayText.textContent, "24/30 · RUSH 5.3s");
-  assert.equal(missionText.textContent, "🎯 번영 340 미션 완료!");
+  assert.equal(dayText.textContent, "24/32 · RUSH 5.3s");
+  assert.equal(missionText.textContent, "🎯 번영 320 미션 완료!");
 
   const settings = {
     effectsEnabled: false,
@@ -1043,6 +1053,7 @@ function runMechaSprintChecks() {
       boostCooldownMs: 0,
       checkpoints: 7,
       missionCompleted: false,
+      missionTargetCheckpoints: 16,
     },
     scoreText,
     bestText,
@@ -1057,7 +1068,7 @@ function runMechaSprintChecks() {
   assert.equal(lapText.textContent, "3");
   assert.equal(hpText.textContent, "❤❤");
   assert.equal(boostText.textContent, "READY");
-  assert.equal(missionText.textContent, "미션: 체크포인트 18 (7/18)");
+  assert.equal(missionText.textContent, "미션: 체크포인트 16 (7/16)");
 
   mechaSyncHud({
     state: {
@@ -1067,8 +1078,9 @@ function runMechaSprintChecks() {
       hp: 1,
       boostMs: 1400,
       boostCooldownMs: 6200,
-      checkpoints: 18,
+      checkpoints: 16,
       missionCompleted: true,
+      missionTargetCheckpoints: 16,
     },
     scoreText,
     bestText,
@@ -1079,7 +1091,7 @@ function runMechaSprintChecks() {
   });
 
   assert.equal(boostText.textContent, "BOOST ON");
-  assert.equal(missionText.textContent, "🎯 체크포인트 18 미션 완료!");
+  assert.equal(missionText.textContent, "🎯 체크포인트 16 미션 완료!");
 
   const settings = {
     effectsEnabled: true,
@@ -1131,6 +1143,7 @@ function runMazeSignalChecks() {
       scanCooldownMs: 0,
       clears: 2,
       missionCompleted: false,
+      missionTargetClears: 4,
     },
     scoreText,
     bestText,
@@ -1145,7 +1158,7 @@ function runMazeSignalChecks() {
   assert.equal(levelText.textContent, "2");
   assert.equal(movesText.textContent, "17");
   assert.equal(scanText.textContent, "READY");
-  assert.equal(missionText.textContent, "미션: 링크 5회 (2/5)");
+  assert.equal(missionText.textContent, "미션: 링크 4회 (2/4)");
 
   mazeSyncHud({
     state: {
@@ -1154,8 +1167,9 @@ function runMazeSignalChecks() {
       level: 3,
       movesLeft: 8,
       scanCooldownMs: 3600,
-      clears: 5,
+      clears: 4,
       missionCompleted: true,
+      missionTargetClears: 4,
     },
     scoreText,
     bestText,
@@ -1166,7 +1180,7 @@ function runMazeSignalChecks() {
   });
 
   assert.equal(scanText.textContent, "3.6s");
-  assert.equal(missionText.textContent, "🎯 링크 5회 미션 완료!");
+  assert.equal(missionText.textContent, "🎯 링크 4회 미션 완료!");
 
   const settings = {
     effectsEnabled: false,
@@ -1218,6 +1232,7 @@ function runVoidRaidersChecks() {
       novaCooldownMs: 0,
       kills: 18,
       missionCompleted: false,
+      missionTargetKills: 36,
     },
     scoreText,
     bestText,
@@ -1232,7 +1247,7 @@ function runVoidRaidersChecks() {
   assert.equal(levelText.textContent, "4");
   assert.equal(hpText.textContent, "❤❤");
   assert.equal(novaText.textContent, "READY");
-  assert.equal(missionText.textContent, "미션: 격추 40 (18/40)");
+  assert.equal(missionText.textContent, "미션: 격추 36 (18/36)");
 
   voidSyncHud({
     state: {
@@ -1241,8 +1256,9 @@ function runVoidRaidersChecks() {
       level: 6,
       hp: 1,
       novaCooldownMs: 4200,
-      kills: 41,
+      kills: 36,
       missionCompleted: true,
+      missionTargetKills: 36,
     },
     scoreText,
     bestText,
@@ -1253,7 +1269,7 @@ function runVoidRaidersChecks() {
   });
 
   assert.equal(novaText.textContent, "4.2s");
-  assert.equal(missionText.textContent, "🎯 격추 40 미션 완료!");
+  assert.equal(missionText.textContent, "🎯 격추 36 미션 완료!");
 
   const settings = {
     effectsEnabled: true,
@@ -1309,6 +1325,7 @@ function runRailCommanderChecks() {
       overdriveCooldownMs: 0,
       dispatches: 9,
       missionCompleted: false,
+      missionTargetDispatches: 22,
     },
     scoreText,
     bestText,
@@ -1323,7 +1340,7 @@ function runRailCommanderChecks() {
   assert.equal(tierText.textContent, "2");
   assert.equal(resourceText.textContent, "C11 P8 M6 ₡150");
   assert.equal(shiftText.textContent, "01:13");
-  assert.equal(missionText.textContent, "미션: 배차 24 (9/24)");
+  assert.equal(missionText.textContent, "미션: 배차 22 (9/22)");
 
   railSyncHud({
     state: {
@@ -1336,8 +1353,9 @@ function runRailCommanderChecks() {
       credits: 240,
       shiftRemainSec: 12,
       overdriveCooldownMs: 5200,
-      dispatches: 24,
+      dispatches: 22,
       missionCompleted: true,
+      missionTargetDispatches: 22,
     },
     scoreText,
     bestText,
@@ -1348,7 +1366,7 @@ function runRailCommanderChecks() {
   });
 
   assert.equal(shiftText.textContent, "00:12 · OD 5.2s");
-  assert.equal(missionText.textContent, "🎯 배차 24 미션 완료!");
+  assert.equal(missionText.textContent, "🎯 배차 22 미션 완료!");
 
   const settings = {
     effectsEnabled: false,

@@ -370,7 +370,7 @@ applySettings();
 showOverlayUI(
   { overlay, overlayTitle, overlayText },
   "Block Sage",
-  "제한된 턴 안에 블록을 정렬해 라인을 지우세요.\n40턴 동안 12라인을 달성하면 미션 보너스를 얻습니다."
+  "제한된 턴 안에 블록을 정렬해 라인을 지우세요.\n44턴 동안 11라인을 달성하면 미션 보너스를 얻습니다."
 );
 
 cancelAnimationFrame(rafId);

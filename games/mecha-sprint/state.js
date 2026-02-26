@@ -40,15 +40,15 @@ export function createState(bestScore = 0) {
 
     lane: 1,
     laneCount: 3,
-    hp: 3,
+    hp: 4,
 
     distance: 0,
     lap: 1,
-    speed: 180,
+    speed: 172,
 
-    obstacleSpawnMs: 820,
+    obstacleSpawnMs: 860,
     obstacleElapsedMs: 0,
-    pickupSpawnMs: 2100,
+    pickupSpawnMs: 1950,
     pickupElapsedMs: 0,
 
     boostMs: 0,
@@ -56,7 +56,7 @@ export function createState(bestScore = 0) {
     invincibleMs: 0,
 
     checkpoints: 0,
-    missionTargetCheckpoints: 18,
+    missionTargetCheckpoints: 16,
     missionCompleted: false,
     missionNoticeMs: 0,
 

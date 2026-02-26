@@ -8,12 +8,14 @@ export function syncHud({ state, scoreText, bestText, linesText, turnsText, miss
   linesText.textContent = String(state.lines);
   turnsText.textContent = `${Math.max(0, state.turnLimit - state.turnsUsed)}턴`;
 
+  const target = state.missionTargetLines;
+
   if (state.missionCompleted) {
-    missionText.textContent = "🎯 12라인 미션 완료!";
+    missionText.textContent = `🎯 ${target}라인 미션 완료!`;
     return;
   }
 
-  missionText.textContent = `미션: 12라인 클리어 (${state.lines}/12)`;
+  missionText.textContent = `미션: ${target}라인 클리어 (${state.lines}/${target})`;
 }
 
 export function syncSettingsUI({

@@ -23,12 +23,14 @@ export function syncHud({
     dayText.textContent = `${state.day}/${state.dayLimit} · RUSH ${cd}s`;
   }
 
+  const target = state.missionTargetScore;
+
   if (state.missionCompleted) {
-    missionText.textContent = "🎯 번영 340 미션 완료!";
+    missionText.textContent = `🎯 번영 ${target} 미션 완료!`;
     return;
   }
 
-  missionText.textContent = `미션: 번영 340 (${Math.floor(state.score)}/340)`;
+  missionText.textContent = `미션: 번영 ${target} (${Math.floor(state.score)}/${target})`;
 }
 
 export function syncSettingsUI({

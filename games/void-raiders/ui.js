@@ -22,12 +22,14 @@ export function syncHud({
     novaText.textContent = "READY";
   }
 
+  const target = state.missionTargetKills;
+
   if (state.missionCompleted) {
-    missionText.textContent = "🎯 격추 40 미션 완료!";
+    missionText.textContent = `🎯 격추 ${target} 미션 완료!`;
     return;
   }
 
-  missionText.textContent = `미션: 격추 40 (${state.kills}/40)`;
+  missionText.textContent = `미션: 격추 ${target} (${state.kills}/${target})`;
 }
 
 export function syncSettingsUI({

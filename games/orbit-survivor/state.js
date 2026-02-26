@@ -40,9 +40,9 @@ export function createState(bestScore = 0) {
     level: 1,
     lives: 3,
 
-    enemySpawnMs: 980,
+    enemySpawnMs: 1040,
     enemyElapsed: 0,
-    shootMs: 260,
+    shootMs: 240,
     shootElapsed: 0,
 
     dashCooldownMs: 0,
@@ -51,7 +51,7 @@ export function createState(bestScore = 0) {
     flash: 0,
 
     survivalMs: 0,
-    missionTargetMs: 60000,
+    missionTargetMs: 54000,
     missionCompleted: false,
     missionNoticeMs: 0,
 
@@ -65,7 +65,7 @@ export function createPlayer(canvas) {
     centerY: canvas.height * 0.58,
     radius: Math.min(canvas.width, canvas.height) * 0.29,
     angle: -Math.PI * 0.5,
-    turnSpeed: 2.8,
+    turnSpeed: 3.0,
     shipR: 16,
   };
 }

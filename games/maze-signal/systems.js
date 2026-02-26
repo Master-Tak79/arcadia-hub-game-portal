@@ -176,7 +176,7 @@ export function rerollGrid(state) {
     return { ok: false, reason: "not-running" };
   }
 
-  const cost = 3;
+  const cost = 2;
   if (state.movesLeft <= cost) {
     return { ok: false, reason: "insufficient-move", cost };
   }
@@ -198,7 +198,7 @@ export function triggerScan(state) {
     return { ok: false, reason: "cooldown" };
   }
 
-  state.scanCooldownMs = 9000;
+  state.scanCooldownMs = 8200;
   const path = findPathOnGrid(state.grid, state.gridSize);
 
   if (path) {
@@ -221,12 +221,12 @@ export function resetRound(state) {
   state.pathCells = [];
   state.pathHighlightMs = 0;
 
-  state.movesLeft = 24;
+  state.movesLeft = 26;
   state.clears = 0;
 
   state.scanCooldownMs = 0;
 
-  state.missionTargetClears = 5;
+  state.missionTargetClears = 4;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;
 

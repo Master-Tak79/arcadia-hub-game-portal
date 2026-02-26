@@ -26,14 +26,14 @@ const BUILDINGS = {
   },
   home: {
     label: "주거지",
-    cost: { ore: 1, energy: 0, food: 2 },
+    cost: { ore: 1, energy: 0, food: 1 },
     baseYield: { food: 0, ore: 0, energy: 0, population: 1, prosperity: 2 },
     colorA: "#f5b3df",
     colorB: "#d67aca",
   },
   market: {
     label: "시장",
-    cost: { ore: 2, energy: 1, food: 1 },
+    cost: { ore: 2, energy: 1, food: 0 },
     baseYield: { food: 0, ore: 0, energy: 0, population: 0, prosperity: 4 },
     colorA: "#9fe3ff",
     colorB: "#4eb8d7",
@@ -203,16 +203,16 @@ export function endTurn(state, board, callbacks = {}) {
 export function resetRound(state, board) {
   state.score = 0;
   state.turn = 1;
-  state.turnLimit = 30;
+  state.turnLimit = 32;
 
-  state.food = 5;
-  state.ore = 4;
-  state.energy = 4;
+  state.food = 6;
+  state.ore = 5;
+  state.energy = 5;
   state.population = 2;
 
   state.selectedBuild = "farm";
 
-  state.missionTargetScore = 180;
+  state.missionTargetScore = 170;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;
 

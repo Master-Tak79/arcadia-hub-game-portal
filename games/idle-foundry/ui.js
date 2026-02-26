@@ -23,12 +23,14 @@ export function syncHud({
     shiftText.textContent = `${formatDuration(state.shiftRemainSec)} · OC ${cd}s`;
   }
 
+  const target = state.missionTargetScore;
+
   if (state.missionCompleted) {
-    missionText.textContent = "🎯 처리량 360 미션 완료!";
+    missionText.textContent = `🎯 처리량 ${target} 미션 완료!`;
     return;
   }
 
-  missionText.textContent = `미션: 처리량 360 (${Math.floor(state.score)}/360)`;
+  missionText.textContent = `미션: 처리량 ${target} (${Math.floor(state.score)}/${target})`;
 }
 
 export function syncSettingsUI({

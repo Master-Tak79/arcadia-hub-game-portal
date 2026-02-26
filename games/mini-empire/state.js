@@ -38,16 +38,16 @@ export function createState(bestScore = 0) {
     best: Number(bestScore || 0),
 
     turn: 1,
-    turnLimit: 30,
+    turnLimit: 32,
 
-    food: 5,
-    ore: 4,
-    energy: 4,
+    food: 6,
+    ore: 5,
+    energy: 5,
     population: 2,
 
     selectedBuild: "farm",
 
-    missionTargetScore: 180,
+    missionTargetScore: 170,
     missionCompleted: false,
     missionNoticeMs: 0,
 

@@ -110,7 +110,7 @@ function clearLines(board) {
 function updateDifficulty(state) {
   const turns = state.turnsUsed;
   const lineBonus = Math.floor(state.lines * 0.8);
-  state.dropIntervalMs = clamp(560 - turns * 7 - lineBonus * 4, 220, 560);
+  state.dropIntervalMs = clamp(580 - turns * 7 - lineBonus * 4, 210, 580);
 }
 
 function scoreByLines(lines) {
@@ -215,12 +215,12 @@ export function resetRound(state, board) {
   state.score = 0;
   state.lines = 0;
   state.turnsUsed = 0;
-  state.turnLimit = 40;
+  state.turnLimit = 44;
 
-  state.dropIntervalMs = 560;
+  state.dropIntervalMs = 580;
   state.dropElapsed = 0;
 
-  state.missionTargetLines = 12;
+  state.missionTargetLines = 11;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;
 

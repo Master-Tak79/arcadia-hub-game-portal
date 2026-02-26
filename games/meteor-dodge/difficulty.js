@@ -4,7 +4,7 @@ const PRESET_CONFIG = {
     label: "Normal",
     lives: 3,
     countdownMs: 3000,
-    graceMs: 3000,
+    graceMs: 3400,
     spawnMultiplier: 1,
     speedMultiplier: 1,
     levelDivisor: 180,
@@ -18,14 +18,14 @@ const PRESET_CONFIG = {
     label: "Hard",
     lives: 2,
     countdownMs: 2200,
-    graceMs: 1500,
-    spawnMultiplier: 0.82,
-    speedMultiplier: 1.2,
+    graceMs: 1800,
+    spawnMultiplier: 0.86,
+    speedMultiplier: 1.16,
     levelDivisor: 150,
-    acceleratingChanceBase: 0.34,
+    acceleratingChanceBase: 0.3,
     acceleratingChanceMaxBonus: 0.32,
     acceleratingChanceRamp: 1800,
-    acceleratingAyMultiplier: 1.25,
+    acceleratingAyMultiplier: 1.22,
   },
 };
 
@@ -43,21 +43,21 @@ export function getPresetConfig(preset = "normal") {
 function computeBaseDifficulty(score) {
   if (score < 260) {
     return {
-      meteorSpawnMs: Math.max(230, 940 - score * 0.5),
-      meteorSpeedBase: 220 + score * 0.16,
+      meteorSpawnMs: Math.max(240, 980 - score * 0.54),
+      meteorSpeedBase: 210 + score * 0.16,
     };
   }
 
   if (score < 980) {
     return {
-      meteorSpawnMs: Math.max(230, 810 - (score - 260) * 0.45),
-      meteorSpeedBase: 262 + (score - 260) * 0.24,
+      meteorSpawnMs: Math.max(240, 840 - (score - 260) * 0.46),
+      meteorSpeedBase: 252 + (score - 260) * 0.25,
     };
   }
 
   return {
-    meteorSpawnMs: Math.max(230, 486 - (score - 980) * 0.2),
-    meteorSpeedBase: 435 + Math.min(190, (score - 980) * 0.1),
+    meteorSpawnMs: Math.max(240, 500 - (score - 980) * 0.22),
+    meteorSpeedBase: 420 + Math.min(200, (score - 980) * 0.11),
   };
 }
 
@@ -66,7 +66,7 @@ export function computeDifficulty(score, preset = "normal") {
   const base = computeBaseDifficulty(score);
 
   return {
-    meteorSpawnMs: Math.max(190, base.meteorSpawnMs * cfg.spawnMultiplier),
+    meteorSpawnMs: Math.max(200, base.meteorSpawnMs * cfg.spawnMultiplier),
     meteorSpeedBase: base.meteorSpeedBase * cfg.speedMultiplier,
     level: 1 + Math.floor(score / cfg.levelDivisor),
   };
