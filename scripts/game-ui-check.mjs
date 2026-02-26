@@ -56,6 +56,10 @@ import {
   syncHud as mazeSyncHud,
   syncSettingsUI as mazeSyncSettingsUI,
 } from "../games/maze-signal/ui.js";
+import {
+  syncHud as voidSyncHud,
+  syncSettingsUI as voidSyncSettingsUI,
+} from "../games/void-raiders/ui.js";
 
 function createClassList() {
   return {
@@ -1193,6 +1197,93 @@ function runMazeSignalChecks() {
   assert.equal(sfxVolumeValue.textContent, "47%");
 }
 
+function runVoidRaidersChecks() {
+  const scoreText = { textContent: "" };
+  const bestText = { textContent: "" };
+  const levelText = { textContent: "" };
+  const hpText = { textContent: "" };
+  const novaText = { textContent: "" };
+  const missionText = { textContent: "" };
+
+  voidSyncHud({
+    state: {
+      score: 212.4,
+      best: 500,
+      level: 4,
+      hp: 2,
+      novaCooldownMs: 0,
+      kills: 18,
+      missionCompleted: false,
+    },
+    scoreText,
+    bestText,
+    levelText,
+    hpText,
+    novaText,
+    missionText,
+  });
+
+  assert.equal(scoreText.textContent, "212");
+  assert.equal(bestText.textContent, "500");
+  assert.equal(levelText.textContent, "4");
+  assert.equal(hpText.textContent, "❤❤");
+  assert.equal(novaText.textContent, "READY");
+  assert.equal(missionText.textContent, "미션: 격추 40 (18/40)");
+
+  voidSyncHud({
+    state: {
+      score: 410,
+      best: 500,
+      level: 6,
+      hp: 1,
+      novaCooldownMs: 4200,
+      kills: 41,
+      missionCompleted: true,
+    },
+    scoreText,
+    bestText,
+    levelText,
+    hpText,
+    novaText,
+    missionText,
+  });
+
+  assert.equal(novaText.textContent, "4.2s");
+  assert.equal(missionText.textContent, "🎯 격추 40 미션 완료!");
+
+  const settings = {
+    effectsEnabled: true,
+    vibrationEnabled: false,
+    soundEnabled: true,
+    bgmEnabled: false,
+    sfxVolume: 58,
+  };
+  const effectsToggle = { checked: false };
+  const vibrationToggle = { checked: false };
+  const soundToggle = { checked: false };
+  const bgmToggle = { checked: false, disabled: false };
+  const sfxVolumeRange = { value: "" };
+  const sfxVolumeValue = { textContent: "" };
+
+  voidSyncSettingsUI({
+    settings,
+    effectsToggle,
+    vibrationToggle,
+    soundToggle,
+    bgmToggle,
+    sfxVolumeRange,
+    sfxVolumeValue,
+  });
+
+  assert.equal(effectsToggle.checked, true);
+  assert.equal(vibrationToggle.checked, false);
+  assert.equal(soundToggle.checked, true);
+  assert.equal(bgmToggle.checked, false);
+  assert.equal(bgmToggle.disabled, false);
+  assert.equal(sfxVolumeRange.value, "58");
+  assert.equal(sfxVolumeValue.textContent, "58%");
+}
+
 function run() {
   runMeteorChecks();
   runLaneChecks();
@@ -1207,6 +1298,7 @@ function run() {
   runFarmHarborChecks();
   runMechaSprintChecks();
   runMazeSignalChecks();
+  runVoidRaidersChecks();
   console.log("game ui check passed ✅");
 }
 
