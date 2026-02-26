@@ -60,6 +60,10 @@ import {
   syncHud as voidSyncHud,
   syncSettingsUI as voidSyncSettingsUI,
 } from "../games/void-raiders/ui.js";
+import {
+  syncHud as railSyncHud,
+  syncSettingsUI as railSyncSettingsUI,
+} from "../games/rail-commander/ui.js";
 
 function createClassList() {
   return {
@@ -1284,6 +1288,101 @@ function runVoidRaidersChecks() {
   assert.equal(sfxVolumeValue.textContent, "58%");
 }
 
+function runRailCommanderChecks() {
+  const scoreText = { textContent: "" };
+  const bestText = { textContent: "" };
+  const tierText = { textContent: "" };
+  const resourceText = { textContent: "" };
+  const shiftText = { textContent: "" };
+  const missionText = { textContent: "" };
+
+  railSyncHud({
+    state: {
+      score: 203.3,
+      best: 470,
+      tier: 2,
+      cargo: 11,
+      passenger: 8,
+      mail: 6,
+      credits: 150,
+      shiftRemainSec: 73,
+      overdriveCooldownMs: 0,
+      dispatches: 9,
+      missionCompleted: false,
+    },
+    scoreText,
+    bestText,
+    tierText,
+    resourceText,
+    shiftText,
+    missionText,
+  });
+
+  assert.equal(scoreText.textContent, "203");
+  assert.equal(bestText.textContent, "470");
+  assert.equal(tierText.textContent, "2");
+  assert.equal(resourceText.textContent, "C11 P8 M6 ₡150");
+  assert.equal(shiftText.textContent, "01:13");
+  assert.equal(missionText.textContent, "미션: 배차 24 (9/24)");
+
+  railSyncHud({
+    state: {
+      score: 398,
+      best: 470,
+      tier: 3,
+      cargo: 7,
+      passenger: 6,
+      mail: 4,
+      credits: 240,
+      shiftRemainSec: 12,
+      overdriveCooldownMs: 5200,
+      dispatches: 24,
+      missionCompleted: true,
+    },
+    scoreText,
+    bestText,
+    tierText,
+    resourceText,
+    shiftText,
+    missionText,
+  });
+
+  assert.equal(shiftText.textContent, "00:12 · OD 5.2s");
+  assert.equal(missionText.textContent, "🎯 배차 24 미션 완료!");
+
+  const settings = {
+    effectsEnabled: false,
+    vibrationEnabled: true,
+    soundEnabled: false,
+    bgmEnabled: true,
+    sfxVolume: 42,
+  };
+  const effectsToggle = { checked: false };
+  const vibrationToggle = { checked: false };
+  const soundToggle = { checked: false };
+  const bgmToggle = { checked: false, disabled: false };
+  const sfxVolumeRange = { value: "" };
+  const sfxVolumeValue = { textContent: "" };
+
+  railSyncSettingsUI({
+    settings,
+    effectsToggle,
+    vibrationToggle,
+    soundToggle,
+    bgmToggle,
+    sfxVolumeRange,
+    sfxVolumeValue,
+  });
+
+  assert.equal(effectsToggle.checked, false);
+  assert.equal(vibrationToggle.checked, true);
+  assert.equal(soundToggle.checked, false);
+  assert.equal(bgmToggle.checked, true);
+  assert.equal(bgmToggle.disabled, true);
+  assert.equal(sfxVolumeRange.value, "42");
+  assert.equal(sfxVolumeValue.textContent, "42%");
+}
+
 function run() {
   runMeteorChecks();
   runLaneChecks();
@@ -1299,6 +1398,7 @@ function run() {
   runMechaSprintChecks();
   runMazeSignalChecks();
   runVoidRaidersChecks();
+  runRailCommanderChecks();
   console.log("game ui check passed ✅");
 }
 

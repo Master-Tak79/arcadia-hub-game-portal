@@ -105,3 +105,10 @@
 | YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 1 | 60+ | PASS | 없음 | - |
 | YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 2 | 60+ | PASS | 없음 | - |
 | YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 3 | 60+ | PASS | 없음 | - |
+
+## Rail Commander
+| Date | Device Slot | Browser | Run# | DurationSec | Result | 업그레이드/배차/오버드라이브 이상 | Issue |
+| --- | --- | --- | --- | ---: | --- | --- | --- |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 1 | 60+ | PASS | 없음 | - |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 2 | 60+ | PASS | 없음 | - |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 3 | 60+ | PASS | 없음 | - |

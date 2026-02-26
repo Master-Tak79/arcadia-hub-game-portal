@@ -15,6 +15,26 @@
 
 ---
 
+## [0.3.43] - 2026-02-26
+### Added
+- 신규 로컬 게임 `games/rail-commander/*` 추가
+  - 노선 업그레이드 + 배차 운영 + 오버드라이브 액션 루프
+  - 미션(배차 24) 보너스/사운드/BGM/일시정지 UX 포함
+- `games/rail-commander/tests/QA_CHECKLIST.md` 추가
+- `scripts/game-ui-check.mjs`에 Rail Commander UI 검증 케이스 추가
+
+### Changed
+- `src/data/games.seed.js`의 `Rail Commander`를 외부 placeholder에서 로컬 플레이 URL로 전환
+- 통합 QA 문서(`QA_MOBILE_2DEVICES.md`, `QA_3RUN_LOG_TEMPLATE.md`, `QA_FINAL_STATUS.md`)를 15개 로컬 게임 기준으로 확장
+- 스모크 체크(`scripts/meteor-smoke-check.sh`)에 Rail Commander 파일/HTTP/QA 검증 항목 추가
+- Rail Commander 버전 `0.1.0`(placeholder) → `0.3.43`
+- 포털 버전 `0.3.42` → `0.3.43`
+
+### Fixed
+- 외부 링크로 남아 있던 Rail Commander의 실제 플레이 불가 상태 해소
+
+---
+
 ## [0.3.42] - 2026-02-26
 ### Added
 - 신규 로컬 게임 `games/void-raiders/*` 추가
