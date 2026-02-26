@@ -28,6 +28,10 @@ import {
   syncHud as blockSyncHud,
   syncSettingsUI as blockSyncSettingsUI,
 } from "../games/block-sage/ui.js";
+import {
+  syncHud as miniSyncHud,
+  syncSettingsUI as miniSyncSettingsUI,
+} from "../games/mini-empire/ui.js";
 
 function createClassList() {
   return {
@@ -540,6 +544,92 @@ function runBlockSageChecks() {
   assert.equal(sfxVolumeValue.textContent, "42%");
 }
 
+function runMiniEmpireChecks() {
+  const scoreText = { textContent: "" };
+  const bestText = { textContent: "" };
+  const turnText = { textContent: "" };
+  const resourceText = { textContent: "" };
+  const missionText = { textContent: "" };
+
+  miniSyncHud({
+    state: {
+      score: 132,
+      best: 410,
+      turn: 8,
+      turnLimit: 30,
+      food: 6,
+      ore: 5,
+      energy: 4,
+      population: 3,
+      missionCompleted: false,
+    },
+    scoreText,
+    bestText,
+    turnText,
+    resourceText,
+    missionText,
+  });
+
+  assert.equal(scoreText.textContent, "132");
+  assert.equal(bestText.textContent, "410");
+  assert.equal(turnText.textContent, "8/30");
+  assert.equal(resourceText.textContent, "F6 O5 E4 P3");
+  assert.equal(missionText.textContent, "미션: 번영 180 (132/180)");
+
+  miniSyncHud({
+    state: {
+      score: 195,
+      best: 410,
+      turn: 19,
+      turnLimit: 30,
+      food: 8,
+      ore: 7,
+      energy: 6,
+      population: 5,
+      missionCompleted: true,
+    },
+    scoreText,
+    bestText,
+    turnText,
+    resourceText,
+    missionText,
+  });
+
+  assert.equal(missionText.textContent, "🎯 번영 180 미션 완료!");
+
+  const settings = {
+    effectsEnabled: false,
+    vibrationEnabled: true,
+    soundEnabled: false,
+    bgmEnabled: true,
+    sfxVolume: 35,
+  };
+  const effectsToggle = { checked: false };
+  const vibrationToggle = { checked: false };
+  const soundToggle = { checked: false };
+  const bgmToggle = { checked: false, disabled: false };
+  const sfxVolumeRange = { value: "" };
+  const sfxVolumeValue = { textContent: "" };
+
+  miniSyncSettingsUI({
+    settings,
+    effectsToggle,
+    vibrationToggle,
+    soundToggle,
+    bgmToggle,
+    sfxVolumeRange,
+    sfxVolumeValue,
+  });
+
+  assert.equal(effectsToggle.checked, false);
+  assert.equal(vibrationToggle.checked, true);
+  assert.equal(soundToggle.checked, false);
+  assert.equal(bgmToggle.checked, true);
+  assert.equal(bgmToggle.disabled, true);
+  assert.equal(sfxVolumeRange.value, "35");
+  assert.equal(sfxVolumeValue.textContent, "35%");
+}
+
 function run() {
   runMeteorChecks();
   runLaneChecks();
@@ -547,6 +637,7 @@ function run() {
   runBrickChecks();
   runOrbitChecks();
   runBlockSageChecks();
+  runMiniEmpireChecks();
   console.log("game ui check passed ✅");
 }
 
