@@ -52,6 +52,10 @@ import {
   syncHud as mechaSyncHud,
   syncSettingsUI as mechaSyncSettingsUI,
 } from "../games/mecha-sprint/ui.js";
+import {
+  syncHud as mazeSyncHud,
+  syncSettingsUI as mazeSyncSettingsUI,
+} from "../games/maze-signal/ui.js";
 
 function createClassList() {
   return {
@@ -1102,6 +1106,93 @@ function runMechaSprintChecks() {
   assert.equal(sfxVolumeValue.textContent, "61%");
 }
 
+function runMazeSignalChecks() {
+  const scoreText = { textContent: "" };
+  const bestText = { textContent: "" };
+  const levelText = { textContent: "" };
+  const movesText = { textContent: "" };
+  const scanText = { textContent: "" };
+  const missionText = { textContent: "" };
+
+  mazeSyncHud({
+    state: {
+      score: 144.8,
+      best: 390,
+      level: 2,
+      movesLeft: 17,
+      scanCooldownMs: 0,
+      clears: 2,
+      missionCompleted: false,
+    },
+    scoreText,
+    bestText,
+    levelText,
+    movesText,
+    scanText,
+    missionText,
+  });
+
+  assert.equal(scoreText.textContent, "144");
+  assert.equal(bestText.textContent, "390");
+  assert.equal(levelText.textContent, "2");
+  assert.equal(movesText.textContent, "17");
+  assert.equal(scanText.textContent, "READY");
+  assert.equal(missionText.textContent, "미션: 링크 5회 (2/5)");
+
+  mazeSyncHud({
+    state: {
+      score: 321,
+      best: 390,
+      level: 3,
+      movesLeft: 8,
+      scanCooldownMs: 3600,
+      clears: 5,
+      missionCompleted: true,
+    },
+    scoreText,
+    bestText,
+    levelText,
+    movesText,
+    scanText,
+    missionText,
+  });
+
+  assert.equal(scanText.textContent, "3.6s");
+  assert.equal(missionText.textContent, "🎯 링크 5회 미션 완료!");
+
+  const settings = {
+    effectsEnabled: false,
+    vibrationEnabled: true,
+    soundEnabled: false,
+    bgmEnabled: true,
+    sfxVolume: 47,
+  };
+  const effectsToggle = { checked: false };
+  const vibrationToggle = { checked: false };
+  const soundToggle = { checked: false };
+  const bgmToggle = { checked: false, disabled: false };
+  const sfxVolumeRange = { value: "" };
+  const sfxVolumeValue = { textContent: "" };
+
+  mazeSyncSettingsUI({
+    settings,
+    effectsToggle,
+    vibrationToggle,
+    soundToggle,
+    bgmToggle,
+    sfxVolumeRange,
+    sfxVolumeValue,
+  });
+
+  assert.equal(effectsToggle.checked, false);
+  assert.equal(vibrationToggle.checked, true);
+  assert.equal(soundToggle.checked, false);
+  assert.equal(bgmToggle.checked, true);
+  assert.equal(bgmToggle.disabled, true);
+  assert.equal(sfxVolumeRange.value, "47");
+  assert.equal(sfxVolumeValue.textContent, "47%");
+}
+
 function run() {
   runMeteorChecks();
   runLaneChecks();
@@ -1115,6 +1206,7 @@ function run() {
   runDashToCoreChecks();
   runFarmHarborChecks();
   runMechaSprintChecks();
+  runMazeSignalChecks();
   console.log("game ui check passed ✅");
 }
 
