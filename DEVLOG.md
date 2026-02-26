@@ -262,6 +262,13 @@
 - QA 통합 문서(`QA_MOBILE_2DEVICES.md`, `QA_3RUN_LOG_TEMPLATE.md`, `QA_FINAL_STATUS.md`)를 12개 로컬 게임 기준으로 확장
 - `scripts/meteor-smoke-check.sh`에 Mecha Sprint 파일/HTTP/QA 검증 항목 추가
 - 포털 버전 `0.3.40`로 패치 업데이트
+- `feat/maze-signal-local-0.3.41` 브랜치에서 Maze Signal 로컬 게임 전환 진행
+- `games/maze-signal/*` 신규 구현 (타일 회전 경로 퍼즐 + 스캔/재배열 + 링크 5회 미션 + 사운드/BGM + 일시정지 UX)
+- `src/data/games.seed.js`의 Maze Signal을 외부 링크에서 로컬 URL(`./games/maze-signal/index.html`)로 전환
+- `scripts/game-ui-check.mjs`에 Maze Signal UI 검증 케이스 추가
+- QA 통합 문서(`QA_MOBILE_2DEVICES.md`, `QA_3RUN_LOG_TEMPLATE.md`, `QA_FINAL_STATUS.md`)를 13개 로컬 게임 기준으로 확장
+- `scripts/meteor-smoke-check.sh`에 Maze Signal 파일/HTTP/QA 검증 항목 추가
+- 포털 버전 `0.3.41`로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
@@ -287,7 +294,7 @@
 - 포털 병합 우선순위는 `구현 게임 > featured > 최신성` 원칙으로 중복/하향 덮어쓰기를 방지
 
 ### 다음 작업
-- `QA_3RUN_LOG_TEMPLATE.md` 기반으로 12종 로컬 게임 HOLD 항목(3회/60초 정량 기록) 해소
-- Sky Drift / Neon Brick Breaker / Orbit Survivor / Lane Switch / Block Sage / Mini Empire Grid / Pixel Clash / Idle Foundry / Dash to Core / Farm Harbor / Mecha Sprint 실기기 난이도 곡선 및 사운드 볼륨 1차 밸런스 튜닝
-- 기존 Meteor/Lane 포함 12종 게임 공통 성능 프리셋(저사양 품질 스케일) 검토
+- `QA_3RUN_LOG_TEMPLATE.md` 기반으로 13종 로컬 게임 HOLD 항목(3회/60초 정량 기록) 해소
+- Sky Drift / Neon Brick Breaker / Orbit Survivor / Lane Switch / Block Sage / Mini Empire Grid / Pixel Clash / Idle Foundry / Dash to Core / Farm Harbor / Mecha Sprint / Maze Signal 실기기 난이도 곡선 및 사운드 볼륨 1차 밸런스 튜닝
+- 기존 Meteor/Lane 포함 13종 게임 공통 성능 프리셋(저사양 품질 스케일) 검토
 - 관리자 미디어 입력 UI(썸네일 업로드/미리보기) 개선 검토
