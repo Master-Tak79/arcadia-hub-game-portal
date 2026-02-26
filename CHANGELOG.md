@@ -15,6 +15,22 @@
 
 ---
 
+## [0.3.45] - 2026-02-27
+### Added
+- `scripts/mission-index-sync-check.mjs` 추가
+  - 15개 게임의 `state` 미션 타깃값과 `index.html` 초기 `missionText` 문구 일치 여부 자동 검증
+
+### Changed
+- `scripts/meteor-smoke-check.sh` 단계 확장
+  - 기존 6단계 → 7단계로 확장
+  - `mission-index-sync-check`를 스모크 체크 파이프라인에 통합
+- 포털 버전 `0.3.44` → `0.3.45`
+
+### Fixed
+- 대량 밸런스 조정 후 발생할 수 있는 "state/systems 수치 vs index 미션 문구" 동기화 누락을 CI 전 단계에서 조기 탐지하도록 보강
+
+---
+
 ## [0.3.44] - 2026-02-26
 ### Changed
 - 전체 로컬 게임 15종 1차 밸런스 패스 적용

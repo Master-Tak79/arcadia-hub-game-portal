@@ -293,6 +293,12 @@
   - `scripts/game-ui-check.mjs`, `scripts/meteor-smoke-check.sh`
   - `CHANGELOG.md`, `DEVLOG.md`, `README.md`, `QA_FINAL_STATUS.md`, `QA_MOBILE_2DEVICES.md`, `QA_3RUN_LOG_TEMPLATE.md`
 - 포털 버전 `0.3.44`로 패치 업데이트
+- `feat/mission-sync-guard-0.3.45` 브랜치에서 미션 문구 동기화 가드 작업 진행
+- `scripts/mission-index-sync-check.mjs` 추가:
+  - `state`의 미션 타깃값과 `index.html` 초기 `missionText` 일치 여부를 15개 게임 전체에 대해 자동 검증
+  - `localStorage` 의존 state 초기화를 위한 Node 실행용 메모리 스텁 포함
+- `scripts/meteor-smoke-check.sh`를 7단계 파이프라인으로 확장하고 `mission-index-sync-check` 단계 통합
+- 포털 버전 `0.3.45`로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
