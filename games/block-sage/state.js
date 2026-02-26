@@ -39,12 +39,12 @@ export function createState(bestScore = 0) {
     lines: 0,
 
     turnsUsed: 0,
-    turnLimit: 40,
+    turnLimit: 44,
 
-    dropIntervalMs: 560,
+    dropIntervalMs: 580,
     dropElapsed: 0,
 
-    missionTargetLines: 12,
+    missionTargetLines: 11,
     missionCompleted: false,
     missionNoticeMs: 0,
 

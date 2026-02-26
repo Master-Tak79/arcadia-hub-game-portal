@@ -339,7 +339,7 @@ applySettings();
 showOverlayUI(
   { overlay, overlayTitle, overlayText },
   "Maze Signal",
-  "타일 회전으로 IN→OUT 경로를 연결하세요.\n24번 안에 링크 5회 달성이 목표입니다."
+  "타일 회전으로 IN→OUT 경로를 연결하세요.\n26번 안에 링크 4회 달성이 목표입니다."
 );
 
 cancelAnimationFrame(rafId);

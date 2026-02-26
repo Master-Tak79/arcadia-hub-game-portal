@@ -24,12 +24,14 @@ export function syncHud({
     boostText.textContent = "READY";
   }
 
+  const target = state.missionTargetCheckpoints;
+
   if (state.missionCompleted) {
-    missionText.textContent = "🎯 체크포인트 18 미션 완료!";
+    missionText.textContent = `🎯 체크포인트 ${target} 미션 완료!`;
     return;
   }
 
-  missionText.textContent = `미션: 체크포인트 18 (${state.checkpoints}/18)`;
+  missionText.textContent = `미션: 체크포인트 ${target} (${state.checkpoints}/${target})`;
 }
 
 export function syncSettingsUI({

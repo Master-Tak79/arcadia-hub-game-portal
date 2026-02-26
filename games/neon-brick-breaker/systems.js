@@ -48,7 +48,7 @@ function resetBallToPaddle(ball, paddle) {
 
 function launchBall(state, ball, level = 1) {
   if (!state.waitingLaunch) return false;
-  const speed = ball.speedBase + Math.min(120, (level - 1) * 24);
+  const speed = ball.speedBase + Math.min(110, (level - 1) * 22);
   const angle = (Math.random() * 0.5 + 0.35) * Math.PI;
   ball.vx = Math.cos(angle) * speed;
   ball.vy = -Math.abs(Math.sin(angle) * speed);
@@ -167,7 +167,7 @@ export function stepGame({
 
   if (!bricks.length) {
     state.level += 1;
-    paddle.w = Math.max(80, 110 - (state.level - 1) * 4);
+    paddle.w = Math.max(84, 110 - (state.level - 1) * 3);
     const next = createBricks(state.level);
     bricks.push(...next);
     state.waitingLaunch = true;

@@ -22,9 +22,9 @@ function playerRect(player) {
 
 function updateDifficulty(state) {
   const s = state.score;
-  state.speed = clamp(220 + s * 0.05, 220, 420);
-  state.obstacleSpawnMs = clamp(920 - s * 0.36, 420, 920);
-  state.boosterSpawnMs = clamp(2600 - s * 0.22, 1500, 2600);
+  state.speed = clamp(212 + s * 0.052, 212, 420);
+  state.obstacleSpawnMs = clamp(980 - s * 0.38, 430, 980);
+  state.boosterSpawnMs = clamp(2400 - s * 0.21, 1400, 2400);
 }
 
 function spawnObstacle(state, obstacles, canvasWidth) {
@@ -62,7 +62,7 @@ export function activateNitro(state) {
 export function resetRound(state, player, obstacles, boosters, canvasWidth) {
   state.score = 0;
   state.scoreFloat = 0;
-  state.speed = 220;
+  state.speed = 212;
   state.lives = 3;
 
   state.nitro = 0;
@@ -70,13 +70,13 @@ export function resetRound(state, player, obstacles, boosters, canvasWidth) {
   state.invincibleMs = 0;
   state.flash = 0;
 
-  state.obstacleSpawnMs = 920;
-  state.boosterSpawnMs = 2600;
+  state.obstacleSpawnMs = 980;
+  state.boosterSpawnMs = 2400;
   state.obstacleElapsed = 0;
   state.boosterElapsed = 0;
 
   state.noticeMs = 0;
-  state.missionTargetMs = 45000;
+  state.missionTargetMs = 42000;
   state.survivalMs = 0;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;

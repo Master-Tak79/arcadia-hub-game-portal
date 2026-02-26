@@ -3,9 +3,9 @@ function clamp(value, min, max) {
 }
 
 function getUpgradeCost(type, level) {
-  if (type === "extractor") return 42 + level * 24;
-  if (type === "smelter") return 48 + level * 26;
-  if (type === "generator") return 40 + level * 22;
+  if (type === "extractor") return 40 + level * 22;
+  if (type === "smelter") return 45 + level * 24;
+  if (type === "generator") return 38 + level * 20;
   return 9999;
 }
 
@@ -103,14 +103,14 @@ export function triggerOverclock(state) {
     return { ok: false, reason: "cooldown" };
   }
 
-  const cost = 36;
+  const cost = 32;
   if (state.credits < cost) {
     return { ok: false, reason: "insufficient-credit", cost };
   }
 
   state.credits -= cost;
-  state.overclockMs = 6000;
-  state.overclockCooldownMs = 20000;
+  state.overclockMs = 6400;
+  state.overclockCooldownMs = 18000;
 
   return { ok: true, cost };
 }
@@ -120,15 +120,15 @@ export function resetRound(state, factory) {
   state.scoreFloat = 0;
   state.tier = 1;
 
-  state.energy = 12;
-  state.scrap = 6;
+  state.energy = 14;
+  state.scrap = 7;
   state.ingot = 0;
-  state.credits = 80;
+  state.credits = 90;
 
-  state.shiftLimitSec = 90;
-  state.shiftRemainSec = 90;
+  state.shiftLimitSec = 96;
+  state.shiftRemainSec = 96;
 
-  state.missionTargetScore = 360;
+  state.missionTargetScore = 340;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;
 

@@ -348,7 +348,7 @@ applySettings();
 showOverlayUI(
   { overlay, overlayTitle, overlayText },
   "Farm Harbor",
-  "생산-포장-선적 루프를 운영해 번영 점수를 높이세요.\n30일 안에 번영 340 달성이 목표입니다."
+  "생산-포장-선적 루프를 운영해 번영 점수를 높이세요.\n32일 안에 번영 320 달성이 목표입니다."
 );
 
 cancelAnimationFrame(rafId);

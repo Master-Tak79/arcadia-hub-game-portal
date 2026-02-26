@@ -377,7 +377,7 @@ applySettings();
 showOverlayUI(
   { overlay, overlayTitle, overlayText },
   "Mini Empire Grid",
-  "40턴 안에 건물을 배치해 번영 점수를 키우세요.\n미션 목표는 번영 180입니다."
+  "32턴 안에 건물을 배치해 번영 점수를 키우세요.\n미션 목표는 번영 170입니다."
 );
 
 cancelAnimationFrame(rafId);

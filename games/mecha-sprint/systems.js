@@ -60,9 +60,9 @@ export function triggerBoost(state) {
   if (!state.running || state.paused || state.gameOver) return { ok: false, reason: "not-running" };
   if (state.boostMs > 0 || state.boostCooldownMs > 0) return { ok: false, reason: "cooldown" };
 
-  state.boostMs = 4200;
-  state.boostCooldownMs = 17000;
-  state.invincibleMs = Math.max(state.invincibleMs, 260);
+  state.boostMs = 4400;
+  state.boostCooldownMs = 15000;
+  state.invincibleMs = Math.max(state.invincibleMs, 320);
   return { ok: true };
 }
 
@@ -71,15 +71,15 @@ export function resetRound(state, obstacles, pickups) {
   state.scoreFloat = 0;
 
   state.lane = 1;
-  state.hp = 3;
+  state.hp = 4;
 
   state.distance = 0;
   state.lap = 1;
-  state.speed = 180;
+  state.speed = 172;
 
-  state.obstacleSpawnMs = 820;
+  state.obstacleSpawnMs = 860;
   state.obstacleElapsedMs = 0;
-  state.pickupSpawnMs = 2100;
+  state.pickupSpawnMs = 1950;
   state.pickupElapsedMs = 0;
 
   state.boostMs = 0;
@@ -87,7 +87,7 @@ export function resetRound(state, obstacles, pickups) {
   state.invincibleMs = 0;
 
   state.checkpoints = 0;
-  state.missionTargetCheckpoints = 18;
+  state.missionTargetCheckpoints = 16;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;
 
@@ -129,11 +129,11 @@ export function stepGame({
 
   state.distance += currentSpeed * deltaSec * 0.62;
   state.lap = 1 + Math.floor(state.distance / 900);
-  state.speed = clamp(180 + state.lap * 18 + state.score * 0.02, 180, 420);
+  state.speed = clamp(172 + state.lap * 19 + state.score * 0.021, 172, 420);
 
   state.checkpoints = Math.floor(state.distance / 160);
-  state.obstacleSpawnMs = clamp(820 - state.lap * 30, 300, 820);
-  state.pickupSpawnMs = clamp(2100 - state.lap * 50, 1200, 2100);
+  state.obstacleSpawnMs = clamp(860 - state.lap * 32, 300, 860);
+  state.pickupSpawnMs = clamp(1950 - state.lap * 45, 1100, 1950);
 
   state.obstacleElapsedMs += deltaMs;
   if (state.obstacleElapsedMs >= state.obstacleSpawnMs) {
@@ -197,7 +197,7 @@ export function stepGame({
       } else if (pickup.kind === "shield") {
         state.hp = Math.min(5, state.hp + 1);
       } else if (pickup.kind === "charge") {
-        state.boostCooldownMs = Math.max(0, state.boostCooldownMs - 2200);
+        state.boostCooldownMs = Math.max(0, state.boostCooldownMs - 2600);
       }
 
       callbacks?.onPickup?.(pickup.kind);

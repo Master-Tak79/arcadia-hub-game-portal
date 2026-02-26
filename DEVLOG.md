@@ -283,6 +283,16 @@
 - QA 통합 문서(`QA_MOBILE_2DEVICES.md`, `QA_3RUN_LOG_TEMPLATE.md`, `QA_FINAL_STATUS.md`)를 15개 로컬 게임 기준으로 확장
 - `scripts/meteor-smoke-check.sh`에 Rail Commander 파일/HTTP/QA 검증 항목 추가
 - 포털 버전 `0.3.43`로 패치 업데이트
+- `feat/balance-pass-0.3.44` 브랜치에서 로컬 게임 15종 공통 밸런스 1차 패스 진행
+- 난이도/목표 수치 보정(진입 완화 + 중반 가속 강화)
+  - Lane Switch(39초), Sky Drift(42초), Orbit Survivor(54초), Block Sage(11라인/44턴), Mini Empire(170/32턴)
+  - Pixel Clash(240), Idle Foundry(340/96초), Dash to Core(1800m), Farm Harbor(320/32일), Mecha Sprint(16)
+  - Maze Signal(4회/26회전), Void Raiders(36), Rail Commander(22/96초)
+- 연동 파일 동기화
+  - `games/*/state.js`, `games/*/systems.js`, `games/*/ui.js`, `games/*/index.html`, `games/*/main.js`, `games/*/tests/QA_CHECKLIST.md`
+  - `scripts/game-ui-check.mjs`, `scripts/meteor-smoke-check.sh`
+  - `CHANGELOG.md`, `DEVLOG.md`, `README.md`, `QA_FINAL_STATUS.md`, `QA_MOBILE_2DEVICES.md`, `QA_3RUN_LOG_TEMPLATE.md`
+- 포털 버전 `0.3.44`로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용

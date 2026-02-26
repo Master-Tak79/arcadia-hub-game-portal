@@ -10,9 +10,9 @@ function distance(a, b) {
 
 function updateDifficulty(state) {
   const s = state.score;
-  state.level = 1 + Math.floor(s / 180);
-  state.enemySpawnMs = clamp(920 - s * 0.25, 320, 920);
-  state.shootMs = clamp(220 - Math.floor(state.level * 3.5), 130, 220);
+  state.level = 1 + Math.floor(s / 170);
+  state.enemySpawnMs = clamp(980 - s * 0.27, 340, 980);
+  state.shootMs = clamp(210 - Math.floor(state.level * 3.8), 122, 210);
 }
 
 function spawnEnemy(state, enemies, canvasWidth, canvasHeight, player) {
@@ -41,7 +41,7 @@ function spawnEnemy(state, enemies, canvasWidth, canvasHeight, player) {
   const dy = ty - y;
   const d = Math.hypot(dx, dy) || 1;
 
-  const speed = 110 + state.level * 12 + Math.random() * 24;
+  const speed = 106 + state.level * 12.5 + Math.random() * 26;
   enemies.push({
     x,
     y,
@@ -89,9 +89,9 @@ function autoShoot(state, bullets, player, enemies) {
 
 export function triggerDash(state) {
   if (state.dashCooldownMs > 0 || state.dashMs > 0) return false;
-  state.dashMs = 360;
-  state.dashCooldownMs = 2200;
-  state.invincibleMs = Math.max(state.invincibleMs, 360);
+  state.dashMs = 400;
+  state.dashCooldownMs = 2000;
+  state.invincibleMs = Math.max(state.invincibleMs, 420);
   return true;
 }
 
@@ -101,10 +101,10 @@ export function resetRound(state, player, enemies, bullets, canvasWidth, canvasH
   state.level = 1;
   state.hp = 3;
 
-  state.enemySpawnMs = 920;
+  state.enemySpawnMs = 980;
   state.enemyElapsed = 0;
 
-  state.shootMs = 220;
+  state.shootMs = 210;
   state.shootElapsed = 0;
 
   state.dashCooldownMs = 0;
@@ -112,7 +112,7 @@ export function resetRound(state, player, enemies, bullets, canvasWidth, canvasH
   state.invincibleMs = 0;
   state.flash = 0;
 
-  state.missionTargetScore = 260;
+  state.missionTargetScore = 240;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;
 

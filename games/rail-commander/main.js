@@ -334,7 +334,7 @@ applySettings();
 showOverlayUI(
   { overlay, overlayTitle, overlayText },
   "Rail Commander",
-  "노선을 업그레이드하고 배차를 최적화하세요.\n90초 안에 배차 24회 달성이 목표입니다."
+  "노선을 업그레이드하고 배차를 최적화하세요.\n96초 안에 배차 22회 달성이 목표입니다."
 );
 
 cancelAnimationFrame(rafId);

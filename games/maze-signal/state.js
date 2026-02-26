@@ -44,12 +44,12 @@ export function createState(bestScore = 0) {
     pathCells: [],
     pathHighlightMs: 0,
 
-    movesLeft: 24,
+    movesLeft: 26,
     clears: 0,
 
     scanCooldownMs: 0,
 
-    missionTargetClears: 5,
+    missionTargetClears: 4,
     missionCompleted: false,
     missionNoticeMs: 0,
 

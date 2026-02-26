@@ -144,25 +144,25 @@ function updateDifficulty(state) {
   const s = state.score;
 
   if (s < 900) {
-    state.speed = clamp(238 + s * 0.045, 238, 470);
-    state.obstacleSpawnMs = clamp(1060 - s * 0.42, 440, 1060);
+    state.speed = clamp(232 + s * 0.046, 232, 470);
+    state.obstacleSpawnMs = clamp(1120 - s * 0.44, 460, 1120);
   } else {
-    state.speed = clamp(279 + (s - 900) * 0.055, 238, 500);
-    state.obstacleSpawnMs = clamp(680 - (s - 900) * 0.2, 410, 1060);
+    state.speed = clamp(270 + (s - 900) * 0.058, 232, 500);
+    state.obstacleSpawnMs = clamp(720 - (s - 900) * 0.22, 420, 1120);
   }
 
-  state.coinSpawnMs = clamp(1680 - s * 0.22, 980, 1680);
-  state.shieldSpawnMs = clamp(5600 - s * 0.35, 3600, 5600);
+  state.coinSpawnMs = clamp(1640 - s * 0.22, 920, 1640);
+  state.shieldSpawnMs = clamp(5200 - s * 0.33, 3300, 5200);
 }
 
 export function resetRound(state, player, obstacles, coins, shields, lanes) {
   state.score = 0;
   state.scoreFloat = 0;
-  state.speed = 238;
+  state.speed = 232;
   state.lives = 3;
-  state.obstacleSpawnMs = 1060;
-  state.coinSpawnMs = 1680;
-  state.shieldSpawnMs = 5600;
+  state.obstacleSpawnMs = 1120;
+  state.coinSpawnMs = 1640;
+  state.shieldSpawnMs = 5200;
   state.obstacleElapsed = 0;
   state.coinElapsed = 0;
   state.shieldElapsed = 0;
@@ -189,7 +189,7 @@ export function resetRound(state, player, obstacles, coins, shields, lanes) {
 export function moveLane(state, player, direction, laneCount) {
   if (state.laneMoveCooldownMs > 0) return;
   player.lane = clamp(player.lane + direction, 0, laneCount - 1);
-  state.laneMoveCooldownMs = 72;
+  state.laneMoveCooldownMs = 64;
 }
 
 export function stepGame({

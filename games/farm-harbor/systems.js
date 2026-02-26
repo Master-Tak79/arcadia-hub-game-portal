@@ -3,9 +3,9 @@ function clamp(value, min, max) {
 }
 
 function getUpgradeCost(type, level) {
-  if (type === "field") return 44 + level * 24;
-  if (type === "harbor") return 46 + level * 26;
-  if (type === "boat") return 42 + level * 22;
+  if (type === "field") return 42 + level * 22;
+  if (type === "harbor") return 44 + level * 24;
+  if (type === "boat") return 40 + level * 20;
   return 9999;
 }
 
@@ -104,14 +104,14 @@ export function triggerRush(state) {
     return { ok: false, reason: "cooldown" };
   }
 
-  const cost = 34;
+  const cost = 30;
   if (state.coins < cost) {
     return { ok: false, reason: "insufficient-coin", cost };
   }
 
   state.coins -= cost;
-  state.rushMs = 6000;
-  state.rushCooldownMs = 19000;
+  state.rushMs = 6600;
+  state.rushCooldownMs = 17000;
   return { ok: true, cost };
 }
 
@@ -120,12 +120,12 @@ export function resetRound(state) {
   state.scoreFloat = 0;
   state.tier = 1;
 
-  state.crops = 10;
-  state.fish = 6;
+  state.crops = 12;
+  state.fish = 7;
   state.crates = 0;
-  state.coins = 90;
+  state.coins = 96;
 
-  state.dayLimit = 30;
+  state.dayLimit = 32;
   state.day = 1;
 
   state.fieldLv = 1;
@@ -136,7 +136,7 @@ export function resetRound(state) {
   state.rushMs = 0;
   state.rushCooldownMs = 0;
 
-  state.missionTargetScore = 340;
+  state.missionTargetScore = 320;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;
 

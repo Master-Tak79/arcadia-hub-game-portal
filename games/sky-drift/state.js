@@ -38,7 +38,7 @@ export function createState(bestScore = 0) {
     scoreFloat: 0,
     best: Number(bestScore || 0),
 
-    speed: 220,
+    speed: 212,
     lives: 3,
 
     nitro: 0,
@@ -46,13 +46,13 @@ export function createState(bestScore = 0) {
     invincibleMs: 0,
     flash: 0,
 
-    obstacleSpawnMs: 920,
-    boosterSpawnMs: 2600,
+    obstacleSpawnMs: 980,
+    boosterSpawnMs: 2400,
     obstacleElapsed: 0,
     boosterElapsed: 0,
 
     noticeMs: 0,
-    missionTargetMs: 45000,
+    missionTargetMs: 42000,
     survivalMs: 0,
     missionCompleted: false,
     missionNoticeMs: 0,
@@ -67,6 +67,6 @@ export function createPlayer(canvas) {
     y: canvas.height * 0.82,
     w: 58,
     h: 90,
-    speed: 340,
+    speed: 356,
   };
 }

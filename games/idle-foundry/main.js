@@ -352,7 +352,7 @@ applySettings();
 showOverlayUI(
   { overlay, overlayTitle, overlayText },
   "Idle Foundry",
-  "라인 업그레이드로 생산량을 끌어올리세요.\n90초 동안 처리량 360 달성이 목표입니다."
+  "라인 업그레이드로 생산량을 끌어올리세요.\n96초 동안 처리량 340 달성이 목표입니다."
 );
 
 cancelAnimationFrame(rafId);

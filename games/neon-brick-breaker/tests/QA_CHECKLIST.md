@@ -1,4 +1,4 @@
-# Neon Brick Breaker QA Checklist (0.3.28)
+# Neon Brick Breaker QA Checklist (0.3.44)
 
 ## 자동 점검
 - [x] `./scripts/meteor-smoke-check.sh` 통과

@@ -1,4 +1,4 @@
-# Meteor Dodge QA Checklist (0.3.21)
+# Meteor Dodge QA Checklist (0.3.44)
 
 ## 자동 점검
 - [x] `./scripts/meteor-smoke-check.sh` 통과

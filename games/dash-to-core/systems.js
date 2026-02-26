@@ -40,7 +40,7 @@ export function triggerSync(state, obstacles, playerY, callbacks) {
   if (!state.running || state.paused || state.gameOver) return { ok: false, reason: "not-running" };
   if (state.syncCooldownMs > 0) return { ok: false, reason: "cooldown" };
 
-  state.syncCooldownMs = 720;
+  state.syncCooldownMs = 640;
 
   if (state.pulseMs <= 0) {
     callbacks?.onSyncMiss?.();
@@ -83,19 +83,19 @@ export function resetRound(state, obstacles) {
   state.level = 1;
 
   state.lane = 1;
-  state.lives = 3;
+  state.lives = 4;
 
   state.depth = 0;
-  state.speed = 170;
+  state.speed = 164;
 
-  state.beatIntervalMs = 620;
+  state.beatIntervalMs = 640;
   state.beatElapsedMs = 0;
   state.pulseMs = 0;
 
   state.syncCooldownMs = 0;
   state.invincibleMs = 0;
 
-  state.missionTargetDepth = 2000;
+  state.missionTargetDepth = 1800;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;
 
@@ -147,9 +147,9 @@ export function stepGame({
 
   state.depth += state.speed * deltaSec * 0.62;
   state.level = 1 + Math.floor(state.depth / 260);
-  state.speed = clamp(170 + state.depth * 0.048, 170, 360);
+  state.speed = clamp(164 + state.depth * 0.05, 164, 360);
 
-  state.beatIntervalMs = clamp(620 - state.level * 22, 360, 620);
+  state.beatIntervalMs = clamp(640 - state.level * 24, 360, 640);
   state.beatElapsedMs += deltaMs;
 
   while (state.beatElapsedMs >= state.beatIntervalMs) {

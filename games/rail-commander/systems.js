@@ -7,9 +7,9 @@ function updateTier(state) {
 }
 
 function getUpgradeCost(type, level) {
-  if (type === "north") return 42 + level * 24;
-  if (type === "central") return 46 + level * 26;
-  if (type === "south") return 44 + level * 22;
+  if (type === "north") return 40 + level * 22;
+  if (type === "central") return 44 + level * 24;
+  if (type === "south") return 42 + level * 20;
   return 9999;
 }
 
@@ -97,14 +97,14 @@ export function triggerOverdrive(state) {
     return { ok: false, reason: "cooldown" };
   }
 
-  const cost = 32;
+  const cost = 28;
   if (state.credits < cost) {
     return { ok: false, reason: "insufficient-credit", cost };
   }
 
   state.credits -= cost;
-  state.overdriveMs = 6000;
-  state.overdriveCooldownMs = 19000;
+  state.overdriveMs = 6600;
+  state.overdriveCooldownMs = 17000;
 
   return { ok: true, cost };
 }
@@ -114,20 +114,20 @@ export function resetRound(state) {
   state.scoreFloat = 0;
   state.tier = 1;
 
-  state.cargo = 10;
-  state.passenger = 7;
-  state.mail = 5;
-  state.credits = 90;
+  state.cargo = 12;
+  state.passenger = 8;
+  state.mail = 6;
+  state.credits = 96;
 
   state.northLv = 1;
   state.centralLv = 1;
   state.southLv = 1;
 
-  state.shiftLimitSec = 90;
-  state.shiftRemainSec = 90;
+  state.shiftLimitSec = 96;
+  state.shiftRemainSec = 96;
 
   state.dispatches = 0;
-  state.missionTargetDispatches = 24;
+  state.missionTargetDispatches = 22;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;
 

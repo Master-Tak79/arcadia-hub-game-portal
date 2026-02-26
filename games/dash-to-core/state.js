@@ -40,19 +40,19 @@ export function createState(bestScore = 0) {
     level: 1,
 
     lane: 1,
-    lives: 3,
+    lives: 4,
 
     depth: 0,
-    speed: 170,
+    speed: 164,
 
-    beatIntervalMs: 620,
+    beatIntervalMs: 640,
     beatElapsedMs: 0,
     pulseMs: 0,
 
     syncCooldownMs: 0,
     invincibleMs: 0,
 
-    missionTargetDepth: 2000,
+    missionTargetDepth: 1800,
     missionCompleted: false,
     missionNoticeMs: 0,
 

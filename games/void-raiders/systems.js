@@ -11,7 +11,7 @@ function randomEnemyKind() {
 
 function spawnEnemy(state, enemies) {
   const kind = randomEnemyKind();
-  const baseSpeed = 120 + state.level * 11;
+  const baseSpeed = 116 + state.level * 11.5;
 
   const enemy = {
     lane: Math.floor(Math.random() * state.laneCount),
@@ -73,7 +73,7 @@ export function triggerNova(state, enemies, callbacks) {
   if (!state.running || state.paused || state.gameOver) return { ok: false, reason: "not-running" };
   if (state.novaCooldownMs > 0) return { ok: false, reason: "cooldown" };
 
-  state.novaCooldownMs = 16000;
+  state.novaCooldownMs = 14500;
 
   let cleared = 0;
   for (let i = enemies.length - 1; i >= 0; i -= 1) {
@@ -99,18 +99,18 @@ export function resetRound(state, enemies, bullets) {
   state.level = 1;
 
   state.lane = 1;
-  state.hp = 3;
+  state.hp = 4;
 
-  state.fireCooldownMs = 240;
+  state.fireCooldownMs = 230;
   state.fireElapsedMs = 0;
-  state.spawnCooldownMs = 760;
+  state.spawnCooldownMs = 820;
   state.spawnElapsedMs = 0;
 
   state.novaCooldownMs = 0;
   state.invincibleMs = 0;
 
   state.kills = 0;
-  state.missionTargetKills = 40;
+  state.missionTargetKills = 36;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;
 
@@ -146,7 +146,7 @@ export function stepGame({
   if (state.novaCooldownMs > 0) state.novaCooldownMs -= deltaMs;
   if (state.invincibleMs > 0) state.invincibleMs -= deltaMs;
 
-  state.spawnCooldownMs = clamp(760 - state.level * 24, 280, 760);
+  state.spawnCooldownMs = clamp(820 - state.level * 26, 300, 820);
 
   state.spawnElapsedMs += deltaMs;
   while (state.spawnElapsedMs >= state.spawnCooldownMs) {

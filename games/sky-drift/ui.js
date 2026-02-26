@@ -9,13 +9,15 @@ export function syncHud({ state, scoreText, bestText, speedText, livesText, nitr
   livesText.textContent = state.lives > 0 ? "❤".repeat(state.lives) : "0";
   nitroText.textContent = `${Math.floor(state.nitro)}%`;
 
+  const targetSec = Math.round(state.missionTargetMs / 1000);
+
   if (state.missionCompleted) {
-    missionText.textContent = "🎯 45초 생존 미션 완료!";
+    missionText.textContent = `🎯 ${targetSec}초 생존 미션 완료!`;
     return;
   }
 
   const remain = Math.max(0, state.missionTargetMs - state.survivalMs);
-  missionText.textContent = `미션: 45초 생존 · 남은 ${formatDuration(remain / 1000)}`;
+  missionText.textContent = `미션: ${targetSec}초 생존 · 남은 ${formatDuration(remain / 1000)}`;
 }
 
 export function syncSettingsUI({
