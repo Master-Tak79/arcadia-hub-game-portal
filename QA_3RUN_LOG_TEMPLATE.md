@@ -70,3 +70,10 @@
 | YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 1 | 60+ | PASS | 없음 | - |
 | YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 2 | 60+ | PASS | 없음 | - |
 | YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 3 | 60+ | PASS | 없음 | - |
+
+## Dash to Core
+| Date | Device Slot | Browser | Run# | DurationSec | Result | 비트/SYNC/레인충돌 이상 | Issue |
+| --- | --- | --- | --- | ---: | --- | --- | --- |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 1 | 60+ | PASS | 없음 | - |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 2 | 60+ | PASS | 없음 | - |
+| YYYY-MM-DD | A/B | Chrome/Edge/Samsung/Telegram | 3 | 60+ | PASS | 없음 | - |

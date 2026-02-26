@@ -40,6 +40,10 @@ import {
   syncHud as idleSyncHud,
   syncSettingsUI as idleSyncSettingsUI,
 } from "../games/idle-foundry/ui.js";
+import {
+  syncHud as dashSyncHud,
+  syncSettingsUI as dashSyncSettingsUI,
+} from "../games/dash-to-core/ui.js";
 
 function createClassList() {
   return {
@@ -819,6 +823,93 @@ function runIdleFoundryChecks() {
   assert.equal(sfxVolumeValue.textContent, "44%");
 }
 
+function runDashToCoreChecks() {
+  const scoreText = { textContent: "" };
+  const bestText = { textContent: "" };
+  const depthText = { textContent: "" };
+  const livesText = { textContent: "" };
+  const beatText = { textContent: "" };
+  const missionText = { textContent: "" };
+
+  dashSyncHud({
+    state: {
+      score: 188.4,
+      best: 420,
+      depth: 912,
+      lives: 2,
+      pulseMs: 120,
+      syncCooldownMs: 0,
+      missionCompleted: false,
+    },
+    scoreText,
+    bestText,
+    depthText,
+    livesText,
+    beatText,
+    missionText,
+  });
+
+  assert.equal(scoreText.textContent, "188");
+  assert.equal(bestText.textContent, "420");
+  assert.equal(depthText.textContent, "912m");
+  assert.equal(livesText.textContent, "❤❤");
+  assert.equal(beatText.textContent, "ON BEAT");
+  assert.equal(missionText.textContent, "미션: 코어 2000m (912/2000)");
+
+  dashSyncHud({
+    state: {
+      score: 398,
+      best: 420,
+      depth: 2130,
+      lives: 1,
+      pulseMs: 0,
+      syncCooldownMs: 1340,
+      missionCompleted: true,
+    },
+    scoreText,
+    bestText,
+    depthText,
+    livesText,
+    beatText,
+    missionText,
+  });
+
+  assert.equal(beatText.textContent, "SYNC 1.3s");
+  assert.equal(missionText.textContent, "🎯 코어 2000m 미션 완료!");
+
+  const settings = {
+    effectsEnabled: true,
+    vibrationEnabled: false,
+    soundEnabled: true,
+    bgmEnabled: true,
+    sfxVolume: 52,
+  };
+  const effectsToggle = { checked: false };
+  const vibrationToggle = { checked: false };
+  const soundToggle = { checked: false };
+  const bgmToggle = { checked: false, disabled: false };
+  const sfxVolumeRange = { value: "" };
+  const sfxVolumeValue = { textContent: "" };
+
+  dashSyncSettingsUI({
+    settings,
+    effectsToggle,
+    vibrationToggle,
+    soundToggle,
+    bgmToggle,
+    sfxVolumeRange,
+    sfxVolumeValue,
+  });
+
+  assert.equal(effectsToggle.checked, true);
+  assert.equal(vibrationToggle.checked, false);
+  assert.equal(soundToggle.checked, true);
+  assert.equal(bgmToggle.checked, true);
+  assert.equal(bgmToggle.disabled, false);
+  assert.equal(sfxVolumeRange.value, "52");
+  assert.equal(sfxVolumeValue.textContent, "52%");
+}
+
 function run() {
   runMeteorChecks();
   runLaneChecks();
@@ -829,6 +920,7 @@ function run() {
   runMiniEmpireChecks();
   runPixelClashChecks();
   runIdleFoundryChecks();
+  runDashToCoreChecks();
   console.log("game ui check passed ✅");
 }
 
