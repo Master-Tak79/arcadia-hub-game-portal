@@ -199,6 +199,14 @@
 - `games/lane-switch/tests/QA_CHECKLIST.md`를 `0.3.31` 기준으로 갱신
 - Lane Switch seed 버전 `0.3.26` → `0.3.31` 상향
 - 포털 버전 `0.3.31`로 패치 업데이트
+- `fix/portal-priority-dedupe-0.3.32` 브랜치에서 포털 노출 순위/중복 이슈 보완 진행
+- `src/data/game.repository.js` 병합 로직 강화:
+  - admin 데이터 병합 시 seed 구현 게임의 핵심 속성(`playUrl/featured/popularity`) 보호
+  - 동일 제목 기준 중복 제거 + 구현/featured/최신성 우선 선택
+- `src/main.js`, `src/state/store.js` 보완:
+  - Featured 섹션 노출 게임을 메인 리스트에서 제외해 중복 카드 제거
+  - 무한 스크롤 로드 가능 계산을 Featured 제외 규칙과 동기화
+- 포털 버전 `0.3.32`로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
@@ -221,6 +229,7 @@
 - 관리자 입력은 포털 렌더 필드와 1:1 매핑(미리보기/스크린샷)하도록 확장
 - 미디어 입력값은 저장 전 정규화하여 렌더 안정성을 우선 확보
 - 모바일 포털은 핵심 탐색(게임 카드)이 최근 업데이트보다 우선 노출되도록 유지
+- 포털 병합 우선순위는 `구현 게임 > featured > 최신성` 원칙으로 중복/하향 덮어쓰기를 방지
 
 ### 다음 작업
 - `QA_3RUN_LOG_TEMPLATE.md` 기반으로 5종 로컬 게임 HOLD 항목(3회/60초 정량 기록) 해소

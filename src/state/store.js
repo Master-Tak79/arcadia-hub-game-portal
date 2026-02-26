@@ -121,8 +121,14 @@ export function createStore(initialGames = []) {
     return getSorted(filtered);
   }
 
-  function getVisibleGames() {
-    return getFilteredGames().slice(0, visibleLimit);
+  function applyExclusions(list, excludeIds = []) {
+    if (!Array.isArray(excludeIds) || !excludeIds.length) return list;
+    const excluded = new Set(excludeIds);
+    return list.filter((g) => !excluded.has(g.id));
+  }
+
+  function getVisibleGames(excludeIds = []) {
+    return applyExclusions(getFilteredGames(), excludeIds).slice(0, visibleLimit);
   }
 
   function getFeaturedGames() {
@@ -143,8 +149,8 @@ export function createStore(initialGames = []) {
     return games.find((g) => g.id === id) || null;
   }
 
-  function canLoadMore() {
-    return visibleLimit < getFilteredGames().length;
+  function canLoadMore(excludeIds = []) {
+    return visibleLimit < applyExclusions(getFilteredGames(), excludeIds).length;
   }
 
   function increaseVisibleLimit(step = 12) {
