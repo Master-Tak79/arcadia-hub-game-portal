@@ -24,6 +24,10 @@ import {
   syncHud as orbitSyncHud,
   syncSettingsUI as orbitSyncSettingsUI,
 } from "../games/orbit-survivor/ui.js";
+import {
+  syncHud as blockSyncHud,
+  syncSettingsUI as blockSyncSettingsUI,
+} from "../games/block-sage/ui.js";
 
 function createClassList() {
   return {
@@ -457,12 +461,92 @@ function runOrbitChecks() {
   assert.equal(sfxVolumeValue.textContent, "64%");
 }
 
+function runBlockSageChecks() {
+  const scoreText = { textContent: "" };
+  const bestText = { textContent: "" };
+  const linesText = { textContent: "" };
+  const turnsText = { textContent: "" };
+  const missionText = { textContent: "" };
+
+  blockSyncHud({
+    state: {
+      score: 120,
+      best: 500,
+      lines: 7,
+      turnsUsed: 14,
+      turnLimit: 40,
+      missionCompleted: false,
+    },
+    scoreText,
+    bestText,
+    linesText,
+    turnsText,
+    missionText,
+  });
+
+  assert.equal(scoreText.textContent, "120");
+  assert.equal(bestText.textContent, "500");
+  assert.equal(linesText.textContent, "7");
+  assert.equal(turnsText.textContent, "26턴");
+  assert.equal(missionText.textContent, "미션: 12라인 클리어 (7/12)");
+
+  blockSyncHud({
+    state: {
+      score: 240,
+      best: 500,
+      lines: 12,
+      turnsUsed: 20,
+      turnLimit: 40,
+      missionCompleted: true,
+    },
+    scoreText,
+    bestText,
+    linesText,
+    turnsText,
+    missionText,
+  });
+  assert.equal(missionText.textContent, "🎯 12라인 미션 완료!");
+
+  const settings = {
+    effectsEnabled: true,
+    vibrationEnabled: false,
+    soundEnabled: true,
+    bgmEnabled: false,
+    sfxVolume: 42,
+  };
+  const effectsToggle = { checked: false };
+  const vibrationToggle = { checked: false };
+  const soundToggle = { checked: false };
+  const bgmToggle = { checked: false, disabled: false };
+  const sfxVolumeRange = { value: "" };
+  const sfxVolumeValue = { textContent: "" };
+
+  blockSyncSettingsUI({
+    settings,
+    effectsToggle,
+    vibrationToggle,
+    soundToggle,
+    bgmToggle,
+    sfxVolumeRange,
+    sfxVolumeValue,
+  });
+
+  assert.equal(effectsToggle.checked, true);
+  assert.equal(vibrationToggle.checked, false);
+  assert.equal(soundToggle.checked, true);
+  assert.equal(bgmToggle.checked, false);
+  assert.equal(bgmToggle.disabled, false);
+  assert.equal(sfxVolumeRange.value, "42");
+  assert.equal(sfxVolumeValue.textContent, "42%");
+}
+
 function run() {
   runMeteorChecks();
   runLaneChecks();
   runSkyChecks();
   runBrickChecks();
   runOrbitChecks();
+  runBlockSageChecks();
   console.log("game ui check passed ✅");
 }
 
