@@ -232,12 +232,30 @@ select {
 }
 
 .recent-item {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+
   display: grid;
   grid-template-columns: 1fr auto auto;
   gap: 8px;
   align-items: center;
   padding: 10px 12px;
   border-bottom: 1px solid rgba(145, 165, 245, 0.15);
+}
+
+.recent-item:hover {
+  background: rgba(120, 170, 255, 0.08);
+}
+
+.recent-item:focus-visible {
+  outline: 2px solid rgba(146, 191, 255, 0.7);
+  outline-offset: -2px;
 }
 
 .recent-item:last-child {
