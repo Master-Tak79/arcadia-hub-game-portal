@@ -44,6 +44,10 @@ import {
   syncHud as dashSyncHud,
   syncSettingsUI as dashSyncSettingsUI,
 } from "../games/dash-to-core/ui.js";
+import {
+  syncHud as farmSyncHud,
+  syncSettingsUI as farmSyncSettingsUI,
+} from "../games/farm-harbor/ui.js";
 
 function createClassList() {
   return {
@@ -910,6 +914,101 @@ function runDashToCoreChecks() {
   assert.equal(sfxVolumeValue.textContent, "52%");
 }
 
+function runFarmHarborChecks() {
+  const scoreText = { textContent: "" };
+  const bestText = { textContent: "" };
+  const tierText = { textContent: "" };
+  const resourceText = { textContent: "" };
+  const dayText = { textContent: "" };
+  const missionText = { textContent: "" };
+
+  farmSyncHud({
+    state: {
+      score: 198.8,
+      best: 450,
+      tier: 2,
+      crops: 12,
+      fish: 9,
+      crates: 4,
+      coins: 140,
+      day: 12,
+      dayLimit: 30,
+      rushCooldownMs: 0,
+      missionCompleted: false,
+    },
+    scoreText,
+    bestText,
+    tierText,
+    resourceText,
+    dayText,
+    missionText,
+  });
+
+  assert.equal(scoreText.textContent, "198");
+  assert.equal(bestText.textContent, "450");
+  assert.equal(tierText.textContent, "2");
+  assert.equal(resourceText.textContent, "F12 H9 X4 C140");
+  assert.equal(dayText.textContent, "12/30");
+  assert.equal(missionText.textContent, "미션: 번영 340 (198/340)");
+
+  farmSyncHud({
+    state: {
+      score: 360,
+      best: 450,
+      tier: 3,
+      crops: 8,
+      fish: 7,
+      crates: 2,
+      coins: 210,
+      day: 24,
+      dayLimit: 30,
+      rushCooldownMs: 5300,
+      missionCompleted: true,
+    },
+    scoreText,
+    bestText,
+    tierText,
+    resourceText,
+    dayText,
+    missionText,
+  });
+
+  assert.equal(dayText.textContent, "24/30 · RUSH 5.3s");
+  assert.equal(missionText.textContent, "🎯 번영 340 미션 완료!");
+
+  const settings = {
+    effectsEnabled: false,
+    vibrationEnabled: true,
+    soundEnabled: false,
+    bgmEnabled: true,
+    sfxVolume: 39,
+  };
+  const effectsToggle = { checked: false };
+  const vibrationToggle = { checked: false };
+  const soundToggle = { checked: false };
+  const bgmToggle = { checked: false, disabled: false };
+  const sfxVolumeRange = { value: "" };
+  const sfxVolumeValue = { textContent: "" };
+
+  farmSyncSettingsUI({
+    settings,
+    effectsToggle,
+    vibrationToggle,
+    soundToggle,
+    bgmToggle,
+    sfxVolumeRange,
+    sfxVolumeValue,
+  });
+
+  assert.equal(effectsToggle.checked, false);
+  assert.equal(vibrationToggle.checked, true);
+  assert.equal(soundToggle.checked, false);
+  assert.equal(bgmToggle.checked, true);
+  assert.equal(bgmToggle.disabled, true);
+  assert.equal(sfxVolumeRange.value, "39");
+  assert.equal(sfxVolumeValue.textContent, "39%");
+}
+
 function run() {
   runMeteorChecks();
   runLaneChecks();
@@ -921,6 +1020,7 @@ function run() {
   runPixelClashChecks();
   runIdleFoundryChecks();
   runDashToCoreChecks();
+  runFarmHarborChecks();
   console.log("game ui check passed ✅");
 }
 
