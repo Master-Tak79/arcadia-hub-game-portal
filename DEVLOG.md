@@ -305,6 +305,12 @@
 - `QA_3RUN_LOG_2026-02-27_STAGE1.md` 생성 및 `QA_MOBILE_2DEVICES.md` 실행 로그/참조 섹션 연동
 - `QA_FINAL_STATUS.md` HOLD 항목에 Stage1 시트 생성 상태 반영
 - 포털 버전 `0.3.46`으로 패치 업데이트
+- `feat/pages-deploy-fix-0.3.47` 브랜치에서 포털 접속 불가(404) 복구 작업 진행
+- `.github/workflows/pages-deploy.yml` 추가:
+  - GitHub Pages `build_type: workflow`에 맞는 정적 아티팩트 업로드 + 배포 job 구성
+  - main push 시 자동 배포 / 수동 workflow_dispatch 지원
+- `.nojekyll` 추가로 Pages 정적 서빙 호환성 보강
+- 포털 버전 `0.3.47`로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
