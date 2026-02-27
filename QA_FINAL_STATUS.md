@@ -6,6 +6,7 @@
 - 자동 검증 체인
   - `scripts/shared-ui-common-check.mjs` 통과
   - `scripts/game-ui-check.mjs` 통과
+  - `scripts/state-reset-sync-check.mjs` 통과
   - `scripts/meteor-smoke-check.sh` 통과
   - `scripts/longpress-guard-check.mjs` 통과
   - GitHub Actions `ui-regression` (PR / main push) 성공

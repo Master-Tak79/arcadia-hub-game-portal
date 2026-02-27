@@ -62,6 +62,7 @@ export function resetRound(state, paddle, ball) {
   state.level = 1;
   state.gameOver = false;
   state.waitingLaunch = true;
+  state.missionTargetLevel = 3;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;
   state.noticeMs = 0;

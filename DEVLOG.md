@@ -396,6 +396,18 @@
   - `README.md`, `QA_FINAL_STATUS.md`, `QA_MOBILE_2DEVICES.md`, `PORTAL_FULL_REVIEW_2026-02-27.md` 갱신
   - `src/config/version.js` 포털 버전 `0.3.52`
   - `src/data/games.seed.js` 19개 게임 버전 `0.3.52` 정렬
+- `feat/p1-rfc-state-sync-0.3.53` 브랜치에서 P1 리팩토링 준비 작업 진행
+  - `scripts/state-reset-sync-check.mjs` 추가
+    - `createState` 초기값과 `resetRound`의 `state.*` 리터럴 할당값 불일치 자동 탐지
+    - `missionTarget*` 키가 resetRound에 누락되었는지 자동 탐지
+  - `scripts/meteor-smoke-check.sh`를 9단계 파이프라인으로 확장
+    - `[7/9] state-reset-sync-check` 단계 통합
+  - `REFACTOR_P1_RFC_2026-02-27.md` 추가
+    - 템플릿 기반 게임 엔진화(P1) 목표/범위/마이그레이션 순서 정의
+  - 문서 반영
+    - `README.md`: 개발 가드레일 항목 추가
+    - `QA_FINAL_STATUS.md`: `state-reset-sync-check` PASS 항목 추가
+    - `CHANGELOG.md`: Unreleased에 스크립트/RFC/스모크 단계 확장 기록
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
@@ -420,6 +432,7 @@
 - 모바일 포털은 핵심 탐색(게임 카드)이 최근 업데이트보다 우선 노출되도록 유지
 - 포털 병합 우선순위는 `구현 게임 > featured > 최신성` 원칙으로 중복/하향 덮어쓰기를 방지
 - 모바일 롱프레스 UX 회귀 리스크는 `longpress-guard-check`를 스모크 체크에 포함해 조기 탐지
+- 상태 초기화 회귀(`createState` vs `resetRound`)는 `state-reset-sync-check`를 스모크 체크에 포함해 조기 탐지
 - 실기기 정량 로그는 기능 PASS와 별도로 `LongPressCallout` 컬럼을 분리 기록해 원인 분석 추적성을 확보
 
 ### 다음 작업

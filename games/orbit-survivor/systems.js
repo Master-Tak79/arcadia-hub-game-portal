@@ -121,6 +121,7 @@ export function resetRound(state, player, enemies, bullets) {
   state.flash = 0;
 
   state.survivalMs = 0;
+  state.missionTargetMs = 54000;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;
   state.noticeMs = 0;
