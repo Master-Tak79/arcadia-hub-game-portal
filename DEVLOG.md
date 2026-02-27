@@ -299,6 +299,12 @@
   - `localStorage` 의존 state 초기화를 위한 Node 실행용 메모리 스텁 포함
 - `scripts/meteor-smoke-check.sh`를 7단계 파이프라인으로 확장하고 `mission-index-sync-check` 단계 통합
 - 포털 버전 `0.3.45`로 패치 업데이트
+- `feat/mobile-qa-log-stage1-0.3.46` 브랜치에서 실기기 QA 로그 1차 채움 작업 진행
+- `scripts/seed-mobile-qa-log.mjs` 추가:
+  - 15개 게임 × Device A/B × 3회(총 90행) QA 로그 기본 행 자동 생성
+- `QA_3RUN_LOG_2026-02-27_STAGE1.md` 생성 및 `QA_MOBILE_2DEVICES.md` 실행 로그/참조 섹션 연동
+- `QA_FINAL_STATUS.md` HOLD 항목에 Stage1 시트 생성 상태 반영
+- 포털 버전 `0.3.46`으로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용

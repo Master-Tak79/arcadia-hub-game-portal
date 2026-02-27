@@ -137,6 +137,7 @@
 | 2026-02-26 | A/B | Maze Signal | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
 | 2026-02-26 | A/B | Void Raiders | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
 | 2026-02-26 | A/B | Rail Commander | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
+| 2026-02-27 | A/B | 15종 3-Run 로그 시트 | PREPARED | `QA_3RUN_LOG_2026-02-27_STAGE1.md` 1차 채움 생성 |
 
 ## 완료 기준
 - Slot A/B 모두에서 공통 + 게임별 필수 체크 PASS
@@ -144,8 +145,9 @@
 
 ## 정량 로그 템플릿
 - `QA_3RUN_LOG_TEMPLATE.md`를 사용해 기기별/게임별 3회(각 60초 이상) 실행 기록을 남깁니다.
+- 1차 채움 시트: `QA_3RUN_LOG_2026-02-27_STAGE1.md` (A/B×15종×3회 기본 행 생성)
 
-## 현재 판정 (2026-02-26)
+## 현재 판정 (2026-02-27)
 ### ✅ PASS
 - Slot A/B 모두 실행 확인됨
 - Device-B(`Galaxy A24 Ultra`) 브라우저 3종(Chrome/Edge/Samsung Internet) 실행 확인

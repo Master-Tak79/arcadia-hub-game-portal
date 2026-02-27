@@ -15,6 +15,23 @@
 
 ---
 
+## [0.3.46] - 2026-02-27
+### Added
+- `scripts/seed-mobile-qa-log.mjs` 추가
+  - 15개 게임 × Device A/B × 3회 기본 행을 자동 생성하는 실기기 QA 로그 시드 도구
+- `QA_3RUN_LOG_2026-02-27_STAGE1.md` 추가
+  - 실기기 QA 1차 채움용 로그 시트 (총 90행 PENDING 시드)
+
+### Changed
+- `QA_MOBILE_2DEVICES.md`
+  - 실행 로그에 Stage1 시트 생성 이력 추가
+  - 정량 로그 섹션에 Stage1 시트 참조 추가
+- `QA_FINAL_STATUS.md`
+  - HOLD 항목에 "Stage1 시트 생성 완료 / 실측값 입력 필요" 상태 반영
+- 포털 버전 `0.3.45` → `0.3.46`
+
+---
+
 ## [0.3.45] - 2026-02-27
 ### Added
 - `scripts/mission-index-sync-check.mjs` 추가
