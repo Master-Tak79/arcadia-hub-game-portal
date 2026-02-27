@@ -64,6 +64,22 @@ import {
   syncHud as railSyncHud,
   syncSettingsUI as railSyncSettingsUI,
 } from "../games/rail-commander/ui.js";
+import {
+  syncHud as towerSyncHud,
+  syncSettingsUI as towerSyncSettingsUI,
+} from "../games/tower-pulse-defense/ui.js";
+import {
+  syncHud as ghostKartSyncHud,
+  syncSettingsUI as ghostKartSyncSettingsUI,
+} from "../games/ghost-kart-duel/ui.js";
+import {
+  syncHud as bubbleMergeSyncHud,
+  syncSettingsUI as bubbleMergeSyncSettingsUI,
+} from "../games/bubble-harbor-merge/ui.js";
+import {
+  syncHud as dungeonDiceSyncHud,
+  syncSettingsUI as dungeonDiceSyncSettingsUI,
+} from "../games/dungeon-dice-survivor/ui.js";
 
 function createClassList() {
   return {
@@ -1401,6 +1417,380 @@ function runRailCommanderChecks() {
   assert.equal(sfxVolumeValue.textContent, "42%");
 }
 
+function runTowerPulseChecks() {
+  const scoreText = { textContent: "" };
+  const bestText = { textContent: "" };
+  const tierText = { textContent: "" };
+  const resourceText = { textContent: "" };
+  const shiftText = { textContent: "" };
+  const missionText = { textContent: "" };
+
+  towerSyncHud({
+    state: {
+      score: 223.6,
+      best: 470,
+      tier: 2,
+      cargo: 11,
+      passenger: 8,
+      mail: 6,
+      credits: 150,
+      shiftRemainSec: 73,
+      overdriveCooldownMs: 0,
+      dispatches: 10,
+      missionCompleted: false,
+      missionTargetDispatches: 24,
+    },
+    scoreText,
+    bestText,
+    tierText,
+    resourceText,
+    shiftText,
+    missionText,
+  });
+
+  assert.equal(scoreText.textContent, "223");
+  assert.equal(bestText.textContent, "470");
+  assert.equal(tierText.textContent, "2");
+  assert.equal(resourceText.textContent, "C11 P8 M6 ₡150");
+  assert.equal(shiftText.textContent, "01:13");
+  assert.equal(missionText.textContent, "미션: 방어 24 (10/24)");
+
+  towerSyncHud({
+    state: {
+      score: 402,
+      best: 470,
+      tier: 3,
+      cargo: 7,
+      passenger: 6,
+      mail: 4,
+      credits: 240,
+      shiftRemainSec: 12,
+      overdriveCooldownMs: 5200,
+      dispatches: 24,
+      missionCompleted: true,
+      missionTargetDispatches: 24,
+    },
+    scoreText,
+    bestText,
+    tierText,
+    resourceText,
+    shiftText,
+    missionText,
+  });
+
+  assert.equal(shiftText.textContent, "00:12 · OD 5.2s");
+  assert.equal(missionText.textContent, "🎯 방어 24 미션 완료!");
+
+  const settings = {
+    effectsEnabled: false,
+    vibrationEnabled: true,
+    soundEnabled: false,
+    bgmEnabled: true,
+    sfxVolume: 43,
+  };
+  const effectsToggle = { checked: false };
+  const vibrationToggle = { checked: false };
+  const soundToggle = { checked: false };
+  const bgmToggle = { checked: false, disabled: false };
+  const sfxVolumeRange = { value: "" };
+  const sfxVolumeValue = { textContent: "" };
+
+  towerSyncSettingsUI({
+    settings,
+    effectsToggle,
+    vibrationToggle,
+    soundToggle,
+    bgmToggle,
+    sfxVolumeRange,
+    sfxVolumeValue,
+  });
+
+  assert.equal(effectsToggle.checked, false);
+  assert.equal(vibrationToggle.checked, true);
+  assert.equal(soundToggle.checked, false);
+  assert.equal(bgmToggle.checked, true);
+  assert.equal(bgmToggle.disabled, true);
+  assert.equal(sfxVolumeRange.value, "43");
+  assert.equal(sfxVolumeValue.textContent, "43%");
+}
+
+function runGhostKartChecks() {
+  const scoreText = { textContent: "" };
+  const bestText = { textContent: "" };
+  const lapText = { textContent: "" };
+  const hpText = { textContent: "" };
+  const boostText = { textContent: "" };
+  const missionText = { textContent: "" };
+
+  ghostKartSyncHud({
+    state: {
+      score: 182.6,
+      best: 410,
+      lap: 3,
+      hp: 2,
+      boostMs: 0,
+      boostCooldownMs: 0,
+      checkpoints: 8,
+      missionCompleted: false,
+      missionTargetCheckpoints: 18,
+    },
+    scoreText,
+    bestText,
+    lapText,
+    hpText,
+    boostText,
+    missionText,
+  });
+
+  assert.equal(scoreText.textContent, "182");
+  assert.equal(bestText.textContent, "410");
+  assert.equal(lapText.textContent, "3");
+  assert.equal(hpText.textContent, "❤❤");
+  assert.equal(boostText.textContent, "READY");
+  assert.equal(missionText.textContent, "미션: 고스트 포인트 18 (8/18)");
+
+  ghostKartSyncHud({
+    state: {
+      score: 398,
+      best: 410,
+      lap: 5,
+      hp: 1,
+      boostMs: 1400,
+      boostCooldownMs: 6200,
+      checkpoints: 18,
+      missionCompleted: true,
+      missionTargetCheckpoints: 18,
+    },
+    scoreText,
+    bestText,
+    lapText,
+    hpText,
+    boostText,
+    missionText,
+  });
+
+  assert.equal(boostText.textContent, "DRIFT ON");
+  assert.equal(missionText.textContent, "🎯 고스트 포인트 18 미션 완료!");
+
+  const settings = {
+    effectsEnabled: true,
+    vibrationEnabled: false,
+    soundEnabled: true,
+    bgmEnabled: false,
+    sfxVolume: 61,
+  };
+  const effectsToggle = { checked: false };
+  const vibrationToggle = { checked: false };
+  const soundToggle = { checked: false };
+  const bgmToggle = { checked: false, disabled: false };
+  const sfxVolumeRange = { value: "" };
+  const sfxVolumeValue = { textContent: "" };
+
+  ghostKartSyncSettingsUI({
+    settings,
+    effectsToggle,
+    vibrationToggle,
+    soundToggle,
+    bgmToggle,
+    sfxVolumeRange,
+    sfxVolumeValue,
+  });
+
+  assert.equal(effectsToggle.checked, true);
+  assert.equal(vibrationToggle.checked, false);
+  assert.equal(soundToggle.checked, true);
+  assert.equal(bgmToggle.checked, false);
+  assert.equal(bgmToggle.disabled, false);
+  assert.equal(sfxVolumeRange.value, "61");
+  assert.equal(sfxVolumeValue.textContent, "61%");
+}
+
+function runBubbleHarborMergeChecks() {
+  const scoreText = { textContent: "" };
+  const bestText = { textContent: "" };
+  const tierText = { textContent: "" };
+  const resourceText = { textContent: "" };
+  const dayText = { textContent: "" };
+  const missionText = { textContent: "" };
+
+  bubbleMergeSyncHud({
+    state: {
+      score: 218.8,
+      best: 450,
+      tier: 2,
+      crops: 12,
+      fish: 9,
+      crates: 4,
+      coins: 140,
+      day: 12,
+      dayLimit: 32,
+      rushCooldownMs: 0,
+      missionCompleted: false,
+      missionTargetScore: 360,
+    },
+    scoreText,
+    bestText,
+    tierText,
+    resourceText,
+    dayText,
+    missionText,
+  });
+
+  assert.equal(scoreText.textContent, "218");
+  assert.equal(bestText.textContent, "450");
+  assert.equal(tierText.textContent, "2");
+  assert.equal(resourceText.textContent, "F12 H9 X4 C140");
+  assert.equal(dayText.textContent, "12/32");
+  assert.equal(missionText.textContent, "미션: 머지 360 (218/360)");
+
+  bubbleMergeSyncHud({
+    state: {
+      score: 391,
+      best: 450,
+      tier: 3,
+      crops: 8,
+      fish: 7,
+      crates: 2,
+      coins: 210,
+      day: 24,
+      dayLimit: 32,
+      rushCooldownMs: 5300,
+      missionCompleted: true,
+      missionTargetScore: 360,
+    },
+    scoreText,
+    bestText,
+    tierText,
+    resourceText,
+    dayText,
+    missionText,
+  });
+
+  assert.equal(dayText.textContent, "24/32 · RUSH 5.3s");
+  assert.equal(missionText.textContent, "🎯 머지 360 미션 완료!");
+
+  const settings = {
+    effectsEnabled: false,
+    vibrationEnabled: true,
+    soundEnabled: false,
+    bgmEnabled: true,
+    sfxVolume: 39,
+  };
+  const effectsToggle = { checked: false };
+  const vibrationToggle = { checked: false };
+  const soundToggle = { checked: false };
+  const bgmToggle = { checked: false, disabled: false };
+  const sfxVolumeRange = { value: "" };
+  const sfxVolumeValue = { textContent: "" };
+
+  bubbleMergeSyncSettingsUI({
+    settings,
+    effectsToggle,
+    vibrationToggle,
+    soundToggle,
+    bgmToggle,
+    sfxVolumeRange,
+    sfxVolumeValue,
+  });
+
+  assert.equal(effectsToggle.checked, false);
+  assert.equal(vibrationToggle.checked, true);
+  assert.equal(soundToggle.checked, false);
+  assert.equal(bgmToggle.checked, true);
+  assert.equal(bgmToggle.disabled, true);
+  assert.equal(sfxVolumeRange.value, "39");
+  assert.equal(sfxVolumeValue.textContent, "39%");
+}
+
+function runDungeonDiceChecks() {
+  const scoreText = { textContent: "" };
+  const bestText = { textContent: "" };
+  const levelText = { textContent: "" };
+  const hpText = { textContent: "" };
+  const novaText = { textContent: "" };
+  const missionText = { textContent: "" };
+
+  dungeonDiceSyncHud({
+    state: {
+      score: 222.4,
+      best: 500,
+      level: 4,
+      hp: 2,
+      novaCooldownMs: 0,
+      kills: 17,
+      missionCompleted: false,
+      missionTargetKills: 34,
+    },
+    scoreText,
+    bestText,
+    levelText,
+    hpText,
+    novaText,
+    missionText,
+  });
+
+  assert.equal(scoreText.textContent, "222");
+  assert.equal(bestText.textContent, "500");
+  assert.equal(levelText.textContent, "4");
+  assert.equal(hpText.textContent, "❤❤");
+  assert.equal(novaText.textContent, "READY");
+  assert.equal(missionText.textContent, "미션: 주사위 34 (17/34)");
+
+  dungeonDiceSyncHud({
+    state: {
+      score: 410,
+      best: 500,
+      level: 6,
+      hp: 1,
+      novaCooldownMs: 4200,
+      kills: 34,
+      missionCompleted: true,
+      missionTargetKills: 34,
+    },
+    scoreText,
+    bestText,
+    levelText,
+    hpText,
+    novaText,
+    missionText,
+  });
+
+  assert.equal(novaText.textContent, "4.2s");
+  assert.equal(missionText.textContent, "🎯 주사위 34 미션 완료!");
+
+  const settings = {
+    effectsEnabled: true,
+    vibrationEnabled: false,
+    soundEnabled: true,
+    bgmEnabled: false,
+    sfxVolume: 58,
+  };
+  const effectsToggle = { checked: false };
+  const vibrationToggle = { checked: false };
+  const soundToggle = { checked: false };
+  const bgmToggle = { checked: false, disabled: false };
+  const sfxVolumeRange = { value: "" };
+  const sfxVolumeValue = { textContent: "" };
+
+  dungeonDiceSyncSettingsUI({
+    settings,
+    effectsToggle,
+    vibrationToggle,
+    soundToggle,
+    bgmToggle,
+    sfxVolumeRange,
+    sfxVolumeValue,
+  });
+
+  assert.equal(effectsToggle.checked, true);
+  assert.equal(vibrationToggle.checked, false);
+  assert.equal(soundToggle.checked, true);
+  assert.equal(bgmToggle.checked, false);
+  assert.equal(bgmToggle.disabled, false);
+  assert.equal(sfxVolumeRange.value, "58");
+  assert.equal(sfxVolumeValue.textContent, "58%");
+}
+
 function run() {
   runMeteorChecks();
   runLaneChecks();
@@ -1417,6 +1807,10 @@ function run() {
   runMazeSignalChecks();
   runVoidRaidersChecks();
   runRailCommanderChecks();
+  runTowerPulseChecks();
+  runGhostKartChecks();
+  runBubbleHarborMergeChecks();
+  runDungeonDiceChecks();
   console.log("game ui check passed ✅");
 }
 

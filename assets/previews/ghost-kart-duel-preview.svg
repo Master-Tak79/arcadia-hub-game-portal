@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4c42d8"/>
+      <stop offset="100%" stop-color="#16143d"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <g stroke="#8ce8ff" stroke-width="6" opacity="0.55">
+    <line x1="280" y1="90" x2="200" y2="640"/>
+    <line x1="640" y1="70" x2="640" y2="650"/>
+    <line x1="1000" y1="90" x2="1080" y2="640"/>
+  </g>
+  <rect x="565" y="430" width="150" height="190" rx="34" fill="#e8f7ff" opacity="0.9"/>
+  <rect x="610" y="360" width="60" height="90" rx="18" fill="#6ff3ff" opacity="0.85"/>
+  <g fill="#e9ecff" font-family="Inter, Pretendard, sans-serif" text-anchor="middle">
+    <text x="640" y="95" font-size="52" font-weight="700">Ghost Kart Duel</text>
+    <text x="640" y="662" font-size="30" opacity="0.9">레인 체인지 · DRIFT 부스트 · 고스트 타임어택</text>
+  </g>
+</svg>

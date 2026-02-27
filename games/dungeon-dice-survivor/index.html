@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Dungeon Dice Survivor | Arcadia Hub</title>
+    <style>
+      :root {
+        --bg: #060c22;
+        --panel: #121a3d;
+        --text: #edf2ff;
+        --muted: #9fb2de;
+      }
+      * { box-sizing: border-box; }
+
+      /* Mobile long-press guard */
+      button,
+      .mini-link,
+      .ghost,
+      .ghost-btn,
+      .ghost-link,
+      .btn-row a,
+      .controls button,
+      .hint {
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none;
+        touch-action: manipulation;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        font-family: Inter, Pretendard, "Noto Sans KR", system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        background: radial-gradient(1200px 600px at 12% -10%, #4d3fca 0%, #171a4f 44%, #040812 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+      }
+      .shell {
+        width: min(100%, 460px);
+        height: min(100dvh - 20px, 920px);
+        background: color-mix(in srgb, var(--panel) 92%, #050816 8%);
+        border: 1px solid rgba(130, 182, 255, 0.25);
+        border-radius: 18px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      .topbar {
+        padding: calc(env(safe-area-inset-top) + 8px) 10px 8px;
+        display: grid;
+        grid-template-columns: auto 1fr auto auto;
+        gap: 8px;
+        align-items: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(10, 18, 44, 0.95);
+      }
+      .mini-link,
+      .ghost-btn {
+        color: var(--text);
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 12px;
+        background: rgba(255, 255, 255, 0.06);
+        cursor: pointer;
+      }
+      .title-wrap h1 { margin: 0; font-size: 15px; }
+      .title-wrap p { margin: 2px 0 0; color: var(--muted); font-size: 12px; }
+      .hud {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 6px;
+        padding: 6px 8px;
+        background: rgba(7, 12, 35, 0.88);
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+      }
+      .hud-card {
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 10px;
+        background: rgba(255,255,255,0.04);
+        padding: 6px 7px;
+      }
+      .hud-label { margin: 0; color: var(--muted); font-size: 10px; }
+      .hud-value { margin: 3px 0 0; font-size: 12px; font-weight: 700; }
+      .mission-strip {
+        margin: 0;
+        padding: 4px 10px;
+        background: rgba(12, 20, 48, 0.92);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .mission-strip p { margin: 0; font-size: 12px; color: #cbf8df; }
+      .game-wrap { position: relative; flex: 1; min-height: 240px; background: #040b1f; }
+      canvas { width: 100%; height: 100%; display: block; touch-action: none; }
+      .overlay {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 20px;
+        background: linear-gradient(to bottom, rgba(5,8,23,0.3), rgba(5,8,23,0.9));
+      }
+      .overlay.hidden { display: none; }
+      .panel { max-width: 312px; }
+      .panel h2 { margin: 0 0 8px; }
+      .panel p { margin: 0 0 12px; font-size: 14px; line-height: 1.45; color: var(--muted); }
+      .btn-row { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+      .btn-row button, .btn-row a {
+        appearance: none;
+        border: 0;
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-weight: 700;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .btn-row button { color: #04121f; background: linear-gradient(135deg, #6fb4ff, #4ee8d3); }
+      .btn-row a { color: var(--text); border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08); }
+      .settings-panel {
+        position: absolute;
+        inset: 0;
+        z-index: 8;
+        display: grid;
+        place-items: center;
+        background: rgba(4, 10, 30, 0.72);
+        padding: 16px;
+      }
+      .settings-panel.hidden { display: none; }
+      .settings-card {
+        width: min(100%, 320px);
+        background: rgba(16, 26, 58, 0.98);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 14px;
+        padding: 12px;
+      }
+      .settings-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+      .setting-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        align-items: center;
+        margin: 10px 0;
+        font-size: 13px;
+        color: #dfe7ff;
+      }
+      .setting-row.volume-row {
+        grid-template-columns: 1fr;
+      }
+      .range-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .range-row input[type="range"] {
+        width: 100%;
+      }
+      .range-row strong {
+        min-width: 42px;
+        text-align: right;
+        color: #dff3ff;
+        font-size: 12px;
+      }
+      .controls {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr 1fr;
+        gap: 8px;
+        padding: 8px 10px calc(env(safe-area-inset-bottom) + 10px);
+        background: rgba(10,16,40,0.92);
+        border-top: 1px solid rgba(255,255,255,0.08);
+      }
+      .controls button {
+        min-height: 52px;
+        color: var(--text);
+        border: 1px solid rgba(255,255,255,0.2);
+        background: rgba(255,255,255,0.08);
+        border-radius: 12px;
+        font-weight: 700;
+      }
+      .controls .nova {
+        color: #06203a;
+        border-color: rgba(255,255,255,0.34);
+        background: linear-gradient(130deg, #b5b9ff, #89b8ff, #9bf8e0);
+      }
+      .hint {
+        margin: 0;
+        font-size: 12px;
+        color: var(--muted);
+        padding: 0 10px calc(env(safe-area-inset-bottom) + 8px);
+        background: rgba(10,16,40,0.92);
+      }
+      .notice {
+        position: absolute;
+        top: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 13px;
+        font-weight: 700;
+        color: #fff4b1;
+        text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+        opacity: 0;
+        transition: opacity 0.12s ease;
+        pointer-events: none;
+      }
+      .notice.visible { opacity: 1; }
+      @media (max-width: 700px) {
+        body { padding: 0; align-items: stretch; }
+        .shell { width: 100%; height: 100dvh; border-radius: 0; border-left: 0; border-right: 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="mini-link" href="../../index.html" aria-label="포털로 이동">← 포털</a>
+        <div class="title-wrap">
+          <h1>Dungeon Dice Survivor</h1>
+          <p>자동 사격과 DICE BURST로 침공 파동을 돌파하세요</p>
+        </div>
+        <button id="pauseBtn" type="button" class="ghost-btn">일시정지</button>
+        <button id="settingsBtn" type="button" class="ghost-btn">설정</button>
+      </header>
+
+      <section class="hud" aria-live="polite">
+        <article class="hud-card"><p class="hud-label">점수</p><p id="scoreText" class="hud-value">0</p></article>
+        <article class="hud-card"><p class="hud-label">최고</p><p id="bestText" class="hud-value">0</p></article>
+        <article class="hud-card"><p class="hud-label">레벨</p><p id="levelText" class="hud-value">1</p></article>
+        <article class="hud-card"><p class="hud-label">체력</p><p id="hpText" class="hud-value">❤❤❤</p></article>
+        <article class="hud-card"><p class="hud-label">DICE BURST</p><p id="novaText" class="hud-value">READY</p></article>
+      </section>
+
+      <section class="mission-strip" aria-live="polite">
+        <p id="missionText">미션: 주사위 34</p>
+      </section>
+
+      <section class="game-wrap">
+        <canvas id="gameCanvas" width="540" height="960" aria-label="Dungeon Dice Survivor canvas"></canvas>
+        <p id="notice" class="notice"></p>
+
+        <div id="overlay" class="overlay">
+          <div class="panel">
+            <h2 id="overlayTitle">Dungeon Dice Survivor</h2>
+            <p id="overlayText">적 파동을 버티며 생존하세요. DICE BURST 타이밍이 중요합니다.</p>
+            <div class="btn-row">
+              <button id="startBtn" type="button">시작</button>
+              <a href="../../index.html">포털로</a>
+            </div>
+          </div>
+        </div>
+
+        <aside id="settingsPanel" class="settings-panel hidden" aria-label="게임 설정">
+          <div class="settings-card">
+            <div class="settings-head">
+              <h3>게임 설정</h3>
+              <button id="closeSettingsBtn" type="button" class="ghost-btn">닫기</button>
+            </div>
+            <label class="setting-row">
+              <span>효과 표시</span>
+              <input id="effectsToggle" type="checkbox" checked />
+            </label>
+            <label class="setting-row">
+              <span>진동</span>
+              <input id="vibrationToggle" type="checkbox" checked />
+            </label>
+            <label class="setting-row">
+              <span>사운드</span>
+              <input id="soundToggle" type="checkbox" checked />
+            </label>
+            <label class="setting-row">
+              <span>BGM</span>
+              <input id="bgmToggle" type="checkbox" checked />
+            </label>
+            <div class="setting-row volume-row">
+              <span>효과음 볼륨</span>
+              <div class="range-row">
+                <input id="sfxVolumeRange" type="range" min="0" max="100" step="1" value="70" />
+                <strong id="sfxVolumeValue">70%</strong>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <div class="controls" aria-label="dungeon dice controls">
+        <button id="leftBtn" type="button">◀ 왼쪽</button>
+        <button id="novaBtn" class="nova" type="button">💫 DICE BURST</button>
+        <button id="rightBtn" type="button">오른쪽 ▶</button>
+      </div>
+      <p class="hint">팁: 방향키/A,D 이동 · Space DICE BURST · P 일시정지</p>
+    </main>
+
+    <script src="../shared/vendor/confetti.browser.min.js"></script>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

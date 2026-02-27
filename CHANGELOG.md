@@ -15,6 +15,37 @@
 
 ---
 
+## [0.3.51] - 2026-02-27
+### Added
+- 신규 로컬 게임 4종 추가
+  - `games/tower-pulse-defense/*`
+  - `games/ghost-kart-duel/*`
+  - `games/bubble-harbor-merge/*`
+  - `games/dungeon-dice-survivor/*`
+- 신규 게임 프리뷰 에셋 4종 추가
+  - `assets/previews/tower-pulse-defense-preview.svg`
+  - `assets/previews/ghost-kart-duel-preview.svg`
+  - `assets/previews/bubble-harbor-merge-preview.svg`
+  - `assets/previews/dungeon-dice-survivor-preview.svg`
+
+### Changed
+- `src/data/games.seed.js`에 신규 게임 4종 시드 등록(총 19개 로컬 게임)
+- QA/검증 체인 확장
+  - `scripts/mission-index-sync-check.mjs`에 4개 게임 미션 문구 동기화 검증 추가
+  - `scripts/game-ui-check.mjs`에 4개 게임 HUD/설정 UI 검증 케이스 추가
+  - `scripts/meteor-smoke-check.sh` required/HTTP 체크 대상에 신규 4개 게임 파일 + 프리뷰 추가
+  - `scripts/longpress-guard-check.mjs`의 로컬 게임 개수 검증을 확장 가능 형태로 완화(최소 15개)
+- QA 문서/시트 갱신
+  - `QA_MOBILE_2DEVICES.md`를 19종 기준으로 확장(신규 게임 체크리스트/실행 로그 항목 추가)
+  - `QA_FINAL_STATUS.md`를 19종 기준으로 갱신
+  - `QA_3RUN_LOG_2026-02-27_STAGE1.md`를 19종 Final Input Sheet로 재생성
+  - `PORTAL_FULL_REVIEW_2026-02-27.md` 추가(포털+19종 전체 리뷰 요약)
+- `README.md` 게임 목록/카운트(15→19) 갱신
+- `src/data/games.seed.js`의 19개 게임 버전을 `0.3.51`로 정렬
+- 포털 버전 `0.3.50` → `0.3.51`
+
+---
+
 ## [0.3.50] - 2026-02-27
 ### Changed
 - `scripts/seed-mobile-qa-log.mjs` 출력 포맷을 Final Input Sheet로 확장

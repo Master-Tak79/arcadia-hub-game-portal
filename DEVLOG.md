@@ -342,6 +342,31 @@
   - `QA_FINAL_STATUS.md` 다음 액션 1번을 Stage1 Final Input Sheet 입력 기준으로 갱신
 - 게임 시드 15개 버전을 `0.3.50`로 일괄 상향
 - 포털 버전 `0.3.50`으로 패치 업데이트
+- `feat/new-games-wave1-0.3.51` 브랜치에서 신규 게임 4종 순차 구현 진행
+  - 1) Tower Pulse Defense (`games/tower-pulse-defense/*`)
+  - 2) Ghost Kart Duel (`games/ghost-kart-duel/*`)
+  - 3) Bubble Harbor Merge (`games/bubble-harbor-merge/*`)
+  - 4) Dungeon Dice Survivor (`games/dungeon-dice-survivor/*`)
+- 신규 게임 공통 반영 원칙
+  - 기존 게임에서 검증된 모듈 구조(`state/input/renderer/systems/main/ui/sfx`) 유지
+  - 모바일 롱프레스 가드(텍스트 선택/복사 콜아웃 방지) 포함
+  - 설정 저장(효과/진동/사운드/BGM/볼륨), 일시정지(`P`) UX, 오버레이/미션 문구 동기화 패턴 적용
+  - 게임별 `tests/QA_CHECKLIST.md` 생성 및 0.3.51 기준 갱신
+- 포털/검증 체인 확장
+  - `src/data/games.seed.js`에 신규 4종 등록(총 19개 로컬 게임)
+  - `scripts/mission-index-sync-check.mjs`에 신규 4종 미션 동기화 검증 추가
+  - `scripts/game-ui-check.mjs`에 신규 4종 HUD/설정 UI 검증 케이스 추가
+  - `scripts/meteor-smoke-check.sh` required/HTTP 체크 대상에 신규 4종 + 프리뷰 추가
+  - `scripts/longpress-guard-check.mjs` 게임 개수 검증을 확장 가능 형태로 완화(최소 15개)
+- QA 문서/시트 정리
+  - `QA_MOBILE_2DEVICES.md`를 19종 기준으로 확장(체크리스트/실행 로그/HOLD 문구)
+  - `QA_FINAL_STATUS.md`를 19종 기준으로 갱신
+  - `QA_3RUN_LOG_2026-02-27_STAGE1.md`를 19종 Final Input Sheet로 재생성
+  - `PORTAL_FULL_REVIEW_2026-02-27.md` 추가(포털+19종 전체 리뷰 결과 정리)
+- 문서/버전 동기화
+  - `README.md`, `CHANGELOG.md`, `DEVLOG.md` 갱신
+  - `src/config/version.js` 포털 버전 `0.3.51`
+  - `src/data/games.seed.js` 19개 게임 버전 `0.3.51` 정렬
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
@@ -369,7 +394,7 @@
 - 실기기 정량 로그는 기능 PASS와 별도로 `LongPressCallout` 컬럼을 분리 기록해 원인 분석 추적성을 확보
 
 ### 다음 작업
-- `QA_3RUN_LOG_TEMPLATE.md` 기반으로 15종 로컬 게임 HOLD 항목(3회/60초 정량 기록) 해소
-- Sky Drift / Neon Brick Breaker / Orbit Survivor / Lane Switch / Block Sage / Mini Empire Grid / Pixel Clash / Idle Foundry / Dash to Core / Farm Harbor / Mecha Sprint / Maze Signal / Void Raiders / Rail Commander 실기기 난이도 곡선 및 사운드 볼륨 1차 밸런스 튜닝
-- 기존 Meteor/Lane 포함 15종 게임 공통 성능 프리셋(저사양 품질 스케일) 검토
+- `QA_3RUN_LOG_TEMPLATE.md` 기반으로 19종 로컬 게임 HOLD 항목(3회/60초 정량 기록) 해소
+- Sky Drift / Neon Brick Breaker / Orbit Survivor / Lane Switch / Block Sage / Mini Empire Grid / Pixel Clash / Idle Foundry / Dash to Core / Farm Harbor / Mecha Sprint / Maze Signal / Void Raiders / Rail Commander / Tower Pulse Defense / Ghost Kart Duel / Bubble Harbor Merge / Dungeon Dice Survivor 실기기 난이도 곡선 및 사운드 볼륨 1차 밸런스 튜닝
+- 기존 Meteor/Lane 포함 19종 게임 공통 성능 프리셋(저사양 품질 스케일) 검토
 - 관리자 미디어 입력 UI(썸네일 업로드/미리보기) 개선 검토
