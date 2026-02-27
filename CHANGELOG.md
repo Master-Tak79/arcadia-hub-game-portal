@@ -5,13 +5,19 @@
 
 ## [Unreleased]
 ### Added
-- (예정)
+- `scripts/state-reset-sync-check.mjs` 추가
+  - 게임별 `createState` 초기값과 `resetRound`의 `state.*` 리터럴 할당값 불일치 자동 탐지
+  - `missionTarget*` 키가 `resetRound`에 누락되었는지 자동 탐지
+- `REFACTOR_P1_RFC_2026-02-27.md` 추가
+  - 템플릿 기반 리팩토링(P1) 목표/범위/마이그레이션 순서 문서화
 
 ### Changed
-- (예정)
+- `scripts/meteor-smoke-check.sh` 단계 확장
+  - 8단계 → 9단계
+  - `state-reset-sync-check`를 스모크 파이프라인에 통합
 
 ### Fixed
-- (예정)
+- 신규/기존 게임 밸런스 조정 시 `createState`와 `resetRound` 값이 어긋나는 회귀를 CI 전 단계에서 조기 탐지하도록 보강
 
 ---
 

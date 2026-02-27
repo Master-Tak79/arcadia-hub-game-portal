@@ -175,6 +175,7 @@ export function resetRound(state, player, obstacles, coins, shields, lanes) {
 
   state.shieldMs = 0;
   state.survivalMs = 0;
+  state.missionTargetMs = 39000;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;
 

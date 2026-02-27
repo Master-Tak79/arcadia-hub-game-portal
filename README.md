@@ -40,6 +40,9 @@ python3 -m http.server 8790
   - `scripts/longpress-guard-check.mjs`로 로컬 게임 가드 스타일 존재/구성 자동 검증
 - 실기기 QA 입력 시트 고도화
   - `scripts/seed-mobile-qa-log.mjs`가 Final Input Sheet 형식(`LongPressCallout` 컬럼 포함)으로 로그 시드 생성
+- 개발 가드레일 강화
+  - `scripts/state-reset-sync-check.mjs`로 `createState` vs `resetRound` 초기 수치/미션 타깃 동기화 자동 점검
+  - `REFACTOR_P1_RFC_2026-02-27.md`에 템플릿 기반 리팩토링 1단계 설계안 문서화
 - 신규 게임 4종 추가
   - Tower Pulse Defense / Ghost Kart Duel / Bubble Harbor Merge / Dungeon Dice Survivor
   - 기존 게임 공통 적용사항(롱프레스 가드, 설정 저장, 일시정지 UX, 모듈 구조, QA 체크리스트) 동일 반영
