@@ -1,6 +1,6 @@
 # QA Final Status (2026-02-27)
 
-대상: Arcadia Hub Portal v0.3.47 기준
+대상: Arcadia Hub Portal v0.3.48 기준
 
 ## ✅ PASS (확인 완료)
 - 자동 검증 체인
@@ -16,6 +16,7 @@
   - UI 공통 유틸(shared) + 게임별 UI 체크 스크립트 적용 완료
   - 신규 3종 + Lane Switch + Block Sage + Mini Empire Grid + Pixel Clash + Idle Foundry + Dash to Core + Farm Harbor + Mecha Sprint + Maze Signal + Void Raiders + Rail Commander까지 사운드/BGM/일시정지 UX 1차 반영 완료
   - 로컬 15종 공통 밸런스 1차 패스(진입 완화 + 중반 가속 강화) 반영 완료
+  - 로컬 15종 `index.html` 공통에 모바일 롱프레스 텍스트 선택/복사 콜아웃 방지 스타일 1차 적용 완료
 
 ## ⏸ HOLD (추가 확인 필요)
 아래는 "실행 확인"은 되었지만, 체크리스트의 정량 조건(예: 3회×60초)까지는 아직 증빙이 부족한 항목입니다.
@@ -23,6 +24,7 @@
 - 모바일 2기종 정량 검증
   - 기기 A/B 각각 3회 플레이(각 60초 이상) 기록
   - 포털 2열 카드 가독성/오터치 재현 로그
+  - 하단 조작 버튼 롱프레스(텍스트 선택/복사 콜아웃) 미노출 실기기 검증 로그
   - 1차 채움 시트(`QA_3RUN_LOG_2026-02-27_STAGE1.md`) 생성 완료, 실기기 실측값 입력 필요
 - 게임별 세부 수동 항목
   - Meteor Dodge: 아이템 6종 효과/Howler 폴백/관리자 미디어 입력 흐름 등
