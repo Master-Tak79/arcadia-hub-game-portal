@@ -1,4 +1,4 @@
-# Dungeon Dice Survivor QA Checklist (0.3.51)
+# Dungeon Dice Survivor QA Checklist (0.3.52)
 
 ## 자동 점검
 - [x] `./scripts/meteor-smoke-check.sh` 통과

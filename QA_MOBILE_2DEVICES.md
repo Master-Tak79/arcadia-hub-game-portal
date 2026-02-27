@@ -186,7 +186,7 @@
 - `QA_3RUN_LOG_TEMPLATE.md`를 사용해 기기별/게임별 3회(각 60초 이상) 실행 기록을 남깁니다.
 - 최종 입력 시트: `QA_3RUN_LOG_2026-02-27_STAGE1.md` (A/B×19종×3회 + `LongPressCallout` 컬럼 포함)
 
-## 현재 판정 (2026-02-27)
+## 현재 판정 (2026-02-27, v0.3.52)
 ### ✅ PASS
 - Slot A/B 모두 실행 확인됨
 - Device-B(`Galaxy A24 Ultra`) 브라우저 3종(Chrome/Edge/Samsung Internet) 실행 확인

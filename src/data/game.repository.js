@@ -132,22 +132,18 @@ function mergeGames(seed, admins) {
   admins.forEach((adminGame) => {
     if (!adminGame?.id) return;
 
+    // 포털 노출은 seed(=우리 팀 제작 게임)만 허용한다.
+    // admin 저장소에 추가된 비-seed 게임은 목록에 올리지 않는다.
+    if (!seedById.has(adminGame.id)) return;
+
     const current = byId.get(adminGame.id);
-    if (!current) {
-      byId.set(adminGame.id, adminGame);
-      return;
-    }
-
-    if (seedById.has(adminGame.id)) {
-      const merged = mergeSeedWithAdmin(seedById.get(adminGame.id), adminGame);
-      byId.set(adminGame.id, pickPreferredGame(current, merged));
-      return;
-    }
-
-    byId.set(adminGame.id, pickPreferredGame(current, adminGame));
+    const merged = mergeSeedWithAdmin(seedById.get(adminGame.id), adminGame);
+    byId.set(adminGame.id, pickPreferredGame(current, merged));
   });
 
-  return dedupeByTitle([...byId.values()]);
+  // seed 순서를 기본으로 유지해, 목록 정렬/노출 기준이 흔들리지 않게 한다.
+  const mergedSeedOnly = seed.map((game) => byId.get(game.id) || game);
+  return dedupeByTitle(mergedSeedOnly);
 }
 
 export async function listGames() {

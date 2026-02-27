@@ -17,8 +17,10 @@
         <p id="portalVersionText" class="version-text">Portal v0.1.0</p>
       </div>
       <div class="topbar-actions">
+        <button id="updateNoticeBtn" class="ghost-btn notice-btn" type="button" aria-haspopup="dialog">
+          공지 · 업데이트
+        </button>
         <a class="ghost-btn" href="./admin.html">관리자</a>
-        <button id="refreshBtn" class="ghost-btn" type="button">데이터 새로고침</button>
       </div>
     </header>
 
@@ -84,12 +86,6 @@
         <div id="featuredGrid" class="featured-grid"></div>
 
         <div class="section-head mt-24">
-          <h2>최근 업데이트</h2>
-          <p class="recent-guide">최신순 · 항목 탭 시 상세 보기</p>
-        </div>
-        <div id="recentList" class="recent-list"></div>
-
-        <div class="section-head mt-24">
           <h2>All Games</h2>
         </div>
         <div id="categoryTabs" class="category-tabs"></div>
@@ -99,6 +95,18 @@
         </div>
       </section>
     </main>
+
+    <section id="updateOverlay" class="detail-overlay hidden" aria-hidden="true">
+      <div class="detail-backdrop" data-close-update="true"></div>
+      <article class="detail-panel update-panel" role="dialog" aria-modal="true" aria-labelledby="updateTitle">
+        <button id="updateCloseBtn" class="detail-close" type="button" aria-label="닫기">×</button>
+        <div class="detail-body">
+          <h3 id="updateTitle">업데이트 공지</h3>
+          <p id="updateSummary" class="detail-description"></p>
+          <div id="updateList" class="update-list"></div>
+        </div>
+      </article>
+    </section>
 
     <section id="detailOverlay" class="detail-overlay hidden" aria-hidden="true">
       <div class="detail-backdrop" data-close-detail="true"></div>

@@ -334,7 +334,7 @@ applySettings();
 showOverlayUI(
   { overlay, overlayTitle, overlayText },
   "Tower Pulse Defense",
-  "타워를 업그레이드하고 방어를 최적화하세요.\n96초 안에 방어 24회 달성이 목표입니다."
+  "타워를 업그레이드하고 방어를 최적화하세요.\n100초 안에 방어 24회 달성이 목표입니다."
 );
 
 cancelAnimationFrame(rafId);

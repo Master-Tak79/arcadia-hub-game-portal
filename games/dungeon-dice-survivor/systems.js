@@ -49,7 +49,7 @@ function applyKillReward(state, callbacks) {
   state.kills += 1;
   state.scoreFloat += 18 + state.level * 2;
   state.score = Math.floor(state.scoreFloat);
-  state.level = 1 + Math.floor(state.kills / 8);
+  state.level = 1 + Math.floor(state.kills / 9);
   callbacks?.onKill?.();
 }
 
@@ -73,7 +73,7 @@ export function triggerNova(state, enemies, callbacks) {
   if (!state.running || state.paused || state.gameOver) return { ok: false, reason: "not-running" };
   if (state.novaCooldownMs > 0) return { ok: false, reason: "cooldown" };
 
-  state.novaCooldownMs = 14500;
+  state.novaCooldownMs = 13200;
 
   let cleared = 0;
   for (let i = enemies.length - 1; i >= 0; i -= 1) {
@@ -99,18 +99,18 @@ export function resetRound(state, enemies, bullets) {
   state.level = 1;
 
   state.lane = 1;
-  state.hp = 4;
+  state.hp = 5;
 
-  state.fireCooldownMs = 230;
+  state.fireCooldownMs = 220;
   state.fireElapsedMs = 0;
-  state.spawnCooldownMs = 820;
+  state.spawnCooldownMs = 880;
   state.spawnElapsedMs = 0;
 
   state.novaCooldownMs = 0;
   state.invincibleMs = 0;
 
   state.kills = 0;
-  state.missionTargetKills = 36;
+  state.missionTargetKills = 34;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;
 
@@ -146,7 +146,7 @@ export function stepGame({
   if (state.novaCooldownMs > 0) state.novaCooldownMs -= deltaMs;
   if (state.invincibleMs > 0) state.invincibleMs -= deltaMs;
 
-  state.spawnCooldownMs = clamp(820 - state.level * 26, 300, 820);
+  state.spawnCooldownMs = clamp(880 - state.level * 24, 320, 880);
 
   state.spawnElapsedMs += deltaMs;
   while (state.spawnElapsedMs >= state.spawnCooldownMs) {
@@ -209,7 +209,7 @@ export function stepGame({
       }
 
       state.hp -= 1;
-      state.invincibleMs = 820;
+      state.invincibleMs = 900;
       state.flash = 0.32;
       callbacks?.onHit?.();
 

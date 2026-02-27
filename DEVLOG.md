@@ -367,6 +367,35 @@
   - `README.md`, `CHANGELOG.md`, `DEVLOG.md` 갱신
   - `src/config/version.js` 포털 버전 `0.3.51`
   - `src/data/games.seed.js` 19개 게임 버전 `0.3.51` 정렬
+- `feat/portal-owned-only-notice-balance-0.3.52` 브랜치에서 포털 노출 정책/업데이트 UI/신규 4종 밸런스 패치 진행
+- 포털 정책 변경
+  - `src/data/game.repository.js`: seed(우리 제작 게임) 외 admin-only 게임은 포털 목록에서 제외
+- 메인 UI 변경
+  - `index.html`에서 `최근 업데이트` 섹션 제거
+  - 우측 상단 `공지 · 업데이트` 버튼 + 업데이트 오버레이(`updateOverlay`) 추가
+  - `src/main.js`: 공지 버튼 클릭 시 전체 업데이트 현황(업데이트일/버전/설명) 렌더
+  - `styles/main.css`: 공지 버튼/업데이트 리스트 스타일 추가
+- 신규 4종 밸런스 1차 패치
+  - Tower Pulse Defense
+    - 초기 자원/라운드 시간 상향(14/9/7/108, 100초)
+    - 업그레이드/펄스 비용 완화, 방어 요구 자원 및 보상 보정
+    - `resetRound` 미션 타깃 24로 동기화
+  - Ghost Kart Duel
+    - 초반 속도/스폰 템포 완화, DRIFT 지속시간 상향 + 쿨다운 완화
+    - 피격 무적 프레임 완화
+    - `resetRound` 미션 타깃 18로 동기화
+  - Bubble Harbor Merge
+    - 초기 자원/Day 제한 상향(14/8/110, 34일)
+    - 생산/포장/출항 수익 상향, MERGE RUSH 비용/쿨다운 완화
+    - `resetRound` 미션 타깃 360으로 동기화
+  - Dungeon Dice Survivor
+    - 초기 체력/발사/스폰 템포 보정(HP 5, fire 220ms, spawn 880ms)
+    - DICE BURST 쿨다운 완화, 레벨 상승 곡선 완화(킬 9단위)
+    - `resetRound` 미션 타깃 34로 동기화
+- 문서/버전 동기화
+  - `README.md`, `QA_FINAL_STATUS.md`, `QA_MOBILE_2DEVICES.md`, `PORTAL_FULL_REVIEW_2026-02-27.md` 갱신
+  - `src/config/version.js` 포털 버전 `0.3.52`
+  - `src/data/games.seed.js` 19개 게임 버전 `0.3.52` 정렬
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
