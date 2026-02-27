@@ -15,6 +15,19 @@
 
 ---
 
+## [0.3.50] - 2026-02-27
+### Changed
+- `scripts/seed-mobile-qa-log.mjs` 출력 포맷을 Final Input Sheet로 확장
+  - 로그 컬럼에 `LongPressCallout` 추가
+  - 작성 규칙에 롱프레스 PASS 기준/브라우저 기록 규칙 추가
+- `QA_3RUN_LOG_2026-02-27_STAGE1.md`를 Final Input Sheet 형식으로 재생성
+  - 15개 게임 × Device A/B × 3회(90행) 모두 `LongPressCallout` + `Result` 입력 가능 상태로 정리
+- `QA_MOBILE_2DEVICES.md`, `QA_FINAL_STATUS.md`의 정량 입력/후속 액션 문구를 Final Input Sheet 기준으로 정렬
+- `src/data/games.seed.js`의 15개 게임 버전을 `0.3.50`로 정렬
+- 포털 버전 `0.3.49` → `0.3.50`
+
+---
+
 ## [0.3.49] - 2026-02-27
 ### Added
 - `scripts/longpress-guard-check.mjs` 추가

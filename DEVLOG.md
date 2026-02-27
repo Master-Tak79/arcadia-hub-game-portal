@@ -330,6 +330,18 @@
   - `QA_FINAL_STATUS.md`: `longpress-guard-check` PASS 항목 반영
 - 게임 시드 15개 버전을 `0.3.49`로 일괄 상향
 - 포털 버전 `0.3.49`로 패치 업데이트
+- `docs/qa-final-input-sheet-0.3.50` 브랜치에서 실기기 QA 최종 입력 시트 정리 진행
+- `scripts/seed-mobile-qa-log.mjs` 고도화:
+  - 출력 제목을 Final Input Sheet로 변경
+  - `LongPressCallout` 컬럼 추가
+  - 롱프레스 PASS 기준/브라우저 기록 규칙을 생성 문구에 포함
+- `QA_3RUN_LOG_2026-02-27_STAGE1.md`를 Final Input Sheet 형식으로 재생성
+  - A/B × 15종 × 3회(90행) 모두 `DurationSec`/`LongPressCallout`/`Result` 입력 가능 상태
+- QA 문서 정렬:
+  - `QA_MOBILE_2DEVICES.md` 실행 로그를 Final Input Sheet 기준으로 갱신
+  - `QA_FINAL_STATUS.md` 다음 액션 1번을 Stage1 Final Input Sheet 입력 기준으로 갱신
+- 게임 시드 15개 버전을 `0.3.50`로 일괄 상향
+- 포털 버전 `0.3.50`으로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
@@ -354,6 +366,7 @@
 - 모바일 포털은 핵심 탐색(게임 카드)이 최근 업데이트보다 우선 노출되도록 유지
 - 포털 병합 우선순위는 `구현 게임 > featured > 최신성` 원칙으로 중복/하향 덮어쓰기를 방지
 - 모바일 롱프레스 UX 회귀 리스크는 `longpress-guard-check`를 스모크 체크에 포함해 조기 탐지
+- 실기기 정량 로그는 기능 PASS와 별도로 `LongPressCallout` 컬럼을 분리 기록해 원인 분석 추적성을 확보
 
 ### 다음 작업
 - `QA_3RUN_LOG_TEMPLATE.md` 기반으로 15종 로컬 게임 HOLD 항목(3회/60초 정량 기록) 해소
