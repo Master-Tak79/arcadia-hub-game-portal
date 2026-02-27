@@ -15,6 +15,21 @@
 
 ---
 
+## [0.3.47] - 2026-02-27
+### Added
+- GitHub Pages 배포 워크플로 `.github/workflows/pages-deploy.yml` 추가
+  - `main` push 시 정적 사이트 아티팩트 업로드 및 Pages 자동 배포
+- `.nojekyll` 추가
+  - GitHub Pages 정적 서빙 경로 호환성 보강
+
+### Fixed
+- Pages 설정(`build_type: workflow`) 상태에서 배포 워크플로 부재로 포털 URL이 404가 되던 문제 복구
+
+### Changed
+- 포털 버전 `0.3.46` → `0.3.47`
+
+---
+
 ## [0.3.46] - 2026-02-27
 ### Added
 - `scripts/seed-mobile-qa-log.mjs` 추가

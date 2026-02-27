@@ -1,6 +1,6 @@
 # QA Final Status (2026-02-27)
 
-대상: Arcadia Hub Portal v0.3.46 기준
+대상: Arcadia Hub Portal v0.3.47 기준
 
 ## ✅ PASS (확인 완료)
 - 자동 검증 체인
