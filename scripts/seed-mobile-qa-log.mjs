@@ -35,7 +35,7 @@ function blockForGame(game) {
 const content = [
   `# QA 3-Run Log — Final Input Sheet (${date})`,
   "",
-  "목적: 실기기 QA 로그 최종 입력을 위해 15개 게임 × Device A/B × 3회 실행 기록을 통합 관리합니다.",
+  `목적: 실기기 QA 로그 최종 입력을 위해 ${ordered.length}개 게임 × Device A/B × 3회 실행 기록을 통합 관리합니다.`,
   "",
   "작성 규칙:",
   "- 실제 플레이 후 `DurationSec`, `LongPressCallout`, `Result`, `Notes`, `Issue`를 갱신합니다.",

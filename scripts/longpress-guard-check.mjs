@@ -47,7 +47,7 @@ function run() {
   const seedSource = fs.readFileSync(seedPath, "utf8");
   const gameIds = extractLocalGameIds(seedSource);
 
-  assert.equal(gameIds.length, 15, `expected 15 local games in seed, got ${gameIds.length}`);
+  assert.ok(gameIds.length >= 15, `expected at least 15 local games in seed, got ${gameIds.length}`);
 
   for (const gameId of gameIds) {
     const indexPath = path.resolve(ROOT, "games", gameId, "index.html");

@@ -114,6 +114,26 @@ const GAME_CONFIGS = [
     stateFile: "games/rail-commander/state.js",
     expected: (state) => `미션: 배차 ${state.missionTargetDispatches}`,
   },
+  {
+    id: "tower-pulse-defense",
+    stateFile: "games/tower-pulse-defense/state.js",
+    expected: (state) => `미션: 방어 ${state.missionTargetDispatches}`,
+  },
+  {
+    id: "ghost-kart-duel",
+    stateFile: "games/ghost-kart-duel/state.js",
+    expected: (state) => `미션: 고스트 포인트 ${state.missionTargetCheckpoints}`,
+  },
+  {
+    id: "bubble-harbor-merge",
+    stateFile: "games/bubble-harbor-merge/state.js",
+    expected: (state) => `미션: 머지 ${state.missionTargetScore}`,
+  },
+  {
+    id: "dungeon-dice-survivor",
+    stateFile: "games/dungeon-dice-survivor/state.js",
+    expected: (state) => `미션: 주사위 ${state.missionTargetKills}`,
+  },
 ];
 
 async function loadCreateState(stateFile) {
