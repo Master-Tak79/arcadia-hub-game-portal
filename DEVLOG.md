@@ -2,6 +2,25 @@
 
 작업 중 의사결정, 시도/실패, 다음 액션을 기록하는 개발 일지입니다.
 
+## 2026-02-27 (P1 phase-2 template pilot)
+### 오늘 목표
+- economy 계열 템플릿 코어 파일럿 적용(rail/tower 2종)
+
+### 진행 내용
+- `games/templates/economy-core/create-game.js` 신설
+  - 기존 rail/tower `main.js`에서 중복되던 런타임 오케스트레이션(루프/설정/입력/오버레이/알림)을 공통 템플릿으로 추출
+- 파일럿 게임 2종 엔트리 전환
+  - `games/rail-commander/main.js`
+  - `games/tower-pulse-defense/main.js`
+- 게임별 차이 분리(config)
+  - `games/rail-commander/economy-core.config.js`
+  - `games/tower-pulse-defense/economy-core.config.js`
+  - 라운드 요약 라벨, 업그레이드/배차/오버드라이브 문구, 시작 오버레이 텍스트를 config로 관리
+- 범위 통제
+  - `state.js`/`systems.js`/`renderer.js`/`input.js`/`ui.js`는 미수정(엔트리 계층만 마이그레이션)
+- 검증 체인 실행
+  - shared-ui-common / mission-index-sync / state-reset-sync / game-ui / longpress-guard / meteor-smoke 전부 PASS
+
 ## 2026-02-24
 ### 오늘 목표
 - 문서 기반 개발 운영 체계 추가
