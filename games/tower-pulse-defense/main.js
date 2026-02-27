@@ -10,6 +10,7 @@ import {
   showOverlay as showOverlayUI,
   syncHud as syncHudState,
   syncSettingsUI as syncSettingsUIState,
+  syncControls as syncControlsState,
 } from "./ui.js";
 
 createEconomyCoreGame({
@@ -29,6 +30,7 @@ createEconomyCoreGame({
     showOverlayUI,
     syncHudState,
     syncSettingsUIState,
+    syncControlsState,
     celebrateMission,
     celebrateNewBest,
   },

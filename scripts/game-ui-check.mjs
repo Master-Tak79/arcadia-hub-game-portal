@@ -63,10 +63,12 @@ import {
 import {
   syncHud as railSyncHud,
   syncSettingsUI as railSyncSettingsUI,
+  syncControls as railSyncControls,
 } from "../games/rail-commander/ui.js";
 import {
   syncHud as towerSyncHud,
   syncSettingsUI as towerSyncSettingsUI,
+  syncControls as towerSyncControls,
 } from "../games/tower-pulse-defense/ui.js";
 import {
   syncHud as ghostKartSyncHud,
@@ -1327,6 +1329,8 @@ function runRailCommanderChecks() {
   const resourceText = { textContent: "" };
   const shiftText = { textContent: "" };
   const missionText = { textContent: "" };
+  const flowText = { textContent: "" };
+  const marketText = { textContent: "" };
 
   railSyncHud({
     state: {
@@ -1340,8 +1344,11 @@ function runRailCommanderChecks() {
       shiftRemainSec: 73,
       overdriveCooldownMs: 0,
       dispatches: 9,
+      dispatchStreak: 2,
       missionCompleted: false,
       missionTargetDispatches: 22,
+      demandType: "normal",
+      demandMs: 0,
     },
     scoreText,
     bestText,
@@ -1349,6 +1356,8 @@ function runRailCommanderChecks() {
     resourceText,
     shiftText,
     missionText,
+    flowText,
+    marketText,
   });
 
   assert.equal(scoreText.textContent, "203");
@@ -1357,6 +1366,8 @@ function runRailCommanderChecks() {
   assert.equal(resourceText.textContent, "C11 P8 M6 ₡150");
   assert.equal(shiftText.textContent, "01:13");
   assert.equal(missionText.textContent, "미션: 배차 22 (9/22)");
+  assert.equal(flowText.textContent, "x2");
+  assert.equal(marketText.textContent, "수요: 일반");
 
   railSyncHud({
     state: {
@@ -1370,8 +1381,11 @@ function runRailCommanderChecks() {
       shiftRemainSec: 12,
       overdriveCooldownMs: 5200,
       dispatches: 22,
+      dispatchStreak: 4,
       missionCompleted: true,
       missionTargetDispatches: 22,
+      demandType: "cargo",
+      demandMs: 5200,
     },
     scoreText,
     bestText,
@@ -1379,10 +1393,14 @@ function runRailCommanderChecks() {
     resourceText,
     shiftText,
     missionText,
+    flowText,
+    marketText,
   });
 
   assert.equal(shiftText.textContent, "00:12 · OD 5.2s");
   assert.equal(missionText.textContent, "🎯 배차 22 미션 완료!");
+  assert.equal(flowText.textContent, "x4 HOT");
+  assert.equal(marketText.textContent, "수요: 화물↑ 5.2s");
 
   const settings = {
     effectsEnabled: false,
@@ -1415,6 +1433,70 @@ function runRailCommanderChecks() {
   assert.equal(bgmToggle.disabled, true);
   assert.equal(sfxVolumeRange.value, "42");
   assert.equal(sfxVolumeValue.textContent, "42%");
+
+  const northBtn = { textContent: "", disabled: false };
+  const centralBtn = { textContent: "", disabled: false };
+  const southBtn = { textContent: "", disabled: false };
+  const dispatchBtn = { textContent: "", disabled: false };
+  const overdriveBtn = { textContent: "", disabled: false };
+
+  railSyncControls({
+    state: {
+      running: true,
+      paused: false,
+      gameOver: false,
+      credits: 100,
+      northLv: 2,
+      centralLv: 1,
+      southLv: 1,
+      cargo: 5,
+      passenger: 3,
+      mail: 2,
+      dispatchStreak: 2,
+      overdriveMs: 0,
+      overdriveCooldownMs: 0,
+    },
+    northBtn,
+    centralBtn,
+    southBtn,
+    dispatchBtn,
+    overdriveBtn,
+  });
+
+  assert.equal(northBtn.textContent, "북부선(1) ₡84");
+  assert.equal(centralBtn.textContent, "중앙선(2) ₡68");
+  assert.equal(southBtn.textContent, "남부선(3) ₡62");
+  assert.equal(dispatchBtn.textContent, "배차(4) C3/P2/M1 · x2");
+  assert.equal(dispatchBtn.disabled, false);
+  assert.equal(overdriveBtn.textContent, "오버드라이브(Space)");
+  assert.equal(overdriveBtn.disabled, false);
+
+  railSyncControls({
+    state: {
+      running: true,
+      paused: false,
+      gameOver: false,
+      credits: 16,
+      northLv: 1,
+      centralLv: 1,
+      southLv: 1,
+      cargo: 2,
+      passenger: 1,
+      mail: 0,
+      dispatchStreak: 0,
+      overdriveMs: 0,
+      overdriveCooldownMs: 5100,
+    },
+    northBtn,
+    centralBtn,
+    southBtn,
+    dispatchBtn,
+    overdriveBtn,
+  });
+
+  assert.equal(dispatchBtn.disabled, true);
+  assert.equal(overdriveBtn.textContent, "재충전 5.1s");
+  assert.equal(overdriveBtn.disabled, true);
 }
 
 function runTowerPulseChecks() {
@@ -1424,6 +1506,8 @@ function runTowerPulseChecks() {
   const resourceText = { textContent: "" };
   const shiftText = { textContent: "" };
   const missionText = { textContent: "" };
+  const flowText = { textContent: "" };
+  const marketText = { textContent: "" };
 
   towerSyncHud({
     state: {
@@ -1437,8 +1521,11 @@ function runTowerPulseChecks() {
       shiftRemainSec: 73,
       overdriveCooldownMs: 0,
       dispatches: 10,
+      dispatchStreak: 2,
       missionCompleted: false,
       missionTargetDispatches: 24,
+      threatType: "normal",
+      threatMs: 0,
     },
     scoreText,
     bestText,
@@ -1446,6 +1533,8 @@ function runTowerPulseChecks() {
     resourceText,
     shiftText,
     missionText,
+    flowText,
+    marketText,
   });
 
   assert.equal(scoreText.textContent, "223");
@@ -1454,6 +1543,8 @@ function runTowerPulseChecks() {
   assert.equal(resourceText.textContent, "C11 P8 M6 ₡150");
   assert.equal(shiftText.textContent, "01:13");
   assert.equal(missionText.textContent, "미션: 방어 24 (10/24)");
+  assert.equal(flowText.textContent, "x2");
+  assert.equal(marketText.textContent, "압박: 일반");
 
   towerSyncHud({
     state: {
@@ -1467,8 +1558,11 @@ function runTowerPulseChecks() {
       shiftRemainSec: 12,
       overdriveCooldownMs: 5200,
       dispatches: 24,
+      dispatchStreak: 3,
       missionCompleted: true,
       missionTargetDispatches: 24,
+      threatType: "passenger",
+      threatMs: 6200,
     },
     scoreText,
     bestText,
@@ -1476,10 +1570,14 @@ function runTowerPulseChecks() {
     resourceText,
     shiftText,
     missionText,
+    flowText,
+    marketText,
   });
 
   assert.equal(shiftText.textContent, "00:12 · OD 5.2s");
   assert.equal(missionText.textContent, "🎯 방어 24 미션 완료!");
+  assert.equal(flowText.textContent, "x3 HOT");
+  assert.equal(marketText.textContent, "압박: 중앙 압박 6.2s");
 
   const settings = {
     effectsEnabled: false,
@@ -1512,6 +1610,70 @@ function runTowerPulseChecks() {
   assert.equal(bgmToggle.disabled, true);
   assert.equal(sfxVolumeRange.value, "43");
   assert.equal(sfxVolumeValue.textContent, "43%");
+
+  const northBtn = { textContent: "", disabled: false };
+  const centralBtn = { textContent: "", disabled: false };
+  const southBtn = { textContent: "", disabled: false };
+  const dispatchBtn = { textContent: "", disabled: false };
+  const overdriveBtn = { textContent: "", disabled: false };
+
+  towerSyncControls({
+    state: {
+      running: true,
+      paused: false,
+      gameOver: false,
+      credits: 90,
+      northLv: 2,
+      centralLv: 1,
+      southLv: 1,
+      cargo: 4,
+      passenger: 2,
+      mail: 2,
+      dispatchStreak: 3,
+      overdriveMs: 0,
+      overdriveCooldownMs: 0,
+    },
+    northBtn,
+    centralBtn,
+    southBtn,
+    dispatchBtn,
+    overdriveBtn,
+  });
+
+  assert.equal(northBtn.textContent, "서측 타워(1) ₡76");
+  assert.equal(centralBtn.textContent, "중앙 타워(2) ₡62");
+  assert.equal(southBtn.textContent, "동측 타워(3) ₡56");
+  assert.equal(dispatchBtn.textContent, "방어(4) C2/P2/M1 · x3");
+  assert.equal(dispatchBtn.disabled, false);
+  assert.equal(overdriveBtn.textContent, "펄스(Space)");
+  assert.equal(overdriveBtn.disabled, false);
+
+  towerSyncControls({
+    state: {
+      running: true,
+      paused: false,
+      gameOver: false,
+      credits: 18,
+      northLv: 1,
+      centralLv: 1,
+      southLv: 1,
+      cargo: 1,
+      passenger: 1,
+      mail: 0,
+      dispatchStreak: 0,
+      overdriveMs: 0,
+      overdriveCooldownMs: 4800,
+    },
+    northBtn,
+    centralBtn,
+    southBtn,
+    dispatchBtn,
+    overdriveBtn,
+  });
+
+  assert.equal(dispatchBtn.disabled, true);
+  assert.equal(overdriveBtn.textContent, "재충전 4.8s");
+  assert.equal(overdriveBtn.disabled, true);
 }
 
 function runGhostKartChecks() {

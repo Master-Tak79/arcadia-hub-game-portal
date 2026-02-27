@@ -15,6 +15,37 @@
 
 ---
 
+## [0.3.55] - 2026-02-27
+### Added
+- Tower Pulse Defense 품질 고도화 요소 추가
+  - 연속 방어 체인(`dispatchStreak`) 시스템
+  - 압박 급증 이벤트(`cargo/passenger/mail`) 시스템
+  - HUD 확장: `FLOW`/`압박` 상태 표시
+- Tower Pulse Defense 조작 UX 강화
+  - 업그레이드/방어/펄스 버튼에 실시간 비용·요구 자원·쿨다운 상태 반영
+
+### Changed
+- `games/tower-pulse-defense/systems.js`
+  - 방어 보상 계산에 체인/압박 배수 반영
+  - 체인 감쇠/압박 시작·종료 타이머 로직 추가
+- `games/tower-pulse-defense/ui.js`
+  - HUD에 체인/압박 상태 출력 확장
+  - 컨트롤 버튼 상태 동기화(`syncControls`) 추가
+- `games/tower-pulse-defense/economy-core.config.js`
+  - 체인/압박 대응 notice 문구 확장
+- `games/tower-pulse-defense/index.html`, `renderer.js`
+  - FLOW 카드/압박 라인/상태 배지 시각화 보강
+- `scripts/game-ui-check.mjs`
+  - rail/tower `syncControls` 검증 및 FLOW/수요·압박 HUD 검증 항목 확장
+- `src/data/games.seed.js` 19개 게임 버전 `0.3.55` 정렬
+- 포털 버전 `0.3.54` → `0.3.55`
+
+### Fixed
+- Tower Pulse Defense에서 자원 부족 방어 실패 시 부족 자원 표기가 모호하던 안내를 구체화
+- Tower Pulse Defense 재시작 시 체인/압박 상태가 이전 라운드에서 잔존할 수 있는 회귀 가능성 차단(reset 동기화)
+
+---
+
 ## [0.3.54] - 2026-02-27
 ### Added
 - Rail Commander 품질 고도화 요소 추가

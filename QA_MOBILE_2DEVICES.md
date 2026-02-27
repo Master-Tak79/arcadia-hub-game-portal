@@ -128,6 +128,8 @@
 - [ ] 3회 플레이(각 60초 이상) 중 업그레이드/방어 입력 판정 이상 없음
 - [ ] 자동 생산 루프(화물/승객/우편) 갱신 정상
 - [ ] 펄스 발동/쿨다운/효과 시간 정상
+- [ ] 연속 방어 체인(xN) 증가/감쇠 및 보상 체감 정상
+- [ ] 압박 급증(서측/중앙/동측) 발생/종료 및 보상 반영 정상
 - [ ] 방어 24 미션 보상 정상
 - [ ] 일시정지/재개(P 버튼/상단 버튼) 정상
 - [ ] 사운드/BGM/볼륨 설정 저장 정상
@@ -172,7 +174,9 @@
 | 2026-02-26 | A/B | Maze Signal | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
 | 2026-02-26 | A/B | Void Raiders | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
 | 2026-02-26 | A/B | Rail Commander | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
+| 2026-02-27 | A/B | Rail Commander 품질 1차 | PREPARED | 연속 배차 체인/수요 급등/실시간 버튼 상태 반영, 실기기 체감 확인 필요 |
 | 2026-02-27 | A/B | Tower Pulse Defense | PENDING | 신규 게임 실기기 점검 로그 수집 필요 |
+| 2026-02-27 | A/B | Tower Pulse Defense 품질 1차 | PREPARED | 연속 방어 체인/압박 급증/실시간 버튼 상태 반영, 실기기 체감 확인 필요 |
 | 2026-02-27 | A/B | Ghost Kart Duel | PENDING | 신규 게임 실기기 점검 로그 수집 필요 |
 | 2026-02-27 | A/B | Bubble Harbor Merge | PENDING | 신규 게임 실기기 점검 로그 수집 필요 |
 | 2026-02-27 | A/B | Dungeon Dice Survivor | PENDING | 신규 게임 실기기 점검 로그 수집 필요 |
@@ -188,7 +192,7 @@
 - `QA_3RUN_LOG_TEMPLATE.md`를 사용해 기기별/게임별 3회(각 60초 이상) 실행 기록을 남깁니다.
 - 최종 입력 시트: `QA_3RUN_LOG_2026-02-27_STAGE1.md` (A/B×19종×3회 + `LongPressCallout` 컬럼 포함)
 
-## 현재 판정 (2026-02-27, v0.3.54)
+## 현재 판정 (2026-02-27, v0.3.55)
 ### ✅ PASS
 - Slot A/B 모두 실행 확인됨
 - Device-B(`Galaxy A24 Ultra`) 브라우저 3종(Chrome/Edge/Samsung Internet) 실행 확인

@@ -91,6 +91,32 @@ export function createRenderer({ canvas, ctx }) {
     ctx.font = "600 13px system-ui";
     ctx.fillText(`SHIFT ${(state.shiftRemainSec).toFixed(1)}s`, 42, 626);
 
+    if (state.dispatchStreak > 1) {
+      ctx.fillStyle = "rgba(166, 255, 208, 0.18)";
+      ctx.fillRect(canvas.width - 202, 24, 168, 32);
+      ctx.strokeStyle = "rgba(177, 255, 220, 0.7)";
+      ctx.strokeRect(canvas.width - 202, 24, 168, 32);
+      ctx.fillStyle = "#e4fff1";
+      ctx.textAlign = "center";
+      ctx.font = "700 15px system-ui";
+      ctx.fillText(`⚔️ DEFENSE x${state.dispatchStreak}`, canvas.width - 118, 45);
+      ctx.textAlign = "start";
+    }
+
+    if (state.threatType !== "normal") {
+      const threatLabel =
+        state.threatType === "cargo" ? "서측" : state.threatType === "passenger" ? "중앙" : "동측";
+      const remainSec = Math.max(0, state.threatMs / 1000).toFixed(1);
+
+      ctx.fillStyle = "rgba(255, 168, 147, 0.14)";
+      ctx.fillRect(24, 24, 176, 32);
+      ctx.strokeStyle = "rgba(255, 190, 170, 0.68)";
+      ctx.strokeRect(24, 24, 176, 32);
+      ctx.fillStyle = "#ffe9df";
+      ctx.font = "700 14px system-ui";
+      ctx.fillText(`⚠️ ${threatLabel} 압박 ${remainSec}s`, 34, 45);
+    }
+
     if (state.overdriveMs > 0) {
       const remain = (state.overdriveMs / 1000).toFixed(1);
       ctx.fillStyle = "rgba(152, 255, 211, 0.18)";
@@ -100,7 +126,7 @@ export function createRenderer({ canvas, ctx }) {
       ctx.fillStyle = "#e0fff4";
       ctx.textAlign = "center";
       ctx.font = "700 18px system-ui";
-      ctx.fillText(`🚄 PULSE ${remain}s`, canvas.width * 0.5, 708);
+      ctx.fillText(`⚡ PULSE ${remain}s`, canvas.width * 0.5, 708);
       ctx.textAlign = "start";
     }
 
