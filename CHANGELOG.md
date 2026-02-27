@@ -15,6 +15,19 @@
 
 ---
 
+## [0.3.48] - 2026-02-27
+### Changed
+- 15개 로컬 게임(`games/*/index.html`) 공통 스타일에 모바일 롱프레스 방지 가드 적용
+  - 대상 선택자: `button`, `.controls button`, `.mini-link`, `.ghost`, `.ghost-btn`, `.ghost-link`, `.btn-row a`, `.hint`
+  - 적용 속성: `-webkit-user-select: none`, `user-select: none`, `-webkit-touch-callout: none`, `touch-action: manipulation`
+- `src/data/games.seed.js`의 15개 게임 버전을 `0.3.48`로 정렬
+- 포털 버전 `0.3.47` → `0.3.48`
+
+### Fixed
+- Android/Telegram in-app browser 등 모바일 환경에서 하단 조작 버튼을 길게 눌렀을 때 텍스트 선택/복사 콜아웃이 노출되던 UX 이슈 완화
+
+---
+
 ## [0.3.47] - 2026-02-27
 ### Added
 - GitHub Pages 배포 워크플로 `.github/workflows/pages-deploy.yml` 추가

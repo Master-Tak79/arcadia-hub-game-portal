@@ -311,6 +311,15 @@
   - main push 시 자동 배포 / 수동 workflow_dispatch 지원
 - `.nojekyll` 추가로 Pages 정적 서빙 호환성 보강
 - 포털 버전 `0.3.47`로 패치 업데이트
+- `feat/mobile-longpress-guard-0.3.48` 브랜치에서 모바일 롱프레스 UX 이슈 보완 진행
+- 로컬 15개 게임 `index.html` 공통 스타일에 모바일 롱프레스 가드 적용
+  - 선택자: `button`, `.controls button`, `.mini-link`, `.ghost`, `.ghost-btn`, `.ghost-link`, `.btn-row a`, `.hint`
+  - 속성: `-webkit-user-select: none`, `user-select: none`, `-webkit-touch-callout: none`, `touch-action: manipulation`
+- 게임 시드 15개 버전을 `0.3.48`로 일괄 상향
+- QA 문서 연동 갱신
+  - `QA_MOBILE_2DEVICES.md`: 롱프레스 콜아웃 검증 체크 항목 + 실행 로그(PREPARED) 추가
+  - `QA_FINAL_STATUS.md`: v0.3.48 기준 갱신 및 HOLD 검증 항목 반영
+- 포털 버전 `0.3.48`로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
