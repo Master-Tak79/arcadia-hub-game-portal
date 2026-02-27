@@ -11,6 +11,8 @@ import {
   updateStats,
 } from "./ui/renderers.js";
 import { renderDetail, setDetailVisible } from "./ui/detail-panel.js";
+import { createUpdateNoticeController } from "./ui/update-notice.js";
+import { renderFilterSummary } from "./ui/filter-summary.js";
 
 const els = {
   searchInput: document.getElementById("searchInput"),
@@ -20,9 +22,12 @@ const els = {
   categoryTabs: document.getElementById("categoryTabs"),
   showAllBtn: document.getElementById("showAllBtn"),
   showFavoritesBtn: document.getElementById("showFavoritesBtn"),
+  resetFiltersBtn: document.getElementById("resetFiltersBtn"),
   updateNoticeBtn: document.getElementById("updateNoticeBtn"),
   featuredGrid: document.getElementById("featuredGrid"),
   gameGrid: document.getElementById("gameGrid"),
+  activeFilterText: document.getElementById("activeFilterText"),
+  activeFilterChips: document.getElementById("activeFilterChips"),
   cardTemplate: document.getElementById("gameCardTemplate"),
   statsText: document.getElementById("statsText"),
   portalVersionText: document.getElementById("portalVersionText"),
@@ -56,79 +61,40 @@ let observer = null;
 let resizeTimer = null;
 let featuredExcludeIds = [];
 
-function clearNode(node) {
-  if (!node) return;
-  node.replaceChildren();
-}
-
-function setUpdateVisible(visible) {
-  els.updateOverlay.classList.toggle("hidden", !visible);
-  els.updateOverlay.setAttribute("aria-hidden", String(!visible));
-
-  const hasOpenOverlay = document.querySelector(".detail-overlay:not(.hidden)");
-  document.body.classList.toggle("lock-scroll", Boolean(hasOpenOverlay));
-}
-
 function getUpdateGames() {
   return store.getRecentUpdatedGames(999);
 }
 
-function renderUpdateNoticeSummary(games) {
-  if (!els.updateNoticeBtn) return;
-  if (!games.length) {
-    els.updateNoticeBtn.textContent = "공지 · 업데이트 없음";
-    return;
-  }
+const updateNotice = createUpdateNoticeController({
+  refs: {
+    overlay: els.updateOverlay,
+    backdrop: els.updateBackdrop,
+    closeBtn: els.updateCloseBtn,
+    summary: els.updateSummary,
+    list: els.updateList,
+    noticeBtn: els.updateNoticeBtn,
+  },
+  portalVersion: PORTAL_VERSION,
+  onOpenGame: openGameRoute,
+  onOpen: clearGameRoute,
+});
 
-  const latest = games[0];
-  els.updateNoticeBtn.textContent = `공지 · ${latest.updatedAt} · ${games.length}종`;
+function syncFilterFormValues() {
+  const filters = store.getFilters();
+  if (els.searchInput.value !== filters.query) els.searchInput.value = filters.query;
+  if (els.platformSelect.value !== filters.platform) els.platformSelect.value = filters.platform;
+  if (els.sortSelect.value !== filters.sort) els.sortSelect.value = filters.sort;
 }
 
-function renderUpdateList(games) {
-  if (!els.updateList || !els.updateSummary) return;
-
-  clearNode(els.updateList);
-
-  if (!games.length) {
-    els.updateSummary.textContent = "표시할 업데이트 항목이 없습니다.";
-    return;
-  }
-
-  const latest = games[0];
-  els.updateSummary.textContent = `Portal v${PORTAL_VERSION} · 최신 업데이트 ${latest.updatedAt} · 총 ${games.length}종`;
-
-  games.forEach((game) => {
-    const item = document.createElement("article");
-    item.className = "update-item";
-
-    const head = document.createElement("div");
-    head.className = "update-item-head";
-
-    const title = document.createElement("h4");
-    title.textContent = game.title;
-
-    const meta = document.createElement("p");
-    meta.className = "update-item-meta";
-    meta.textContent = `${game.updatedAt} · v${game.version || "0.1.0"} · ${game.genre}`;
-
-    const desc = document.createElement("p");
-    desc.className = "update-item-desc";
-    desc.textContent = game.description;
-
-    head.append(title, meta);
-    item.append(head, desc);
-    els.updateList.appendChild(item);
-  });
-}
-
-function openUpdateOverlay() {
-  clearGameRoute();
-  renderUpdateList(getUpdateGames());
-  setUpdateVisible(true);
-}
-
-function closeUpdateOverlay() {
-  setUpdateVisible(false);
+function resetFilters() {
+  store.setFilter("query", "");
+  store.setFilter("platform", "all");
+  store.setFilter("sort", "popularity");
+  store.setFilter("genre", "all");
+  store.setFilter("category", "all");
+  store.setOnlyFavorites(false);
+  syncFilterFormValues();
+  render();
 }
 
 function render() {
@@ -167,9 +133,17 @@ function render() {
     onlyFavorites: store.isOnlyFavorites(),
   });
 
-  renderUpdateNoticeSummary(updateGames);
-  if (!els.updateOverlay.classList.contains("hidden")) {
-    renderUpdateList(updateGames);
+  const activeFilterCount = renderFilterSummary({
+    textNode: els.activeFilterText,
+    chipsNode: els.activeFilterChips,
+    filters,
+    onlyFavorites: store.isOnlyFavorites(),
+  });
+  els.resetFiltersBtn.disabled = activeFilterCount === 0;
+
+  updateNotice.renderSummary(updateGames);
+  if (updateNotice.isVisible()) {
+    updateNotice.renderList(updateGames);
   }
 
   updateLoadMoreStatus(els.loadMoreText, store.canLoadMore(featuredExcludeIds));
@@ -276,17 +250,43 @@ function bindEvents() {
     render();
   });
 
-  els.updateNoticeBtn.addEventListener("click", openUpdateOverlay);
-  els.updateCloseBtn.addEventListener("click", closeUpdateOverlay);
-  els.updateBackdrop.addEventListener("click", closeUpdateOverlay);
+  els.resetFiltersBtn.addEventListener("click", resetFilters);
+
+  els.updateNoticeBtn.addEventListener("click", () => {
+    updateNotice.open(getUpdateGames());
+  });
+  updateNotice.bindCloseEvents();
 
   els.detailCloseBtn.addEventListener("click", clearGameRoute);
   els.detailBackdrop.addEventListener("click", clearGameRoute);
 
   window.addEventListener("keydown", (e) => {
+    const tag = e.target?.tagName;
+    const isFormField = tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
+
+    if (e.key === "/" && !isFormField) {
+      e.preventDefault();
+      els.searchInput.focus();
+      els.searchInput.select();
+      return;
+    }
+
+    if (e.key.toLowerCase() === "u" && !isFormField) {
+      e.preventDefault();
+      updateNotice.open(getUpdateGames());
+      return;
+    }
+
+    if (e.key.toLowerCase() === "f" && !isFormField) {
+      e.preventDefault();
+      store.setOnlyFavorites(!store.isOnlyFavorites());
+      render();
+      return;
+    }
+
     if (e.key !== "Escape") return;
-    if (!els.updateOverlay.classList.contains("hidden")) {
-      closeUpdateOverlay();
+    if (updateNotice.isVisible()) {
+      updateNotice.close();
       return;
     }
     clearGameRoute();
@@ -312,6 +312,7 @@ async function bootstrap() {
 
   const initialGames = await listGames();
   store.setGames(initialGames);
+  syncFilterFormValues();
   bindEvents();
   bindInfiniteScroll();
   render();

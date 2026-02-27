@@ -427,6 +427,30 @@
     - `README.md`: 개발 가드레일 항목 추가
     - `QA_FINAL_STATUS.md`: `state-reset-sync-check` PASS 항목 추가
     - `CHANGELOG.md`: Unreleased에 스크립트/RFC/스모크 단계 확장 기록
+- `feat/economy-core-pilot-0.3.53` 브랜치에서 P1 2차 파일럿 진행
+  - 공통 템플릿 런타임 추가: `games/templates/economy-core/create-game.js`
+  - 엔트리포인트 마이그레이션(요청 범위 2종)
+    - `games/rail-commander/main.js`
+    - `games/tower-pulse-defense/main.js`
+  - 게임별 config 분리
+    - `games/rail-commander/economy-core.config.js`
+    - `games/tower-pulse-defense/economy-core.config.js`
+  - 기존 gameplay 모듈(`state/systems/renderer/input/ui/sfx`)은 동작 변경 없이 유지
+  - 검증 체인(6종 + smoke 9단계) 통과
+- `feat/portal-quality-pass1-0.3.53` 브랜치에서 포털 품질 1차 고도화 진행
+  - UX/가시성
+    - 필터 패널에 `필터 초기화` 버튼 추가
+    - 콘텐츠 상단에 활성 필터 요약 바(`active-filter`) 추가
+    - 카드/버튼/업데이트 항목의 hover/focus 시각 피드백 강화
+  - 사용성
+    - 업데이트 오버레이 항목에 `게임 상세 보기` 버튼 추가(즉시 상세 패널 이동)
+    - 키보드 단축키 추가(`/` 검색, `F` 즐겨찾기 토글, `U` 업데이트 열기)
+  - 유지보수성
+    - 업데이트 오버레이 로직을 `src/ui/update-notice.js`로 분리
+    - 필터 상태 렌더러를 `src/ui/filter-summary.js`로 분리
+  - 버전 동기화
+    - 포털 `0.3.53`
+    - `src/data/games.seed.js` 19개 게임 버전 `0.3.53`
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
