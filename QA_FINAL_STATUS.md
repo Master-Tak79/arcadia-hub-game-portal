@@ -1,6 +1,6 @@
 # QA Final Status (2026-02-27)
 
-대상: Arcadia Hub Portal v0.3.49 기준
+대상: Arcadia Hub Portal v0.3.50 기준
 
 ## ✅ PASS (확인 완료)
 - 자동 검증 체인
@@ -45,7 +45,7 @@
   - Rail Commander: 노선 업그레이드/배차/오버드라이브 판정, 배차 22 미션, 사운드-BGM-볼륨 저장/일시정지 재개
 
 ## 다음 액션(권장)
-1. `QA_3RUN_LOG_TEMPLATE.md`로 Device A/B 각각 3회 플레이 로그(시간/점수/이상 여부) 작성
+1. `QA_3RUN_LOG_2026-02-27_STAGE1.md`(Final Input Sheet)에 Device A/B 각각 3회 플레이 로그(`DurationSec`/`LongPressCallout`/`Result`) 입력
 2. HOLD 항목 체크 후 `QA_MOBILE_2DEVICES.md` 및 15개 게임 QA 체크리스트 체크박스 최종 마감
 3. 신규 3종 + Lane Switch + Block Sage + Mini Empire Grid + Pixel Clash + Idle Foundry + Dash to Core + Farm Harbor + Mecha Sprint + Maze Signal + Void Raiders + Rail Commander 사운드/BGM/일시정지 UX 실기기 검증 로그 반영
 4. 완료 시 QA 상태를 `READY_FOR_FINAL_QA`로 전환

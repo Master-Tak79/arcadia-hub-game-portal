@@ -138,7 +138,7 @@
 | 2026-02-26 | A/B | Maze Signal | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
 | 2026-02-26 | A/B | Void Raiders | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
 | 2026-02-26 | A/B | Rail Commander | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
-| 2026-02-27 | A/B | 15종 3-Run 로그 시트 | PREPARED | `QA_3RUN_LOG_2026-02-27_STAGE1.md` 1차 채움 생성 |
+| 2026-02-27 | A/B | 15종 3-Run 로그 시트 | UPDATED | `QA_3RUN_LOG_2026-02-27_STAGE1.md`를 Final Input Sheet로 갱신(`LongPressCallout` 컬럼 포함) |
 | 2026-02-27 | A/B | 15종 롱프레스 UX 가드 | PREPARED | `games/*/index.html` 공통 스타일에 텍스트 선택/복사 콜아웃 방지 규칙 적용, 실기기 재현 확인 필요 |
 | 2026-02-27 | A/B | 롱프레스 가드 정적 검증 | PASS | `scripts/longpress-guard-check.mjs`로 15개 게임 스타일 가드 존재/구성 자동 검증 통과 |
 
@@ -148,7 +148,7 @@
 
 ## 정량 로그 템플릿
 - `QA_3RUN_LOG_TEMPLATE.md`를 사용해 기기별/게임별 3회(각 60초 이상) 실행 기록을 남깁니다.
-- 1차 채움 시트: `QA_3RUN_LOG_2026-02-27_STAGE1.md` (A/B×15종×3회 기본 행 생성)
+- 최종 입력 시트: `QA_3RUN_LOG_2026-02-27_STAGE1.md` (A/B×15종×3회 + `LongPressCallout` 컬럼 포함)
 
 ## 현재 판정 (2026-02-27)
 ### ✅ PASS
