@@ -5,6 +5,18 @@
 
 ## [Unreleased]
 ### Added
+- (예정)
+
+### Changed
+- (예정)
+
+### Fixed
+- (예정)
+
+---
+
+## [0.3.53] - 2026-02-27
+### Added
 - `scripts/state-reset-sync-check.mjs` 추가
   - 게임별 `createState` 초기값과 `resetRound`의 `state.*` 리터럴 할당값 불일치 자동 탐지
   - `missionTarget*` 키가 `resetRound`에 누락되었는지 자동 탐지
@@ -15,6 +27,10 @@
 - 파일럿 preset(config) 2종 추가
   - `games/rail-commander/economy-core.config.js`
   - `games/tower-pulse-defense/economy-core.config.js`
+- 포털 필터 상태 요약 UI 추가
+  - 활성 필터 칩/상태 텍스트 및 `필터 초기화` 액션 제공
+- 포털 키보드 단축키 추가
+  - `/` 검색 포커스, `F` 즐겨찾기 토글, `U` 업데이트 오버레이 열기
 
 ### Changed
 - `scripts/meteor-smoke-check.sh` 단계 확장
@@ -24,9 +40,17 @@
   - `games/rail-commander/main.js`
   - `games/tower-pulse-defense/main.js`
   - 게임별 문자열/라벨 차이는 각 `economy-core.config.js`로 분리
+- 포털 UI/UX 1차 고도화
+  - `src/main.js`에서 업데이트 오버레이 로직 분리(`src/ui/update-notice.js`)
+  - 활성 필터 요약 렌더러 분리(`src/ui/filter-summary.js`)
+  - 공지 오버레이에서 항목별 `게임 상세 보기` 즉시 이동 지원
+  - 버튼/카드 포커스·호버 피드백 및 모바일 액션 레이아웃 개선
+- `src/data/games.seed.js`의 19개 게임 버전을 `0.3.53`으로 정렬
+- 포털 버전 `0.3.52` → `0.3.53`
 
 ### Fixed
 - 신규/기존 게임 밸런스 조정 시 `createState`와 `resetRound` 값이 어긋나는 회귀를 CI 전 단계에서 조기 탐지하도록 보강
+- `lane-switch`, `neon-brick-breaker`, `orbit-survivor`의 `resetRound` 미션 타깃 재할당 누락 보정
 
 ---
 
