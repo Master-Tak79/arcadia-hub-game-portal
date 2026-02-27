@@ -469,6 +469,22 @@
   - 버전 동기화
     - 포털 `0.3.54`
     - `src/data/games.seed.js` 19개 게임 버전 `0.3.54`
+- `feat/tower-quality-pass1-0.3.55` 브랜치에서 Tower Pulse Defense 품질 1차 고도화 진행
+  - Tower gameplay/feedback
+    - 연속 방어 체인(`dispatchStreak`) 및 감쇠 타이머 추가
+    - 압박 급증 이벤트(`cargo/passenger/mail`) 추가
+    - 방어 보상 계산에 체인/압박 배수 반영
+    - 자원 부족 방어 실패 시 부족 자원(C/P/M) 안내
+  - Tower UI/controls
+    - HUD 확장: `FLOW` 카드 + `압박` 상태 라인
+    - 업그레이드/방어/펄스 버튼 실시간 상태 동기화(`syncControls`)
+    - 버튼 disabled/쿨다운 텍스트/체인 상태 표시
+    - 렌더러에 체인/압박 배지 시각 피드백 추가
+  - 테스트 확장
+    - `scripts/game-ui-check.mjs`에서 rail/tower `syncControls`와 FLOW/수요·압박 HUD 검증 추가
+  - 버전 동기화
+    - 포털 `0.3.55`
+    - `src/data/games.seed.js` 19개 게임 버전 `0.3.55`
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용

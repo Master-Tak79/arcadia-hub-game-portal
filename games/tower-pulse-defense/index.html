@@ -73,7 +73,7 @@
       .title-wrap p { margin: 2px 0 0; color: var(--muted); font-size: 12px; }
       .hud {
         display: grid;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-template-columns: repeat(6, minmax(0, 1fr));
         gap: 6px;
         padding: 6px 8px;
         background: rgba(7, 18, 39, 0.9);
@@ -94,6 +94,11 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.06);
       }
       .mission-strip p { margin: 0; font-size: 12px; color: #cbf8df; }
+      .mission-strip .market-line {
+        margin-top: 2px;
+        color: #9fc7ff;
+        font-size: 11px;
+      }
       .game-wrap { position: relative; flex: 1; min-height: 240px; background: #07172f; }
       canvas { width: 100%; height: 100%; display: block; touch-action: none; }
       .overlay {
@@ -174,6 +179,10 @@
         border-color: rgba(255,255,255,0.34);
         background: linear-gradient(130deg, #9be8ff, #74b1ff, #96ffe2);
       }
+      .controls button:disabled {
+        opacity: 0.48;
+        filter: saturate(0.65);
+      }
       .hint {
         margin: 0;
         font-size: 12px;
@@ -219,10 +228,12 @@
         <article class="hud-card"><p class="hud-label">티어</p><p id="tierText" class="hud-value">1</p></article>
         <article class="hud-card"><p class="hud-label">자원</p><p id="resourceText" class="hud-value">C0 P0 M0 ₡0</p></article>
         <article class="hud-card"><p class="hud-label">남은시간</p><p id="shiftText" class="hud-value">01:40</p></article>
+        <article class="hud-card"><p class="hud-label">FLOW</p><p id="flowText" class="hud-value">x0</p></article>
       </section>
 
       <section class="mission-strip" aria-live="polite">
         <p id="missionText">미션: 방어 24</p>
+        <p id="marketText" class="market-line">압박: 일반</p>
       </section>
 
       <section class="game-wrap">
@@ -280,7 +291,7 @@
         <button id="dispatchBtn" type="button">방어(4)</button>
         <button id="overdriveBtn" class="highlight" type="button">펄스(Space)</button>
       </div>
-      <p class="hint">팁: 1~3 타워 업그레이드 · 4 방어 · Space 펄스 · P 일시정지</p>
+      <p class="hint">팁: 1~3 타워 업그레이드 · 4 방어 · Space 펄스 · 연속 방어 체인/압박 급증 타이밍 활용</p>
     </main>
 
     <script src="../shared/vendor/confetti.browser.min.js"></script>
