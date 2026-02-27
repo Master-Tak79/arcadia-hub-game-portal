@@ -43,6 +43,7 @@ python3 -m http.server 8790
 - 개발 가드레일 강화
   - `scripts/state-reset-sync-check.mjs`로 `createState` vs `resetRound` 초기 수치/미션 타깃 동기화 자동 점검
   - `REFACTOR_P1_RFC_2026-02-27.md`에 템플릿 기반 리팩토링 1단계 설계안 문서화
+  - P1 phase-2 파일럿: `games/templates/economy-core/create-game.js` 기반으로 Rail Commander / Tower Pulse Defense 엔트리 런타임을 템플릿화
 - 신규 게임 4종 추가
   - Tower Pulse Defense / Ghost Kart Duel / Bubble Harbor Merge / Dungeon Dice Survivor
   - 기존 게임 공통 적용사항(롱프레스 가드, 설정 저장, 일시정지 UX, 모듈 구조, QA 체크리스트) 동일 반영
@@ -82,6 +83,9 @@ arcadia-hub-game-portal/
     previews/
       *.png                     # 포털 카드/상세 미리보기 이미지
   games/
+    templates/
+      economy-core/
+        create-game.js          # economy 계열 공통 엔트리 런타임 템플릿(P1 파일럿)
     meteor-dodge/
       index.html                # 내장 플레이 게임 (회피형 아케이드)
       main.js                   # 게임 엔트리/오케스트레이션

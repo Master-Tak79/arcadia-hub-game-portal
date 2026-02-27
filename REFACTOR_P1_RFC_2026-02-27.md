@@ -107,14 +107,14 @@ games/
 ## 6. 완료 기준 (P1)
 - [x] 상태 정합성 자동 점검 스크립트 도입
 - [x] 스모크 파이프라인 통합
-- [ ] 템플릿 코어 1종(economy-core) 추가
-- [ ] 파일럿 게임 2종(rail/tower) 템플릿 기반 전환
-- [ ] 기능/QA/CI 동일 수준 유지 확인
+- [x] 템플릿 코어 1종(economy-core) 추가
+- [x] 파일럿 게임 2종(rail/tower) 템플릿 기반 전환
+- [x] 기능/QA/CI 동일 수준 유지 확인
 
 ---
 
 ## 7. 즉시 다음 액션
-1. `economy-core` 프로토타입 생성
-2. `rail-commander` 마이그레이션
-3. `tower-pulse-defense` 마이그레이션
-4. 기존과 동등한 UI/미션/리셋 동작 자동검증 추가
+1. [x] `economy-core` 프로토타입 생성
+2. [x] `rail-commander` 마이그레이션
+3. [x] `tower-pulse-defense` 마이그레이션
+4. [x] 기존과 동등한 UI/미션/리셋 동작 자동검증 실행(shared-ui/mission-index/state-reset/game-ui/longpress/smoke)
