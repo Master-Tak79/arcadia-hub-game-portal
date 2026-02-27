@@ -320,6 +320,16 @@
   - `QA_MOBILE_2DEVICES.md`: 롱프레스 콜아웃 검증 체크 항목 + 실행 로그(PREPARED) 추가
   - `QA_FINAL_STATUS.md`: v0.3.48 기준 갱신 및 HOLD 검증 항목 반영
 - 포털 버전 `0.3.48`로 패치 업데이트
+- `chore/longpress-guard-check-0.3.49` 브랜치에서 롱프레스 가드 회귀 방지 자동화 진행
+- `scripts/longpress-guard-check.mjs` 추가:
+  - `src/data/games.seed.js` 기준 로컬 15개 게임 대상
+  - 각 `index.html`의 `Mobile long-press guard` 블록 존재 여부 및 필수 선택자/속성 검증
+- `scripts/meteor-smoke-check.sh`를 8단계 파이프라인으로 확장하고 `longpress-guard-check` 통합
+- QA 문서 연동 갱신
+  - `QA_MOBILE_2DEVICES.md`: 롱프레스 가드 정적 검증 PASS 로그 추가
+  - `QA_FINAL_STATUS.md`: `longpress-guard-check` PASS 항목 반영
+- 게임 시드 15개 버전을 `0.3.49`로 일괄 상향
+- 포털 버전 `0.3.49`로 패치 업데이트
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
@@ -343,6 +353,7 @@
 - 미디어 입력값은 저장 전 정규화하여 렌더 안정성을 우선 확보
 - 모바일 포털은 핵심 탐색(게임 카드)이 최근 업데이트보다 우선 노출되도록 유지
 - 포털 병합 우선순위는 `구현 게임 > featured > 최신성` 원칙으로 중복/하향 덮어쓰기를 방지
+- 모바일 롱프레스 UX 회귀 리스크는 `longpress-guard-check`를 스모크 체크에 포함해 조기 탐지
 
 ### 다음 작업
 - `QA_3RUN_LOG_TEMPLATE.md` 기반으로 15종 로컬 게임 HOLD 항목(3회/60초 정량 기록) 해소
