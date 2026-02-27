@@ -16,7 +16,7 @@ python3 -m http.server 8790
 
 ---
 
-## 현재 구현 기능 (0.3.53)
+## 현재 구현 기능 (0.3.54)
 
 - 게임 카드형 목록 UI
 - 검색 / 장르 필터 / 카테고리 탭 / 플랫폼 필터 / 정렬
@@ -48,6 +48,10 @@ python3 -m http.server 8790
   - `scripts/state-reset-sync-check.mjs`로 `createState` vs `resetRound` 초기 수치/미션 타깃 동기화 자동 점검
   - `REFACTOR_P1_RFC_2026-02-27.md`에 템플릿 기반 리팩토링 1단계 설계안 문서화
   - P1 phase-2 파일럿: `games/templates/economy-core/create-game.js` 기반으로 Rail Commander / Tower Pulse Defense 엔트리 런타임을 템플릿화
+- Rail Commander 품질 1차 고도화
+  - 연속 배차 체인(xN) + 수요 급등 이벤트(화물/승객/우편) 추가
+  - 조작 버튼에 실시간 비용/요구 자원/쿨다운 상태 동기화
+  - HUD에 `FLOW`/`수요` 상태 표시 및 시각 피드백 보강
 - 신규 게임 4종 추가
   - Tower Pulse Defense / Ghost Kart Duel / Bubble Harbor Merge / Dungeon Dice Survivor
   - 기존 게임 공통 적용사항(롱프레스 가드, 설정 저장, 일시정지 UX, 모듈 구조, QA 체크리스트) 동일 반영
@@ -136,7 +140,7 @@ arcadia-hub-game-portal/
 
 ## 버전 정책
 
-- 포털 현재 버전: **`0.3.53`**
+- 포털 현재 버전: **`0.3.54`**
 - 기본 게임 버전: **`0.1.0`**
 - 버전 형식: `MAJOR.MINOR.PATCH` (semver)
 - 게임 등록/수정 시 관리자 페이지에서 `게임 버전` 입력 가능

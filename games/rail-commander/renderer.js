@@ -91,6 +91,32 @@ export function createRenderer({ canvas, ctx }) {
     ctx.font = "600 13px system-ui";
     ctx.fillText(`SHIFT ${(state.shiftRemainSec).toFixed(1)}s`, 42, 626);
 
+    if (state.dispatchStreak > 1) {
+      ctx.fillStyle = "rgba(255, 195, 124, 0.18)";
+      ctx.fillRect(canvas.width - 202, 24, 168, 32);
+      ctx.strokeStyle = "rgba(255, 209, 150, 0.7)";
+      ctx.strokeRect(canvas.width - 202, 24, 168, 32);
+      ctx.fillStyle = "#ffe9c8";
+      ctx.textAlign = "center";
+      ctx.font = "700 15px system-ui";
+      ctx.fillText(`🔥 FLOW x${state.dispatchStreak}`, canvas.width - 118, 45);
+      ctx.textAlign = "start";
+    }
+
+    if (state.demandType !== "normal") {
+      const demandLabel =
+        state.demandType === "cargo" ? "화물" : state.demandType === "passenger" ? "승객" : "우편";
+      const remainSec = Math.max(0, state.demandMs / 1000).toFixed(1);
+
+      ctx.fillStyle = "rgba(120, 202, 255, 0.15)";
+      ctx.fillRect(24, 24, 176, 32);
+      ctx.strokeStyle = "rgba(136, 219, 255, 0.62)";
+      ctx.strokeRect(24, 24, 176, 32);
+      ctx.fillStyle = "#daf3ff";
+      ctx.font = "700 14px system-ui";
+      ctx.fillText(`📈 ${demandLabel} 수요 ${remainSec}s`, 34, 45);
+    }
+
     if (state.overdriveMs > 0) {
       const remain = (state.overdriveMs / 1000).toFixed(1);
       ctx.fillStyle = "rgba(152, 255, 211, 0.18)";

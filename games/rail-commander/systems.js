@@ -6,7 +6,32 @@ function updateTier(state) {
   state.tier = 1 + Math.floor(state.score / 220);
 }
 
-function getUpgradeCost(type, level) {
+export const DISPATCH_REQUIREMENTS = Object.freeze({
+  cargo: 3,
+  passenger: 2,
+  mail: 1,
+});
+
+const DEMAND_TYPES = ["cargo", "passenger", "mail"];
+
+function getDemandResourceMultiplier(demandType, resourceKey) {
+  if (demandType !== resourceKey) return 1;
+  return 1.32;
+}
+
+function getDemandRewardMultiplier(demandType) {
+  if (demandType === "normal") {
+    return { credit: 1, score: 1 };
+  }
+
+  return { credit: 1.16, score: 1.11 };
+}
+
+function pickDemandType() {
+  return DEMAND_TYPES[Math.floor(Math.random() * DEMAND_TYPES.length)] ?? "cargo";
+}
+
+export function getUpgradeCost(type, level) {
   if (type === "north") return 40 + level * 22;
   if (type === "central") return 44 + level * 24;
   if (type === "south") return 42 + level * 20;
@@ -16,9 +41,11 @@ function getUpgradeCost(type, level) {
 function runCycle(state, callbacks) {
   const overdriveMul = state.overdriveMs > 0 ? 1.6 : 1;
 
-  const cargoGain = Math.floor((2 + state.northLv * 1.3) * overdriveMul);
-  const passengerGain = Math.floor((1 + state.centralLv * 1.2) * overdriveMul);
-  const mailGain = Math.floor((1 + state.southLv * 1.1) * overdriveMul);
+  const cargoGain = Math.floor((2 + state.northLv * 1.3) * overdriveMul * getDemandResourceMultiplier(state.demandType, "cargo"));
+  const passengerGain = Math.floor(
+    (1 + state.centralLv * 1.2) * overdriveMul * getDemandResourceMultiplier(state.demandType, "passenger")
+  );
+  const mailGain = Math.floor((1 + state.southLv * 1.1) * overdriveMul * getDemandResourceMultiplier(state.demandType, "mail"));
 
   state.cargo = clamp(state.cargo + cargoGain, 0, 999);
   state.passenger = clamp(state.passenger + passengerGain, 0, 999);
@@ -32,6 +59,24 @@ function runCycle(state, callbacks) {
   updateTier(state);
 
   callbacks?.onCycle?.({ cargoGain, passengerGain, mailGain, passiveCredit });
+}
+
+function getMissingResources(state) {
+  const missing = [];
+
+  if (state.cargo < DISPATCH_REQUIREMENTS.cargo) {
+    missing.push(`C${DISPATCH_REQUIREMENTS.cargo - state.cargo}`);
+  }
+
+  if (state.passenger < DISPATCH_REQUIREMENTS.passenger) {
+    missing.push(`P${DISPATCH_REQUIREMENTS.passenger - state.passenger}`);
+  }
+
+  if (state.mail < DISPATCH_REQUIREMENTS.mail) {
+    missing.push(`M${DISPATCH_REQUIREMENTS.mail - state.mail}`);
+  }
+
+  return missing;
 }
 
 export function buyUpgrade(state, type) {
@@ -62,30 +107,52 @@ export function dispatchTrain(state) {
     return { ok: false, reason: "not-running" };
   }
 
-  const cargoNeed = 3;
-  const passengerNeed = 2;
-  const mailNeed = 1;
+  if (
+    state.cargo < DISPATCH_REQUIREMENTS.cargo ||
+    state.passenger < DISPATCH_REQUIREMENTS.passenger ||
+    state.mail < DISPATCH_REQUIREMENTS.mail
+  ) {
+    const prevStreak = state.dispatchStreak;
+    state.dispatchStreak = 0;
+    state.streakTimerMs = 0;
 
-  if (state.cargo < cargoNeed || state.passenger < passengerNeed || state.mail < mailNeed) {
-    return { ok: false, reason: "insufficient-resource" };
+    return {
+      ok: false,
+      reason: "insufficient-resource",
+      missing: getMissingResources(state),
+      droppedStreak: prevStreak,
+    };
   }
 
-  state.cargo -= cargoNeed;
-  state.passenger -= passengerNeed;
-  state.mail -= mailNeed;
+  state.cargo -= DISPATCH_REQUIREMENTS.cargo;
+  state.passenger -= DISPATCH_REQUIREMENTS.passenger;
+  state.mail -= DISPATCH_REQUIREMENTS.mail;
 
   state.dispatches += 1;
 
+  state.dispatchStreak = clamp(state.dispatchStreak + 1, 1, 5);
+  state.streakTimerMs = 7000;
+
   const efficiency = 1 + (state.northLv + state.centralLv + state.southLv) * 0.12;
-  const creditGain = Math.floor(12 * efficiency);
-  const scoreGain = Math.floor(10 * efficiency);
+  const streakMultiplier = 1 + state.dispatchStreak * 0.06;
+  const demandMultiplier = getDemandRewardMultiplier(state.demandType);
+
+  const creditGain = Math.floor(12 * efficiency * streakMultiplier * demandMultiplier.credit);
+  const scoreGain = Math.floor(10 * efficiency * streakMultiplier * demandMultiplier.score);
 
   state.credits = clamp(state.credits + creditGain, 0, 9999);
   state.scoreFloat += scoreGain;
   state.score = Math.floor(state.scoreFloat);
   updateTier(state);
 
-  return { ok: true, creditGain, scoreGain, dispatches: state.dispatches };
+  return {
+    ok: true,
+    creditGain,
+    scoreGain,
+    dispatches: state.dispatches,
+    streak: state.dispatchStreak,
+    demandType: state.demandType,
+  };
 }
 
 export function triggerOverdrive(state) {
@@ -127,9 +194,15 @@ export function resetRound(state) {
   state.shiftRemainSec = 96;
 
   state.dispatches = 0;
+  state.dispatchStreak = 0;
+  state.streakTimerMs = 0;
   state.missionTargetDispatches = 22;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;
+
+  state.demandType = "normal";
+  state.demandMs = 0;
+  state.demandCooldownMs = 12000;
 
   state.overdriveMs = 0;
   state.overdriveCooldownMs = 0;
@@ -171,6 +244,34 @@ export function stepGame({ state, deltaSec, callbacks }) {
 
   if (state.overdriveCooldownMs > 0) {
     state.overdriveCooldownMs -= deltaMs;
+  }
+
+  if (state.dispatchStreak > 0) {
+    state.streakTimerMs -= deltaMs;
+    if (state.streakTimerMs <= 0) {
+      state.dispatchStreak = Math.max(0, state.dispatchStreak - 1);
+      if (state.dispatchStreak > 0) {
+        state.streakTimerMs = 3400;
+      }
+      callbacks?.onStreakDrop?.(state.dispatchStreak);
+    }
+  }
+
+  if (state.demandType === "normal") {
+    state.demandCooldownMs -= deltaMs;
+    if (state.demandCooldownMs <= 0) {
+      state.demandType = pickDemandType();
+      state.demandMs = 9500 + Math.floor(Math.random() * 2500);
+      state.demandCooldownMs = 19000 + Math.floor(Math.random() * 5000);
+      callbacks?.onDemandStart?.({ demandType: state.demandType, remainMs: state.demandMs });
+    }
+  } else {
+    state.demandMs -= deltaMs;
+    if (state.demandMs <= 0) {
+      state.demandType = "normal";
+      state.demandMs = 0;
+      callbacks?.onDemandEnd?.();
+    }
   }
 
   state.cycleElapsedMs += deltaMs;

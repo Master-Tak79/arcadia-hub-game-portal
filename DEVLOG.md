@@ -451,6 +451,24 @@
   - 버전 동기화
     - 포털 `0.3.53`
     - `src/data/games.seed.js` 19개 게임 버전 `0.3.53`
+- `feat/rail-quality-pass1-0.3.54` 브랜치에서 Rail Commander 품질 1차 고도화 진행
+  - 운영 피드백 루프 강화
+    - 연속 배차 체인(`dispatchStreak`) 및 감쇠 타이머 추가
+    - 수요 급등 이벤트(`cargo/passenger/mail`) 추가
+    - 배차 보상 계산에 체인/수요 배수 반영
+  - UI/피드백 강화
+    - HUD 확장: `FLOW` 카드 + `수요` 상태 라인
+    - 조작 버튼 실시간 상태 동기화(업그레이드 비용/배차 요구자원/OD 쿨다운)
+    - 배차 실패 시 부족 자원 표기(C/P/M)
+  - 템플릿 런타임 확장
+    - `games/templates/economy-core/create-game.js`에 optional `syncControlsState` 및 `onDemandStart/onDemandEnd/onStreakDrop` 콜백 지원 추가
+    - dispatch/overdrive notice 포맷 훅 확장
+  - 게임 config/렌더 업데이트
+    - `games/rail-commander/economy-core.config.js` 문구 확장
+    - `games/rail-commander/renderer.js` 체인/수요 배지 시각 피드백 추가
+  - 버전 동기화
+    - 포털 `0.3.54`
+    - `src/data/games.seed.js` 19개 게임 버전 `0.3.54`
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
@@ -466,6 +484,7 @@
 - 패턴 다양화는 난이도/점수 스케일에 따라 점진적으로 강화
 - 게임 스크립트는 단일 파일보다 기능 계층 모듈 분리를 우선
 - 신규 내장 게임도 초기 단계부터 모듈 구조를 적용
+- 게임 퀄리티 고도화는 `1게임 단위(기능-피드백-밸런스-QA)`로 순차 진행해 회귀 범위를 작게 유지
 - Lane Switch는 단계적 확장(미션 → 아이템 → 설정) 방식으로 리스크를 낮춰 개발
 - 아이템은 "짧은 효과 + 명확한 피드백" 원칙으로 밸런싱
 - 확장 아이템은 보상형(자석/더블) + 리스크형(오버드라이브) 조합으로 설계

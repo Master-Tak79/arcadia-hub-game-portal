@@ -16,9 +16,14 @@ const DEFAULT_CONFIG = {
   },
   formatUpgradeNotice: (label, level) => `🚉 ${label} Lv${level}`,
   formatDispatchSuccessNotice: (creditGain) => `🚆 배차 완료 +${creditGain}₡`,
+  formatDispatchFailureNotice: () => "배차 자원이 부족합니다",
   dispatchFailureNotice: "배차 자원이 부족합니다",
   overdriveSuccessNotice: "🚄 OVERDRIVE",
   overdriveCooldownNotice: "오버드라이브 쿨다운 중",
+  formatOverdriveCooldownNotice: () => "오버드라이브 쿨다운 중",
+  formatDemandStartNotice: () => "수요 급등 발생",
+  demandEndNotice: "수요 급등 종료",
+  formatStreakDropNotice: (streak) => (streak > 0 ? `체인 x${streak}` : "체인 종료"),
 };
 
 function createRuntimeConfig(config) {
@@ -51,6 +56,7 @@ export function createEconomyCoreGame({ modules, config = {} }) {
     showOverlayUI,
     syncHudState,
     syncSettingsUIState,
+    syncControlsState,
     celebrateMission,
     celebrateNewBest,
   } = modules;
@@ -64,6 +70,8 @@ export function createEconomyCoreGame({ modules, config = {} }) {
   const resourceText = document.getElementById("resourceText");
   const shiftText = document.getElementById("shiftText");
   const missionText = document.getElementById("missionText");
+  const flowText = document.getElementById("flowText");
+  const marketText = document.getElementById("marketText");
 
   const overlay = document.getElementById("overlay");
   const overlayTitle = document.getElementById("overlayTitle");
@@ -122,7 +130,20 @@ export function createEconomyCoreGame({ modules, config = {} }) {
       resourceText,
       shiftText,
       missionText,
+      flowText,
+      marketText,
     });
+
+    if (typeof syncControlsState === "function") {
+      syncControlsState({
+        state,
+        northBtn,
+        centralBtn,
+        southBtn,
+        dispatchBtn,
+        overdriveBtn,
+      });
+    }
   }
 
   function syncSettingsUI() {
@@ -258,11 +279,15 @@ export function createEconomyCoreGame({ modules, config = {} }) {
     if (type === "dispatch") {
       const result = dispatchTrain(state);
       if (result.ok) {
-        showNotice(runtimeConfig.formatDispatchSuccessNotice(result.creditGain), 760);
+        showNotice(runtimeConfig.formatDispatchSuccessNotice(result.creditGain, result, state), 760);
         sfx.play("tick");
         vibrate(6);
       } else {
-        showNotice(runtimeConfig.dispatchFailureNotice, 620);
+        const failureText =
+          typeof runtimeConfig.formatDispatchFailureNotice === "function"
+            ? runtimeConfig.formatDispatchFailureNotice(result, state)
+            : runtimeConfig.dispatchFailureNotice;
+        showNotice(failureText, 620);
         sfx.play("hit");
       }
       syncHud();
@@ -276,7 +301,11 @@ export function createEconomyCoreGame({ modules, config = {} }) {
         sfx.play("start");
         vibrate([8, 12, 8]);
       } else if (result.reason === "cooldown") {
-        showNotice(runtimeConfig.overdriveCooldownNotice, 620);
+        const cooldownText =
+          typeof runtimeConfig.formatOverdriveCooldownNotice === "function"
+            ? runtimeConfig.formatOverdriveCooldownNotice(state)
+            : runtimeConfig.overdriveCooldownNotice;
+        showNotice(cooldownText, 620);
         sfx.play("hit");
       } else if (result.reason === "insufficient-credit") {
         showNotice(`크레딧 부족 (${result.cost})`, 620);
@@ -302,6 +331,18 @@ export function createEconomyCoreGame({ modules, config = {} }) {
           vibrate([10, 18, 10]);
         },
         onShiftEnd: () => endGame("shift-end"),
+        onDemandStart: ({ demandType, remainMs }) => {
+          const text = runtimeConfig.formatDemandStartNotice(demandType, remainMs, state);
+          showNotice(text, 900);
+          sfx.play("tick");
+        },
+        onDemandEnd: () => {
+          showNotice(runtimeConfig.demandEndNotice, 760);
+        },
+        onStreakDrop: (streak) => {
+          if (!settings.effectsEnabled || streak > 0) return;
+          showNotice(runtimeConfig.formatStreakDropNotice(streak), 520);
+        },
       },
     });
 
