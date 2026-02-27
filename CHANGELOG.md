@@ -15,6 +15,22 @@
 
 ---
 
+## [0.3.49] - 2026-02-27
+### Added
+- `scripts/longpress-guard-check.mjs` 추가
+  - 로컬 15개 게임 `index.html`의 모바일 롱프레스 가드 스타일 존재/구성 자동 검증
+  - 가드 블록 내 필수 선택자/속성(`user-select`, `-webkit-touch-callout`, `touch-action`) 누락을 CI 전 단계에서 탐지
+
+### Changed
+- `scripts/meteor-smoke-check.sh` 단계 확장
+  - 기존 7단계 → 8단계로 확장
+  - `longpress-guard-check`를 스모크 체크 파이프라인에 통합
+- `src/data/games.seed.js`의 15개 게임 버전을 `0.3.49`로 정렬
+- `QA_MOBILE_2DEVICES.md`, `QA_FINAL_STATUS.md`에 롱프레스 자동 검증 이력 반영
+- 포털 버전 `0.3.48` → `0.3.49`
+
+---
+
 ## [0.3.48] - 2026-02-27
 ### Changed
 - 15개 로컬 게임(`games/*/index.html`) 공통 스타일에 모바일 롱프레스 방지 가드 적용

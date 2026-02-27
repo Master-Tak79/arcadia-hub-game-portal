@@ -1,12 +1,13 @@
 # QA Final Status (2026-02-27)
 
-대상: Arcadia Hub Portal v0.3.48 기준
+대상: Arcadia Hub Portal v0.3.49 기준
 
 ## ✅ PASS (확인 완료)
 - 자동 검증 체인
   - `scripts/shared-ui-common-check.mjs` 통과
   - `scripts/game-ui-check.mjs` 통과
   - `scripts/meteor-smoke-check.sh` 통과
+  - `scripts/longpress-guard-check.mjs` 통과
   - GitHub Actions `ui-regression` (PR / main push) 성공
 - 실기기 실행 확인
   - Device A: Galaxy (Telegram in-app browser) 실행 PASS(사용자 보고)
