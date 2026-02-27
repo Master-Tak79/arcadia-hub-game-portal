@@ -1,6 +1,6 @@
 # Portal & Games Full Review (2026-02-27)
 
-대상: Arcadia Hub Portal v0.3.51 (로컬 검증 기준)
+대상: Arcadia Hub Portal v0.3.52 (로컬 검증 기준)
 
 ## 범위
 - 포털 데이터/정합성
@@ -11,7 +11,7 @@
 - 게임 시드 정합성
   - 총 게임 수: 19
   - 로컬 플레이 URL: 19/19 (`./games/*/index.html`)
-  - 버전 정렬: 19/19 = `0.3.51`
+  - 버전 정렬: 19/19 = `0.3.52`
   - preview 경로 유효성: 누락 0건
 - 분류/노출 데이터
   - Featured: 7개
@@ -21,6 +21,9 @@
 - 신규 게임 4종 반영
   - Tower Pulse Defense / Ghost Kart Duel / Bubble Harbor Merge / Dungeon Dice Survivor
   - 모듈 구조(`state/input/renderer/systems/main/ui/sfx`) 및 QA 체크리스트 포함
+- 포털 UX 정책 반영
+  - 비-seed(admin-only) 게임 비노출 정책 적용
+  - 메인 `최근 업데이트` 섹션 제거 + 우측 상단 공지 버튼/업데이트 오버레이로 일원화
 - 모바일 UX 회귀 방지
   - 19개 게임 `index.html`에 `Mobile long-press guard` 블록 적용 확인
 - 자동 검증

@@ -39,17 +39,17 @@ export function createState(bestScore = 0) {
     best: Number(bestScore || 0),
     tier: 1,
 
-    cargo: 12,
-    passenger: 8,
-    mail: 6,
-    credits: 96,
+    cargo: 14,
+    passenger: 9,
+    mail: 7,
+    credits: 108,
 
     northLv: 1,
     centralLv: 1,
     southLv: 1,
 
-    shiftLimitSec: 96,
-    shiftRemainSec: 96,
+    shiftLimitSec: 100,
+    shiftRemainSec: 100,
 
     dispatches: 0,
     missionTargetDispatches: 24,

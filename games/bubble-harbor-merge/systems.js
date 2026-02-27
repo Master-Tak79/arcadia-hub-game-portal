@@ -16,23 +16,23 @@ function updateTier(state) {
 function runDayCycle(state, callbacks) {
   const rushMul = state.rushMs > 0 ? 1.65 : 1;
 
-  const cropGain = Math.floor((2 + state.fieldLv * 1.4) * rushMul);
-  const fishGain = Math.floor((1 + state.harborLv * 1.1) * rushMul);
+  const cropGain = Math.floor((2 + state.fieldLv * 1.5) * rushMul);
+  const fishGain = Math.floor((1 + state.harborLv * 1.2) * rushMul);
 
   state.crops = clamp(state.crops + cropGain, 0, 999);
   state.fish = clamp(state.fish + fishGain, 0, 999);
 
-  const packCapacity = Math.max(1, state.harborLv + 1);
+  const packCapacity = Math.max(2, state.harborLv + 2);
   const canPack = Math.min(packCapacity, Math.floor(state.crops / 2), Math.floor(state.fish / 1));
 
   state.crops -= canPack * 2;
   state.fish -= canPack;
   state.crates = clamp(state.crates + canPack, 0, 999);
 
-  const harborCoin = Math.floor(state.boatLv * 0.8);
+  const harborCoin = Math.floor(1 + state.boatLv * 0.9);
   state.coins = clamp(state.coins + harborCoin, 0, 9999);
 
-  const throughput = cropGain * 1.1 + fishGain * 1.4 + canPack * 7;
+  const throughput = cropGain * 1.1 + fishGain * 1.4 + canPack * 8;
   state.scoreFloat += throughput;
   state.score = Math.floor(state.scoreFloat);
 
@@ -83,9 +83,9 @@ export function shipCrates(state) {
   const shipped = state.crates;
   state.crates = 0;
 
-  const price = 13 + Math.floor(state.boatLv * 0.8);
+  const price = 14 + Math.floor(state.boatLv * 0.9);
   const coinGain = shipped * price;
-  const scoreGain = shipped * 9;
+  const scoreGain = shipped * 10;
 
   state.coins = clamp(state.coins + coinGain, 0, 9999);
   state.scoreFloat += scoreGain;
@@ -104,14 +104,14 @@ export function triggerRush(state) {
     return { ok: false, reason: "cooldown" };
   }
 
-  const cost = 30;
+  const cost = 26;
   if (state.coins < cost) {
     return { ok: false, reason: "insufficient-coin", cost };
   }
 
   state.coins -= cost;
-  state.rushMs = 6600;
-  state.rushCooldownMs = 17000;
+  state.rushMs = 7200;
+  state.rushCooldownMs = 15000;
   return { ok: true, cost };
 }
 
@@ -120,12 +120,12 @@ export function resetRound(state) {
   state.scoreFloat = 0;
   state.tier = 1;
 
-  state.crops = 12;
-  state.fish = 7;
+  state.crops = 14;
+  state.fish = 8;
   state.crates = 0;
-  state.coins = 96;
+  state.coins = 110;
 
-  state.dayLimit = 32;
+  state.dayLimit = 34;
   state.day = 1;
 
   state.fieldLv = 1;
@@ -136,7 +136,7 @@ export function resetRound(state) {
   state.rushMs = 0;
   state.rushCooldownMs = 0;
 
-  state.missionTargetScore = 320;
+  state.missionTargetScore = 360;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;
 

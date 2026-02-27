@@ -44,11 +44,11 @@ export function createState(bestScore = 0) {
 
     distance: 0,
     lap: 1,
-    speed: 172,
+    speed: 164,
 
-    obstacleSpawnMs: 860,
+    obstacleSpawnMs: 900,
     obstacleElapsedMs: 0,
-    pickupSpawnMs: 1950,
+    pickupSpawnMs: 1800,
     pickupElapsedMs: 0,
 
     boostMs: 0,

@@ -39,12 +39,12 @@ export function createState(bestScore = 0) {
     best: Number(bestScore || 0),
     tier: 1,
 
-    crops: 12,
-    fish: 7,
+    crops: 14,
+    fish: 8,
     crates: 0,
-    coins: 96,
+    coins: 110,
 
-    dayLimit: 32,
+    dayLimit: 34,
     day: 1,
 
     fieldLv: 1,

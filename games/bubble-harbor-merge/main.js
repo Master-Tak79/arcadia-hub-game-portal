@@ -348,7 +348,7 @@ applySettings();
 showOverlayUI(
   { overlay, overlayTitle, overlayText },
   "Bubble Harbor Merge",
-  "생산-포장-출항 루프를 운영해 머지 점수를 높이세요.\n32일 안에 머지 360 달성이 목표입니다."
+  "생산-포장-출항 루프를 운영해 머지 점수를 높이세요.\n34일 안에 머지 360 달성이 목표입니다."
 );
 
 cancelAnimationFrame(rafId);

@@ -7,9 +7,9 @@ function updateTier(state) {
 }
 
 function getUpgradeCost(type, level) {
-  if (type === "north") return 40 + level * 22;
-  if (type === "central") return 44 + level * 24;
-  if (type === "south") return 42 + level * 20;
+  if (type === "north") return 36 + level * 20;
+  if (type === "central") return 40 + level * 22;
+  if (type === "south") return 38 + level * 18;
   return 9999;
 }
 
@@ -62,7 +62,7 @@ export function dispatchTrain(state) {
     return { ok: false, reason: "not-running" };
   }
 
-  const cargoNeed = 3;
+  const cargoNeed = 2;
   const passengerNeed = 2;
   const mailNeed = 1;
 
@@ -77,8 +77,8 @@ export function dispatchTrain(state) {
   state.dispatches += 1;
 
   const efficiency = 1 + (state.northLv + state.centralLv + state.southLv) * 0.12;
-  const creditGain = Math.floor(12 * efficiency);
-  const scoreGain = Math.floor(10 * efficiency);
+  const creditGain = Math.floor(12.5 * efficiency);
+  const scoreGain = Math.floor(11 * efficiency);
 
   state.credits = clamp(state.credits + creditGain, 0, 9999);
   state.scoreFloat += scoreGain;
@@ -97,14 +97,14 @@ export function triggerOverdrive(state) {
     return { ok: false, reason: "cooldown" };
   }
 
-  const cost = 28;
+  const cost = 24;
   if (state.credits < cost) {
     return { ok: false, reason: "insufficient-credit", cost };
   }
 
   state.credits -= cost;
-  state.overdriveMs = 6600;
-  state.overdriveCooldownMs = 17000;
+  state.overdriveMs = 7200;
+  state.overdriveCooldownMs = 15000;
 
   return { ok: true, cost };
 }
@@ -114,20 +114,20 @@ export function resetRound(state) {
   state.scoreFloat = 0;
   state.tier = 1;
 
-  state.cargo = 12;
-  state.passenger = 8;
-  state.mail = 6;
-  state.credits = 96;
+  state.cargo = 14;
+  state.passenger = 9;
+  state.mail = 7;
+  state.credits = 108;
 
   state.northLv = 1;
   state.centralLv = 1;
   state.southLv = 1;
 
-  state.shiftLimitSec = 96;
-  state.shiftRemainSec = 96;
+  state.shiftLimitSec = 100;
+  state.shiftRemainSec = 100;
 
   state.dispatches = 0;
-  state.missionTargetDispatches = 22;
+  state.missionTargetDispatches = 24;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;
 

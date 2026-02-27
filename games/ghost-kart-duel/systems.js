@@ -60,9 +60,9 @@ export function triggerBoost(state) {
   if (!state.running || state.paused || state.gameOver) return { ok: false, reason: "not-running" };
   if (state.boostMs > 0 || state.boostCooldownMs > 0) return { ok: false, reason: "cooldown" };
 
-  state.boostMs = 4400;
-  state.boostCooldownMs = 15000;
-  state.invincibleMs = Math.max(state.invincibleMs, 320);
+  state.boostMs = 4800;
+  state.boostCooldownMs = 13500;
+  state.invincibleMs = Math.max(state.invincibleMs, 420);
   return { ok: true };
 }
 
@@ -75,11 +75,11 @@ export function resetRound(state, obstacles, pickups) {
 
   state.distance = 0;
   state.lap = 1;
-  state.speed = 172;
+  state.speed = 164;
 
-  state.obstacleSpawnMs = 860;
+  state.obstacleSpawnMs = 900;
   state.obstacleElapsedMs = 0;
-  state.pickupSpawnMs = 1950;
+  state.pickupSpawnMs = 1800;
   state.pickupElapsedMs = 0;
 
   state.boostMs = 0;
@@ -87,7 +87,7 @@ export function resetRound(state, obstacles, pickups) {
   state.invincibleMs = 0;
 
   state.checkpoints = 0;
-  state.missionTargetCheckpoints = 16;
+  state.missionTargetCheckpoints = 18;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;
 
@@ -129,11 +129,11 @@ export function stepGame({
 
   state.distance += currentSpeed * deltaSec * 0.62;
   state.lap = 1 + Math.floor(state.distance / 900);
-  state.speed = clamp(172 + state.lap * 19 + state.score * 0.021, 172, 420);
+  state.speed = clamp(164 + state.lap * 17 + state.score * 0.019, 164, 410);
 
   state.checkpoints = Math.floor(state.distance / 160);
-  state.obstacleSpawnMs = clamp(860 - state.lap * 32, 300, 860);
-  state.pickupSpawnMs = clamp(1950 - state.lap * 45, 1100, 1950);
+  state.obstacleSpawnMs = clamp(900 - state.lap * 30, 320, 900);
+  state.pickupSpawnMs = clamp(1800 - state.lap * 40, 1050, 1800);
 
   state.obstacleElapsedMs += deltaMs;
   if (state.obstacleElapsedMs >= state.obstacleSpawnMs) {
@@ -168,7 +168,7 @@ export function stepGame({
       }
 
       state.hp -= 1;
-      state.invincibleMs = 820;
+      state.invincibleMs = 900;
       state.flash = 0.3;
       callbacks?.onHit?.();
 

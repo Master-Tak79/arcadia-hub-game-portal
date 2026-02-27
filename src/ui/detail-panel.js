@@ -14,7 +14,9 @@ function createPill(text) {
 export function setDetailVisible(overlay, visible) {
   overlay.classList.toggle("hidden", !visible);
   overlay.setAttribute("aria-hidden", String(!visible));
-  document.body.classList.toggle("lock-scroll", visible);
+
+  const hasOpenOverlay = document.querySelector(".detail-overlay:not(.hidden)");
+  document.body.classList.toggle("lock-scroll", Boolean(hasOpenOverlay));
 }
 
 function appendScreenshotEmpty(node) {

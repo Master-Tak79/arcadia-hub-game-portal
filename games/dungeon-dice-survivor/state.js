@@ -41,11 +41,11 @@ export function createState(bestScore = 0) {
 
     laneCount: 4,
     lane: 1,
-    hp: 4,
+    hp: 5,
 
-    fireCooldownMs: 230,
+    fireCooldownMs: 220,
     fireElapsedMs: 0,
-    spawnCooldownMs: 820,
+    spawnCooldownMs: 880,
     spawnElapsedMs: 0,
 
     novaCooldownMs: 0,
