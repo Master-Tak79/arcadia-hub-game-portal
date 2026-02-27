@@ -1,6 +1,6 @@
 # Portal & Games Full Review (2026-02-27)
 
-대상: Arcadia Hub Portal v0.3.53 (로컬 검증 기준)
+대상: Arcadia Hub Portal v0.3.54 (로컬 검증 기준)
 
 ## 범위
 - 포털 데이터/정합성
@@ -11,7 +11,7 @@
 - 게임 시드 정합성
   - 총 게임 수: 19
   - 로컬 플레이 URL: 19/19 (`./games/*/index.html`)
-  - 버전 정렬: 19/19 = `0.3.53`
+  - 버전 정렬: 19/19 = `0.3.54`
   - preview 경로 유효성: 누락 0건
 - 분류/노출 데이터
   - Featured: 7개

@@ -52,9 +52,15 @@ export function createState(bestScore = 0) {
     shiftRemainSec: 96,
 
     dispatches: 0,
+    dispatchStreak: 0,
+    streakTimerMs: 0,
     missionTargetDispatches: 22,
     missionCompleted: false,
     missionNoticeMs: 0,
+
+    demandType: "normal",
+    demandMs: 0,
+    demandCooldownMs: 12000,
 
     overdriveMs: 0,
     overdriveCooldownMs: 0,

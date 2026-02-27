@@ -15,6 +15,39 @@
 
 ---
 
+## [0.3.54] - 2026-02-27
+### Added
+- Rail Commander 품질 고도화 요소 추가
+  - 연속 배차 체인(`dispatchStreak`) 시스템
+  - 수요 급등 이벤트(`cargo/passenger/mail`) 시스템
+  - HUD 확장: `FLOW`/`수요` 상태 표시
+- Rail Commander 조작 UX 강화
+  - 업그레이드/배차/오버드라이브 버튼에 실시간 비용·요구 자원·쿨다운 상태 반영
+
+### Changed
+- `games/rail-commander/systems.js`
+  - 배차 보상 계산에 체인/수요 배수 반영
+  - 체인 감쇠/수요 시작·종료 타이머 로직 추가
+- `games/rail-commander/ui.js`
+  - HUD에 체인/수요 상태 출력 확장
+  - 컨트롤 버튼 상태 동기화(`syncControls`) 추가
+- `games/templates/economy-core/create-game.js`
+  - optional `syncControlsState` 지원
+  - step callbacks 확장(`onDemandStart`, `onDemandEnd`, `onStreakDrop`)
+  - dispatch/overdrive notice 포맷 훅 확장
+- `games/rail-commander/economy-core.config.js`
+  - 체인/수요 대응 notice 문구 확장
+- `games/rail-commander/index.html`, `renderer.js`
+  - FLOW 카드/수요 라인/상태 배지 시각화 보강
+- `src/data/games.seed.js` 19개 게임 버전 `0.3.54` 정렬
+- 포털 버전 `0.3.53` → `0.3.54`
+
+### Fixed
+- Rail Commander에서 자원 부족으로 배차 실패 시 부족 자원 표기가 모호하던 안내를 구체화
+- Rail Commander 재시작 시 체인/수요 상태가 이전 라운드에서 잔존할 수 있는 회귀 가능성 차단(reset 동기화)
+
+---
+
 ## [0.3.53] - 2026-02-27
 ### Added
 - `scripts/state-reset-sync-check.mjs` 추가
