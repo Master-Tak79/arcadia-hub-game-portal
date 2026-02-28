@@ -73,6 +73,7 @@ import {
 import {
   syncHud as ghostKartSyncHud,
   syncSettingsUI as ghostKartSyncSettingsUI,
+  syncControls as ghostKartSyncControls,
 } from "../games/ghost-kart-duel/ui.js";
 import {
   syncHud as bubbleMergeSyncHud,
@@ -1683,6 +1684,8 @@ function runGhostKartChecks() {
   const hpText = { textContent: "" };
   const boostText = { textContent: "" };
   const missionText = { textContent: "" };
+  const flowText = { textContent: "" };
+  const marketText = { textContent: "" };
 
   ghostKartSyncHud({
     state: {
@@ -1693,6 +1696,9 @@ function runGhostKartChecks() {
       boostMs: 0,
       boostCooldownMs: 0,
       checkpoints: 8,
+      driftChain: 2,
+      rivalMode: "normal",
+      rivalMs: 0,
       missionCompleted: false,
       missionTargetCheckpoints: 18,
     },
@@ -1702,6 +1708,8 @@ function runGhostKartChecks() {
     hpText,
     boostText,
     missionText,
+    flowText,
+    marketText,
   });
 
   assert.equal(scoreText.textContent, "182");
@@ -1710,6 +1718,8 @@ function runGhostKartChecks() {
   assert.equal(hpText.textContent, "❤❤");
   assert.equal(boostText.textContent, "READY");
   assert.equal(missionText.textContent, "미션: 고스트 포인트 18 (8/18)");
+  assert.equal(flowText.textContent, "x2");
+  assert.equal(marketText.textContent, "듀얼: 일반");
 
   ghostKartSyncHud({
     state: {
@@ -1720,6 +1730,9 @@ function runGhostKartChecks() {
       boostMs: 1400,
       boostCooldownMs: 6200,
       checkpoints: 18,
+      driftChain: 4,
+      rivalMode: "speed",
+      rivalMs: 4300,
       missionCompleted: true,
       missionTargetCheckpoints: 18,
     },
@@ -1729,10 +1742,14 @@ function runGhostKartChecks() {
     hpText,
     boostText,
     missionText,
+    flowText,
+    marketText,
   });
 
   assert.equal(boostText.textContent, "DRIFT ON");
   assert.equal(missionText.textContent, "🎯 고스트 포인트 18 미션 완료!");
+  assert.equal(flowText.textContent, "x4 HOT");
+  assert.equal(marketText.textContent, "듀얼: 스피드 러시 4.3s");
 
   const settings = {
     effectsEnabled: true,
@@ -1765,6 +1782,50 @@ function runGhostKartChecks() {
   assert.equal(bgmToggle.disabled, false);
   assert.equal(sfxVolumeRange.value, "61");
   assert.equal(sfxVolumeValue.textContent, "61%");
+
+  const leftBtn = { disabled: false };
+  const rightBtn = { disabled: false };
+  const boostBtn = { textContent: "", disabled: false };
+
+  ghostKartSyncControls({
+    state: {
+      running: true,
+      paused: false,
+      gameOver: false,
+      lane: 1,
+      laneCount: 3,
+      boostMs: 0,
+      boostCooldownMs: 0,
+    },
+    leftBtn,
+    rightBtn,
+    boostBtn,
+  });
+
+  assert.equal(leftBtn.disabled, false);
+  assert.equal(rightBtn.disabled, false);
+  assert.equal(boostBtn.textContent, "⚡ DRIFT");
+  assert.equal(boostBtn.disabled, false);
+
+  ghostKartSyncControls({
+    state: {
+      running: true,
+      paused: false,
+      gameOver: false,
+      lane: 0,
+      laneCount: 3,
+      boostMs: 0,
+      boostCooldownMs: 5400,
+    },
+    leftBtn,
+    rightBtn,
+    boostBtn,
+  });
+
+  assert.equal(leftBtn.disabled, true);
+  assert.equal(rightBtn.disabled, false);
+  assert.equal(boostBtn.textContent, "⚡ 재충전 5.4s");
+  assert.equal(boostBtn.disabled, true);
 }
 
 function runBubbleHarborMergeChecks() {

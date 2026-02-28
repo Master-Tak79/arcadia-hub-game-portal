@@ -15,6 +15,36 @@
 
 ---
 
+## [0.3.56] - 2026-02-27
+### Added
+- Ghost Kart Duel 품질 고도화 요소 추가
+  - 드리프트 체인(`driftChain`) 시스템
+  - 고스트 러시 이벤트(`speed/density`) 시스템
+  - HUD 확장: `FLOW`/`듀얼` 상태 표시
+- Ghost Kart Duel 조작 UX 강화
+  - 좌/우/DRIFT 버튼에 실시간 레인·쿨다운·비활성 상태 반영
+
+### Changed
+- `games/ghost-kart-duel/systems.js`
+  - 회피 보상/주행 점수 계산에 체인/러시 배수 반영
+  - 체인 감쇠/러시 시작·종료 타이머 로직 추가
+- `games/ghost-kart-duel/ui.js`
+  - HUD에 체인/듀얼 상태 출력 확장
+  - 컨트롤 버튼 상태 동기화(`syncControls`) 추가
+- `games/ghost-kart-duel/index.html`, `renderer.js`, `main.js`
+  - FLOW 카드/듀얼 라인/러시·체인 배지 시각화 보강
+  - 콜백 notice(러시 시작/종료, 체인 종료, 부스트 쿨다운 안내) 확장
+- `scripts/game-ui-check.mjs`
+  - Ghost Kart `syncControls` 검증 및 FLOW/듀얼 HUD 검증 항목 확장
+- `src/data/games.seed.js` 19개 게임 버전 `0.3.56` 정렬
+- 포털 버전 `0.3.55` → `0.3.56`
+
+### Fixed
+- Ghost Kart Duel에서 충돌 후 체인 상태가 잔존할 수 있는 회귀 가능성 차단(reset/충돌 시 체인 초기화)
+- Ghost Kart Duel에서 러시 이벤트 종료 후 상태 문구 갱신이 늦어질 수 있는 피드백 지연 완화
+
+---
+
 ## [0.3.55] - 2026-02-27
 ### Added
 - Tower Pulse Defense 품질 고도화 요소 추가

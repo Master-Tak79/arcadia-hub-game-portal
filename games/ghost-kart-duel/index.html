@@ -73,7 +73,7 @@
       .title-wrap p { margin: 2px 0 0; color: var(--muted); font-size: 12px; }
       .hud {
         display: grid;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-template-columns: repeat(6, minmax(0, 1fr));
         gap: 6px;
         padding: 6px 8px;
         background: rgba(7, 12, 35, 0.88);
@@ -94,6 +94,11 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.06);
       }
       .mission-strip p { margin: 0; font-size: 12px; color: #cbf8df; }
+      .mission-strip .market-line {
+        margin-top: 2px;
+        color: #b4c8ff;
+        font-size: 11px;
+      }
       .game-wrap { position: relative; flex: 1; min-height: 240px; background: #040b1f; }
       canvas { width: 100%; height: 100%; display: block; touch-action: none; }
       .overlay {
@@ -186,6 +191,10 @@
         border-color: rgba(255,255,255,0.34);
         background: linear-gradient(130deg, #9be8ff, #74b1ff, #96ffe2);
       }
+      .controls button:disabled {
+        opacity: 0.48;
+        filter: saturate(0.65);
+      }
       .hint {
         margin: 0;
         font-size: 12px;
@@ -231,10 +240,12 @@
         <article class="hud-card"><p class="hud-label">랩</p><p id="lapText" class="hud-value">1</p></article>
         <article class="hud-card"><p class="hud-label">체력</p><p id="hpText" class="hud-value">❤❤❤❤</p></article>
         <article class="hud-card"><p class="hud-label">부스트</p><p id="boostText" class="hud-value">READY</p></article>
+        <article class="hud-card"><p class="hud-label">FLOW</p><p id="flowText" class="hud-value">x0</p></article>
       </section>
 
       <section class="mission-strip" aria-live="polite">
         <p id="missionText">미션: 고스트 포인트 18</p>
+        <p id="marketText" class="market-line">듀얼: 일반</p>
       </section>
 
       <section class="game-wrap">
@@ -244,7 +255,7 @@
         <div id="overlay" class="overlay">
           <div class="panel">
             <h2 id="overlayTitle">Ghost Kart Duel</h2>
-            <p id="overlayText">레인 이동으로 장애물을 회피하고 아이템을 수집하세요.</p>
+            <p id="overlayText">레인 이동으로 장애물을 회피하고 아이템을 수집하세요. 체인과 러시 타이밍이 핵심입니다.</p>
             <div class="btn-row">
               <button id="startBtn" type="button">시작</button>
               <a href="../../index.html">포털로</a>
@@ -290,7 +301,7 @@
         <button id="boostBtn" class="boost" type="button">⚡ DRIFT</button>
         <button id="rightBtn" type="button">오른쪽 ▶</button>
       </div>
-      <p class="hint">팁: 방향키/A,D 이동 · Space DRIFT · P 일시정지</p>
+      <p class="hint">팁: 방향키/A,D 이동 · Space DRIFT · 장애물 회피 체인 + 러시 타이밍 활용</p>
     </main>
 
     <script src="../shared/vendor/confetti.browser.min.js"></script>

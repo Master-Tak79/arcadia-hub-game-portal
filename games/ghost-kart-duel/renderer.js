@@ -150,6 +150,30 @@ export function createRenderer({ canvas, ctx, laneCount, playerY }) {
     pickups.forEach((pickup) => drawPickup(ctx, canvas, laneCount, pickup));
     drawPlayer(ctx, canvas, laneCount, state.lane, playerY, state.boostMs, state.invincibleMs);
 
+    if (state.driftChain > 1) {
+      ctx.fillStyle = "rgba(255, 206, 146, 0.2)";
+      ctx.fillRect(canvas.width - 188, 24, 154, 32);
+      ctx.strokeStyle = "rgba(255, 218, 173, 0.72)";
+      ctx.strokeRect(canvas.width - 188, 24, 154, 32);
+      ctx.fillStyle = "#fff0d7";
+      ctx.textAlign = "center";
+      ctx.font = "700 14px system-ui";
+      ctx.fillText(`🏁 CHAIN x${state.driftChain}`, canvas.width - 111, 45);
+      ctx.textAlign = "start";
+    }
+
+    if (state.rivalMode !== "normal") {
+      const rivalLabel = state.rivalMode === "speed" ? "스피드 러시" : "혼잡 러시";
+      const remainSec = Math.max(0, state.rivalMs / 1000).toFixed(1);
+      ctx.fillStyle = "rgba(157, 167, 255, 0.16)";
+      ctx.fillRect(24, 24, 176, 32);
+      ctx.strokeStyle = "rgba(183, 191, 255, 0.68)";
+      ctx.strokeRect(24, 24, 176, 32);
+      ctx.fillStyle = "#e8e9ff";
+      ctx.font = "700 13px system-ui";
+      ctx.fillText(`👻 ${rivalLabel} ${remainSec}s`, 34, 45);
+    }
+
     if (state.missionNoticeMs > 0) {
       const w = Math.min(340, canvas.width * 0.84);
       const x = (canvas.width - w) * 0.5;

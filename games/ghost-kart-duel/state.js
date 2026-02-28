@@ -56,9 +56,15 @@ export function createState(bestScore = 0) {
     invincibleMs: 0,
 
     checkpoints: 0,
+    driftChain: 0,
+    chainTimerMs: 0,
     missionTargetCheckpoints: 18,
     missionCompleted: false,
     missionNoticeMs: 0,
+
+    rivalMode: "normal",
+    rivalMs: 0,
+    rivalCooldownMs: 12000,
 
     noticeMs: 0,
     flash: 0,

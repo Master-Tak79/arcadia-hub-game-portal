@@ -2,6 +2,8 @@ function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
 }
 
+const RIVAL_TYPES = ["speed", "density"];
+
 function randomObstacleKind() {
   const roll = Math.random();
   if (roll < 0.2) return "heavy";
@@ -50,6 +52,22 @@ function spawnPickup(state, pickups) {
   });
 }
 
+function pickRivalMode() {
+  return RIVAL_TYPES[Math.floor(Math.random() * RIVAL_TYPES.length)] ?? "speed";
+}
+
+function getRivalSpeedMultiplier(rivalMode) {
+  if (rivalMode === "speed") return 1.12;
+  if (rivalMode === "density") return 1.05;
+  return 1;
+}
+
+function getRivalScoreMultiplier(rivalMode) {
+  if (rivalMode === "speed") return 1.09;
+  if (rivalMode === "density") return 1.13;
+  return 1;
+}
+
 export function shiftLane(state, dir) {
   const prev = state.lane;
   state.lane = clamp(state.lane + dir, 0, state.laneCount - 1);
@@ -87,9 +105,15 @@ export function resetRound(state, obstacles, pickups) {
   state.invincibleMs = 0;
 
   state.checkpoints = 0;
+  state.driftChain = 0;
+  state.chainTimerMs = 0;
   state.missionTargetCheckpoints = 18;
   state.missionCompleted = false;
   state.missionNoticeMs = 0;
+
+  state.rivalMode = "normal";
+  state.rivalMs = 0;
+  state.rivalCooldownMs = 12000;
 
   state.noticeMs = 0;
   state.flash = 0;
@@ -125,14 +149,44 @@ export function stepGame({
   if (state.boostCooldownMs > 0) state.boostCooldownMs -= deltaMs;
   if (state.invincibleMs > 0) state.invincibleMs -= deltaMs;
 
-  const currentSpeed = state.speed * (state.boostMs > 0 ? 1.55 : 1);
+  if (state.driftChain > 0) {
+    state.chainTimerMs -= deltaMs;
+    if (state.chainTimerMs <= 0) {
+      const prev = state.driftChain;
+      state.driftChain = Math.max(0, state.driftChain - 1);
+      state.chainTimerMs = state.driftChain > 0 ? 2600 : 0;
+      if (state.driftChain === 0) {
+        callbacks?.onChainBreak?.(prev);
+      }
+    }
+  }
+
+  if (state.rivalMode === "normal") {
+    state.rivalCooldownMs -= deltaMs;
+    if (state.rivalCooldownMs <= 0) {
+      state.rivalMode = pickRivalMode();
+      state.rivalMs = 8600 + Math.floor(Math.random() * 2800);
+      state.rivalCooldownMs = 18000 + Math.floor(Math.random() * 5000);
+      callbacks?.onRivalStart?.({ mode: state.rivalMode, remainMs: state.rivalMs });
+    }
+  } else {
+    state.rivalMs -= deltaMs;
+    if (state.rivalMs <= 0) {
+      state.rivalMode = "normal";
+      state.rivalMs = 0;
+      callbacks?.onRivalEnd?.();
+    }
+  }
+
+  const rivalSpeedMul = getRivalSpeedMultiplier(state.rivalMode);
+  const currentSpeed = state.speed * (state.boostMs > 0 ? 1.55 : 1) * rivalSpeedMul;
 
   state.distance += currentSpeed * deltaSec * 0.62;
   state.lap = 1 + Math.floor(state.distance / 900);
   state.speed = clamp(164 + state.lap * 17 + state.score * 0.019, 164, 410);
 
   state.checkpoints = Math.floor(state.distance / 160);
-  state.obstacleSpawnMs = clamp(900 - state.lap * 30, 320, 900);
+  state.obstacleSpawnMs = clamp(900 - state.lap * 30 - (state.rivalMode === "density" ? 80 : 0), 300, 900);
   state.pickupSpawnMs = clamp(1800 - state.lap * 40, 1050, 1800);
 
   state.obstacleElapsedMs += deltaMs;
@@ -154,7 +208,13 @@ export function stepGame({
 
     if (obstacle.y > trackHeight + 72) {
       obstacles.splice(i, 1);
-      state.scoreFloat += 8;
+
+      state.driftChain = clamp(state.driftChain + 1, 1, 5);
+      state.chainTimerMs = 5000;
+
+      const chainMul = 1 + state.driftChain * 0.04;
+      const rivalMul = getRivalScoreMultiplier(state.rivalMode);
+      state.scoreFloat += 8 * chainMul * rivalMul;
       continue;
     }
 
@@ -166,6 +226,11 @@ export function stepGame({
         state.scoreFloat += 4;
         continue;
       }
+
+      const prevChain = state.driftChain;
+      state.driftChain = 0;
+      state.chainTimerMs = 0;
+      if (prevChain > 1) callbacks?.onChainBreak?.(prevChain);
 
       state.hp -= 1;
       state.invincibleMs = 900;
@@ -193,7 +258,8 @@ export function stepGame({
       pickups.splice(i, 1);
 
       if (pickup.kind === "coin") {
-        state.scoreFloat += 22;
+        const chainMul = 1 + state.driftChain * 0.05;
+        state.scoreFloat += 22 * chainMul;
       } else if (pickup.kind === "shield") {
         state.hp = Math.min(5, state.hp + 1);
       } else if (pickup.kind === "charge") {
@@ -204,7 +270,9 @@ export function stepGame({
     }
   }
 
-  state.scoreFloat += (12 + state.lap * 1.4) * deltaSec;
+  const chainScoreMul = 1 + state.driftChain * 0.03;
+  const rivalScoreMul = getRivalScoreMultiplier(state.rivalMode);
+  state.scoreFloat += (12 + state.lap * 1.4) * deltaSec * chainScoreMul * rivalScoreMul;
   state.score = Math.floor(state.scoreFloat);
 
   if (!state.missionCompleted && state.checkpoints >= state.missionTargetCheckpoints) {
