@@ -156,6 +156,8 @@
 - [ ] 3회 플레이(각 60초 이상) 중 레인 이동/스와이프 입력 판정 이상 없음
 - [ ] 자동사격/적 스폰/주사위 판정 정상
 - [ ] DICE BURST 발동/쿨다운/정리 판정 정상
+- [ ] 킬 체인(xN) 증가/감쇠 및 점수 배수 체감 정상
+- [ ] SWARM/ELITE 파동 발생/종료 및 난이도/보상 반영 정상
 - [ ] 주사위 34 미션 보상 정상
 - [ ] 일시정지/재개(P 버튼/상단 버튼) 정상
 - [ ] 사운드/BGM/볼륨 설정 저장 정상
@@ -184,6 +186,7 @@
 | 2026-02-27 | A/B | Bubble Harbor Merge | PENDING | 신규 게임 실기기 점검 로그 수집 필요 |
 | 2026-02-27 | A/B | Bubble Harbor Merge 품질 1차 | PREPARED | 머지 체인/특수 수요/실시간 버튼 상태 반영, 실기기 체감 확인 필요 |
 | 2026-02-27 | A/B | Dungeon Dice Survivor | PENDING | 신규 게임 실기기 점검 로그 수집 필요 |
+| 2026-02-27 | A/B | Dungeon Dice Survivor 품질 1차 | PREPARED | 킬 체인/SWARM·ELITE 파동/실시간 버튼 상태 반영, 실기기 체감 확인 필요 |
 | 2026-02-27 | A/B | 19종 3-Run 로그 시트 | UPDATED | `QA_3RUN_LOG_2026-02-27_STAGE1.md`를 Final Input Sheet로 갱신(`LongPressCallout` 컬럼 포함) |
 | 2026-02-27 | A/B | 19종 롱프레스 UX 가드 | PREPARED | `games/*/index.html` 공통 스타일에 텍스트 선택/복사 콜아웃 방지 규칙 적용, 실기기 재현 확인 필요 |
 | 2026-02-27 | A/B | 롱프레스 가드 정적 검증 | PASS | `scripts/longpress-guard-check.mjs`로 19개 게임 스타일 가드 존재/구성 자동 검증 통과 |
@@ -196,7 +199,7 @@
 - `QA_3RUN_LOG_TEMPLATE.md`를 사용해 기기별/게임별 3회(각 60초 이상) 실행 기록을 남깁니다.
 - 최종 입력 시트: `QA_3RUN_LOG_2026-02-27_STAGE1.md` (A/B×19종×3회 + `LongPressCallout` 컬럼 포함)
 
-## 현재 판정 (2026-02-27, v0.3.57)
+## 현재 판정 (2026-02-27, v0.3.58)
 ### ✅ PASS
 - Slot A/B 모두 실행 확인됨
 - Device-B(`Galaxy A24 Ultra`) 브라우저 3종(Chrome/Edge/Samsung Internet) 실행 확인

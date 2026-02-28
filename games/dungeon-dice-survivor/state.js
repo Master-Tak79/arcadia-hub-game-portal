@@ -52,9 +52,15 @@ export function createState(bestScore = 0) {
     invincibleMs: 0,
 
     kills: 0,
+    killChain: 0,
+    chainTimerMs: 0,
     missionTargetKills: 34,
     missionCompleted: false,
     missionNoticeMs: 0,
+
+    waveType: "normal",
+    waveMs: 0,
+    waveCooldownMs: 11000,
 
     noticeMs: 0,
     flash: 0,

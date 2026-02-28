@@ -517,6 +517,22 @@
   - 버전 동기화
     - 포털 `0.3.57`
     - `src/data/games.seed.js` 19개 게임 버전 `0.3.57`
+- `feat/dungeon-quality-pass1-0.3.58` 브랜치에서 Dungeon Dice Survivor 품질 1차 고도화 진행
+  - Dungeon gameplay/feedback
+    - 킬 체인(`killChain`) 및 감쇠 타이머 추가
+    - SWARM/ELITE 파동 이벤트(`waveType`) 추가
+    - 처치/주행 점수 계산에 체인/파동 배수 반영
+    - 피격 시 체인 초기화 + 체인 종료 피드백 추가
+  - Dungeon UI/controls
+    - HUD 확장: `FLOW` 카드 + `파동` 상태 라인
+    - 좌/우/DICE BURST 버튼 실시간 상태 동기화(`syncControls`)
+    - 버튼 disabled/쿨다운 텍스트/체인 상태 표시
+    - 렌더러에 체인/파동 배지 시각 피드백 추가
+  - 테스트 확장
+    - `scripts/game-ui-check.mjs`에서 Dungeon `syncControls`와 FLOW/파동 HUD 검증 추가
+  - 버전 동기화
+    - 포털 `0.3.58`
+    - `src/data/games.seed.js` 19개 게임 버전 `0.3.58`
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
