@@ -7,6 +7,7 @@ import {
   showOverlay as showOverlayUI,
   syncHud as syncHudState,
   syncSettingsUI as syncSettingsUIState,
+  syncControls as syncControlsState,
 } from "./ui.js";
 import { celebrateMission, celebrateNewBest } from "../shared/confetti.fx.js";
 
@@ -19,6 +20,8 @@ const lapText = document.getElementById("lapText");
 const hpText = document.getElementById("hpText");
 const boostText = document.getElementById("boostText");
 const missionText = document.getElementById("missionText");
+const flowText = document.getElementById("flowText");
+const marketText = document.getElementById("marketText");
 
 const overlay = document.getElementById("overlay");
 const overlayTitle = document.getElementById("overlayTitle");
@@ -79,6 +82,15 @@ function syncHud() {
     hpText,
     boostText,
     missionText,
+    flowText,
+    marketText,
+  });
+
+  syncControlsState({
+    state,
+    leftBtn,
+    rightBtn,
+    boostBtn,
   });
 }
 
@@ -161,6 +173,7 @@ function doBoost() {
   }
 
   if (result.reason === "cooldown") {
+    showNotice(`부스트 ${(state.boostCooldownMs / 1000).toFixed(1)}s`, 520);
     sfx.play("tick");
   }
 }
@@ -240,6 +253,17 @@ function frame(now) {
         celebrateMission();
         sfx.play("best");
         vibrate([10, 18, 10]);
+      },
+      onRivalStart: ({ mode }) => {
+        if (mode === "speed") showNotice("👻 스피드 러시", 900);
+        else showNotice("👻 혼잡 러시", 900);
+        sfx.play("tick");
+      },
+      onRivalEnd: () => {
+        showNotice("러시 종료", 620);
+      },
+      onChainBreak: (prev) => {
+        if (prev > 1) showNotice("체인 종료", 560);
       },
       onGameOver: endGame,
     },
@@ -321,7 +345,7 @@ applySettings();
 showOverlayUI(
   { overlay, overlayTitle, overlayText },
   "Ghost Kart Duel",
-  "레인 이동으로 장애물을 회피하며 고스트 포인트를 돌파하세요.\n드리프트 타이밍이 기록 갱신의 핵심입니다."
+  "레인 이동으로 장애물을 회피하며 고스트 포인트를 돌파하세요.\nDRIFT 체인과 러시 타이밍이 기록 갱신의 핵심입니다."
 );
 
 cancelAnimationFrame(rafId);

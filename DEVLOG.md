@@ -485,6 +485,22 @@
   - 버전 동기화
     - 포털 `0.3.55`
     - `src/data/games.seed.js` 19개 게임 버전 `0.3.55`
+- `feat/ghost-quality-pass1-0.3.56` 브랜치에서 Ghost Kart Duel 품질 1차 고도화 진행
+  - Ghost gameplay/feedback
+    - 드리프트 체인(`driftChain`) 및 감쇠 타이머 추가
+    - 고스트 러시 이벤트(`speed/density`) 추가
+    - 회피/주행/아이템 점수 계산에 체인/러시 배수 반영
+    - 충돌 시 체인 초기화 + 체인 종료 피드백 추가
+  - Ghost UI/controls
+    - HUD 확장: `FLOW` 카드 + `듀얼` 상태 라인
+    - 좌/우/DRIFT 버튼 실시간 상태 동기화(`syncControls`)
+    - 버튼 disabled/쿨다운 텍스트/체인 상태 표시
+    - 렌더러에 체인/러시 배지 시각 피드백 추가
+  - 테스트 확장
+    - `scripts/game-ui-check.mjs`에서 Ghost `syncControls`와 FLOW/듀얼 HUD 검증 추가
+  - 버전 동기화
+    - 포털 `0.3.56`
+    - `src/data/games.seed.js` 19개 게임 버전 `0.3.56`
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
