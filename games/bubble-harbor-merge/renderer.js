@@ -93,6 +93,31 @@ export function createRenderer({ canvas, ctx }) {
     ctx.font = "600 13px system-ui";
     ctx.fillText(`DAY ${state.day}/${state.dayLimit}`, 42, 640);
 
+    if (state.mergeChain > 1) {
+      ctx.fillStyle = "rgba(255, 198, 149, 0.2)";
+      ctx.fillRect(canvas.width - 188, 24, 154, 32);
+      ctx.strokeStyle = "rgba(255, 219, 176, 0.72)";
+      ctx.strokeRect(canvas.width - 188, 24, 154, 32);
+      ctx.fillStyle = "#fff0dc";
+      ctx.textAlign = "center";
+      ctx.font = "700 14px system-ui";
+      ctx.fillText(`🔗 CHAIN x${state.mergeChain}`, canvas.width - 111, 45);
+      ctx.textAlign = "start";
+    }
+
+    if (state.demandType !== "normal") {
+      const demandLabel =
+        state.demandType === "field" ? "버블" : state.demandType === "harbor" ? "항구" : "출항";
+      const remainSec = Math.max(0, state.demandMs / 1000).toFixed(1);
+      ctx.fillStyle = "rgba(150, 223, 255, 0.16)";
+      ctx.fillRect(24, 24, 176, 32);
+      ctx.strokeStyle = "rgba(180, 238, 255, 0.68)";
+      ctx.strokeRect(24, 24, 176, 32);
+      ctx.fillStyle = "#e8f8ff";
+      ctx.font = "700 13px system-ui";
+      ctx.fillText(`📈 ${demandLabel} 수요 ${remainSec}s`, 34, 45);
+    }
+
     if (state.rushMs > 0) {
       const remain = (state.rushMs / 1000).toFixed(1);
       ctx.fillStyle = "rgba(152, 255, 211, 0.18)";

@@ -501,6 +501,22 @@
   - 버전 동기화
     - 포털 `0.3.56`
     - `src/data/games.seed.js` 19개 게임 버전 `0.3.56`
+- `feat/bubble-quality-pass1-0.3.57` 브랜치에서 Bubble Harbor Merge 품질 1차 고도화 진행
+  - Bubble gameplay/feedback
+    - 머지 체인(`mergeChain`) 및 감쇠 타이머 추가
+    - 특수 수요 이벤트(`field/harbor/boat`) 추가
+    - 출항/주기 점수 계산에 체인/수요 배수 반영
+    - 출항 실패 시 체인 종료 피드백 추가
+  - Bubble UI/controls
+    - HUD 확장: `FLOW` 카드 + `수요` 상태 라인
+    - 업그레이드/출항/RUSH 버튼 실시간 상태 동기화(`syncControls`)
+    - 버튼 disabled/쿨다운 텍스트/체인 상태 표시
+    - 렌더러에 체인/수요 배지 시각 피드백 추가
+  - 테스트 확장
+    - `scripts/game-ui-check.mjs`에서 Bubble `syncControls`와 FLOW/수요 HUD 검증 추가
+  - 버전 동기화
+    - 포털 `0.3.57`
+    - `src/data/games.seed.js` 19개 게임 버전 `0.3.57`
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용

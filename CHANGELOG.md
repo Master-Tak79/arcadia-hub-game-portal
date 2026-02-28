@@ -15,6 +15,36 @@
 
 ---
 
+## [0.3.57] - 2026-02-27
+### Added
+- Bubble Harbor Merge 품질 고도화 요소 추가
+  - 머지 체인(`mergeChain`) 시스템
+  - 특수 수요 이벤트(`field/harbor/boat`) 시스템
+  - HUD 확장: `FLOW`/`수요` 상태 표시
+- Bubble Harbor Merge 조작 UX 강화
+  - 업그레이드/출항/러시 버튼에 실시간 비용·화물·쿨다운·비활성 상태 반영
+
+### Changed
+- `games/bubble-harbor-merge/systems.js`
+  - 출항/주기 점수 계산에 체인/수요 배수 반영
+  - 체인 감쇠/수요 시작·종료 타이머 로직 추가
+- `games/bubble-harbor-merge/ui.js`
+  - HUD에 체인/수요 상태 출력 확장
+  - 컨트롤 버튼 상태 동기화(`syncControls`) 추가
+- `games/bubble-harbor-merge/index.html`, `renderer.js`, `main.js`
+  - FLOW 카드/수요 라인/체인·수요 배지 시각화 보강
+  - 콜백 notice(수요 시작/종료, 체인 종료, 러시 쿨다운 안내) 확장
+- `scripts/game-ui-check.mjs`
+  - Bubble Harbor `syncControls` 검증 및 FLOW/수요 HUD 검증 항목 확장
+- `src/data/games.seed.js` 19개 게임 버전 `0.3.57` 정렬
+- 포털 버전 `0.3.56` → `0.3.57`
+
+### Fixed
+- Bubble Harbor Merge에서 출항 실패/휴지 구간 후 체인 상태 잔존 가능성 차단(no-crates/리셋 시 체인 초기화)
+- Bubble Harbor Merge에서 수요 이벤트 종료 후 상태 문구 갱신 지연 가능성 완화
+
+---
+
 ## [0.3.56] - 2026-02-27
 ### Added
 - Ghost Kart Duel 품질 고도화 요소 추가
