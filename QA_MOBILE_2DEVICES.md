@@ -182,6 +182,7 @@
 | 2026-02-27 | A/B | Ghost Kart Duel | PENDING | 신규 게임 실기기 점검 로그 수집 필요 |
 | 2026-02-27 | A/B | Ghost Kart Duel 품질 1차 | PREPARED | 드리프트 체인/고스트 러시/실시간 버튼 상태 반영, 실기기 체감 확인 필요 |
 | 2026-02-27 | A/B | Bubble Harbor Merge | PENDING | 신규 게임 실기기 점검 로그 수집 필요 |
+| 2026-02-27 | A/B | Bubble Harbor Merge 품질 1차 | PREPARED | 머지 체인/특수 수요/실시간 버튼 상태 반영, 실기기 체감 확인 필요 |
 | 2026-02-27 | A/B | Dungeon Dice Survivor | PENDING | 신규 게임 실기기 점검 로그 수집 필요 |
 | 2026-02-27 | A/B | 19종 3-Run 로그 시트 | UPDATED | `QA_3RUN_LOG_2026-02-27_STAGE1.md`를 Final Input Sheet로 갱신(`LongPressCallout` 컬럼 포함) |
 | 2026-02-27 | A/B | 19종 롱프레스 UX 가드 | PREPARED | `games/*/index.html` 공통 스타일에 텍스트 선택/복사 콜아웃 방지 규칙 적용, 실기기 재현 확인 필요 |
@@ -195,7 +196,7 @@
 - `QA_3RUN_LOG_TEMPLATE.md`를 사용해 기기별/게임별 3회(각 60초 이상) 실행 기록을 남깁니다.
 - 최종 입력 시트: `QA_3RUN_LOG_2026-02-27_STAGE1.md` (A/B×19종×3회 + `LongPressCallout` 컬럼 포함)
 
-## 현재 판정 (2026-02-27, v0.3.56)
+## 현재 판정 (2026-02-27, v0.3.57)
 ### ✅ PASS
 - Slot A/B 모두 실행 확인됨
 - Device-B(`Galaxy A24 Ultra`) 브라우저 3종(Chrome/Edge/Samsung Internet) 실행 확인

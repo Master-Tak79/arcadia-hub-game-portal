@@ -56,8 +56,14 @@ export function createState(bestScore = 0) {
     rushCooldownMs: 0,
 
     missionTargetScore: 360,
+    mergeChain: 0,
+    chainTimerMs: 0,
     missionCompleted: false,
     missionNoticeMs: 0,
+
+    demandType: "normal",
+    demandMs: 0,
+    demandCooldownMs: 11000,
 
     noticeMs: 0,
     flash: 0,

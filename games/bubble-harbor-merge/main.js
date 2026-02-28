@@ -7,6 +7,7 @@ import {
   showOverlay as showOverlayUI,
   syncHud as syncHudState,
   syncSettingsUI as syncSettingsUIState,
+  syncControls as syncControlsState,
 } from "./ui.js";
 import { celebrateMission, celebrateNewBest } from "../shared/confetti.fx.js";
 
@@ -19,6 +20,8 @@ const tierText = document.getElementById("tierText");
 const resourceText = document.getElementById("resourceText");
 const dayText = document.getElementById("dayText");
 const missionText = document.getElementById("missionText");
+const flowText = document.getElementById("flowText");
+const marketText = document.getElementById("marketText");
 
 const overlay = document.getElementById("overlay");
 const overlayTitle = document.getElementById("overlayTitle");
@@ -77,6 +80,17 @@ function syncHud() {
     resourceText,
     dayText,
     missionText,
+    flowText,
+    marketText,
+  });
+
+  syncControlsState({
+    state,
+    fieldBtn,
+    harborBtn,
+    boatBtn,
+    shipBtn,
+    rushBtn,
   });
 }
 
@@ -218,7 +232,8 @@ function doAction(type) {
   if (type === "ship") {
     const result = shipCrates(state);
     if (result.ok) {
-      showNotice(`🚢 ${result.shipped}상자 출항 +${result.coinGain}C`, 860);
+      const chainText = result.chain > 1 ? ` · 체인 x${result.chain}` : "";
+      showNotice(`🚢 ${result.shipped}상자 출항 +${result.coinGain}C${chainText}`, 860);
       sfx.play("tick");
       vibrate(6);
     } else {
@@ -237,7 +252,7 @@ function doAction(type) {
       sfx.play("start");
       vibrate([8, 12, 8]);
     } else if (result.reason === "cooldown") {
-      showNotice("러시 쿨다운 중", 620);
+      showNotice(`러시 ${(state.rushCooldownMs / 1000).toFixed(1)}s`, 620);
       sfx.play("hit");
     } else if (result.reason === "insufficient-coin") {
       showNotice(`코인 부족 (${result.cost})`, 620);
@@ -261,6 +276,18 @@ function frame(now) {
         if ((state.day - 1) % 5 === 0 && state.day <= state.dayLimit) {
           showNotice(`📅 Day ${state.day - 1} 정산 완료`, 600);
         }
+      },
+      onDemandStart: ({ demandType }) => {
+        if (demandType === "field") showNotice("📈 버블 생산 특수 수요", 900);
+        else if (demandType === "harbor") showNotice("📈 항구 가공 특수 수요", 900);
+        else showNotice("📈 출항 프리미엄 수요", 900);
+        sfx.play("tick");
+      },
+      onDemandEnd: () => {
+        showNotice("수요 정상화", 620);
+      },
+      onChainBreak: (prev) => {
+        if (prev > 1) showNotice("체인 종료", 560);
       },
       onMissionComplete: () => {
         showNotice("🎯 미션 완료 +110", 1300);
@@ -348,7 +375,7 @@ applySettings();
 showOverlayUI(
   { overlay, overlayTitle, overlayText },
   "Bubble Harbor Merge",
-  "생산-포장-출항 루프를 운영해 머지 점수를 높이세요.\n34일 안에 머지 360 달성이 목표입니다."
+  "생산-포장-출항 루프를 운영해 머지 점수를 높이세요.\n체인과 특수 수요 타이밍이 고점수의 핵심입니다."
 );
 
 cancelAnimationFrame(rafId);

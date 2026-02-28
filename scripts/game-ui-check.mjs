@@ -78,6 +78,7 @@ import {
 import {
   syncHud as bubbleMergeSyncHud,
   syncSettingsUI as bubbleMergeSyncSettingsUI,
+  syncControls as bubbleMergeSyncControls,
 } from "../games/bubble-harbor-merge/ui.js";
 import {
   syncHud as dungeonDiceSyncHud,
@@ -1835,6 +1836,8 @@ function runBubbleHarborMergeChecks() {
   const resourceText = { textContent: "" };
   const dayText = { textContent: "" };
   const missionText = { textContent: "" };
+  const flowText = { textContent: "" };
+  const marketText = { textContent: "" };
 
   bubbleMergeSyncHud({
     state: {
@@ -1846,8 +1849,11 @@ function runBubbleHarborMergeChecks() {
       crates: 4,
       coins: 140,
       day: 12,
-      dayLimit: 32,
+      dayLimit: 34,
       rushCooldownMs: 0,
+      mergeChain: 2,
+      demandType: "normal",
+      demandMs: 0,
       missionCompleted: false,
       missionTargetScore: 360,
     },
@@ -1857,14 +1863,18 @@ function runBubbleHarborMergeChecks() {
     resourceText,
     dayText,
     missionText,
+    flowText,
+    marketText,
   });
 
   assert.equal(scoreText.textContent, "218");
   assert.equal(bestText.textContent, "450");
   assert.equal(tierText.textContent, "2");
   assert.equal(resourceText.textContent, "F12 H9 X4 C140");
-  assert.equal(dayText.textContent, "12/32");
+  assert.equal(dayText.textContent, "12/34");
   assert.equal(missionText.textContent, "미션: 머지 360 (218/360)");
+  assert.equal(flowText.textContent, "x2");
+  assert.equal(marketText.textContent, "수요: 일반");
 
   bubbleMergeSyncHud({
     state: {
@@ -1876,8 +1886,11 @@ function runBubbleHarborMergeChecks() {
       crates: 2,
       coins: 210,
       day: 24,
-      dayLimit: 32,
+      dayLimit: 34,
       rushCooldownMs: 5300,
+      mergeChain: 4,
+      demandType: "boat",
+      demandMs: 3800,
       missionCompleted: true,
       missionTargetScore: 360,
     },
@@ -1887,10 +1900,14 @@ function runBubbleHarborMergeChecks() {
     resourceText,
     dayText,
     missionText,
+    flowText,
+    marketText,
   });
 
-  assert.equal(dayText.textContent, "24/32 · RUSH 5.3s");
+  assert.equal(dayText.textContent, "24/34 · RUSH 5.3s");
   assert.equal(missionText.textContent, "🎯 머지 360 미션 완료!");
+  assert.equal(flowText.textContent, "x4 HOT");
+  assert.equal(marketText.textContent, "수요: 출항 프리미엄 ↑ 3.8s");
 
   const settings = {
     effectsEnabled: false,
@@ -1923,6 +1940,66 @@ function runBubbleHarborMergeChecks() {
   assert.equal(bgmToggle.disabled, true);
   assert.equal(sfxVolumeRange.value, "39");
   assert.equal(sfxVolumeValue.textContent, "39%");
+
+  const fieldBtn = { textContent: "", disabled: false };
+  const harborBtn = { textContent: "", disabled: false };
+  const boatBtn = { textContent: "", disabled: false };
+  const shipBtn = { textContent: "", disabled: false };
+  const rushBtn = { textContent: "", disabled: false };
+
+  bubbleMergeSyncControls({
+    state: {
+      running: true,
+      paused: false,
+      gameOver: false,
+      coins: 140,
+      fieldLv: 1,
+      harborLv: 2,
+      boatLv: 1,
+      crates: 5,
+      mergeChain: 3,
+      rushMs: 0,
+      rushCooldownMs: 0,
+    },
+    fieldBtn,
+    harborBtn,
+    boatBtn,
+    shipBtn,
+    rushBtn,
+  });
+
+  assert.equal(fieldBtn.textContent, "버블(1) C64");
+  assert.equal(harborBtn.textContent, "항구(2) C92");
+  assert.equal(boatBtn.textContent, "선단(3) C60");
+  assert.equal(shipBtn.textContent, "출항(4) X5 · x3");
+  assert.equal(shipBtn.disabled, false);
+  assert.equal(rushBtn.textContent, "MERGE RUSH(Space)");
+  assert.equal(rushBtn.disabled, false);
+
+  bubbleMergeSyncControls({
+    state: {
+      running: true,
+      paused: false,
+      gameOver: false,
+      coins: 8,
+      fieldLv: 1,
+      harborLv: 1,
+      boatLv: 1,
+      crates: 0,
+      mergeChain: 0,
+      rushMs: 0,
+      rushCooldownMs: 4200,
+    },
+    fieldBtn,
+    harborBtn,
+    boatBtn,
+    shipBtn,
+    rushBtn,
+  });
+
+  assert.equal(shipBtn.disabled, true);
+  assert.equal(rushBtn.textContent, "재충전 4.2s");
+  assert.equal(rushBtn.disabled, true);
 }
 
 function runDungeonDiceChecks() {
