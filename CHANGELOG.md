@@ -15,6 +15,37 @@
 
 ---
 
+## [0.3.59] - 2026-02-28
+### Added
+- Meteor Dodge 품질 고도화 요소 추가
+  - 회피 체인(`dodgeChain`) 시스템
+  - 스톰 이벤트(`shower/accelerating`) 시스템
+  - HUD 확장: `FLOW`/`기상` 상태 표시
+- Meteor Dodge 조작 UX 강화
+  - 좌/우 버튼에 실시간 경계·상태(카운트다운/일시정지/게임오버) 비활성 반영
+
+### Changed
+- `games/meteor-dodge/systems.js`
+  - 생존/회피 점수 계산에 체인/스톰 배수 반영
+  - 체인 감쇠/스톰 시작·종료 타이머 로직 추가
+  - 스톰 타입에 따른 운석 스폰 압력/가속 패턴 비중 조정
+- `games/meteor-dodge/ui.js`
+  - HUD/미션 문구에 체인/스톰 상태 출력 확장
+  - 컨트롤 버튼 상태 동기화(`syncControls`) 추가
+- `games/meteor-dodge/index.html`, `renderer.js`, `main.js`
+  - FLOW 카드/기상 라인/체인·스톰 배지 시각화 보강
+  - 콜백 notice(스톰 시작/종료, 체인 종료) 확장
+- `scripts/game-ui-check.mjs`
+  - Meteor `syncControls` 검증 및 FLOW/기상 HUD·미션 문구 검증 항목 확장
+- `src/data/games.seed.js` 19개 게임 버전 `0.3.59` 정렬
+- 포털 버전 `0.3.58` → `0.3.59`
+
+### Fixed
+- Meteor Dodge에서 피격 후 체인 상태 잔존 가능성 차단(피격/리셋 시 체인 초기화)
+- Meteor Dodge에서 스톰 이벤트 종료 후 상태 문구 갱신 지연 가능성 완화
+
+---
+
 ## [0.3.58] - 2026-02-27
 ### Added
 - Dungeon Dice Survivor 품질 고도화 요소 추가

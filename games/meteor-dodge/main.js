@@ -24,6 +24,7 @@ import {
   syncHud as syncHudState,
   syncMissionUI as syncMissionUIState,
   syncSettingsUI as syncSettingsUIState,
+  syncControls as syncControlsState,
 } from "./ui.js";
 import { celebrateMission, celebrateNewBest } from "../shared/confetti.fx.js";
 
@@ -35,7 +36,9 @@ const scoreText = document.getElementById("scoreText");
 const bestText = document.getElementById("bestText");
 const livesText = document.getElementById("livesText");
 const levelText = document.getElementById("levelText");
+const flowText = document.getElementById("flowText");
 const missionText = document.getElementById("missionText");
+const marketText = document.getElementById("marketText");
 
 const overlay = document.getElementById("overlay");
 const overlayTitle = document.getElementById("overlayTitle");
@@ -100,6 +103,15 @@ function syncHud() {
     bestText,
     livesText,
     levelText,
+    flowText,
+    marketText,
+  });
+
+  syncControlsState({
+    state,
+    player,
+    leftBtn,
+    rightBtn,
   });
 }
 
@@ -386,6 +398,26 @@ function frame(now) {
           vibrate([12, 16, 12]);
         }
       },
+      onStormStart: (stormType) => {
+        if (stormType === "shower") {
+          state.itemNoticeText = "☄️ METEOR SHOWER";
+          state.itemNoticeMs = 1000;
+        } else {
+          state.itemNoticeText = "⚡ ACCEL STORM";
+          state.itemNoticeMs = 1000;
+        }
+        sfx.play("tick");
+      },
+      onStormEnd: () => {
+        state.itemNoticeText = "기상 안정화";
+        state.itemNoticeMs = 720;
+      },
+      onChainBreak: (prev) => {
+        if (prev > 1) {
+          state.itemNoticeText = "회피 체인 종료";
+          state.itemNoticeMs = 620;
+        }
+      },
       onHit: () => {
         sfx.play("hit");
         vibrate(10);
@@ -473,7 +505,7 @@ syncHud();
 syncMissionUI();
 showOverlay(
   "Meteor Dodge",
-  "난이도(Normal/Hard)를 고른 뒤 시작하세요.<br />직진/가속 운석 패턴에 대비해 이동 타이밍을 조절하세요."
+  "난이도(Normal/Hard)를 고른 뒤 시작하세요.<br />회피 체인과 스톰 타이밍을 활용하면 점수 상승 폭이 커집니다."
 );
 
 cancelAnimationFrame(rafId);

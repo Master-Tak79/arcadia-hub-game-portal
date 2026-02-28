@@ -1,6 +1,6 @@
 # Portal & Games Full Review (2026-02-27)
 
-대상: Arcadia Hub Portal v0.3.58 (로컬 검증 기준)
+대상: Arcadia Hub Portal v0.3.59 (로컬 검증 기준)
 
 ## 범위
 - 포털 데이터/정합성
@@ -11,7 +11,7 @@
 - 게임 시드 정합성
   - 총 게임 수: 19
   - 로컬 플레이 URL: 19/19 (`./games/*/index.html`)
-  - 버전 정렬: 19/19 = `0.3.58`
+  - 버전 정렬: 19/19 = `0.3.59`
   - preview 경로 유효성: 누락 0건
 - 분류/노출 데이터
   - Featured: 7개
@@ -27,6 +27,7 @@
   - Ghost Kart Duel 1차(드리프트 체인/고스트 러시/실시간 컨트롤 동기화)
   - Bubble Harbor Merge 1차(머지 체인/특수 수요/실시간 컨트롤 동기화)
   - Dungeon Dice Survivor 1차(킬 체인/SWARM·ELITE 파동/실시간 컨트롤 동기화)
+  - Meteor Dodge 1차(회피 체인/스톰 이벤트/실시간 컨트롤 동기화)
 - 포털 UX 정책 반영
   - 비-seed(admin-only) 게임 비노출 정책 적용
   - 메인 `최근 업데이트` 섹션 제거 + 우측 상단 공지 버튼/업데이트 오버레이로 일원화

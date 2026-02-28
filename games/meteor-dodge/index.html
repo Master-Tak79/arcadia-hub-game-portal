@@ -120,7 +120,7 @@
 
       .hud {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(5, minmax(0, 1fr));
         gap: 6px;
         padding: 6px 8px;
         background: rgba(7, 12, 35, 0.86);
@@ -165,6 +165,12 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+
+      .mission-strip .market-line {
+        margin-top: 2px;
+        color: #b7c9ff;
+        font-size: 0.68rem;
       }
 
       .game-wrap {
@@ -366,6 +372,11 @@
         border-color: rgba(95, 195, 255, 0.58);
       }
 
+      .controls button:disabled {
+        opacity: 0.48;
+        filter: saturate(0.65);
+      }
+
       .hint {
         margin: 0;
         font-size: 0.72rem;
@@ -443,10 +454,15 @@
           <p class="hud-label">레벨</p>
           <p id="levelText" class="hud-value">1</p>
         </article>
+        <article class="hud-card">
+          <p class="hud-label">FLOW</p>
+          <p id="flowText" class="hud-value">x0</p>
+        </article>
       </section>
 
       <section class="mission-strip" aria-live="polite">
         <p id="missionText">미션: 60초 생존</p>
+        <p id="marketText" class="market-line">기상: 일반</p>
       </section>
 
       <section class="game-wrap">
@@ -455,7 +471,7 @@
         <div id="overlay" class="overlay">
           <div class="panel">
             <h2 id="overlayTitle">Meteor Dodge</h2>
-            <p id="overlayText">직진/가속 운석을 피하세요.<br />키보드(←/→, A/D) 또는 하단 좌/우 버튼으로 조작할 수 있습니다.</p>
+            <p id="overlayText">직진/가속 운석을 피하세요.<br />회피 체인과 스톰 타이밍을 활용하면 점수 상승 폭이 커집니다.</p>
             <p id="overlayBadge" class="overlay-badge hidden"></p>
             <div class="btn-row">
               <button id="startBtn" type="button">시작</button>
@@ -509,7 +525,7 @@
         <button id="leftBtn" type="button" class="ghost" aria-label="왼쪽 이동">◀ 왼쪽</button>
         <button id="rightBtn" type="button" class="ghost" aria-label="오른쪽 이동">오른쪽 ▶</button>
       </div>
-      <p class="hint">팁: 자석/더블/오버드라이브를 타이밍 좋게 쓰면 점수 폭발이 가능합니다. Hard는 가속 운석 비율이 더 높습니다.</p>
+      <p class="hint">팁: 회피 체인(xN)과 스톰 타이밍에 맞춰 아이템을 사용하면 점수 폭발이 가능합니다. Hard는 가속 운석 비율이 더 높습니다.</p>
     </main>
 
     <script src="../shared/vendor/confetti.browser.min.js"></script>

@@ -447,6 +447,30 @@ export function createRenderer({ canvas, ctx, stars }) {
       ctx.fillText(`⚡ 오버 ${remain}s`, 368, 77);
     }
 
+    if (state.dodgeChain > 1) {
+      ctx.fillStyle = "rgba(255, 205, 147, 0.2)";
+      ctx.fillRect(canvas.width - 188, 20, 154, 30);
+      ctx.strokeStyle = "rgba(255, 224, 184, 0.72)";
+      ctx.strokeRect(canvas.width - 188, 20, 154, 30);
+      ctx.fillStyle = "#fff0de";
+      ctx.textAlign = "center";
+      ctx.font = "700 14px system-ui";
+      ctx.fillText(`☄️ CHAIN x${state.dodgeChain}`, canvas.width - 111, 40);
+      ctx.textAlign = "left";
+    }
+
+    if (state.stormType !== "normal") {
+      const label = state.stormType === "shower" ? "SHOWER" : "ACCEL";
+      const remain = Math.max(0, state.stormMs / 1000).toFixed(1);
+      ctx.fillStyle = "rgba(177, 189, 255, 0.16)";
+      ctx.fillRect(24, 20, 176, 30);
+      ctx.strokeStyle = "rgba(198, 208, 255, 0.68)";
+      ctx.strokeRect(24, 20, 176, 30);
+      ctx.fillStyle = "#e9edff";
+      ctx.font = "700 13px system-ui";
+      ctx.fillText(`⛈ ${label} ${remain}s`, 34, 40);
+    }
+
     if (state.mission.justCompletedMs > 0) {
       ctx.fillStyle = "rgba(113, 255, 174, 0.18)";
       ctx.fillRect(110, 90, 320, 46);

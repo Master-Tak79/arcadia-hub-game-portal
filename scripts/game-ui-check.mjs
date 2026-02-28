@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import {
+  syncControls as meteorSyncControls,
   syncDifficultyUI as meteorSyncDifficultyUI,
   syncHud as meteorSyncHud,
   syncMissionUI as meteorSyncMissionUI,
@@ -104,19 +105,56 @@ function runMeteorChecks() {
   const bestText = { textContent: "" };
   const livesText = { textContent: "" };
   const levelText = { textContent: "" };
+  const flowText = { textContent: "" };
+  const marketText = { textContent: "" };
 
   meteorSyncHud({
-    state: { score: 123, best: 456, lives: 2, graceMs: 500, level: 7 },
+    state: {
+      score: 123,
+      best: 456,
+      lives: 2,
+      graceMs: 500,
+      level: 7,
+      dodgeChain: 3,
+      stormType: "normal",
+      stormMs: 0,
+    },
     scoreText,
     bestText,
     livesText,
     levelText,
+    flowText,
+    marketText,
   });
 
   assert.equal(scoreText.textContent, "123");
   assert.equal(bestText.textContent, "456");
   assert.equal(livesText.textContent, "❤❤ 🛡");
   assert.equal(levelText.textContent, "7");
+  assert.equal(flowText.textContent, "x3");
+  assert.equal(marketText.textContent, "기상: 일반");
+
+  meteorSyncHud({
+    state: {
+      score: 987,
+      best: 1500,
+      lives: 3,
+      graceMs: 0,
+      level: 11,
+      dodgeChain: 5,
+      stormType: "shower",
+      stormMs: 4300,
+    },
+    scoreText,
+    bestText,
+    livesText,
+    levelText,
+    flowText,
+    marketText,
+  });
+
+  assert.equal(flowText.textContent, "x5 HOT");
+  assert.equal(marketText.textContent, "기상: METEOR SHOWER 4.3s");
 
   const missionText = { textContent: "" };
   meteorSyncMissionUI({
@@ -128,24 +166,31 @@ function runMeteorChecks() {
       magnetMs: 0,
       doubleMs: 0,
       overdriveMs: 0,
+      dodgeChain: 2,
+      stormType: "normal",
     },
     missionText,
   });
   assert.match(missionText.textContent, /^미션: 60초 생존 · 남은 00:48/);
+  assert.match(missionText.textContent, /체인 x2/);
 
   meteorSyncMissionUI({
     state: {
       mission: { completed: true, title: "60초 생존", targetMs: 60000 },
       survivalMs: 61000,
       graceMs: 0,
-      slowMs: 0,
+      slowMs: 1200,
       magnetMs: 0,
-      doubleMs: 0,
+      doubleMs: 1800,
       overdriveMs: 0,
+      dodgeChain: 3,
+      stormType: "accelerating",
     },
     missionText,
   });
-  assert.equal(missionText.textContent, "🎯 미션 완료! (60초 생존)");
+  assert.match(missionText.textContent, /^🎯 미션 완료! \(60초 생존\)/);
+  assert.match(missionText.textContent, /체인 x3/);
+  assert.match(missionText.textContent, /ACCEL STORM/);
 
   const difficultySelect = { value: "" };
   const subtitleText = { textContent: "" };
@@ -180,6 +225,36 @@ function runMeteorChecks() {
   assert.equal(vibrationToggle.checked, false);
   assert.equal(sfxVolumeRange.value, "77");
   assert.equal(sfxVolumeValue.textContent, "77%");
+
+  const leftBtn = { disabled: false };
+  const rightBtn = { disabled: false };
+
+  meteorSyncControls({
+    state: { running: true, paused: false, gameOver: false, countdownMs: 0 },
+    player: { x: 270, w: 42 },
+    leftBtn,
+    rightBtn,
+  });
+  assert.equal(leftBtn.disabled, false);
+  assert.equal(rightBtn.disabled, false);
+
+  meteorSyncControls({
+    state: { running: true, paused: false, gameOver: false, countdownMs: 0 },
+    player: { x: 21, w: 42 },
+    leftBtn,
+    rightBtn,
+  });
+  assert.equal(leftBtn.disabled, true);
+  assert.equal(rightBtn.disabled, false);
+
+  meteorSyncControls({
+    state: { running: true, paused: true, gameOver: false, countdownMs: 0 },
+    player: { x: 270, w: 42 },
+    leftBtn,
+    rightBtn,
+  });
+  assert.equal(leftBtn.disabled, true);
+  assert.equal(rightBtn.disabled, true);
 }
 
 function runLaneChecks() {

@@ -145,6 +145,13 @@ export function createState() {
     itemNoticeMs: 0,
 
     survivalMs: 0,
+    dodgeChain: 0,
+    chainTimerMs: 0,
+
+    stormType: "normal",
+    stormMs: 0,
+    stormCooldownMs: 12000,
+
     mission: {
       id: "survive_60s",
       title: "60초 생존",
