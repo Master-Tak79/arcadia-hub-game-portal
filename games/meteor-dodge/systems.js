@@ -53,6 +53,12 @@ const METEOR_STYLE_ACCEL = [
   },
 ];
 
+const STORM_TYPES = ["shower", "accelerating"];
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
 function pickMeteorStyle(isAccelerating, random = Math.random) {
   const list = isAccelerating ? METEOR_STYLE_ACCEL : METEOR_STYLE_STRAIGHT;
   return list[Math.floor(random() * list.length)];
@@ -71,6 +77,28 @@ function circleRectHit(circle, rect) {
   return dx * dx + dy * dy < circle.r * circle.r;
 }
 
+function getStormMovementMultiplier(stormType) {
+  if (stormType === "accelerating") return 1.14;
+  if (stormType === "shower") return 1.06;
+  return 1;
+}
+
+function getStormSpawnPressureMultiplier(stormType) {
+  if (stormType === "shower") return 1.36;
+  if (stormType === "accelerating") return 1.14;
+  return 1;
+}
+
+function getStormScoreMultiplier(stormType) {
+  if (stormType === "accelerating") return 1.12;
+  if (stormType === "shower") return 1.08;
+  return 1;
+}
+
+function pickStormType(random = Math.random) {
+  return STORM_TYPES[Math.floor(random() * STORM_TYPES.length)] ?? "shower";
+}
+
 function getScoreMultiplier(state) {
   let mult = 1;
   if (state.doubleMs > 0) mult *= 2;
@@ -83,6 +111,12 @@ function addScore(state, baseScore) {
   state.scoreFloat += baseScore * getScoreMultiplier(state);
   state.score = Math.floor(state.scoreFloat);
   return Math.max(0, state.score - before);
+}
+
+function addSurvivalScore(state, baseScore) {
+  const chainMul = 1 + state.dodgeChain * 0.03;
+  const stormMul = getStormScoreMultiplier(state.stormType);
+  return addScore(state, baseScore * chainMul * stormMul);
 }
 
 function pickItemType(state, random = Math.random) {
@@ -208,6 +242,13 @@ export function resetRound(state, player, meteors, items = [], preset = getPrese
   state.itemNoticeMs = 0;
 
   state.survivalMs = 0;
+  state.dodgeChain = 0;
+  state.chainTimerMs = 0;
+
+  state.stormType = "normal";
+  state.stormMs = 0;
+  state.stormCooldownMs = 12000;
+
   state.mission.completed = false;
   state.mission.justCompletedMs = 0;
 
@@ -228,7 +269,11 @@ export function updateDifficulty(state) {
 export function spawnMeteor(state, meteors, random = Math.random) {
   const preset = getPresetConfig(state.difficulty);
   const levelFactor = 1 + state.level * 0.11;
-  const type = selectMeteorType(state.score, state.difficulty, random());
+
+  let type = selectMeteorType(state.score, state.difficulty, random());
+  if (state.stormType === "accelerating" && random() < 0.72) {
+    type = "accelerating";
+  }
 
   const isAccelerating = type === "accelerating";
   const style = pickMeteorStyle(isAccelerating, random);
@@ -316,10 +361,41 @@ export function stepGame({
     state.mission.justCompletedMs -= deltaMs;
   }
 
+  if (state.dodgeChain > 0) {
+    state.chainTimerMs -= deltaMs;
+    if (state.chainTimerMs <= 0) {
+      const prev = state.dodgeChain;
+      state.dodgeChain = Math.max(0, state.dodgeChain - 1);
+      state.chainTimerMs = state.dodgeChain > 0 ? 2400 : 0;
+      if (state.dodgeChain === 0 && prev > 0) {
+        callbacks?.onChainBreak?.(prev);
+      }
+    }
+  }
+
+  if (state.stormType === "normal") {
+    state.stormCooldownMs -= deltaMs;
+    if (state.stormCooldownMs <= 0) {
+      state.stormType = pickStormType();
+      state.stormMs = 8200 + Math.floor(Math.random() * 2600);
+      state.stormCooldownMs = 17000 + Math.floor(Math.random() * 5000);
+      callbacks?.onStormStart?.(state.stormType, state.stormMs);
+    }
+  } else {
+    state.stormMs -= deltaMs;
+    if (state.stormMs <= 0) {
+      state.stormType = "normal";
+      state.stormMs = 0;
+      callbacks?.onStormEnd?.();
+    }
+  }
+
   const slowFactor = state.slowMs > 0 ? 0.72 : 1;
   const overdriveFactor = state.overdriveMs > 0 ? 1.28 : 1;
-  const meteorMovementFactor = slowFactor * overdriveFactor;
-  const spawnPressureFactor = state.overdriveMs > 0 ? 1.22 : 1;
+  const stormMovementFactor = getStormMovementMultiplier(state.stormType);
+  const meteorMovementFactor = slowFactor * overdriveFactor * stormMovementFactor;
+  const spawnPressureFactor =
+    (state.overdriveMs > 0 ? 1.22 : 1) * getStormSpawnPressureMultiplier(state.stormType);
 
   state.spawnElapsed += deltaMs * spawnPressureFactor;
   if (state.spawnElapsed >= state.meteorSpawnMs) {
@@ -388,26 +464,38 @@ export function stepGame({
   }
 
   for (let i = meteors.length - 1; i >= 0; i -= 1) {
-    const m = meteors[i];
+    const meteor = meteors[i];
 
-    if (m.type === "accelerating") {
-      m.vy = Math.min(m.vyMax || m.vy, m.vy + m.ay * deltaSec * meteorMovementFactor);
+    if (meteor.type === "accelerating") {
+      meteor.vy = Math.min(meteor.vyMax || meteor.vy, meteor.vy + meteor.ay * deltaSec * meteorMovementFactor);
     }
 
-    m.x += m.vx * deltaSec * meteorMovementFactor;
-    m.y += m.vy * deltaSec * meteorMovementFactor;
-    m.rot += m.spin * deltaSec;
+    meteor.x += meteor.vx * deltaSec * meteorMovementFactor;
+    meteor.y += meteor.vy * deltaSec * meteorMovementFactor;
+    meteor.rot += meteor.spin * deltaSec;
 
-    if (m.x - m.r < 0 || m.x + m.r > 540) m.vx *= -1;
+    if (meteor.x - meteor.r < 0 || meteor.x + meteor.r > 540) meteor.vx *= -1;
 
-    if (m.y - m.r > 960 + 50) {
+    if (meteor.y - meteor.r > 960 + 50) {
       meteors.splice(i, 1);
-      addScore(state, 4);
+
+      state.dodgeChain = clamp(state.dodgeChain + 1, 1, 6);
+      state.chainTimerMs = 5000;
+      addSurvivalScore(state, 4);
+      callbacks?.onMeteorDodged?.(state.dodgeChain);
       continue;
     }
 
-    if (state.graceMs <= 0 && state.invincibleMs <= 0 && circleRectHit(m, playerRect)) {
+    if (state.graceMs <= 0 && state.invincibleMs <= 0 && circleRectHit(meteor, playerRect)) {
       meteors.splice(i, 1);
+
+      const prevChain = state.dodgeChain;
+      state.dodgeChain = 0;
+      state.chainTimerMs = 0;
+      if (prevChain > 1) {
+        callbacks?.onChainBreak?.(prevChain);
+      }
+
       state.lives -= 1;
       state.hitFlash = 0.36;
       state.invincibleMs = 780;
@@ -419,5 +507,5 @@ export function stepGame({
     }
   }
 
-  addScore(state, 50 * deltaSec);
+  addSurvivalScore(state, 50 * deltaSec);
 }

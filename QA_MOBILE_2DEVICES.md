@@ -19,6 +19,8 @@
 - [ ] 3회 플레이(각 60초 이상) 중 조작 누락 없음
 - [ ] 일시정지/재개 정상
 - [ ] 아이템 효과(코인/쉴드/슬로우/자석/더블/오버드라이브) 체감 동작 정상
+- [ ] 회피 체인(xN) 증가/감쇠 및 점수 배수 체감 정상
+- [ ] 스톰 이벤트(SHOWER/ACCEL) 발생/종료 및 난이도/보상 반영 정상
 - [ ] 게임오버 오버레이(점수/최고점/시간) 정상
 
 ## Lane Switch 점검 (기기별)
@@ -167,6 +169,7 @@
 | --- | --- | --- | --- | --- |
 | 2026-02-25 | A | Portal + Meteor + Lane | PASS(사용자 보고) | 사용자 피드백 기준 "문제 없는듯" |
 | 2026-02-25 | B | Portal + Meteor + Lane | PASS(사용자 실행) | Galaxy A24 Ultra에서 Chrome/Edge/Samsung Internet 실행 확인(이슈 미보고) |
+| 2026-02-28 | A/B | Meteor Dodge 품질 1차 | PREPARED | 회피 체인/스톰 이벤트/실시간 버튼 상태 반영, 실기기 체감 확인 필요 |
 | 2026-02-25 | A/B | Sky Drift + Brick Breaker + Orbit Survivor | PENDING | 신규 3종 게임 실기기 점검 로그 수집 필요 |
 | 2026-02-26 | A/B | Block Sage | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
 | 2026-02-26 | A/B | Mini Empire Grid | PENDING | 신규 로컬 전환 게임 실기기 점검 로그 수집 필요 |
@@ -199,7 +202,7 @@
 - `QA_3RUN_LOG_TEMPLATE.md`를 사용해 기기별/게임별 3회(각 60초 이상) 실행 기록을 남깁니다.
 - 최종 입력 시트: `QA_3RUN_LOG_2026-02-27_STAGE1.md` (A/B×19종×3회 + `LongPressCallout` 컬럼 포함)
 
-## 현재 판정 (2026-02-27, v0.3.58)
+## 현재 판정 (2026-02-27, v0.3.59)
 ### ✅ PASS
 - Slot A/B 모두 실행 확인됨
 - Device-B(`Galaxy A24 Ultra`) 브라우저 3종(Chrome/Edge/Samsung Internet) 실행 확인

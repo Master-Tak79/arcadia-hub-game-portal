@@ -533,6 +533,22 @@
   - 버전 동기화
     - 포털 `0.3.58`
     - `src/data/games.seed.js` 19개 게임 버전 `0.3.58`
+- `feat/meteor-quality-pass1-0.3.59` 브랜치에서 Meteor Dodge 품질 1차 고도화 진행
+  - Meteor gameplay/feedback
+    - 회피 체인(`dodgeChain`) 및 감쇠 타이머 추가
+    - 스톰 이벤트(`shower/accelerating`) 추가
+    - 생존/회피 점수 계산에 체인/스톰 배수 반영
+    - 피격 시 체인 초기화 + 체인 종료 피드백 추가
+  - Meteor UI/controls
+    - HUD 확장: `FLOW` 카드 + `기상` 상태 라인
+    - 좌/우 버튼 실시간 경계/상태 동기화(`syncControls`)
+    - 버튼 disabled 상태/문구 보강
+    - 렌더러에 체인/스톰 배지 시각 피드백 추가
+  - 테스트 확장
+    - `scripts/game-ui-check.mjs`에서 Meteor `syncControls`와 FLOW/기상 HUD·미션 문구 검증 추가
+  - 버전 동기화
+    - 포털 `0.3.59`
+    - `src/data/games.seed.js` 19개 게임 버전 `0.3.59`
 
 ### 결정 사항
 - 버전 체계는 SemVer(`MAJOR.MINOR.PATCH`) 사용
