@@ -1,6 +1,6 @@
 # QA Final Status (2026-02-27)
 
-대상: Arcadia Hub Portal v0.3.57 기준
+대상: Arcadia Hub Portal v0.3.58 기준
 
 ## ✅ PASS (확인 완료)
 - 자동 검증 체인
@@ -25,6 +25,7 @@
   - Tower Pulse Defense 품질 1차 고도화 반영(연속 방어 체인, 압박 급증 이벤트, 실시간 조작 상태 동기화)
   - Ghost Kart Duel 품질 1차 고도화 반영(드리프트 체인, 고스트 러시 이벤트, 실시간 조작 상태 동기화)
   - Bubble Harbor Merge 품질 1차 고도화 반영(머지 체인, 특수 수요 이벤트, 실시간 조작 상태 동기화)
+  - Dungeon Dice Survivor 품질 1차 고도화 반영(킬 체인, SWARM/ELITE 파동 이벤트, 실시간 조작 상태 동기화)
 
 ## ⏸ HOLD (추가 확인 필요)
 아래는 "실행 확인"은 되었지만, 체크리스트의 정량 조건(예: 3회×60초)까지는 아직 증빙이 부족한 항목입니다.
@@ -53,7 +54,7 @@
   - Tower Pulse Defense: 타워 업그레이드/방어/펄스 판정, 연속 방어 체인/압박 급증 이벤트, 방어 24 미션, 사운드-BGM-볼륨 저장/일시정지 재개
   - Ghost Kart Duel: 레인 이동/장애물-아이템 충돌/DRIFT 판정, 드리프트 체인/고스트 러시 이벤트, 고스트 포인트 18 미션, 사운드-BGM-볼륨 저장/일시정지 재개
   - Bubble Harbor Merge: 생산/포장/출항 루프 판정, 머지 체인/특수 수요 이벤트, 머지 360 미션, 사운드-BGM-볼륨 저장/일시정지 재개
-  - Dungeon Dice Survivor: 레인 이동/자동사격/DICE BURST 판정, 주사위 34 미션, 사운드-BGM-볼륨 저장/일시정지 재개
+  - Dungeon Dice Survivor: 레인 이동/자동사격/DICE BURST 판정, 킬 체인/SWARM·ELITE 파동 이벤트, 주사위 34 미션, 사운드-BGM-볼륨 저장/일시정지 재개
 
 ## 다음 액션(권장)
 1. `QA_3RUN_LOG_2026-02-27_STAGE1.md`(Final Input Sheet)에 Device A/B 각각 3회 플레이 로그(`DurationSec`/`LongPressCallout`/`Result`) 입력

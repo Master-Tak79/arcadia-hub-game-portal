@@ -83,6 +83,7 @@ import {
 import {
   syncHud as dungeonDiceSyncHud,
   syncSettingsUI as dungeonDiceSyncSettingsUI,
+  syncControls as dungeonDiceSyncControls,
 } from "../games/dungeon-dice-survivor/ui.js";
 
 function createClassList() {
@@ -2009,6 +2010,8 @@ function runDungeonDiceChecks() {
   const hpText = { textContent: "" };
   const novaText = { textContent: "" };
   const missionText = { textContent: "" };
+  const flowText = { textContent: "" };
+  const marketText = { textContent: "" };
 
   dungeonDiceSyncHud({
     state: {
@@ -2018,6 +2021,9 @@ function runDungeonDiceChecks() {
       hp: 2,
       novaCooldownMs: 0,
       kills: 17,
+      killChain: 2,
+      waveType: "normal",
+      waveMs: 0,
       missionCompleted: false,
       missionTargetKills: 34,
     },
@@ -2027,6 +2033,8 @@ function runDungeonDiceChecks() {
     hpText,
     novaText,
     missionText,
+    flowText,
+    marketText,
   });
 
   assert.equal(scoreText.textContent, "222");
@@ -2035,6 +2043,8 @@ function runDungeonDiceChecks() {
   assert.equal(hpText.textContent, "❤❤");
   assert.equal(novaText.textContent, "READY");
   assert.equal(missionText.textContent, "미션: 주사위 34 (17/34)");
+  assert.equal(flowText.textContent, "x2");
+  assert.equal(marketText.textContent, "파동: 일반");
 
   dungeonDiceSyncHud({
     state: {
@@ -2044,6 +2054,9 @@ function runDungeonDiceChecks() {
       hp: 1,
       novaCooldownMs: 4200,
       kills: 34,
+      killChain: 4,
+      waveType: "elite",
+      waveMs: 5300,
       missionCompleted: true,
       missionTargetKills: 34,
     },
@@ -2053,10 +2066,14 @@ function runDungeonDiceChecks() {
     hpText,
     novaText,
     missionText,
+    flowText,
+    marketText,
   });
 
   assert.equal(novaText.textContent, "4.2s");
   assert.equal(missionText.textContent, "🎯 주사위 34 미션 완료!");
+  assert.equal(flowText.textContent, "x4 HOT");
+  assert.equal(marketText.textContent, "파동: ELITE 5.3s");
 
   const settings = {
     effectsEnabled: true,
@@ -2089,6 +2106,48 @@ function runDungeonDiceChecks() {
   assert.equal(bgmToggle.disabled, false);
   assert.equal(sfxVolumeRange.value, "58");
   assert.equal(sfxVolumeValue.textContent, "58%");
+
+  const leftBtn = { disabled: false };
+  const rightBtn = { disabled: false };
+  const novaBtn = { textContent: "", disabled: false };
+
+  dungeonDiceSyncControls({
+    state: {
+      running: true,
+      paused: false,
+      gameOver: false,
+      lane: 1,
+      laneCount: 4,
+      novaCooldownMs: 0,
+    },
+    leftBtn,
+    rightBtn,
+    novaBtn,
+  });
+
+  assert.equal(leftBtn.disabled, false);
+  assert.equal(rightBtn.disabled, false);
+  assert.equal(novaBtn.textContent, "💫 DICE BURST");
+  assert.equal(novaBtn.disabled, false);
+
+  dungeonDiceSyncControls({
+    state: {
+      running: true,
+      paused: false,
+      gameOver: false,
+      lane: 0,
+      laneCount: 4,
+      novaCooldownMs: 4700,
+    },
+    leftBtn,
+    rightBtn,
+    novaBtn,
+  });
+
+  assert.equal(leftBtn.disabled, true);
+  assert.equal(rightBtn.disabled, false);
+  assert.equal(novaBtn.textContent, "💫 재충전 4.7s");
+  assert.equal(novaBtn.disabled, true);
 }
 
 function run() {

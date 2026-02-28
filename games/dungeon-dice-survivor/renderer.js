@@ -113,6 +113,30 @@ export function createRenderer({ canvas, ctx, laneCount, playerY }) {
     bullets.forEach((bullet) => drawBullet(ctx, canvas, laneCount, bullet));
     drawPlayer(ctx, canvas, laneCount, state.lane, playerY, state.invincibleMs);
 
+    if (state.killChain > 1) {
+      ctx.fillStyle = "rgba(255, 199, 146, 0.2)";
+      ctx.fillRect(canvas.width - 188, 24, 154, 32);
+      ctx.strokeStyle = "rgba(255, 220, 182, 0.72)";
+      ctx.strokeRect(canvas.width - 188, 24, 154, 32);
+      ctx.fillStyle = "#fff1df";
+      ctx.textAlign = "center";
+      ctx.font = "700 14px system-ui";
+      ctx.fillText(`🎲 CHAIN x${state.killChain}`, canvas.width - 111, 45);
+      ctx.textAlign = "start";
+    }
+
+    if (state.waveType !== "normal") {
+      const waveLabel = state.waveType === "swarm" ? "SWARM" : "ELITE";
+      const remainSec = Math.max(0, state.waveMs / 1000).toFixed(1);
+      ctx.fillStyle = "rgba(171, 177, 255, 0.16)";
+      ctx.fillRect(24, 24, 176, 32);
+      ctx.strokeStyle = "rgba(194, 199, 255, 0.68)";
+      ctx.strokeRect(24, 24, 176, 32);
+      ctx.fillStyle = "#e9eaff";
+      ctx.font = "700 13px system-ui";
+      ctx.fillText(`⚠ ${waveLabel} ${remainSec}s`, 34, 45);
+    }
+
     if (state.missionNoticeMs > 0) {
       const w = Math.min(340, canvas.width * 0.84);
       const x = (canvas.width - w) * 0.5;

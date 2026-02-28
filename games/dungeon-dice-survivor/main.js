@@ -7,6 +7,7 @@ import {
   showOverlay as showOverlayUI,
   syncHud as syncHudState,
   syncSettingsUI as syncSettingsUIState,
+  syncControls as syncControlsState,
 } from "./ui.js";
 import { celebrateMission, celebrateNewBest } from "../shared/confetti.fx.js";
 
@@ -19,6 +20,8 @@ const levelText = document.getElementById("levelText");
 const hpText = document.getElementById("hpText");
 const novaText = document.getElementById("novaText");
 const missionText = document.getElementById("missionText");
+const flowText = document.getElementById("flowText");
+const marketText = document.getElementById("marketText");
 
 const overlay = document.getElementById("overlay");
 const overlayTitle = document.getElementById("overlayTitle");
@@ -79,6 +82,15 @@ function syncHud() {
     hpText,
     novaText,
     missionText,
+    flowText,
+    marketText,
+  });
+
+  syncControlsState({
+    state,
+    leftBtn,
+    rightBtn,
+    novaBtn,
   });
 }
 
@@ -194,7 +206,7 @@ function doNova() {
 
   if (!result.ok) {
     if (result.reason === "cooldown") {
-      showNotice("DICE BURST 쿨다운 중", 620);
+      showNotice(`DICE BURST ${(state.novaCooldownMs / 1000).toFixed(1)}s`, 620);
       sfx.play("tick");
     }
     return;
@@ -253,6 +265,17 @@ function frame(now) {
         showNotice("💥 피격", 760);
         sfx.play("hit");
         vibrate([10, 16, 10]);
+      },
+      onWaveStart: ({ waveType }) => {
+        if (waveType === "swarm") showNotice("🌀 SWARM WAVE", 880);
+        else showNotice("👿 ELITE WAVE", 880);
+        sfx.play("tick");
+      },
+      onWaveEnd: () => {
+        showNotice("파동 안정화", 620);
+      },
+      onChainBreak: (prev) => {
+        if (prev > 1) showNotice("체인 종료", 560);
       },
       onMissionComplete,
       onGameOver: endGame,
@@ -335,7 +358,7 @@ applySettings();
 showOverlayUI(
   { overlay, overlayTitle, overlayText },
   "Dungeon Dice Survivor",
-  "자동 사격으로 적 파동을 버티며 생존하세요.\nDICE BURST 타이밍이 대량 정리의 핵심입니다."
+  "자동 사격으로 적 파동을 버티며 생존하세요.\n킬 체인과 SWARM/ELITE 파동 타이밍이 고점수의 핵심입니다."
 );
 
 cancelAnimationFrame(rafId);
