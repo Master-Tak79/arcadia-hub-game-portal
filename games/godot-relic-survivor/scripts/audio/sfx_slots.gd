@@ -10,13 +10,25 @@ const _DEFAULT_SLOT_PATHS := {
 	SLOT_BOSS_DEFEAT: "res://assets/audio/boss_defeat.ogg"
 }
 
+const _DEFAULT_SLOT_VOLUMES := {
+	SLOT_BOSS_WARNING: -10.5,
+	SLOT_BOSS_SPAWN: -8.0,
+	SLOT_BOSS_DEFEAT: -6.5
+}
+
+const _DEFAULT_SLOT_PITCH_JITTER := {
+	SLOT_BOSS_WARNING: 0.03,
+	SLOT_BOSS_SPAWN: 0.02,
+	SLOT_BOSS_DEFEAT: 0.015
+}
+
 var _players: Dictionary = {}
 var _missing_reported: Dictionary = {}
 
 func _ready() -> void:
-	_create_slot(SLOT_BOSS_WARNING, -8.0)
-	_create_slot(SLOT_BOSS_SPAWN, -6.0)
-	_create_slot(SLOT_BOSS_DEFEAT, -4.0)
+	_create_slot(SLOT_BOSS_WARNING)
+	_create_slot(SLOT_BOSS_SPAWN)
+	_create_slot(SLOT_BOSS_DEFEAT)
 	configure_default_paths()
 
 func configure_default_paths() -> void:
@@ -34,14 +46,14 @@ func set_slot_stream_from_path(slot: String, resource_path: String) -> void:
 	if not _players.has(slot):
 		return
 
-	# 1) Try regular resource loading
+	# 1) Regular resource loading
 	if ResourceLoader.exists(resource_path):
 		var stream := load(resource_path)
 		if stream is AudioStream:
 			set_slot_stream(slot, stream)
 			return
 
-	# 2) Fallback for direct ogg files in project path
+	# 2) Fallback for direct OGG files on filesystem
 	var abs_path: String = ProjectSettings.globalize_path(resource_path)
 	if FileAccess.file_exists(abs_path):
 		var ogg_stream := AudioStreamOggVorbis.load_from_file(abs_path)
@@ -57,6 +69,11 @@ func play_slot(slot: String) -> void:
 			_missing_reported[slot] = true
 			print("SFX_SLOT_UNASSIGNED:%s" % slot)
 		return
+
+	var jitter: float = float(_DEFAULT_SLOT_PITCH_JITTER.get(slot, 0.0))
+	player.pitch_scale = 1.0 + randf_range(-jitter, jitter)
+	if player.playing:
+		player.stop()
 	player.play()
 
 func play_boss_warning() -> void:
@@ -68,10 +85,10 @@ func play_boss_spawn() -> void:
 func play_boss_defeat() -> void:
 	play_slot(SLOT_BOSS_DEFEAT)
 
-func _create_slot(slot: String, volume_db: float) -> void:
+func _create_slot(slot: String) -> void:
 	var player := AudioStreamPlayer.new()
 	player.name = "Sfx_%s" % slot
 	player.bus = "Master"
-	player.volume_db = volume_db
+	player.volume_db = float(_DEFAULT_SLOT_VOLUMES.get(slot, -8.0))
 	add_child(player)
 	_players[slot] = player

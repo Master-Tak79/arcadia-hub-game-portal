@@ -460,6 +460,37 @@
 - 사운드 에셋 1차 주입(경고/등장/처치)
 - 수동 QA 재개 시 체감/연출 최종 폴리싱
 
+## 2026-03-01 20:07 KST
+### 오늘 목표
+- 보스 연출 4차 실체화 완료(SFX 실제 주입 + 품질 2차 튜닝)
+
+### 진행 내용
+- ffmpeg로 보스 SFX 3종 generated 자산(v2) 생성
+  - warning: 다단 경고 비프
+  - spawn: 저역 상승형 임팩트
+  - defeat: 하강+echo 마무리
+- D드라이브 원본 저장 후 프로젝트에 주입
+  - D 원본: `/mnt/d/OpenClaw_Downloads/game-assets/audio/relic-survivor/*.ogg`
+  - 프로젝트: `assets/audio/*.ogg`
+- `sfx_slots.gd` 개선
+  - 볼륨/피치 편차 튜닝
+  - OGG 로딩 fallback 보강(ResourceLoader + FileAccess)
+- 연출 검증
+  - 보스 warning/spawn/defeat 훅에서 SFX 정상 트리거
+
+### 이슈/해결
+- 이슈: 초기 테스트에서 `SFX_SLOT_UNASSIGNED` 로그 발생
+- 해결: 슬롯 초기화/파일 로딩 fallback 개선 후 미출력 확인
+
+### 검증 결과
+- 스모크 통과 (`RELIC_SURVIVOR_BOOT_OK`)
+- 보스 루프 통과 + `SFX_SLOT_UNASSIGNED` 미출력
+- 5분 회귀 통과
+
+### 다음 액션
+- 필요 시 최종 상용 음원으로 교체
+- 수동 QA 재개 시 체감/연출 최종 확정
+
 ### 진행 메모
 - PR 오픈: https://github.com/Master-Tak79/arcadia-hub-game-portal/pull/74
 

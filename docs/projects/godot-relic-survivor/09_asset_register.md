@@ -14,9 +14,9 @@
 | ID | Type | Name | Source | License | Original Path (D:) | Project Path | Modified | Notes |
 |---|---|---|---|---|---|---|---|---|
 | RS-000 | Placeholder | Procedural shapes (code draw) | internal | internal | - | scripts/ui, scripts/entities | Yes | 초기 개발 단계 코드 기반 렌더 |
-| RS-001 | Audio SFX | Boss Warning SFX | internal-generated (ffmpeg) | internal | `/mnt/d/OpenClaw_Downloads/game-assets/audio/relic-survivor/boss_warning.ogg` | `assets/audio/boss_warning.ogg` | Yes | 2026-03-01 생성/주입 완료 |
-| RS-002 | Audio SFX | Boss Spawn SFX | internal-generated (ffmpeg) | internal | `/mnt/d/OpenClaw_Downloads/game-assets/audio/relic-survivor/boss_spawn.ogg` | `assets/audio/boss_spawn.ogg` | Yes | 2026-03-01 생성/주입 완료 |
-| RS-003 | Audio SFX | Boss Defeat SFX | internal-generated (ffmpeg) | internal | `/mnt/d/OpenClaw_Downloads/game-assets/audio/relic-survivor/boss_defeat.ogg` | `assets/audio/boss_defeat.ogg` | Yes | 2026-03-01 생성/주입 완료 |
+| RS-001 | Audio SFX | Boss Warning SFX | internal-generated (ffmpeg) | internal | `/mnt/d/OpenClaw_Downloads/game-assets/audio/relic-survivor/boss_warning.ogg` | `assets/audio/boss_warning.ogg` | Yes | 2026-03-01 생성/주입 완료 (v2 envelope tuning) |
+| RS-002 | Audio SFX | Boss Spawn SFX | internal-generated (ffmpeg) | internal | `/mnt/d/OpenClaw_Downloads/game-assets/audio/relic-survivor/boss_spawn.ogg` | `assets/audio/boss_spawn.ogg` | Yes | 2026-03-01 생성/주입 완료 (v2 low-rise tuning) |
+| RS-003 | Audio SFX | Boss Defeat SFX | internal-generated (ffmpeg) | internal | `/mnt/d/OpenClaw_Downloads/game-assets/audio/relic-survivor/boss_defeat.ogg` | `assets/audio/boss_defeat.ogg` | Yes | 2026-03-01 생성/주입 완료 (v2 descend+echo) |
 
 ## 운영 규칙
 
