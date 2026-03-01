@@ -47,3 +47,5 @@
 - `docs/projects/godot-relic-survivor/11_manual_qa_protocol.md`
 - `docs/projects/godot-relic-survivor/12_balance_tuning_log.md`
 - `docs/projects/godot-relic-survivor/13_alpha_readiness_report.md`
+- `docs/projects/godot-relic-survivor/14_pr_description_alpha_candidate.md`
+- `docs/projects/godot-relic-survivor/15_merge_handover_checklist.md`
