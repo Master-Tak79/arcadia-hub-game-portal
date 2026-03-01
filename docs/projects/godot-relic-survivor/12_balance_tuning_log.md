@@ -53,3 +53,21 @@
 - 초반 급사 스트레스 완화
 - 중후반 긴장감 유지
 - 보스 이벤트 전달력 향상
+
+## 2026-03-01 (4차 미세 튜닝)
+
+### 변경 요약
+- Boss-phase spawn guardrail 추가
+  - 보스 활성 시 스폰 간격에 보너스(`BOSS_PHASE_SPAWN_INTERVAL_BONUS`) 적용
+  - 보스 활성 시 Dasher 확률 배수(`BOSS_PHASE_DASHER_CHANCE_MULT`) 적용
+- Spawn Director에 miniboss director 연동
+  - 보스 상태 인지 기반으로 웨이브 밀도 동적 완화
+
+### 자동 검증 결과
+- 스모크 통과
+- 보스 루프 QA 통과 (`--boss-test --auto-levelup --qa-autopilot`)
+- 회귀 5분 루프(`18000`) 통과
+
+### 기대 효과
+- 보스전 중 잡몹 과밀로 인한 억울사 감소
+- 보스 패턴 집중도 향상

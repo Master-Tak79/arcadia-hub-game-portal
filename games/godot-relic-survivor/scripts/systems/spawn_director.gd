@@ -7,6 +7,7 @@ var _balance: RefCounted
 var _state: RefCounted
 var _player: Node2D
 var _enemy_container: Node2D
+var _miniboss_director: Node
 
 var _elapsed: float = 0.0
 var _next_spawn_in: float = 1.0
@@ -16,8 +17,12 @@ func setup(balance: RefCounted, state: RefCounted, player: Node2D, enemy_contain
 	_state = state
 	_player = player
 	_enemy_container = enemy_container
+	_miniboss_director = null
 	reset_runtime()
 	randomize()
+
+func set_miniboss_director(director: Node) -> void:
+	_miniboss_director = director
 
 func reset_runtime() -> void:
 	_elapsed = 0.0
@@ -95,6 +100,10 @@ func _get_phase_spawn_interval() -> float:
 	elif _elapsed > 360.0:
 		interval = max(float(_balance.SPAWN_INTERVAL_MIN), interval - 0.04)
 
+	# Boss phase guardrail: keep reads manageable while boss is active
+	if _is_boss_active():
+		interval += float(_balance.BOSS_PHASE_SPAWN_INTERVAL_BONUS)
+
 	return interval
 
 func _get_phase_dasher_chance() -> float:
@@ -107,7 +116,18 @@ func _get_phase_dasher_chance() -> float:
 	elif _elapsed > 360.0:
 		chance += 0.06
 
+	# Boss phase guardrail: reduce bursty dash pressure while boss is active
+	if _is_boss_active():
+		chance *= float(_balance.BOSS_PHASE_DASHER_CHANCE_MULT)
+
 	return clampf(chance, 0.0, 0.65)
+
+func _is_boss_active() -> bool:
+	if _miniboss_director == null:
+		return false
+	if _miniboss_director.has_method("is_boss_alive"):
+		return bool(_miniboss_director.is_boss_alive())
+	return false
 
 func _random_edge_position() -> Vector2:
 	var w := float(_balance.ARENA_SIZE.x)

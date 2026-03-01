@@ -400,6 +400,35 @@
 - 수동 QA 보류 유지 상태에서 alpha-candidate 안정화 유지
 - 수동 QA 재개 시 즉시 최종 alpha 확정 절차 진행
 
+## 2026-03-01 19:33 KST
+### 오늘 목표
+- 로컬 계속 진행: 보스 연출 3차 + 웨이브 밀도 4차 미세튜닝
+
+### 진행 내용
+- 카메라 FX 추가(`ui/camera_fx.gd`)
+  - 보스 경고 펄스
+  - 보스 등장 임팩트
+  - 보스 처치 임팩트
+- 씬 반영
+  - `Main.tscn`에 `GameCamera` 노드 추가
+- BossRewardRuntime 확장
+  - 경고 시작/등장/처치 전이에서 배너+카메라 연동
+- SpawnDirector 확장
+  - `set_miniboss_director()`로 보스 상태 연동
+  - 보스 활성 시 스폰 간격/Dasher 확률 완화 가드레일 적용
+
+### 이슈/해결
+- 없음
+
+### 검증 결과
+- `--quit-after 900` 스모크 통과
+- `--boss-test --auto-levelup --qa-autopilot` 보스 루프 통과
+- `--auto-levelup --qa-autopilot --quit-after 18000` 회귀 통과
+
+### 다음 액션
+- 수동 QA 재개 시 체감 튜닝 확정
+- alpha-candidate 유지 상태에서 로컬 기능 확장 진행
+
 ### 진행 메모
 - PR 오픈: https://github.com/Master-Tak79/arcadia-hub-game-portal/pull/74
 

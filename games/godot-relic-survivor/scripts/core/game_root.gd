@@ -20,6 +20,7 @@ const EventBanner := preload("res://scripts/ui/event_banner.gd")
 @onready var _player: Node2D = $Player
 @onready var _enemy_container: Node2D = $EnemyContainer
 @onready var _projectile_container: Node2D = $ProjectileContainer
+@onready var _camera_fx: Camera2D = $GameCamera
 @onready var _hud: CanvasLayer = $HUD
 
 var _state: RefCounted
@@ -83,6 +84,8 @@ func _ready() -> void:
 		float(_runtime_options.boss_hp_scale_override)
 	)
 	_hud.set_miniboss_director(_miniboss_director)
+	if _spawn_director and _spawn_director.has_method("set_miniboss_director"):
+		_spawn_director.set_miniboss_director(_miniboss_director)
 
 	_level_up_panel = LevelUpPanel.new()
 	add_child(_level_up_panel)
@@ -95,7 +98,7 @@ func _ready() -> void:
 	_qa_runtime.setup(_runtime_options, _balance, _state, _player)
 
 	_boss_reward_runtime = BossRewardRuntime.new()
-	_boss_reward_runtime.setup(_balance, _state, _signal_bus, _miniboss_director, _event_banner)
+	_boss_reward_runtime.setup(_balance, _state, _signal_bus, _miniboss_director, _event_banner, _camera_fx)
 
 	_start_round()
 	_runtime_options.print_enabled_flags()
