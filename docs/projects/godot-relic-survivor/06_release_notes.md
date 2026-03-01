@@ -43,6 +43,8 @@
   - `core/runtime_options.gd`
   - `systems/qa_runtime.gd`
   - `systems/boss_reward_runtime.gd`
+- 난이도 2차 튜닝(적 속도/대시 빈도/스폰 곡선/보스 압박)
+- 스폰 안전장치 추가(`ACTIVE_ENEMY_SOFT_CAP`, `ACTIVE_ENEMY_HARD_CAP`)
 
 ## Fixed
 - `spawn_director.gd` 타입 추론 경고 에러 처리(명시 타입 적용)
@@ -51,8 +53,9 @@
 ## Verification
 - 문서/경로 구조 반영 확인
 - `godotw --headless` 스모크 실행 통과 (`RELIC_SURVIVOR_BOOT_OK`)
-- 10분 시뮬레이션 3회:
+- 10분 시뮬레이션:
   - `godotw --headless --fixed-fps 60 --quit-after 36000 -- --auto-levelup` x3 통과
+  - 튜닝 후 `godotw --headless --fixed-fps 60 --quit-after 36000 -- --auto-levelup --qa-autopilot` x2 통과
 - 보스 루프 QA 3회:
   - `godotw --headless --fixed-fps 60 --quit-after 5400 -- --boss-test --auto-levelup --qa-autopilot` x3
   - `MINIBOSS_WARNING_ON`
@@ -66,6 +69,7 @@
 - `mcporter call godot-local.godot_run_headless` 실행 통과
 
 ## Known Issues
-- 미니보스 소환 패턴/본체 돌진 패턴 난이도 2차 튜닝 필요
-- 보스 처치 연출/보상 UX 폴리싱 미완
+- 보스/중반 웨이브 체감 난이도 미세 조정(3차 폴리싱) 여지
+- 보스 처치 연출/보상 UX 추가 폴리싱(사운드/카메라) 미완
 - 실수동 QA 3회(키 입력 기반 조작감/난이도 체감) 아직 미진행
+- 실GUI 환경 FPS 실측 체크 미진행

@@ -282,3 +282,52 @@
 ### 다음 액션
 - 실수동 조작감 QA 3회 수행 및 체크리스트 갱신
 - 난이도 2차 튜닝(초반 1~3분, 중반 4~8분, 보스 페이즈)
+
+## 2026-03-01 18:34 KST
+### 오늘 목표
+- 난이도 2차 튜닝 + 회귀 검증
+
+### 진행 내용
+- 밸런스 2차 조정(`balance.gd`)
+  - 플레이어 생존성: `PLAYER_HIT_INVULN 0.45 -> 0.50`
+  - 공격 템포: `ATTACK_INTERVAL 0.45 -> 0.43`
+  - 적 압박 완화:
+    - `ENEMY_GRUNT_SPEED 130 -> 124`
+    - `ENEMY_DASHER_SPEED 90 -> 86`
+    - `ENEMY_DASHER_DASH_SPEED 340 -> 320`
+    - `ENEMY_DASHER_DASH_INTERVAL 1.8 -> 2.0`
+  - 스폰 곡선 완화:
+    - `SPAWN_INTERVAL_BASE 1.1 -> 1.2`
+    - `SPAWN_INTERVAL_MIN 0.22 -> 0.28`
+    - `SPAWN_RAMP_PER_SEC 0.02 -> 0.017`
+    - `SPAWN_DASHER_CHANCE_BASE 0.2 -> 0.12`
+    - `SPAWN_DASHER_CHANCE_RAMP 0.005 -> 0.0045`
+  - 성능/안정 보강:
+    - `ACTIVE_ENEMY_SOFT_CAP=70`, `ACTIVE_ENEMY_HARD_CAP=110` 추가
+    - `spawn_director.gd`에 소프트/하드 캡 제어 로직 추가
+  - 보스 압박 완화:
+    - `MINIBOSS_DASH_SPEED 410 -> 380`
+    - `MINIBOSS_DASH_INTERVAL 2.5 -> 2.8`
+    - `MINIBOSS_SUMMON_INTERVAL 6.0 -> 7.0`
+    - `MINIBOSS_SUMMON_COUNT 3 -> 2`
+
+### 이슈/해결
+- 이슈: 장시간 루프에서 적 수 누적으로 체감 난이도 급상승 가능
+- 해결: 스폰 캡(soft/hard) 도입으로 급증 완화
+
+### 검증 결과
+- 스모크: `--quit-after 900` 통과
+- 보스 루프: `--boss-test --auto-levelup --qa-autopilot` 통과
+  - `MINIBOSS_WARNING_ON`, `MINIBOSS_SPAWNED`, `MINIBOSS_DEFEATED`, `BOSS_CLEAR_REWARD_APPLIED`
+- 장시간: `--auto-levelup --qa-autopilot`, 10분(36000프레임) 2회 통과
+- 재시작 루프: `--qa-force-damage --qa-auto-restart` 통과
+
+### 전체 리뷰 업데이트
+- [x] 모듈 분리 리팩터링 1차 완료 (`game_root` 325줄 -> 244줄)
+- [x] 자동 QA 루프(보스/재시작/장시간) 안정화
+- [ ] 실수동 조작감 QA 3회 미완
+- [ ] 성능(실FPS 측정) 항목 미완
+
+### 다음 액션
+- 실수동 QA 3회 수행(조작감/적 패턴 체감/대시 타이밍)
+- 실GUI 기준 FPS 측정 및 성능 체크리스트 마감

@@ -37,6 +37,14 @@ func _process(delta: float) -> void:
 	if _next_spawn_in > 0.0:
 		return
 
+	var active_count: int = get_active_enemy_count()
+	if active_count >= int(_balance.ACTIVE_ENEMY_HARD_CAP):
+		_next_spawn_in = 0.35
+		return
+	if active_count >= int(_balance.ACTIVE_ENEMY_SOFT_CAP):
+		_next_spawn_in = 0.22
+		return
+
 	_spawn_enemy()
 
 	var ramp: float = float(_balance.SPAWN_INTERVAL_BASE) - _elapsed * float(_balance.SPAWN_RAMP_PER_SEC)
