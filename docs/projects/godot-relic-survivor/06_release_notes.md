@@ -11,6 +11,8 @@
   - `08_update_guidelines.md`
   - `09_asset_register.md`
   - `10_development_journal.md`
+  - `11_manual_qa_protocol.md`
+  - `12_balance_tuning_log.md`
 - 기존 `Godot Neon Dodge` 아카이브 전환
 - 코어 전투 시스템 1차
   - 자동공격(`auto_attack_system.gd`)
