@@ -550,3 +550,36 @@
 ### 다음 액션
 - 임시 generated SFX를 최종 품질 SFX로 교체(선택)
 - 수동 QA 재개 시 체감 튜닝 확정
+
+## 2026-03-01 20:18 KST
+### 오늘 목표
+- 보스 연출 5차: SFX 타이밍/볼륨 최종값 고정 + 옵션화
+
+### 진행 내용
+- `sfx_slots.gd` 고도화
+  - 기본 믹스값 고정
+  - 프리셋 옵션화: `default` / `quiet` / `hype`
+  - 프리셋별 볼륨 오프셋/피치 편차 스케일 반영
+- `runtime_options.gd` 확장
+  - `--sfx-preset=<preset>` 파싱/로깅
+- `boss_reward_runtime.gd` 확장
+  - warning/spawn/defeat SFX 딜레이 타이밍 적용
+  - 이벤트 타이밍을 연출(배너/카메라)과 정렬
+- 보스 SFX v2 재생성/재주입
+  - warning/spawn/defeat 톤/엔벌로프 재튜닝
+
+### 이슈/해결
+- 이슈: 초기 연동 시 스크립트 파싱 에러(modulate/current) 발생
+- 해결: `event_banner.gd`, `camera_fx.gd` 구현 수정 후 회귀 통과
+
+### 검증 결과
+- 스모크 통과 (`RELIC_SURVIVOR_BOOT_OK`)
+- `--sfx-preset=quiet` 통과 (`SFX_PRESET:quiet`)
+- 보스 루프 통과 (`--sfx-preset=hype`)
+  - `MINIBOSS_WARNING_ON`, `MINIBOSS_SPAWNED`, `MINIBOSS_DEFEATED`, `BOSS_CLEAR_REWARD_APPLIED`
+- `SFX_SLOT_UNASSIGNED` 미출력 확인
+- 5분 회귀 통과
+
+### 다음 액션
+- 필요 시 최종 상용 음원으로 교체
+- 수동 QA 재개 시 체감/연출 최종 확정

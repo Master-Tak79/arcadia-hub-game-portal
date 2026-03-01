@@ -14,6 +14,8 @@ var qa_force_damage_interval: float = 0.9
 
 var qa_autopilot: bool = false
 
+var sfx_preset: String = "default"  # default | quiet | hype
+
 func parse_user_args(args: Array) -> void:
 	for arg in args:
 		if arg == "--boss-test" or arg == "boss-test":
@@ -28,6 +30,10 @@ func parse_user_args(args: Array) -> void:
 			qa_force_damage = true
 		elif arg == "--qa-autopilot" or arg == "qa-autopilot":
 			qa_autopilot = true
+		elif String(arg).begins_with("--sfx-preset="):
+			sfx_preset = _sanitize_sfx_preset(String(arg).get_slice("=", 1))
+		elif String(arg).begins_with("--sfx="):
+			sfx_preset = _sanitize_sfx_preset(String(arg).get_slice("=", 1))
 
 func apply_round_boost_if_needed(state: RefCounted) -> void:
 	if not boss_test_boost:
@@ -53,3 +59,13 @@ func print_enabled_flags() -> void:
 		print("QA_FORCE_DAMAGE_ON")
 	if qa_autopilot:
 		print("QA_AUTOPILOT_ON")
+	if sfx_preset != "default":
+		print("SFX_PRESET:%s" % sfx_preset)
+
+func _sanitize_sfx_preset(raw: String) -> String:
+	var preset := raw.strip_edges().to_lower()
+	match preset:
+		"default", "quiet", "hype":
+			return preset
+		_:
+			return "default"

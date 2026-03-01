@@ -17,6 +17,11 @@
 # 보스 테스트 모드(경고/등장/처치 검증)
 ../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 5400 -- --boss-test --auto-levelup --qa-autopilot
 
+# SFX 프리셋 옵션
+# --sfx-preset=default | quiet | hype
+../../scripts/godotw --headless --path . --quit-after 900 -- --sfx-preset=quiet
+../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 5400 -- --boss-test --auto-levelup --qa-autopilot --sfx-preset=hype
+
 # 10분 안정성 시뮬레이션
 ../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 36000 -- --auto-levelup
 

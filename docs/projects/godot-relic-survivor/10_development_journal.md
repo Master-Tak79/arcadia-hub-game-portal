@@ -39,6 +39,7 @@
 - 보스 페이즈 스폰 가드레일 추가
 - 사운드 슬롯 구조(`audio/sfx_slots.gd`) 및 보스 이벤트 훅 연결
 - 보스 SFX 3종 generated 자산 주입 완료(Warning/Spawn/Defeat, v2 튜닝)
+- SFX 프리셋 옵션화(default/quiet/hype) + 이벤트 타이밍 딜레이 적용
 - 보스 처치 직후 회복 구간(post-boss recovery) 추가
 - 수동 QA 및 튜닝 이력 문서 추가
   - `11_manual_qa_protocol.md`

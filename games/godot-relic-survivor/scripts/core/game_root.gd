@@ -98,6 +98,8 @@ func _ready() -> void:
 
 	_sfx_slots = SfxSlots.new()
 	add_child(_sfx_slots)
+	if _sfx_slots and _sfx_slots.has_method("apply_preset"):
+		_sfx_slots.apply_preset(String(_runtime_options.sfx_preset))
 
 	_qa_runtime = QaRuntime.new()
 	_qa_runtime.setup(_runtime_options, _balance, _state, _player)

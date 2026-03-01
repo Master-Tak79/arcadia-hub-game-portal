@@ -13,6 +13,10 @@ var _last_boss_alive: bool = false
 var _boss_reward_applied: bool = false
 var _slowmo_time_left: float = 0.0
 
+var _pending_warning_sfx: float = -1.0
+var _pending_spawn_sfx: float = -1.0
+var _pending_defeat_sfx: float = -1.0
+
 func setup(
 	balance: RefCounted,
 	state: RefCounted,
@@ -36,10 +40,14 @@ func reset_round() -> void:
 	_last_boss_alive = false
 	_boss_reward_applied = false
 	_slowmo_time_left = 0.0
+	_pending_warning_sfx = -1.0
+	_pending_spawn_sfx = -1.0
+	_pending_defeat_sfx = -1.0
 	Engine.time_scale = 1.0
 
 func process(delta: float) -> void:
 	_update_slowmo(delta)
+	_process_pending_sfx(delta)
 	_process_miniboss_state_transitions()
 
 func _process_miniboss_state_transitions() -> void:
@@ -59,16 +67,14 @@ func _process_miniboss_state_transitions() -> void:
 			_event_banner.show_message("⚠ WARNING: MINIBOSS APPROACHING", 1.6, Color("#7C2D12"))
 		if _camera_fx and _camera_fx.has_method("play_warning_pulse"):
 			_camera_fx.play_warning_pulse()
-		if _sfx_slots and _sfx_slots.has_method("play_boss_warning"):
-			_sfx_slots.play_boss_warning()
+		_pending_warning_sfx = float(_balance.SFX_BOSS_WARNING_DELAY)
 
 	if boss_alive and not _last_boss_alive:
 		if _event_banner:
 			_event_banner.show_message("⚠ MINIBOSS HAS ENTERED THE ARENA", 1.9, Color("#7C2D12"))
 		if _camera_fx and _camera_fx.has_method("play_boss_spawn_impact"):
 			_camera_fx.play_boss_spawn_impact()
-		if _sfx_slots and _sfx_slots.has_method("play_boss_spawn"):
-			_sfx_slots.play_boss_spawn()
+		_pending_spawn_sfx = float(_balance.SFX_BOSS_SPAWN_DELAY)
 
 	if not boss_alive and _last_boss_alive and not _boss_reward_applied:
 		_apply_boss_clear_reward()
@@ -92,11 +98,32 @@ func _apply_boss_clear_reward() -> void:
 
 	if _camera_fx and _camera_fx.has_method("play_boss_defeat_impact"):
 		_camera_fx.play_boss_defeat_impact()
-	if _sfx_slots and _sfx_slots.has_method("play_boss_defeat"):
-		_sfx_slots.play_boss_defeat()
+	_pending_defeat_sfx = float(_balance.SFX_BOSS_DEFEAT_DELAY)
 
 	_slowmo_time_left = 0.6
 	Engine.time_scale = 0.4
+
+func _process_pending_sfx(delta: float) -> void:
+	if _pending_warning_sfx >= 0.0:
+		_pending_warning_sfx -= delta
+		if _pending_warning_sfx <= 0.0:
+			_pending_warning_sfx = -1.0
+			if _sfx_slots and _sfx_slots.has_method("play_boss_warning"):
+				_sfx_slots.play_boss_warning()
+
+	if _pending_spawn_sfx >= 0.0:
+		_pending_spawn_sfx -= delta
+		if _pending_spawn_sfx <= 0.0:
+			_pending_spawn_sfx = -1.0
+			if _sfx_slots and _sfx_slots.has_method("play_boss_spawn"):
+				_sfx_slots.play_boss_spawn()
+
+	if _pending_defeat_sfx >= 0.0:
+		_pending_defeat_sfx -= delta
+		if _pending_defeat_sfx <= 0.0:
+			_pending_defeat_sfx = -1.0
+			if _sfx_slots and _sfx_slots.has_method("play_boss_defeat"):
+				_sfx_slots.play_boss_defeat()
 
 func _update_slowmo(delta: float) -> void:
 	if _slowmo_time_left <= 0.0:

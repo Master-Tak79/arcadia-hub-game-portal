@@ -93,3 +93,28 @@
 ### 기대 효과
 - 보스 처치 직후 급격한 재압박 완화
 - 페이즈 전환 체감 개선
+
+## 2026-03-01 (Audio Mix Finalization)
+
+### 변경 요약
+- SFX 슬롯 최종값 고정(기본 믹스)
+  - warning: -10.5 dB
+  - spawn: -8.0 dB
+  - defeat: -6.5 dB
+- SFX 프리셋 옵션화
+  - `default`, `quiet`, `hype`
+  - 런타임 인자: `--sfx-preset=<preset>`
+- SFX 타이밍 미세 조정
+  - warning delay: 0.03s
+  - spawn delay: 0.00s
+  - defeat delay: 0.05s
+- warning/spawn/defeat SFX v2 재생성 및 주입
+
+### 자동 검증 결과
+- `--sfx-preset=quiet` / `--sfx-preset=hype` 실행 통과
+- 보스 루프에서 이벤트 훅 + SFX 슬롯 정상 동작
+- `SFX_SLOT_UNASSIGNED` 미출력
+
+### 기대 효과
+- 보스 이벤트의 청각적 구분 강화
+- 상황별(조용/강조) 운용 유연성 확보

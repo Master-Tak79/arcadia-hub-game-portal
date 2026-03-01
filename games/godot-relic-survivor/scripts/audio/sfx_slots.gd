@@ -10,31 +10,73 @@ const _DEFAULT_SLOT_PATHS := {
 	SLOT_BOSS_DEFEAT: "res://assets/audio/boss_defeat.ogg"
 }
 
-const _DEFAULT_SLOT_VOLUMES := {
+const _BASE_SLOT_VOLUMES := {
 	SLOT_BOSS_WARNING: -10.5,
 	SLOT_BOSS_SPAWN: -8.0,
 	SLOT_BOSS_DEFEAT: -6.5
 }
 
-const _DEFAULT_SLOT_PITCH_JITTER := {
+const _PRESET_VOLUME_OFFSETS := {
+	"default": {
+		SLOT_BOSS_WARNING: 0.0,
+		SLOT_BOSS_SPAWN: 0.0,
+		SLOT_BOSS_DEFEAT: 0.0
+	},
+	"quiet": {
+		SLOT_BOSS_WARNING: -3.5,
+		SLOT_BOSS_SPAWN: -3.5,
+		SLOT_BOSS_DEFEAT: -3.5
+	},
+	"hype": {
+		SLOT_BOSS_WARNING: 1.0,
+		SLOT_BOSS_SPAWN: 1.5,
+		SLOT_BOSS_DEFEAT: 1.0
+	}
+}
+
+const _BASE_SLOT_PITCH_JITTER := {
 	SLOT_BOSS_WARNING: 0.03,
 	SLOT_BOSS_SPAWN: 0.02,
 	SLOT_BOSS_DEFEAT: 0.015
 }
 
+const _PRESET_JITTER_SCALE := {
+	"default": 1.0,
+	"quiet": 0.60,
+	"hype": 1.20
+}
+
 var _players: Dictionary = {}
 var _missing_reported: Dictionary = {}
+var _active_preset: String = "default"
 
 func _ready() -> void:
 	_create_slot(SLOT_BOSS_WARNING)
 	_create_slot(SLOT_BOSS_SPAWN)
 	_create_slot(SLOT_BOSS_DEFEAT)
 	configure_default_paths()
+	apply_preset("default")
 
 func configure_default_paths() -> void:
 	for slot in _DEFAULT_SLOT_PATHS.keys():
 		var path: String = String(_DEFAULT_SLOT_PATHS[slot])
 		set_slot_stream_from_path(String(slot), path)
+
+func apply_preset(preset: String) -> void:
+	var normalized: String = preset.strip_edges().to_lower()
+	if not _PRESET_VOLUME_OFFSETS.has(normalized):
+		normalized = "default"
+	_active_preset = normalized
+
+	var offsets: Dictionary = _PRESET_VOLUME_OFFSETS[_active_preset]
+	for slot in _players.keys():
+		var player: AudioStreamPlayer = _players[slot]
+		var base_db: float = float(_BASE_SLOT_VOLUMES.get(slot, -8.0))
+		var offset_db: float = float(offsets.get(slot, 0.0))
+		player.volume_db = base_db + offset_db
+
+func get_active_preset() -> String:
+	return _active_preset
 
 func set_slot_stream(slot: String, stream: AudioStream) -> void:
 	if not _players.has(slot):
@@ -70,7 +112,9 @@ func play_slot(slot: String) -> void:
 			print("SFX_SLOT_UNASSIGNED:%s" % slot)
 		return
 
-	var jitter: float = float(_DEFAULT_SLOT_PITCH_JITTER.get(slot, 0.0))
+	var base_jitter: float = float(_BASE_SLOT_PITCH_JITTER.get(slot, 0.0))
+	var scale: float = float(_PRESET_JITTER_SCALE.get(_active_preset, 1.0))
+	var jitter: float = base_jitter * scale
 	player.pitch_scale = 1.0 + randf_range(-jitter, jitter)
 	if player.playing:
 		player.stop()
@@ -89,6 +133,6 @@ func _create_slot(slot: String) -> void:
 	var player := AudioStreamPlayer.new()
 	player.name = "Sfx_%s" % slot
 	player.bus = "Master"
-	player.volume_db = float(_DEFAULT_SLOT_VOLUMES.get(slot, -8.0))
+	player.volume_db = float(_BASE_SLOT_VOLUMES.get(slot, -8.0))
 	add_child(player)
 	_players[slot] = player

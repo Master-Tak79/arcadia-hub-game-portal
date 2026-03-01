@@ -56,6 +56,7 @@
 - 보스 페이즈 스폰 가드레일(보스 활성 시 웨이브 압박 완화)
 - 난이도 4차/5차 미세 튜닝(보스 페이즈/보스 처치 직후 회복 구간)
 - 사운드 슬롯 구조 추가(`audio/sfx_slots.gd`) 및 보스 이벤트 훅 연결
+- SFX 프리셋 옵션화(`--sfx-preset=default|quiet|hype`) + 이벤트 타이밍 딜레이 조정
 
 ## Fixed
 - `spawn_director.gd` 타입 추론 경고 에러 처리(명시 타입 적용)
@@ -70,8 +71,9 @@
 - 5분 회귀 시뮬레이션:
   - `godotw --headless --fixed-fps 60 --quit-after 18000 -- --auto-levelup --qa-autopilot` 통과
 - SFX 슬롯 검증:
-  - `--boss-test --auto-levelup --qa-autopilot`에서 `SFX_SLOT_UNASSIGNED` 미출력 확인
-  - 보스 이벤트 warning/spawn/defeat 훅 정상 트리거 확인
+  - `--boss-test --auto-levelup --qa-autopilot --sfx-preset=hype`에서 warning/spawn/defeat 훅 정상 트리거
+  - `--sfx-preset=quiet` 실행 정상
+  - `SFX_SLOT_UNASSIGNED` 미출력 확인
 - 보스 루프 QA 3회:
   - `godotw --headless --fixed-fps 60 --quit-after 5400 -- --boss-test --auto-levelup --qa-autopilot` x3
   - `MINIBOSS_WARNING_ON`
@@ -85,7 +87,7 @@
 - `mcporter call godot-local.godot_run_headless` 실행 통과
 
 ## Known Issues
-- 현재 보스 SFX는 generated 자산(v2)으로, 향후 최종 음원 교체 여지
+- 현재 보스 SFX는 generated 자산(v2)이며, 향후 최종 음원 교체 여지
 - 후반 웨이브 밀도 미세조정(6차 폴리싱) 여지
 - 실수동 QA 3회(키 입력 기반 조작감/난이도 체감) 사용자 요청으로 보류
 - 실GUI 환경 FPS 실측 체크 보류(수동 QA 재개 시 동시 수행)
