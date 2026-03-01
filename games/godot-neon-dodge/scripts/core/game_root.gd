@@ -28,7 +28,7 @@ func _ready() -> void:
 	_input_actions.ensure_default_bindings()
 
 	_player.setup(_balance)
-	_hud.setup(_signal_bus, _state, _player)
+	_hud.setup(_signal_bus, _state, _player, _enemy_container)
 
 	_signal_bus.player_damaged.connect(_on_player_hit)
 
@@ -63,6 +63,8 @@ func _on_player_hit(delta_hp: int) -> void:
 		return
 
 	_state.hp = max(0, _state.hp + delta_hp)
+	if _player and _player.has_method("on_hit"):
+		_player.on_hit()
 	_signal_bus.emit_signal("hp_changed", _state.hp)
 	_damage_cooldown_left = float(_balance.PLAYER_INVULN_AFTER_HIT)
 

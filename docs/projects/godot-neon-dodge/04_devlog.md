@@ -41,3 +41,35 @@
 ### 다음 액션
 - 수동 플레이테스트(3회)로 난이도 곡선/피격 억울사 체감 검증
 - 밸런스 파라미터 1차 튜닝
+
+## 2026-03-01 13:43 KST
+### 오늘 목표
+- Stage 3: 가시성/피드백 강화 + 자동 캡처 기반 진행 화면 공유
+
+### 진행 내용
+- Arena 배경 렌더러(`arena_background.gd`) 추가: 어두운 톤 + 그리드
+- Player 렌더 피드백 강화: 본체/외곽 링/대시 링/피격 플래시
+- Enemy 렌더 피드백 강화: 본체/외곽 링/진행 방향 라인
+- HUD 개선: ENEMIES 카운트 노출
+- 밸런스 1차 조정:
+  - `ENEMY_SPEED_BASE 120 -> 135`
+  - `SPAWN_INTERVAL_BASE 1.2 -> 1.0`
+  - `SPAWN_RAMP_PER_SEC 0.015 -> 0.018`
+  - `ENEMY_HIT_RADIUS 24 -> 22`
+- 진행 캡처 생성:
+  - `stage3_capture00000000.png` (초기)
+  - `stage3_capture00000119.png` (~2초)
+  - `stage3_capture00000239.png` (~4초)
+  - `stage3_capture00000299.png` (~5초, 피격 반영 HP 2)
+
+### 이슈/해결
+- 이슈: `--headless + --write-movie` 조합에서 Godot 4.6.1 크래시 발생
+- 해결: 캡처는 GUI 실행 + `--write-movie` 방식으로 전환
+
+### 검증 결과
+- `./scripts/godotw --headless --path ./games/godot-neon-dodge --quit-after 240` 통과
+- `./scripts/godotw --path ./games/godot-neon-dodge --write-movie ... --quit-after 300` 통과
+
+### 다음 액션
+- 수동 플레이 3회로 이동/대시/재시작 품질 체크 완료
+- 체크리스트 업데이트 후 v0.1.0-alpha 기준선 확정
