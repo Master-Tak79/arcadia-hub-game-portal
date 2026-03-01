@@ -21,3 +21,16 @@
 - `scripts/systems/` 스폰/전투/성장 시스템
 - `scripts/ui/` HUD/패널
 - `scripts/data/` 밸런스 데이터
+
+## 프로젝트 문서
+- `docs/projects/godot-relic-survivor/00_game_blueprint.md`
+- `docs/projects/godot-relic-survivor/01_gdd.md`
+- `docs/projects/godot-relic-survivor/02_development_plan.md`
+- `docs/projects/godot-relic-survivor/03_roadmap.md`
+- `docs/projects/godot-relic-survivor/04_devlog.md`
+- `docs/projects/godot-relic-survivor/05_qa_checklist.md`
+- `docs/projects/godot-relic-survivor/06_release_notes.md`
+- `docs/projects/godot-relic-survivor/07_dev_guidelines.md`
+- `docs/projects/godot-relic-survivor/08_update_guidelines.md`
+- `docs/projects/godot-relic-survivor/09_asset_register.md`
+- `docs/projects/godot-relic-survivor/10_development_journal.md`

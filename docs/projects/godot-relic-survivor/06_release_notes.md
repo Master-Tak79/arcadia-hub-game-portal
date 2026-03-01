@@ -6,6 +6,11 @@
 
 ## Added
 - 신규 프로젝트 문서 세트(청사진/GDD/개발계획/로드맵/개발일지/QA/릴리즈노트)
+- 추가 운영 문서 세트
+  - `07_dev_guidelines.md`
+  - `08_update_guidelines.md`
+  - `09_asset_register.md`
+  - `10_development_journal.md`
 - 기존 `Godot Neon Dodge` 아카이브 전환
 - 코어 전투 시스템 1차
   - 자동공격(`auto_attack_system.gd`)
