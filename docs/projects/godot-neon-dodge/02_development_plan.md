@@ -6,10 +6,10 @@
 ## 작업 분해(WBS)
 - [x] 프로젝트/문서 초기화
 - [x] 코어 모듈 구조 설계
-- [ ] PlayerController + Dash
-- [ ] EnemySpawner + ChaserAI
-- [ ] Score/Timer 시스템
-- [ ] HUD/게임오버 UI
+- [x] PlayerController + Dash
+- [x] EnemySpawner + ChaserAI
+- [x] Score/Timer 시스템
+- [x] HUD/게임오버 UI
 - [ ] 밸런스 튜닝 + QA 체크
 
 ## 코드 구조 계획
