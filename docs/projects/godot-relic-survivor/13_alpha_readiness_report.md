@@ -37,6 +37,7 @@
 
 ## 판정
 - 현재 판정: **v0.1.0-alpha-candidate (자동검증 기준)**
+- 병합 권장안: alpha-candidate로 선머지 후 수동 QA 완료 시 alpha 확정 태깅
 - 최종 alpha 확정 조건:
   1) 수동 QA 3회 완료
   2) GUI FPS 실측 체크 완료
