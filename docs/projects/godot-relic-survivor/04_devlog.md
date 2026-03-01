@@ -611,3 +611,32 @@
 ### 다음 액션
 - 수동 QA 보류 유지 상태로 alpha-candidate 기준선 잠금 운영
 - 수동 QA 재개 시 lock 해제 후 alpha 최종 확정
+
+## 2026-03-01 20:42 KST
+### 오늘 목표
+- 콘텐츠 확장: 업그레이드 풀 확장(12→16) + 복합 효과 적용기 도입
+
+### 진행 내용
+- `data/upgrades.gd` 확장
+  - 업그레이드 4종 추가(`fusion_core`, `phase_runner`, `ballistic_array`, `guardian_matrix`)
+  - 다중 효과 정의(`effects[]`) 지원 구조 추가
+- `systems/upgrade_system.gd` 확장
+  - 단일 효과/복합 효과를 모두 처리하도록 적용기 개선
+- 설계 문서 동기화
+  - `00_game_blueprint.md`, `01_gdd.md`, `02_development_plan.md` 업데이트
+  - `README.md`/`06_release_notes.md`/`10_development_journal.md` 반영
+- 품질 잠금 예외 기록
+  - `16_alpha_candidate_quality_lock.md`에 사용자 승인 기반 예외 반영 후 재잠금 명시
+
+### 이슈/해결
+- 이슈: alpha lock 상태에서 구조 변경 반영 시 규정 충돌 가능
+- 해결: 사용자 승인 기반 예외 처리 + 자동 회귀 검증 + 문서 동기화로 관리
+
+### 검증 결과
+- 스모크 통과 (`RELIC_SURVIVOR_BOOT_OK`)
+- 보스 루프 통과 (`MINIBOSS_WARNING_ON/SPAWNED/DEFEATED/BOSS_CLEAR_REWARD_APPLIED`)
+- 5분 회귀 통과 (`--sfx-preset=quiet`)
+
+### 다음 액션
+- 수동 QA 보류 유지 상태에서 alpha-candidate 잠금 운영 지속
+- 수동 QA 재개 시 unlock 조건 충족 후 alpha 최종 확정

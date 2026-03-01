@@ -35,11 +35,24 @@ func roll_choices(count: int = 3) -> Array:
 
 func apply_upgrade(choice: Dictionary) -> Dictionary:
 	var id: String = String(choice.get("id", ""))
-	var effect_key: String = String(choice.get("effect_key", ""))
-	var effect_value: Variant = choice.get("effect_value", 0)
-
 	var new_stack: int = _state.add_upgrade_stack(id)
 
+	if choice.has("effects"):
+		for raw_effect in Array(choice.get("effects", [])):
+			var effect: Dictionary = raw_effect
+			_apply_effect(String(effect.get("key", "")), effect.get("value", 0))
+	else:
+		var effect_key: String = String(choice.get("effect_key", ""))
+		var effect_value: Variant = choice.get("effect_value", 0)
+		_apply_effect(effect_key, effect_value)
+
+	var result: Dictionary = {}
+	result["id"] = id
+	result["stack"] = new_stack
+	result["title"] = String(choice.get("title", id))
+	return result
+
+func _apply_effect(effect_key: String, effect_value: Variant) -> void:
 	match effect_key:
 		"attack_interval_reduction":
 			_state.attack_interval_reduction = min(0.75, _state.attack_interval_reduction + float(effect_value))
@@ -69,9 +82,3 @@ func apply_upgrade(choice: Dictionary) -> Dictionary:
 			_state.hp = min(_state.max_hp, _state.hp + int(effect_value))
 		_:
 			pass
-
-	var result: Dictionary = {}
-	result["id"] = id
-	result["stack"] = new_stack
-	result["title"] = String(choice.get("title", id))
-	return result

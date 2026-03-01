@@ -25,8 +25,8 @@
   - 적 2종(`enemy_grunt.gd`, `enemy_dasher.gd`)
 - 스폰 디렉터 고도화(주기 램프 + 대셔 확률 램프)
 - EXP/레벨업 시스템 1차
-  - 업그레이드 데이터 12종(`data/upgrades.gd`)
-  - 업그레이드 적용기(`systems/upgrade_system.gd`)
+  - 업그레이드 데이터 16종(`data/upgrades.gd`, 복합 효과 포함)
+  - 업그레이드 적용기(`systems/upgrade_system.gd`, multi-effect 지원)
   - 레벨업 선택 패널(`ui/level_up_panel.gd`, 1/2/3 입력)
 - 미니 보스 시스템 1차
   - 미니보스 엔티티(`entities/enemy_miniboss.gd`)
@@ -59,6 +59,9 @@
 - 난이도 6차 미세 튜닝(후반 웨이브 곡선 잠금: ramp/backoff/late-phase shaping)
 - 사운드 슬롯 구조 추가(`audio/sfx_slots.gd`) 및 보스 이벤트 훅 연결
 - SFX 프리셋 옵션화(`--sfx-preset=default|quiet|hype`) + 이벤트 타이밍 딜레이 조정
+- 업그레이드 확장:
+  - 총 16종으로 확대(기존 12 + 복합 효과 4)
+  - `upgrade_system.gd` multi-effect 처리 지원
 
 ## Fixed
 - `spawn_director.gd` 타입 추론 경고 에러 처리(명시 타입 적용)

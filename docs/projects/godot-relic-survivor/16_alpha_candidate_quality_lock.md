@@ -30,6 +30,7 @@
 - QA 자동화 신뢰도 향상
 - 에셋 교체(동일 슬롯/동일 인터페이스 유지)
 - 문서 보강
+- 사용자 명시 승인 하의 제한 해제성 변경(변경 이력/근거 문서화 필수)
 
 ## Restricted Changes (제한)
 
@@ -46,7 +47,15 @@
 2. GUI FPS 실측 완료
 3. 결과를 `04/05/06/13`에 반영
 
+## Change Control Exceptions
+
+- 2026-03-01: 사용자 진행 승인("응")에 따라 콘텐츠 확장성 보강 작업(업그레이드 12→16, multi-effect 적용기) 반영.
+- 처리 원칙:
+  - 자동 회귀 검증 통과 필수
+  - 설계/릴리즈/개발일지 즉시 동기화
+  - 이후 상태는 다시 LOCKED로 복귀
+
 ## Current Status
 
-- 상태: **LOCKED (alpha-candidate stabilization)**
+- 상태: **LOCKED (alpha-candidate stabilization, exception 반영 후 재잠금)**
 - 해제 예정: 수동 QA 재개 시

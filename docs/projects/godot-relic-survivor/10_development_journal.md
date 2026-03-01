@@ -43,6 +43,7 @@
 - 보스 처치 직후 회복 구간(post-boss recovery) 추가
 - 후반 웨이브 6차 미세 튜닝(곡선 잠금)
 - `16_alpha_candidate_quality_lock.md`로 품질 잠금 기준 문서화
+- 업그레이드 16종 확장(복합 효과 4종 포함)
 - 수동 QA 및 튜닝 이력 문서 추가
   - `11_manual_qa_protocol.md`
   - `12_balance_tuning_log.md`

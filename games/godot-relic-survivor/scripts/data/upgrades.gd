@@ -3,6 +3,7 @@ extends RefCounted
 func build_upgrade_defs() -> Array:
 	var defs: Array = []
 
+	# Core offensive upgrades
 	defs.append(_def("rapid_trigger", "Rapid Trigger", "공격 주기 8% 단축", 6, "attack_interval_reduction", 0.08))
 	defs.append(_def("heavy_round", "Heavy Round", "발사체 피해 +1", 8, "projectile_damage_bonus", 1))
 	defs.append(_def("long_shot", "Long Shot", "발사체 속도 +80", 6, "projectile_speed_bonus", 80.0))
@@ -11,11 +12,42 @@ func build_upgrade_defs() -> Array:
 	defs.append(_def("relic_scope", "Relic Scope", "자동공격 사거리 +55", 6, "attack_range_bonus", 55.0))
 	defs.append(_def("multi_cast", "Multi Cast", "추가 발사체 +1", 2, "extra_projectiles", 1))
 
+	# Core mobility/survival upgrades
 	defs.append(_def("fleet_step", "Fleet Step", "이동 속도 +16", 6, "player_speed_bonus", 16.0))
 	defs.append(_def("tactical_dash", "Tactical Dash", "대시 쿨다운 9% 단축", 6, "dash_cooldown_reduction", 0.09))
 	defs.append(_def("phase_skin", "Phase Skin", "피격 무적시간 +0.08s", 5, "player_invuln_bonus", 0.08))
 	defs.append(_def("relic_heart", "Relic Heart", "최대 HP +1 및 즉시 회복 +1", 4, "max_hp_plus_heal", 1))
 	defs.append(_def("emergency_patch", "Emergency Patch", "즉시 HP +2 회복", 99, "instant_heal", 2))
+
+	# Expansion set (multi-effect, build-defining)
+	defs.append(_def_multi(
+		"fusion_core",
+		"Fusion Core",
+		"피해 +1, 탄속 +60",
+		4,
+		[_effect("projectile_damage_bonus", 1), _effect("projectile_speed_bonus", 60.0)]
+	))
+	defs.append(_def_multi(
+		"phase_runner",
+		"Phase Runner",
+		"이속 +14, 대시 쿨다운 7% 단축",
+		5,
+		[_effect("player_speed_bonus", 14.0), _effect("dash_cooldown_reduction", 0.07)]
+	))
+	defs.append(_def_multi(
+		"ballistic_array",
+		"Ballistic Array",
+		"사거리 +45, 발사체 수명 +0.12s",
+		5,
+		[_effect("attack_range_bonus", 45.0), _effect("projectile_lifetime_bonus", 0.12)]
+	))
+	defs.append(_def_multi(
+		"guardian_matrix",
+		"Guardian Matrix",
+		"최대 HP +1, 피격 무적시간 +0.06s",
+		3,
+		[_effect("max_hp_plus_heal", 1), _effect("player_invuln_bonus", 0.06)]
+	))
 
 	return defs
 
@@ -27,4 +59,19 @@ func _def(id: String, title: String, desc: String, max_stacks: int, effect_key: 
 	data["max_stacks"] = max_stacks
 	data["effect_key"] = effect_key
 	data["effect_value"] = effect_value
+	return data
+
+func _def_multi(id: String, title: String, desc: String, max_stacks: int, effects: Array) -> Dictionary:
+	var data: Dictionary = {}
+	data["id"] = id
+	data["title"] = title
+	data["desc"] = desc
+	data["max_stacks"] = max_stacks
+	data["effects"] = effects
+	return data
+
+func _effect(key: String, value: Variant) -> Dictionary:
+	var data: Dictionary = {}
+	data["key"] = key
+	data["value"] = value
 	return data
