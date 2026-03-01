@@ -13,6 +13,9 @@
 ```bash
 ../../scripts/godotw --path .
 ../../scripts/godotw --headless --path . --quit-after 360
+
+# 보스 테스트 모드(빠른 검증)
+../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 1800 -- --boss-test --auto-levelup
 ```
 
 ## 구조

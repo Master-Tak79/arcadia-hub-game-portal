@@ -22,13 +22,18 @@
   - 업그레이드 데이터 12종(`data/upgrades.gd`)
   - 업그레이드 적용기(`systems/upgrade_system.gd`)
   - 레벨업 선택 패널(`ui/level_up_panel.gd`, 1/2/3 입력)
+- 미니 보스 시스템 1차
+  - 미니보스 엔티티(`entities/enemy_miniboss.gd`)
+  - 보스 디렉터(`systems/miniboss_director.gd`)
+  - 10분 페이즈 경고/등장 로직 + HUD 경고 표기
 
 ## Changed
 - `docs/projects/_index.md` 상태 갱신(archived + in-progress)
-- HUD 정보 확장(ENEMIES/SHOTS/EXP/MAX_HP/DASH)
+- HUD 정보 확장(ENEMIES/SHOTS/EXP/MAX_HP/DASH + 보스 경고/활성 상태)
 - 씬 구조 확장(ProjectileContainer 추가)
 - 입력 액션 확장(level-up 선택 `1/2/3`)
 - 게임 상태 구조 확장(EXP/업그레이드 스택/런타임 모디파이어)
+- 전투 판정 확장(적별 접촉 피해/EXP 보상)
 
 ## Fixed
 - `spawn_director.gd` 타입 추론 경고 에러 처리(명시 타입 적용)
@@ -37,6 +42,10 @@
 - 문서/경로 구조 반영 확인
 - `godotw --headless` 스모크 실행 통과 (`RELIC_SURVIVOR_BOOT_OK`)
 - `godotw --headless --fixed-fps 60 --quit-after 9000` 통과
+- `godotw --headless --fixed-fps 60 --quit-after 1800 -- --boss-test --auto-levelup`에서
+  - `MINIBOSS_WARNING_ON`
+  - `MINIBOSS_SPAWNED`
+  로그 확인
 - `mcporter call godot-local.godot_run_headless` 실행 통과
 
 ## Known Issues

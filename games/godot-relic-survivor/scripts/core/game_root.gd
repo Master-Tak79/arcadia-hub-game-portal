@@ -8,6 +8,7 @@ const SpawnDirector := preload("res://scripts/systems/spawn_director.gd")
 const AutoAttackSystem := preload("res://scripts/systems/auto_attack_system.gd")
 const CombatSystem := preload("res://scripts/systems/combat_system.gd")
 const UpgradeSystem := preload("res://scripts/systems/upgrade_system.gd")
+const MiniBossDirector := preload("res://scripts/systems/miniboss_director.gd")
 const LevelUpPanel := preload("res://scripts/ui/level_up_panel.gd")
 
 @onready var _player: Node2D = $Player
@@ -24,9 +25,12 @@ var _spawn_director: Node
 var _auto_attack_system: Node
 var _combat_system: Node
 var _upgrade_system: Node
+var _miniboss_director: Node
 var _level_up_panel: CanvasLayer
 
 var _current_level_choices: Array = []
+var _boss_spawn_time_override: float = -1.0
+var _auto_levelup: bool = false
 
 func _ready() -> void:
 	_state = GameState.new()
@@ -34,6 +38,7 @@ func _ready() -> void:
 	_balance = Balance.new()
 	_input_actions = InputActions.new()
 	_input_actions.ensure_default_bindings()
+	_detect_runtime_modes()
 
 	_player.setup(_balance, _state)
 	_hud.setup(_state, _player, _enemy_container, _projectile_container)
@@ -54,11 +59,20 @@ func _ready() -> void:
 	add_child(_upgrade_system)
 	_upgrade_system.setup(_state)
 
+	_miniboss_director = MiniBossDirector.new()
+	add_child(_miniboss_director)
+	_miniboss_director.setup(_balance, _state, _player, _enemy_container, _boss_spawn_time_override)
+	_hud.set_miniboss_director(_miniboss_director)
+
 	_level_up_panel = LevelUpPanel.new()
 	add_child(_level_up_panel)
 	_level_up_panel.choice_selected.connect(_on_level_up_choice_selected)
 
 	_start_round()
+	if _boss_spawn_time_override > 0.0:
+		print("BOSS_TEST_MODE_ON")
+	if _auto_levelup:
+		print("AUTO_LEVELUP_ON")
 	print("RELIC_SURVIVOR_BOOT_OK")
 
 func _process(delta: float) -> void:
@@ -67,8 +81,12 @@ func _process(delta: float) -> void:
 			_restart_round()
 		return
 
-	if not _state.is_paused:
-		_state.elapsed += delta
+	if _state.is_paused:
+		if _auto_levelup and not _current_level_choices.is_empty():
+			_on_level_up_choice_selected(0)
+		return
+
+	_state.elapsed += delta
 
 	while not _state.is_game_over and not _state.is_paused and _state.can_level_up():
 		_state.consume_level_up()
@@ -90,6 +108,8 @@ func _start_round() -> void:
 		_auto_attack_system.reset_runtime()
 	if _combat_system and _combat_system.has_method("reset_runtime"):
 		_combat_system.reset_runtime()
+	if _miniboss_director and _miniboss_director.has_method("reset_runtime"):
+		_miniboss_director.reset_runtime()
 	if _level_up_panel and _level_up_panel.has_method("hide_panel"):
 		_level_up_panel.hide_panel()
 
@@ -129,6 +149,13 @@ func _on_level_up_choice_selected(choice_index: int) -> void:
 	if not _state.is_game_over:
 		_player.set_enabled(true)
 	_level_up_panel.hide_panel()
+
+func _detect_runtime_modes() -> void:
+	for arg in OS.get_cmdline_user_args():
+		if arg == "--boss-test" or arg == "boss-test":
+			_boss_spawn_time_override = 12.0
+		elif arg == "--auto-levelup" or arg == "auto-levelup":
+			_auto_levelup = true
 
 func _clear_container(container: Node2D) -> void:
 	for node in container.get_children():

@@ -55,7 +55,10 @@ func _process_projectile_hits() -> void:
 					killed = bool(enemy.apply_damage(damage))
 				if killed:
 					_state.kills += 1
-					_state.gain_exp(int(_balance.EXP_PER_KILL))
+					var exp_reward: int = int(_balance.EXP_PER_KILL)
+					if enemy.has_method("get_exp_reward"):
+						exp_reward = int(enemy.get_exp_reward())
+					_state.gain_exp(exp_reward)
 				projectile.queue_free()
 				break
 
@@ -74,7 +77,10 @@ func _process_player_hits() -> void:
 
 		var enemy_radius: float = float(enemy.get_hit_radius())
 		if _player.position.distance_to(enemy.position) <= player_hit_radius + enemy_radius:
-			_state.hp = max(0, _state.hp - 1)
+			var damage: int = 1
+			if enemy.has_method("get_contact_damage"):
+				damage = max(1, int(enemy.get_contact_damage()))
+			_state.hp = max(0, _state.hp - damage)
 			_player_damage_cooldown_left = float(_balance.PLAYER_HIT_INVULN) + float(_state.player_invuln_bonus)
 			if _state.hp <= 0:
 				_state.is_game_over = true

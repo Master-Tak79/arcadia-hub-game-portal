@@ -4,6 +4,8 @@ var target: Node2D
 var speed: float = 130.0
 var hp: int = 2
 var hit_radius: float = 14.0
+var exp_reward: int = 3
+var contact_damage: int = 1
 
 func setup(target_node: Node2D, base_speed: float, base_hp: int, base_hit_radius: float) -> void:
 	target = target_node
@@ -21,6 +23,12 @@ func apply_damage(amount: int) -> bool:
 
 func get_hit_radius() -> float:
 	return hit_radius
+
+func get_exp_reward() -> int:
+	return exp_reward
+
+func get_contact_damage() -> int:
+	return contact_damage
 
 func _process(delta: float) -> void:
 	if target == null:

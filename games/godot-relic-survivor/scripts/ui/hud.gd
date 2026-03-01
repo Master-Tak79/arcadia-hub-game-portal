@@ -4,6 +4,7 @@ var _state: RefCounted
 var _player: Node2D
 var _enemy_container: Node2D
 var _projectile_container: Node2D
+var _miniboss_director: Node
 var _label: Label
 
 func setup(state: RefCounted, player: Node2D, enemy_container: Node2D, projectile_container: Node2D) -> void:
@@ -13,9 +14,12 @@ func setup(state: RefCounted, player: Node2D, enemy_container: Node2D, projectil
 	_projectile_container = projectile_container
 	_label = Label.new()
 	_label.position = Vector2(16, 16)
-	_label.size = Vector2(500, 260)
+	_label.size = Vector2(560, 300)
 	add_child(_label)
 	_refresh()
+
+func set_miniboss_director(director: Node) -> void:
+	_miniboss_director = director
 
 func _process(_delta: float) -> void:
 	_refresh()
@@ -46,6 +50,15 @@ func _refresh() -> void:
 
 	if _state.is_paused and not _state.is_game_over:
 		text += "\nLEVEL UP 선택 중 (1/2/3)"
+
+	if _miniboss_director:
+		if _miniboss_director.has_method("is_warning_active") and _miniboss_director.is_warning_active():
+			var remain: float = 0.0
+			if _miniboss_director.has_method("get_warning_remaining"):
+				remain = _miniboss_director.get_warning_remaining()
+			text += "\n⚠ MINIBOSS INCOMING: %.1fs" % remain
+		elif _miniboss_director.has_method("is_boss_alive") and _miniboss_director.is_boss_alive():
+			text += "\n🔥 MINIBOSS ACTIVE"
 
 	if _state.is_game_over:
 		text += "\nGAME OVER\nPress [R] to Restart"

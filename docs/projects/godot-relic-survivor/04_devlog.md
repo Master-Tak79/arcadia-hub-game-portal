@@ -113,6 +113,41 @@
 - 미니 보스 1종 구현
 - 수동 QA 3회로 레벨업 선택 체감/밸런스 점검
 
+## 2026-03-01 17:18 KST
+### 오늘 목표
+- 미니 보스 1종 + 10분 페이즈 경고/등장 로직 구현
+
+### 진행 내용
+- 미니 보스 엔티티(`enemy_miniboss.gd`) 구현
+  - 고체력/대형 히트박스/강화 돌진 패턴
+  - 접촉 피해 2, 처치 EXP 보상 80
+- 미니 보스 디렉터(`miniboss_director.gd`) 구현
+  - 기본 10분(`600s`) 페이즈 진입
+  - 등장 전 경고(`MINIBOSS_WARNING_DURATION`) 활성화
+  - 보스 등장/격파 상태 추적
+- HUD 확장
+  - 보스 경고 카운트다운 및 ACTIVE 상태 표기
+- 전투 시스템 확장
+  - 적 개체별 `get_contact_damage`, `get_exp_reward` 반영
+- 테스트 보조 모드
+  - `--boss-test` (보스 등장 시점 12초 오버라이드)
+  - `--auto-levelup` (헤드리스 QA 시 자동 1번 선택)
+
+### 이슈/해결
+- 이슈: 헤드리스 장시간 테스트에서 레벨업 패널 입력 대기 시 시간 정지
+- 해결: `--auto-levelup` 런타임 옵션으로 자동 선택 경로 추가
+
+### 검증 결과
+- `./scripts/godotw --headless --path ./games/godot-relic-survivor --quit-after 900` 통과
+- `./scripts/godotw --headless --path ./games/godot-relic-survivor --fixed-fps 60 --quit-after 1800 -- --boss-test --auto-levelup`
+  - `MINIBOSS_WARNING_ON`
+  - `MINIBOSS_SPAWNED`
+  확인
+
+### 다음 액션
+- 미니 보스 스킬 패턴 1종 추가(원형 탄막 또는 소환 패턴)
+- 보스 처치/실패 시 연출 및 리워드 UX 보강
+
 ## 2026-03-01 16:45 KST
 ### 오늘 목표
 - 요청 문서 가시화 및 운영 문서 체계 강화

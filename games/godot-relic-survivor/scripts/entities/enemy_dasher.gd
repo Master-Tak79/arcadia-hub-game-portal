@@ -4,6 +4,8 @@ var target: Node2D
 var speed: float = 90.0
 var hp: int = 3
 var hit_radius: float = 15.0
+var exp_reward: int = 5
+var contact_damage: int = 1
 
 var dash_speed: float = 340.0
 var dash_interval: float = 1.8
@@ -34,6 +36,12 @@ func apply_damage(amount: int) -> bool:
 
 func get_hit_radius() -> float:
 	return hit_radius
+
+func get_exp_reward() -> int:
+	return exp_reward
+
+func get_contact_damage() -> int:
+	return contact_damage
 
 func _process(delta: float) -> void:
 	if target == null:
