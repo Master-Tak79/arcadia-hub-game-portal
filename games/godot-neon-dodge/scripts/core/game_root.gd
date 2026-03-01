@@ -6,6 +6,7 @@ const Balance := preload("res://scripts/data/balance.gd")
 const InputActions := preload("res://scripts/core/input_actions.gd")
 const Spawner := preload("res://scripts/systems/spawner.gd")
 const ScoreSystem := preload("res://scripts/systems/score_system.gd")
+const QaDriver := preload("res://scripts/systems/qa_driver.gd")
 
 @onready var _player: Node2D = $Player
 @onready var _enemy_container: Node2D = $EnemyContainer
@@ -18,7 +19,9 @@ var _input_actions: RefCounted
 
 var _spawner: Node
 var _score_system: Node
+var _qa_driver: Node
 var _damage_cooldown_left: float = 0.0
+var _qa_autoplay: bool = false
 
 func _ready() -> void:
 	_state = GameState.new()
@@ -26,6 +29,7 @@ func _ready() -> void:
 	_balance = Balance.new()
 	_input_actions = InputActions.new()
 	_input_actions.ensure_default_bindings()
+	_detect_runtime_modes()
 
 	_player.setup(_balance)
 	_hud.setup(_signal_bus, _state, _player, _enemy_container)
@@ -40,7 +44,15 @@ func _ready() -> void:
 	add_child(_score_system)
 	_score_system.setup(_state, _signal_bus)
 
+	_qa_driver = QaDriver.new()
+	add_child(_qa_driver)
+	_qa_driver.setup(_player, _balance, _state, _qa_autoplay)
+	_qa_driver.force_damage.connect(_on_player_hit)
+	_qa_driver.request_restart.connect(_on_qa_restart_requested)
+
 	_start_round()
+	if _qa_autoplay:
+		print("QA_AUTOPLAY_ON")
 	print("NEON_DODGE_BOOT_OK")
 
 func _process(delta: float) -> void:
@@ -87,6 +99,15 @@ func _start_round() -> void:
 
 func _restart_round() -> void:
 	_start_round()
+
+func _on_qa_restart_requested(restart_count: int) -> void:
+	_restart_round()
+	print("QA_RESTART_%d" % restart_count)
+
+func _detect_runtime_modes() -> void:
+	for arg in OS.get_cmdline_user_args():
+		if arg == "--qa-autoplay" or arg == "qa-autoplay":
+			_qa_autoplay = true
 
 func _clear_enemies() -> void:
 	for node in _enemy_container.get_children():
