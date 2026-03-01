@@ -17,6 +17,7 @@ func _ready() -> void:
 	_create_slot(SLOT_BOSS_WARNING, -8.0)
 	_create_slot(SLOT_BOSS_SPAWN, -6.0)
 	_create_slot(SLOT_BOSS_DEFEAT, -4.0)
+	configure_default_paths()
 
 func configure_default_paths() -> void:
 	for slot in _DEFAULT_SLOT_PATHS.keys():
@@ -32,12 +33,20 @@ func set_slot_stream(slot: String, stream: AudioStream) -> void:
 func set_slot_stream_from_path(slot: String, resource_path: String) -> void:
 	if not _players.has(slot):
 		return
-	if not ResourceLoader.exists(resource_path):
-		return
 
-	var stream := load(resource_path)
-	if stream is AudioStream:
-		set_slot_stream(slot, stream)
+	# 1) Try regular resource loading
+	if ResourceLoader.exists(resource_path):
+		var stream := load(resource_path)
+		if stream is AudioStream:
+			set_slot_stream(slot, stream)
+			return
+
+	# 2) Fallback for direct ogg files in project path
+	var abs_path: String = ProjectSettings.globalize_path(resource_path)
+	if FileAccess.file_exists(abs_path):
+		var ogg_stream := AudioStreamOggVorbis.load_from_file(abs_path)
+		if ogg_stream:
+			set_slot_stream(slot, ogg_stream)
 
 func play_slot(slot: String) -> void:
 	if not _players.has(slot):

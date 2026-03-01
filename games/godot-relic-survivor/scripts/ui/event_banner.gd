@@ -40,8 +40,7 @@ func show_message(text: String, duration: float = 2.2, tint: Color = Color("#1E2
 	visible = true
 	_label.text = text
 	_base_color = tint
-	_panel_bg.color = tint
-	modulate = Color(1, 1, 1, 1)
+	_set_alpha(1.0)
 
 func _process(delta: float) -> void:
 	if not visible:
@@ -51,7 +50,13 @@ func _process(delta: float) -> void:
 	if _duration > 0.0:
 		var fade_ratio: float = clampf(_time_left / _duration, 0.0, 1.0)
 		var alpha: float = 0.25 + 0.75 * fade_ratio
-		modulate = Color(1, 1, 1, alpha)
+		_set_alpha(alpha)
 
 	if _time_left <= 0.0:
 		visible = false
+
+func _set_alpha(alpha: float) -> void:
+	var bg := _base_color
+	bg.a = 0.86 * alpha
+	_panel_bg.color = bg
+	_label.self_modulate = Color(1, 1, 1, alpha)

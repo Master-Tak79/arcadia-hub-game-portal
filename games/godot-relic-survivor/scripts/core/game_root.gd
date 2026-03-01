@@ -98,8 +98,6 @@ func _ready() -> void:
 
 	_sfx_slots = SfxSlots.new()
 	add_child(_sfx_slots)
-	if _sfx_slots and _sfx_slots.has_method("configure_default_paths"):
-		_sfx_slots.configure_default_paths()
 
 	_qa_runtime = QaRuntime.new()
 	_qa_runtime.setup(_runtime_options, _balance, _state, _player)

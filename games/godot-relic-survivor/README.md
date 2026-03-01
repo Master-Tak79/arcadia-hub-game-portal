@@ -38,6 +38,7 @@
   - `res://assets/audio/boss_warning.ogg`
   - `res://assets/audio/boss_spawn.ogg`
   - `res://assets/audio/boss_defeat.ogg`
+- 현재 프로젝트에는 임시 generated SFX가 주입되어 있습니다.
 - 파일이 없으면 게임은 정상 동작하며, 슬롯 미할당 로그만 1회 출력됩니다.
 
 ## 프로젝트 문서

@@ -8,7 +8,7 @@ var _pulse_time_left: float = 0.0
 var _pulse_strength: float = 0.0
 
 func _ready() -> void:
-	current = true
+	make_current()
 	position = Vector2(640, 360)
 	_base_zoom = zoom
 

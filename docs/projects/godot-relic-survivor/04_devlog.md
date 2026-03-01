@@ -487,3 +487,35 @@
 ### 추가 문서화
 - `11_manual_qa_protocol.md` 작성 (수동 QA 3회/실FPS 실측 절차)
 - `12_balance_tuning_log.md` 작성 (튜닝 변경 이력 관리)
+
+## 2026-03-01 20:06 KST
+### 오늘 목표
+- 보스 연출 4차 실체화(SFX 주입) + 난이도 5차 회귀 안정화
+
+### 진행 내용
+- D드라이브 원본 경로에 보스 SFX 3종 생성/저장
+  - `/mnt/d/OpenClaw_Downloads/game-assets/audio/relic-survivor/boss_warning.ogg`
+  - `/mnt/d/OpenClaw_Downloads/game-assets/audio/relic-survivor/boss_spawn.ogg`
+  - `/mnt/d/OpenClaw_Downloads/game-assets/audio/relic-survivor/boss_defeat.ogg`
+- 프로젝트 반영
+  - `assets/audio/*.ogg` 주입
+  - `audio/sfx_slots.gd` 로딩 fallback 보강(ResourceLoader/FileAccess)
+- 연출 확장
+  - 경고/등장/처치에 카메라 + SFX 슬롯 연동
+- 웨이브 5차 유지
+  - 보스 활성/처치 직후 회복 구간 로직 유지 검증
+
+### 이슈/해결
+- 이슈: 초기 구현에서 슬롯 미할당 로그 발생
+- 해결: `sfx_slots` 초기화 시점 및 파일 로딩 fallback 개선으로 해소
+
+### 검증 결과
+- 스모크 통과 (`RELIC_SURVIVOR_BOOT_OK`)
+- 보스 루프 통과
+  - `MINIBOSS_WARNING_ON`, `MINIBOSS_SPAWNED`, `MINIBOSS_DEFEATED`, `BOSS_CLEAR_REWARD_APPLIED`
+- `SFX_SLOT_UNASSIGNED` 로그 미발생 확인
+- 5분 회귀 루프 통과
+
+### 다음 액션
+- 임시 generated SFX를 최종 품질 SFX로 교체(선택)
+- 수동 QA 재개 시 체감 튜닝 확정

@@ -69,6 +69,8 @@
   - 튜닝 후 `godotw --headless --fixed-fps 60 --quit-after 36000 -- --auto-levelup --qa-autopilot` x2 통과
 - 5분 회귀 시뮬레이션:
   - `godotw --headless --fixed-fps 60 --quit-after 18000 -- --auto-levelup --qa-autopilot` 통과
+- SFX 슬롯 검증:
+  - `--boss-test --auto-levelup --qa-autopilot`에서 `SFX_SLOT_UNASSIGNED` 미출력 확인
 - 보스 루프 QA 3회:
   - `godotw --headless --fixed-fps 60 --quit-after 5400 -- --boss-test --auto-levelup --qa-autopilot` x3
   - `MINIBOSS_WARNING_ON`
@@ -82,7 +84,7 @@
 - `mcporter call godot-local.godot_run_headless` 실행 통과
 
 ## Known Issues
-- 사운드 슬롯은 연결 완료했으나 실제 오디오 파일은 미주입 상태(`assets/audio/*.ogg`)
+- 현재 보스 SFX는 임시 generated 자산(내부 생성본)으로, 최종 퀄리티 교체 여지
 - 후반 웨이브 밀도 미세조정(6차 폴리싱) 여지
 - 실수동 QA 3회(키 입력 기반 조작감/난이도 체감) 사용자 요청으로 보류
 - 실GUI 환경 FPS 실측 체크 보류(수동 QA 재개 시 동시 수행)
