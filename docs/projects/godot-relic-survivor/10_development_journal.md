@@ -36,3 +36,5 @@
 - 수동 QA 및 튜닝 이력 문서 추가
   - `11_manual_qa_protocol.md`
   - `12_balance_tuning_log.md`
+- Alpha 준비 문서 추가
+  - `13_alpha_readiness_report.md` (자동검증 기준 alpha-candidate)

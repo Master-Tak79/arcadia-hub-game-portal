@@ -13,6 +13,7 @@
   - `10_development_journal.md`
   - `11_manual_qa_protocol.md`
   - `12_balance_tuning_log.md`
+  - `13_alpha_readiness_report.md`
 - 기존 `Godot Neon Dodge` 아카이브 전환
 - 코어 전투 시스템 1차
   - 자동공격(`auto_attack_system.gd`)
@@ -73,5 +74,5 @@
 ## Known Issues
 - 보스/중반 웨이브 체감 난이도 미세 조정(3차 폴리싱) 여지
 - 보스 처치 연출/보상 UX 추가 폴리싱(사운드/카메라) 미완
-- 실수동 QA 3회(키 입력 기반 조작감/난이도 체감) 아직 미진행
-- 실GUI 환경 FPS 실측 체크 미진행
+- 실수동 QA 3회(키 입력 기반 조작감/난이도 체감) 사용자 요청으로 보류
+- 실GUI 환경 FPS 실측 체크 보류(수동 QA 재개 시 동시 수행)
