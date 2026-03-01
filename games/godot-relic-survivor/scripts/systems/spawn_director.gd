@@ -47,8 +47,7 @@ func _process(delta: float) -> void:
 
 	_spawn_enemy()
 
-	var ramp: float = float(_balance.SPAWN_INTERVAL_BASE) - _elapsed * float(_balance.SPAWN_RAMP_PER_SEC)
-	_next_spawn_in = max(float(_balance.SPAWN_INTERVAL_MIN), ramp)
+	_next_spawn_in = _get_phase_spawn_interval()
 
 func get_active_enemy_count() -> int:
 	if _enemy_container == null:
@@ -61,7 +60,7 @@ func _spawn_enemy() -> void:
 	_enemy_container.add_child(enemy)
 
 func _make_enemy() -> Node2D:
-	var dasher_chance: float = clampf(float(_balance.SPAWN_DASHER_CHANCE_BASE) + _elapsed * float(_balance.SPAWN_DASHER_CHANCE_RAMP), 0.0, 0.65)
+	var dasher_chance: float = _get_phase_dasher_chance()
 	if randf() < dasher_chance:
 		var dasher := Node2D.new()
 		dasher.set_script(EnemyDasher)
@@ -85,6 +84,30 @@ func _make_enemy() -> Node2D:
 		float(_balance.ENEMY_GRUNT_HIT_RADIUS)
 	)
 	return grunt
+
+func _get_phase_spawn_interval() -> float:
+	var ramp: float = float(_balance.SPAWN_INTERVAL_BASE) - _elapsed * float(_balance.SPAWN_RAMP_PER_SEC)
+	var interval: float = max(float(_balance.SPAWN_INTERVAL_MIN), ramp)
+
+	# Phase shaping: early = gentler, late = slightly tighter
+	if _elapsed < 120.0:
+		interval += 0.08
+	elif _elapsed > 360.0:
+		interval = max(float(_balance.SPAWN_INTERVAL_MIN), interval - 0.04)
+
+	return interval
+
+func _get_phase_dasher_chance() -> float:
+	var base_chance: float = float(_balance.SPAWN_DASHER_CHANCE_BASE) + _elapsed * float(_balance.SPAWN_DASHER_CHANCE_RAMP)
+	var chance: float = base_chance
+
+	# Phase shaping: early reduce spike deaths, late recover pressure
+	if _elapsed < 120.0:
+		chance *= 0.60
+	elif _elapsed > 360.0:
+		chance += 0.06
+
+	return clampf(chance, 0.0, 0.65)
 
 func _random_edge_position() -> Vector2:
 	var w := float(_balance.ARENA_SIZE.x)

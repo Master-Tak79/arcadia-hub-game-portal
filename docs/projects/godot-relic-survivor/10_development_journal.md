@@ -31,8 +31,10 @@
 - `game_root` 책임 분리 1차 완료
   - `runtime_options`, `qa_runtime`, `boss_reward_runtime` 분리
 - 밸런스 2차 튜닝 완료(적 압박/스폰 곡선/보스 패턴 완화)
+- 밸런스 3차 미세 튜닝(페이즈 기반 스폰/Dasher 확률 보정)
 - 스폰 캡(soft/hard) 도입으로 장시간 안정성 보강
 - 보스 루프/재시작 루프/장시간 루프 회귀 검증 재통과
+- 이벤트 배너 2차 폴리싱 완료
 - 수동 QA 및 튜닝 이력 문서 추가
   - `11_manual_qa_protocol.md`
   - `12_balance_tuning_log.md`

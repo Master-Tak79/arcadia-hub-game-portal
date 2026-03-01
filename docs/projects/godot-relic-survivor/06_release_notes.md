@@ -49,7 +49,9 @@
   - `systems/qa_runtime.gd`
   - `systems/boss_reward_runtime.gd`
 - 난이도 2차 튜닝(적 속도/대시 빈도/스폰 곡선/보스 압박)
+- 난이도 3차 미세 튜닝(페이즈 기반 스폰 간격/Dasher 확률 보정)
 - 스폰 안전장치 추가(`ACTIVE_ENEMY_SOFT_CAP`, `ACTIVE_ENEMY_HARD_CAP`)
+- 이벤트 배너 2차 폴리싱(배경/페이드/상황별 강조색)
 
 ## Fixed
 - `spawn_director.gd` 타입 추론 경고 에러 처리(명시 타입 적용)
@@ -61,6 +63,8 @@
 - 10분 시뮬레이션:
   - `godotw --headless --fixed-fps 60 --quit-after 36000 -- --auto-levelup` x3 통과
   - 튜닝 후 `godotw --headless --fixed-fps 60 --quit-after 36000 -- --auto-levelup --qa-autopilot` x2 통과
+- 5분 회귀 시뮬레이션:
+  - `godotw --headless --fixed-fps 60 --quit-after 18000 -- --auto-levelup --qa-autopilot` 통과
 - 보스 루프 QA 3회:
   - `godotw --headless --fixed-fps 60 --quit-after 5400 -- --boss-test --auto-levelup --qa-autopilot` x3
   - `MINIBOSS_WARNING_ON`
@@ -74,7 +78,7 @@
 - `mcporter call godot-local.godot_run_headless` 실행 통과
 
 ## Known Issues
-- 보스/중반 웨이브 체감 난이도 미세 조정(3차 폴리싱) 여지
 - 보스 처치 연출/보상 UX 추가 폴리싱(사운드/카메라) 미완
+- 후반 웨이브 밀도 미세조정(4차 폴리싱) 여지
 - 실수동 QA 3회(키 입력 기반 조작감/난이도 체감) 사용자 요청으로 보류
 - 실GUI 환경 FPS 실측 체크 보류(수동 QA 재개 시 동시 수행)

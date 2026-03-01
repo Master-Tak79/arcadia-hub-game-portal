@@ -43,7 +43,7 @@ func _process_miniboss_state_transitions() -> void:
 		boss_alive = bool(_miniboss_director.is_boss_alive())
 
 	if boss_alive and not _last_boss_alive and _event_banner:
-		_event_banner.show_message("⚠ MINIBOSS HAS ENTERED THE ARENA", 1.8)
+		_event_banner.show_message("⚠ MINIBOSS HAS ENTERED THE ARENA", 1.9, Color("#7C2D12"))
 
 	if not boss_alive and _last_boss_alive and not _boss_reward_applied:
 		_apply_boss_clear_reward()
@@ -59,7 +59,7 @@ func _apply_boss_clear_reward() -> void:
 	_state.hp = min(_state.max_hp, _state.hp + heal)
 
 	if _event_banner:
-		_event_banner.show_message("✅ MINIBOSS DEFEATED\n+%d EXP  +%d HP" % [reward_exp, heal], 2.5)
+		_event_banner.show_message("✅ PHASE CLEAR: MINIBOSS DEFEATED\n+%d EXP  +%d HP" % [reward_exp, heal], 2.7, Color("#14532D"))
 	_signal_bus.emit_signal("hp_changed", _state.hp)
 	_signal_bus.emit_signal("exp_changed", _state.exp, _state.exp_to_next)
 	print("BOSS_CLEAR_REWARD_APPLIED")
