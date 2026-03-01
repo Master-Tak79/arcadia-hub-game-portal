@@ -42,13 +42,14 @@
 - 문서/경로 구조 반영 확인
 - `godotw --headless` 스모크 실행 통과 (`RELIC_SURVIVOR_BOOT_OK`)
 - `godotw --headless --fixed-fps 60 --quit-after 9000` 통과
-- `godotw --headless --fixed-fps 60 --quit-after 1800 -- --boss-test --auto-levelup`에서
+- `godotw --headless --fixed-fps 60 --quit-after 5400 -- --boss-test --auto-levelup`에서
   - `MINIBOSS_WARNING_ON`
   - `MINIBOSS_SPAWNED`
+  - `MINIBOSS_DEFEATED`
   로그 확인
 - `mcporter call godot-local.godot_run_headless` 실행 통과
 
 ## Known Issues
-- EXP/레벨업 3지선다 미구현
-- 미니 보스 미구현
+- 미니보스 소환 패턴/본체 돌진 패턴 난이도 2차 튜닝 필요
+- 보스 처치 연출/보상 UX 폴리싱 미완
 - 수동 QA 3회(조작감/난이도 체감) 대기

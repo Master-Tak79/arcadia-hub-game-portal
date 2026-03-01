@@ -59,6 +59,8 @@ func _refresh() -> void:
 			text += "\n⚠ MINIBOSS INCOMING: %.1fs" % remain
 		elif _miniboss_director.has_method("is_boss_alive") and _miniboss_director.is_boss_alive():
 			text += "\n🔥 MINIBOSS ACTIVE"
+		elif _miniboss_director.has_method("was_boss_defeated") and _miniboss_director.was_boss_defeated():
+			text += "\n✅ MINIBOSS DEFEATED"
 
 	if _state.is_game_over:
 		text += "\nGAME OVER\nPress [R] to Restart"

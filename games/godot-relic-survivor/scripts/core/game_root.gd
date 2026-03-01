@@ -30,6 +30,8 @@ var _level_up_panel: CanvasLayer
 
 var _current_level_choices: Array = []
 var _boss_spawn_time_override: float = -1.0
+var _boss_hp_scale_override: float = 1.0
+var _boss_test_boost: bool = false
 var _auto_levelup: bool = false
 
 func _ready() -> void:
@@ -61,7 +63,7 @@ func _ready() -> void:
 
 	_miniboss_director = MiniBossDirector.new()
 	add_child(_miniboss_director)
-	_miniboss_director.setup(_balance, _state, _player, _enemy_container, _boss_spawn_time_override)
+	_miniboss_director.setup(_balance, _state, _player, _enemy_container, _boss_spawn_time_override, _boss_hp_scale_override)
 	_hud.set_miniboss_director(_miniboss_director)
 
 	_level_up_panel = LevelUpPanel.new()
@@ -71,6 +73,8 @@ func _ready() -> void:
 	_start_round()
 	if _boss_spawn_time_override > 0.0:
 		print("BOSS_TEST_MODE_ON")
+	if _boss_test_boost:
+		print("BOSS_TEST_BOOST_ON")
 	if _auto_levelup:
 		print("AUTO_LEVELUP_ON")
 	print("RELIC_SURVIVOR_BOOT_OK")
@@ -83,7 +87,8 @@ func _process(delta: float) -> void:
 
 	if _state.is_paused:
 		if _auto_levelup and not _current_level_choices.is_empty():
-			_on_level_up_choice_selected(0)
+			var auto_idx: int = _pick_auto_levelup_index(_current_level_choices)
+			_on_level_up_choice_selected(auto_idx)
 		return
 
 	_state.elapsed += delta
@@ -97,6 +102,14 @@ func _process(delta: float) -> void:
 
 func _start_round() -> void:
 	_state.reset()
+	if _boss_test_boost:
+		_state.max_hp = 20
+		_state.hp = 20
+		_state.attack_interval_reduction = 0.35
+		_state.attack_range_bonus = 180.0
+		_state.projectile_damage_bonus = 2
+		_state.extra_projectiles = 1
+		_state.player_invuln_bonus = 0.25
 	_current_level_choices = []
 	_player.position = Vector2(float(_balance.ARENA_SIZE.x) * 0.5, float(_balance.ARENA_SIZE.y) * 0.5)
 	_player.reset_runtime()
@@ -154,8 +167,37 @@ func _detect_runtime_modes() -> void:
 	for arg in OS.get_cmdline_user_args():
 		if arg == "--boss-test" or arg == "boss-test":
 			_boss_spawn_time_override = 12.0
+			_boss_hp_scale_override = 0.25
+			_boss_test_boost = true
 		elif arg == "--auto-levelup" or arg == "auto-levelup":
 			_auto_levelup = true
+
+func _pick_auto_levelup_index(choices: Array) -> int:
+	var priorities := {
+		"extra_projectiles": 100,
+		"projectile_damage_bonus": 95,
+		"attack_interval_reduction": 92,
+		"projectile_speed_bonus": 80,
+		"attack_range_bonus": 72,
+		"max_hp_plus_heal": 60,
+		"instant_heal": 50,
+		"player_speed_bonus": 40,
+		"dash_cooldown_reduction": 35,
+		"player_invuln_bonus": 30,
+		"projectile_radius_bonus": 28,
+		"projectile_lifetime_bonus": 26
+	}
+
+	var best_idx: int = 0
+	var best_score: int = -9999
+	for i in range(choices.size()):
+		var choice: Dictionary = choices[i]
+		var effect_key: String = String(choice.get("effect_key", ""))
+		var score: int = int(priorities.get(effect_key, 0))
+		if score > best_score:
+			best_score = score
+			best_idx = i
+	return best_idx
 
 func _clear_container(container: Node2D) -> void:
 	for node in container.get_children():

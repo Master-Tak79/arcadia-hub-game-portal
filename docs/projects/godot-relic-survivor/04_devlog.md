@@ -169,3 +169,36 @@
 
 ### 다음 액션
 - 문서 기준으로 EXP/레벨업 3지선다 구현 착수
+
+## 2026-03-01 17:31 KST
+### 오늘 목표
+- 미니보스 패턴 확장(추가 1종) + 보스 처치 루프 검증 완료
+
+### 진행 내용
+- 미니보스 패턴 확장:
+  - 소환 패턴 추가(`enemy_miniboss.gd`)
+  - 주기적으로 Grunt/Dasher 소환
+- 미니보스 디렉터 강화(`miniboss_director.gd`):
+  - 보스 격파 상태(`was_boss_defeated`) 추적
+  - 테스트용 HP 스케일 오버라이드 지원
+- 게임 루프 테스트 보강(`game_root.gd`):
+  - `--boss-test`에서 QA 부스트(보스 처치 루프 재현성 강화)
+  - `--auto-levelup` 자동 선택 우선순위 로직(딜 중심)
+- HUD 확장:
+  - 보스 격파 시 `✅ MINIBOSS DEFEATED` 표시
+
+### 이슈/해결
+- 이슈: 기본 보스 테스트에서 처치 로그가 재현되지 않음
+- 해결: QA 전용 `boss-test boost` + 자동 레벨업 선택 우선순위로 처치 루프 재현
+
+### 검증 결과
+- `./scripts/godotw --headless --path ./games/godot-relic-survivor --fixed-fps 60 --quit-after 5400 -- --boss-test --auto-levelup`
+  - `MINIBOSS_WARNING_ON`
+  - `MINIBOSS_SPAWNED`
+  - `MINIBOSS_DEFEATED`
+  확인
+- 기본 스모크(`--quit-after 900`) 통과
+
+### 다음 액션
+- 보스 처치 보상 UX(연출/배너) 보강
+- 10분 시뮬레이션 3회 + 수동 QA 3회 진행

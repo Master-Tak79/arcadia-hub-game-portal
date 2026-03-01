@@ -9,6 +9,7 @@ var _enemy_container: Node2D
 
 var _spawn_time: float = 600.0
 var _warning_duration: float = 3.0
+var _hp_scale: float = 1.0
 
 var _warning_started: bool = false
 var _warning_active: bool = false
@@ -16,9 +17,17 @@ var _warning_ends_at: float = 0.0
 
 var _spawned: bool = false
 var _boss_alive: bool = false
+var _boss_defeated: bool = false
 var _boss_ref: Node2D
 
-func setup(balance: RefCounted, state: RefCounted, player: Node2D, enemy_container: Node2D, spawn_time_override: float = -1.0) -> void:
+func setup(
+	balance: RefCounted,
+	state: RefCounted,
+	player: Node2D,
+	enemy_container: Node2D,
+	spawn_time_override: float = -1.0,
+	hp_scale_override: float = 1.0
+) -> void:
 	_balance = balance
 	_state = state
 	_player = player
@@ -26,6 +35,7 @@ func setup(balance: RefCounted, state: RefCounted, player: Node2D, enemy_contain
 
 	_spawn_time = float(_balance.MINIBOSS_SPAWN_TIME)
 	_warning_duration = float(_balance.MINIBOSS_WARNING_DURATION)
+	_hp_scale = max(0.1, hp_scale_override)
 	if spawn_time_override > 0.0:
 		_spawn_time = spawn_time_override
 
@@ -37,6 +47,7 @@ func reset_runtime() -> void:
 	_warning_ends_at = 0.0
 	_spawned = false
 	_boss_alive = false
+	_boss_defeated = false
 	_boss_ref = null
 
 func _process(_delta: float) -> void:
@@ -64,6 +75,7 @@ func _process(_delta: float) -> void:
 	if _spawned and _boss_alive:
 		if _boss_ref == null or _boss_ref.is_queued_for_deletion():
 			_boss_alive = false
+			_boss_defeated = true
 			print("MINIBOSS_DEFEATED")
 
 func is_warning_active() -> bool:
@@ -77,6 +89,9 @@ func get_warning_remaining() -> float:
 func is_boss_alive() -> bool:
 	return _boss_alive
 
+func was_boss_defeated() -> bool:
+	return _boss_defeated
+
 func has_spawned() -> bool:
 	return _spawned
 
@@ -86,18 +101,36 @@ func get_spawn_time() -> float:
 func _spawn_miniboss() -> void:
 	if _spawned:
 		return
+
+	var summon_cfg: Dictionary = {
+		"grunt_speed": float(_balance.ENEMY_GRUNT_SPEED) * 1.05,
+		"grunt_hp": max(1, int(_balance.ENEMY_GRUNT_HP)),
+		"grunt_hit_radius": float(_balance.ENEMY_GRUNT_HIT_RADIUS),
+		"dasher_speed": float(_balance.ENEMY_DASHER_SPEED) * 1.08,
+		"dasher_hp": max(1, int(_balance.ENEMY_DASHER_HP) - 1),
+		"dasher_hit_radius": float(_balance.ENEMY_DASHER_HIT_RADIUS),
+		"dasher_dash_speed": float(_balance.ENEMY_DASHER_DASH_SPEED) * 0.95,
+		"dasher_dash_interval": float(_balance.ENEMY_DASHER_DASH_INTERVAL),
+		"dasher_dash_duration": float(_balance.ENEMY_DASHER_DASH_DURATION)
+	}
+
+	var scaled_hp: int = max(20, int(round(float(_balance.MINIBOSS_HP) * _hp_scale)))
 	var boss := Node2D.new()
 	boss.set_script(EnemyMiniBoss)
 	boss.setup(
 		_player,
 		float(_balance.MINIBOSS_SPEED),
-		int(_balance.MINIBOSS_HP),
+		scaled_hp,
 		float(_balance.MINIBOSS_HIT_RADIUS),
 		float(_balance.MINIBOSS_DASH_SPEED),
 		float(_balance.MINIBOSS_DASH_INTERVAL),
 		float(_balance.MINIBOSS_DASH_DURATION),
 		int(_balance.MINIBOSS_CONTACT_DAMAGE),
-		int(_balance.MINIBOSS_EXP_REWARD)
+		int(_balance.MINIBOSS_EXP_REWARD),
+		float(_balance.MINIBOSS_SUMMON_INTERVAL),
+		int(_balance.MINIBOSS_SUMMON_COUNT),
+		float(_balance.MINIBOSS_SUMMON_RADIUS),
+		summon_cfg
 	)
 	boss.position = Vector2(float(_balance.ARENA_SIZE.x) * 0.5, -60.0)
 	_enemy_container.add_child(boss)
