@@ -15,7 +15,13 @@
 ../../scripts/godotw --headless --path . --quit-after 360
 
 # 보스 테스트 모드(경고/등장/처치 검증)
-../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 5400 -- --boss-test --auto-levelup
+../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 5400 -- --boss-test --auto-levelup --qa-autopilot
+
+# 10분 안정성 시뮬레이션
+../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 36000 -- --auto-levelup
+
+# 재시작 루프 QA
+../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 3000 -- --qa-force-damage --qa-auto-restart
 ```
 
 ## 구조
