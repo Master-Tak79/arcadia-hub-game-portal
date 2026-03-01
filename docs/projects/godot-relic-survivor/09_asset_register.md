@@ -14,6 +14,9 @@
 | ID | Type | Name | Source | License | Original Path (D:) | Project Path | Modified | Notes |
 |---|---|---|---|---|---|---|---|---|
 | RS-000 | Placeholder | Procedural shapes (code draw) | internal | internal | - | scripts/ui, scripts/entities | Yes | 초기 개발 단계 코드 기반 렌더 |
+| RS-001 | Audio Slot | Boss Warning SFX (slot) | pending | pending | `/mnt/d/OpenClaw_Downloads/game-assets/audio/relic-survivor/boss_warning.*` | `assets/audio/boss_warning.ogg` | TBD | 슬롯 구조만 선반영, 파일은 추후 주입 |
+| RS-002 | Audio Slot | Boss Spawn SFX (slot) | pending | pending | `/mnt/d/OpenClaw_Downloads/game-assets/audio/relic-survivor/boss_spawn.*` | `assets/audio/boss_spawn.ogg` | TBD | 슬롯 구조만 선반영, 파일은 추후 주입 |
+| RS-003 | Audio Slot | Boss Defeat SFX (slot) | pending | pending | `/mnt/d/OpenClaw_Downloads/game-assets/audio/relic-survivor/boss_defeat.*` | `assets/audio/boss_defeat.ogg` | TBD | 슬롯 구조만 선반영, 파일은 추후 주입 |
 
 ## 운영 규칙
 

@@ -103,6 +103,8 @@ func _get_phase_spawn_interval() -> float:
 	# Boss phase guardrail: keep reads manageable while boss is active
 	if _is_boss_active():
 		interval += float(_balance.BOSS_PHASE_SPAWN_INTERVAL_BONUS)
+	elif _is_post_boss_recovery():
+		interval += float(_balance.POST_BOSS_SPAWN_INTERVAL_BONUS)
 
 	return interval
 
@@ -119,6 +121,8 @@ func _get_phase_dasher_chance() -> float:
 	# Boss phase guardrail: reduce bursty dash pressure while boss is active
 	if _is_boss_active():
 		chance *= float(_balance.BOSS_PHASE_DASHER_CHANCE_MULT)
+	elif _is_post_boss_recovery():
+		chance *= float(_balance.POST_BOSS_DASHER_CHANCE_MULT)
 
 	return clampf(chance, 0.0, 0.65)
 
@@ -128,6 +132,20 @@ func _is_boss_active() -> bool:
 	if _miniboss_director.has_method("is_boss_alive"):
 		return bool(_miniboss_director.is_boss_alive())
 	return false
+
+func _is_post_boss_recovery() -> bool:
+	if _miniboss_director == null:
+		return false
+	if not _miniboss_director.has_method("was_boss_defeated"):
+		return false
+	if not bool(_miniboss_director.was_boss_defeated()):
+		return false
+	if not _miniboss_director.has_method("get_spawn_time"):
+		return false
+
+	var spawn_time: float = float(_miniboss_director.get_spawn_time())
+	var recovery_end: float = spawn_time + float(_balance.POST_BOSS_RECOVERY_DURATION)
+	return _elapsed <= recovery_end
 
 func _random_edge_position() -> Vector2:
 	var w := float(_balance.ARENA_SIZE.x)

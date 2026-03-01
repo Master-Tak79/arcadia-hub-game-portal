@@ -6,6 +6,7 @@ var _signal_bus: RefCounted
 var _miniboss_director: Node
 var _event_banner: CanvasLayer
 var _camera_fx: Camera2D
+var _sfx_slots: Node
 
 var _last_warning_active: bool = false
 var _last_boss_alive: bool = false
@@ -18,7 +19,8 @@ func setup(
 	signal_bus: RefCounted,
 	miniboss_director: Node,
 	event_banner: CanvasLayer,
-	camera_fx: Camera2D
+	camera_fx: Camera2D,
+	sfx_slots: Node
 ) -> void:
 	_balance = balance
 	_state = state
@@ -26,6 +28,7 @@ func setup(
 	_miniboss_director = miniboss_director
 	_event_banner = event_banner
 	_camera_fx = camera_fx
+	_sfx_slots = sfx_slots
 	reset_round()
 
 func reset_round() -> void:
@@ -56,12 +59,16 @@ func _process_miniboss_state_transitions() -> void:
 			_event_banner.show_message("⚠ WARNING: MINIBOSS APPROACHING", 1.6, Color("#7C2D12"))
 		if _camera_fx and _camera_fx.has_method("play_warning_pulse"):
 			_camera_fx.play_warning_pulse()
+		if _sfx_slots and _sfx_slots.has_method("play_boss_warning"):
+			_sfx_slots.play_boss_warning()
 
 	if boss_alive and not _last_boss_alive:
 		if _event_banner:
 			_event_banner.show_message("⚠ MINIBOSS HAS ENTERED THE ARENA", 1.9, Color("#7C2D12"))
 		if _camera_fx and _camera_fx.has_method("play_boss_spawn_impact"):
 			_camera_fx.play_boss_spawn_impact()
+		if _sfx_slots and _sfx_slots.has_method("play_boss_spawn"):
+			_sfx_slots.play_boss_spawn()
 
 	if not boss_alive and _last_boss_alive and not _boss_reward_applied:
 		_apply_boss_clear_reward()
@@ -85,6 +92,8 @@ func _apply_boss_clear_reward() -> void:
 
 	if _camera_fx and _camera_fx.has_method("play_boss_defeat_impact"):
 		_camera_fx.play_boss_defeat_impact()
+	if _sfx_slots and _sfx_slots.has_method("play_boss_defeat"):
+		_sfx_slots.play_boss_defeat()
 
 	_slowmo_time_left = 0.6
 	Engine.time_scale = 0.4

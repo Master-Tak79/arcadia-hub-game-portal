@@ -71,3 +71,25 @@
 ### 기대 효과
 - 보스전 중 잡몹 과밀로 인한 억울사 감소
 - 보스 패턴 집중도 향상
+
+## 2026-03-01 (5차 미세 튜닝)
+
+### 변경 요약
+- Boss-phase 추가 완화
+  - `BOSS_PHASE_SPAWN_INTERVAL_BONUS`: 0.10 → 0.12
+  - `BOSS_PHASE_DASHER_CHANCE_MULT`: 0.82 → 0.78
+- Post-boss recovery window 도입
+  - `POST_BOSS_RECOVERY_DURATION`: 45s
+  - `POST_BOSS_SPAWN_INTERVAL_BONUS`: +0.06
+  - `POST_BOSS_DASHER_CHANCE_MULT`: x0.86
+- SpawnDirector에 post-boss 회복 구간 로직 추가
+  - 보스 처치 직후 일정 시간 웨이브 압박 완화
+
+### 자동 검증 결과
+- 스모크 통과
+- 보스 루프 QA 통과
+- 회귀 5분 루프 통과
+
+### 기대 효과
+- 보스 처치 직후 급격한 재압박 완화
+- 페이즈 전환 체감 개선

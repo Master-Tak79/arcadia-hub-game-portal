@@ -29,8 +29,16 @@
 - `scripts/core/` 상태/루프/입력
 - `scripts/entities/` 플레이어/적/투사체
 - `scripts/systems/` 스폰/전투/성장 시스템
-- `scripts/ui/` HUD/패널
+- `scripts/ui/` HUD/패널/카메라 FX
+- `scripts/audio/` SFX 슬롯 런타임
 - `scripts/data/` 밸런스 데이터
+
+## 오디오 슬롯(보스 이벤트)
+- 기본 슬롯:
+  - `res://assets/audio/boss_warning.ogg`
+  - `res://assets/audio/boss_spawn.ogg`
+  - `res://assets/audio/boss_defeat.ogg`
+- 파일이 없으면 게임은 정상 동작하며, 슬롯 미할당 로그만 1회 출력됩니다.
 
 ## 프로젝트 문서
 - `docs/projects/godot-relic-survivor/00_game_blueprint.md`

@@ -429,6 +429,37 @@
 - 수동 QA 재개 시 체감 튜닝 확정
 - alpha-candidate 유지 상태에서 로컬 기능 확장 진행
 
+## 2026-03-01 19:49 KST
+### 오늘 목표
+- 로컬 계속 진행: 보스 연출 4차(사운드 슬롯) + 난이도 5차 미세 조정
+
+### 진행 내용
+- 사운드 슬롯 런타임 추가
+  - `scripts/audio/sfx_slots.gd`
+  - 슬롯: `boss_warning`, `boss_spawn`, `boss_defeat`
+  - 오디오 파일 미주입 시 1회 경고 로그 출력 후 정상 동작
+- 보스 이벤트 훅 연동
+  - `boss_reward_runtime.gd`에서 경고/등장/처치 시 사운드 슬롯 호출
+- 웨이브 5차 미세 조정
+  - 보스 페이즈 완화 강도 소폭 상향
+  - 보스 처치 후 회복 구간(post-boss recovery) 도입
+- 에셋 경로 준비
+  - `assets/audio/.gitkeep` 추가
+  - README/에셋대장에 슬롯 경로 규칙 반영
+
+### 이슈/해결
+- 이슈: 아직 실 오디오 에셋 미주입
+- 해결: 슬롯 기반 구조 먼저 고정, 에셋은 D드라이브 원본 관리 후 주입 예정
+
+### 검증 결과
+- `--quit-after 900` 스모크 통과
+- `--boss-test --auto-levelup --qa-autopilot` 보스 루프 통과
+- `--auto-levelup --qa-autopilot --quit-after 18000` 회귀 통과
+
+### 다음 액션
+- 사운드 에셋 1차 주입(경고/등장/처치)
+- 수동 QA 재개 시 체감/연출 최종 폴리싱
+
 ### 진행 메모
 - PR 오픈: https://github.com/Master-Tak79/arcadia-hub-game-portal/pull/74
 
