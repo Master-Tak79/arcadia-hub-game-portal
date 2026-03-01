@@ -62,6 +62,7 @@
 - 업그레이드 확장:
   - 총 16종으로 확대(기존 12 + 복합 효과 4)
   - `upgrade_system.gd` multi-effect 처리 지원
+  - 가중치 기반 제안 로직 도입(업그레이드 출현 빈도 제어)
 
 ## Fixed
 - `spawn_director.gd` 타입 추론 경고 에러 처리(명시 타입 적용)

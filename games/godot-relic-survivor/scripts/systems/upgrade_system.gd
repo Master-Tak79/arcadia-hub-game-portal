@@ -24,7 +24,7 @@ func roll_choices(count: int = 3) -> Array:
 
 	var choices: Array = []
 	while choices.size() < count and not pool.is_empty():
-		var idx: int = randi() % pool.size()
+		var idx: int = _pick_weighted_index(pool)
 		choices.append(pool[idx])
 		pool.remove_at(idx)
 
@@ -32,6 +32,25 @@ func roll_choices(count: int = 3) -> Array:
 		choices.append(choices[choices.size() - 1])
 
 	return choices
+
+func _pick_weighted_index(pool: Array) -> int:
+	var total: float = 0.0
+	for raw_def in pool:
+		var def: Dictionary = raw_def
+		total += max(0.01, float(def.get("weight", 1.0)))
+
+	if total <= 0.0:
+		return int(randi() % pool.size())
+
+	var roll: float = randf() * total
+	var acc: float = 0.0
+	for i in range(pool.size()):
+		var def: Dictionary = pool[i]
+		acc += max(0.01, float(def.get("weight", 1.0)))
+		if roll <= acc:
+			return i
+
+	return pool.size() - 1
 
 func apply_upgrade(choice: Dictionary) -> Dictionary:
 	var id: String = String(choice.get("id", ""))

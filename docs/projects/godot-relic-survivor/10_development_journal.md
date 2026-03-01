@@ -51,3 +51,12 @@
   - `13_alpha_readiness_report.md` (자동검증 기준 alpha-candidate)
   - `14_pr_description_alpha_candidate.md` (PR 본문 템플릿, 실사용 확정본)
   - `15_merge_handover_checklist.md` (머지/인수인계 체크리스트, 결정형)
+
+## 2026-03-01 (Upgrade Offer Stabilization)
+
+### 반영
+- 업그레이드 제안 로직을 가중치 기반으로 전환
+- 복합 효과 업그레이드의 조기 과다 노출을 완화
+
+### 검증
+- 스모크/보스 루프/5분 회귀 통과
