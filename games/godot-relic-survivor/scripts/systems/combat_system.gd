@@ -20,7 +20,7 @@ func reset_runtime() -> void:
 	_player_damage_cooldown_left = 0.0
 
 func _process(delta: float) -> void:
-	if _state == null or _state.is_game_over:
+	if _state == null or _state.is_game_over or _state.is_paused:
 		return
 	if _player == null or _enemy_container == null or _projectile_container == null:
 		return
@@ -50,11 +50,12 @@ func _process_projectile_hits() -> void:
 			var enemy_radius: float = float(enemy.get_hit_radius())
 			if projectile.position.distance_to(enemy.position) <= projectile_radius + enemy_radius:
 				var damage: int = int(projectile.damage)
-				var killed := false
+				var killed: bool = false
 				if enemy.has_method("apply_damage"):
 					killed = bool(enemy.apply_damage(damage))
 				if killed:
 					_state.kills += 1
+					_state.gain_exp(int(_balance.EXP_PER_KILL))
 				projectile.queue_free()
 				break
 
@@ -74,8 +75,9 @@ func _process_player_hits() -> void:
 		var enemy_radius: float = float(enemy.get_hit_radius())
 		if _player.position.distance_to(enemy.position) <= player_hit_radius + enemy_radius:
 			_state.hp = max(0, _state.hp - 1)
-			_player_damage_cooldown_left = float(_balance.PLAYER_HIT_INVULN)
+			_player_damage_cooldown_left = float(_balance.PLAYER_HIT_INVULN) + float(_state.player_invuln_bonus)
 			if _state.hp <= 0:
 				_state.is_game_over = true
+				_state.is_paused = false
 				_player.set_enabled(false)
 			return

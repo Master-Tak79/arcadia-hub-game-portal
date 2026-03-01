@@ -13,6 +13,7 @@ func setup(state: RefCounted, player: Node2D, enemy_container: Node2D, projectil
 	_projectile_container = projectile_container
 	_label = Label.new()
 	_label.position = Vector2(16, 16)
+	_label.size = Vector2(500, 260)
 	add_child(_label)
 	_refresh()
 
@@ -23,17 +24,29 @@ func _refresh() -> void:
 	if _label == null or _state == null:
 		return
 
-	var enemies := _enemy_container.get_child_count() if _enemy_container else 0
-	var projectiles := _projectile_container.get_child_count() if _projectile_container else 0
+	var enemies: int = _enemy_container.get_child_count() if _enemy_container else 0
+	var projectiles: int = _projectile_container.get_child_count() if _projectile_container else 0
+	var dash_text: String = "-"
+	if _player and _player.has_method("get_dash_cooldown_left"):
+		var cooldown_left: float = _player.get_dash_cooldown_left()
+		dash_text = "READY" if cooldown_left <= 0.01 else "%.2fs" % cooldown_left
 
-	var text := "HP: %d\nLV: %d\nTIME: %.1f\nKILLS: %d\nENEMIES: %d\nSHOTS: %d" % [
+	var text := "HP: %d / %d\nLV: %d\nEXP: %d / %d\nTIME: %.1f\nKILLS: %d\nENEMIES: %d\nSHOTS: %d\nDASH: %s" % [
 		_state.hp,
+		_state.max_hp,
 		_state.level,
+		_state.exp,
+		_state.exp_to_next,
 		_state.elapsed,
 		_state.kills,
 		enemies,
-		projectiles
+		projectiles,
+		dash_text
 	]
+
+	if _state.is_paused and not _state.is_game_over:
+		text += "\nLEVEL UP 선택 중 (1/2/3)"
+
 	if _state.is_game_over:
 		text += "\nGAME OVER\nPress [R] to Restart"
 	_label.text = text

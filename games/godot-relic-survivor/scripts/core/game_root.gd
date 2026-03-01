@@ -7,6 +7,8 @@ const InputActions := preload("res://scripts/core/input_actions.gd")
 const SpawnDirector := preload("res://scripts/systems/spawn_director.gd")
 const AutoAttackSystem := preload("res://scripts/systems/auto_attack_system.gd")
 const CombatSystem := preload("res://scripts/systems/combat_system.gd")
+const UpgradeSystem := preload("res://scripts/systems/upgrade_system.gd")
+const LevelUpPanel := preload("res://scripts/ui/level_up_panel.gd")
 
 @onready var _player: Node2D = $Player
 @onready var _enemy_container: Node2D = $EnemyContainer
@@ -21,6 +23,10 @@ var _input_actions: RefCounted
 var _spawn_director: Node
 var _auto_attack_system: Node
 var _combat_system: Node
+var _upgrade_system: Node
+var _level_up_panel: CanvasLayer
+
+var _current_level_choices: Array = []
 
 func _ready() -> void:
 	_state = GameState.new()
@@ -29,7 +35,7 @@ func _ready() -> void:
 	_input_actions = InputActions.new()
 	_input_actions.ensure_default_bindings()
 
-	_player.setup(_balance)
+	_player.setup(_balance, _state)
 	_hud.setup(_state, _player, _enemy_container, _projectile_container)
 
 	_spawn_director = SpawnDirector.new()
@@ -44,6 +50,14 @@ func _ready() -> void:
 	add_child(_combat_system)
 	_combat_system.setup(_balance, _state, _player, _enemy_container, _projectile_container)
 
+	_upgrade_system = UpgradeSystem.new()
+	add_child(_upgrade_system)
+	_upgrade_system.setup(_state)
+
+	_level_up_panel = LevelUpPanel.new()
+	add_child(_level_up_panel)
+	_level_up_panel.choice_selected.connect(_on_level_up_choice_selected)
+
 	_start_round()
 	print("RELIC_SURVIVOR_BOOT_OK")
 
@@ -53,14 +67,19 @@ func _process(delta: float) -> void:
 			_restart_round()
 		return
 
-	_state.elapsed += delta
-	_state.level = 1 + int(_state.kills / 15)
+	if not _state.is_paused:
+		_state.elapsed += delta
+
+	while not _state.is_game_over and not _state.is_paused and _state.can_level_up():
+		_state.consume_level_up()
+		_open_level_up_panel()
 
 	_player.position.x = clamp(_player.position.x, 0.0, float(_balance.ARENA_SIZE.x))
 	_player.position.y = clamp(_player.position.y, 0.0, float(_balance.ARENA_SIZE.y))
 
 func _start_round() -> void:
 	_state.reset()
+	_current_level_choices = []
 	_player.position = Vector2(float(_balance.ARENA_SIZE.x) * 0.5, float(_balance.ARENA_SIZE.y) * 0.5)
 	_player.reset_runtime()
 	_player.set_enabled(true)
@@ -71,9 +90,45 @@ func _start_round() -> void:
 		_auto_attack_system.reset_runtime()
 	if _combat_system and _combat_system.has_method("reset_runtime"):
 		_combat_system.reset_runtime()
+	if _level_up_panel and _level_up_panel.has_method("hide_panel"):
+		_level_up_panel.hide_panel()
 
 func _restart_round() -> void:
 	_start_round()
+
+func _open_level_up_panel() -> void:
+	_current_level_choices = _upgrade_system.roll_choices(3)
+	if _current_level_choices.is_empty():
+		return
+
+	for i in range(_current_level_choices.size()):
+		var choice: Dictionary = _current_level_choices[i]
+		var id: String = String(choice.get("id", ""))
+		choice["current_stack"] = _state.get_upgrade_stack(id)
+		_current_level_choices[i] = choice
+
+	_state.is_paused = true
+	_player.set_enabled(false)
+	_signal_bus.emit_signal("level_up_opened", _state.level)
+	_level_up_panel.show_choices(_current_level_choices, _state.level)
+
+func _on_level_up_choice_selected(choice_index: int) -> void:
+	if choice_index < 0 or choice_index >= _current_level_choices.size():
+		return
+
+	var picked: Dictionary = _current_level_choices[choice_index]
+	var result: Dictionary = _upgrade_system.apply_upgrade(picked)
+
+	_signal_bus.emit_signal("upgrade_applied", String(result.get("id", "")), int(result.get("stack", 1)))
+	_signal_bus.emit_signal("level_up_closed", _state.level)
+	_signal_bus.emit_signal("hp_changed", _state.hp)
+	_signal_bus.emit_signal("level_changed", _state.level)
+	_signal_bus.emit_signal("exp_changed", _state.exp, _state.exp_to_next)
+
+	_state.is_paused = false
+	if not _state.is_game_over:
+		_player.set_enabled(true)
+	_level_up_panel.hide_panel()
 
 func _clear_container(container: Node2D) -> void:
 	for node in container.get_children():

@@ -27,7 +27,7 @@ func reset_runtime() -> void:
 			enemy.queue_free()
 
 func _process(delta: float) -> void:
-	if _state == null or _state.is_game_over:
+	if _state == null or _state.is_game_over or _state.is_paused:
 		return
 	if _player == null or _enemy_container == null:
 		return

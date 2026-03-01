@@ -1,19 +1,22 @@
 extends Node2D
 
-var move_speed: float = 340.0
-var dash_multiplier: float = 2.0
-var dash_duration: float = 0.12
-var dash_cooldown: float = 1.0
+var _state: RefCounted
+
+var _base_move_speed: float = 340.0
+var _base_dash_multiplier: float = 2.0
+var _base_dash_duration: float = 0.12
+var _base_dash_cooldown: float = 1.0
 
 var _dash_time_left: float = 0.0
 var _dash_cooldown_left: float = 0.0
 var _enabled: bool = true
 
-func setup(balance: RefCounted) -> void:
-	move_speed = float(balance.PLAYER_SPEED)
-	dash_multiplier = float(balance.DASH_MULTIPLIER)
-	dash_duration = float(balance.DASH_DURATION)
-	dash_cooldown = float(balance.DASH_COOLDOWN)
+func setup(balance: RefCounted, state: RefCounted) -> void:
+	_state = state
+	_base_move_speed = float(balance.PLAYER_SPEED)
+	_base_dash_multiplier = float(balance.DASH_MULTIPLIER)
+	_base_dash_duration = float(balance.DASH_DURATION)
+	_base_dash_cooldown = float(balance.DASH_COOLDOWN)
 	reset_runtime()
 
 func reset_runtime() -> void:
@@ -25,6 +28,9 @@ func reset_runtime() -> void:
 func set_enabled(value: bool) -> void:
 	_enabled = value
 
+func get_dash_cooldown_left() -> float:
+	return max(0.0, _dash_cooldown_left)
+
 func _process(delta: float) -> void:
 	if _dash_cooldown_left > 0.0:
 		_dash_cooldown_left -= delta
@@ -34,6 +40,11 @@ func _process(delta: float) -> void:
 	if not _enabled:
 		queue_redraw()
 		return
+
+	var move_speed: float = _base_move_speed + float(_state.player_speed_bonus)
+	var dash_multiplier: float = _base_dash_multiplier
+	var dash_duration: float = _base_dash_duration
+	var dash_cooldown: float = max(0.2, _base_dash_cooldown * (1.0 - float(_state.dash_cooldown_reduction)))
 
 	var input_dir := Vector2(
 		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
@@ -46,7 +57,7 @@ func _process(delta: float) -> void:
 		_dash_time_left = dash_duration
 		_dash_cooldown_left = dash_cooldown
 
-	var speed := move_speed
+	var speed: float = move_speed
 	if _dash_time_left > 0.0:
 		speed *= dash_multiplier
 
@@ -57,3 +68,5 @@ func _draw() -> void:
 	var color := Color("#22D3EE") if _enabled else Color("#64748B")
 	draw_circle(Vector2.ZERO, 14.0, color)
 	draw_arc(Vector2.ZERO, 18.0, 0.0, TAU, 24, Color("#67E8F9"), 2.0)
+	if _dash_time_left > 0.0:
+		draw_arc(Vector2.ZERO, 24.0, 0.0, TAU, 30, Color("#A78BFA"), 2.0)

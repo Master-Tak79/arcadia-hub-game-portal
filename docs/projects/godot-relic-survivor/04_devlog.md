@@ -78,6 +78,41 @@
 - EXP/레벨업 3지선다 시스템 구현
 - 업그레이드 데이터 구조(12종) 및 UI 패널 추가
 
+## 2026-03-01 17:03 KST
+### 오늘 목표
+- EXP/레벨업 3지선다 + 업그레이드 데이터 모델 구현
+
+### 진행 내용
+- 상태 확장(`game_state.gd`)
+  - EXP/레벨업(`exp`, `exp_to_next`, `consume_level_up`)
+  - 업그레이드 스택/런타임 모디파이어 관리
+- 업그레이드 데이터 정의(`data/upgrades.gd`)
+  - 12종 업그레이드(공격/투사체/기동/생존 계열)
+- 업그레이드 적용 시스템(`systems/upgrade_system.gd`) 추가
+- 레벨업 UI 패널(`ui/level_up_panel.gd`) 추가
+  - 숫자키 1/2/3 선택
+- 전투 루프 연동
+  - 처치 시 EXP 획득
+  - 레벨업 조건 충족 시 게임 일시정지 + 선택 패널 오픈
+  - 선택 적용 후 게임 재개
+- 연계 수정
+  - `player.gd`: 업그레이드 기반 이동/대시 쿨다운 동적 반영
+  - `auto_attack_system.gd`: 공격 간격/사거리/멀티샷/투사체 스탯 반영
+  - `combat_system.gd`: EXP 획득/무적시간 보정 반영
+  - `spawn_director.gd`: level-up pause 상태에서 스폰 정지
+  - `hud.gd`: HP/MAX_HP, EXP, DASH 상태, level-up 안내 표기
+
+### 이슈/해결
+- 없음
+
+### 검증 결과
+- `./scripts/godotw --headless --path ./games/godot-relic-survivor --quit-after 900` 통과
+- `./scripts/godotw --headless --path ./games/godot-relic-survivor --fixed-fps 60 --quit-after 9000` 통과
+
+### 다음 액션
+- 미니 보스 1종 구현
+- 수동 QA 3회로 레벨업 선택 체감/밸런스 점검
+
 ## 2026-03-01 16:45 KST
 ### 오늘 목표
 - 요청 문서 가시화 및 운영 문서 체계 강화

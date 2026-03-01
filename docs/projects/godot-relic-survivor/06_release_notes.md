@@ -18,11 +18,17 @@
   - 전투 판정(`combat_system.gd`)
   - 적 2종(`enemy_grunt.gd`, `enemy_dasher.gd`)
 - 스폰 디렉터 고도화(주기 램프 + 대셔 확률 램프)
+- EXP/레벨업 시스템 1차
+  - 업그레이드 데이터 12종(`data/upgrades.gd`)
+  - 업그레이드 적용기(`systems/upgrade_system.gd`)
+  - 레벨업 선택 패널(`ui/level_up_panel.gd`, 1/2/3 입력)
 
 ## Changed
 - `docs/projects/_index.md` 상태 갱신(archived + in-progress)
-- HUD 정보 확장(ENEMIES/SHOTS)
+- HUD 정보 확장(ENEMIES/SHOTS/EXP/MAX_HP/DASH)
 - 씬 구조 확장(ProjectileContainer 추가)
+- 입력 액션 확장(level-up 선택 `1/2/3`)
+- 게임 상태 구조 확장(EXP/업그레이드 스택/런타임 모디파이어)
 
 ## Fixed
 - `spawn_director.gd` 타입 추론 경고 에러 처리(명시 타입 적용)
