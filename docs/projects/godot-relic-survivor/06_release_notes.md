@@ -16,6 +16,7 @@
   - `13_alpha_readiness_report.md`
   - `14_pr_description_alpha_candidate.md`
   - `15_merge_handover_checklist.md`
+  - `16_alpha_candidate_quality_lock.md`
 - 기존 `Godot Neon Dodge` 아카이브 전환
 - 코어 전투 시스템 1차
   - 자동공격(`auto_attack_system.gd`)
@@ -55,6 +56,7 @@
 - 카메라 연출 추가(`camera_fx.gd`): 경고/등장/처치 임팩트
 - 보스 페이즈 스폰 가드레일(보스 활성 시 웨이브 압박 완화)
 - 난이도 4차/5차 미세 튜닝(보스 페이즈/보스 처치 직후 회복 구간)
+- 난이도 6차 미세 튜닝(후반 웨이브 곡선 잠금: ramp/backoff/late-phase shaping)
 - 사운드 슬롯 구조 추가(`audio/sfx_slots.gd`) 및 보스 이벤트 훅 연결
 - SFX 프리셋 옵션화(`--sfx-preset=default|quiet|hype`) + 이벤트 타이밍 딜레이 조정
 
@@ -70,6 +72,7 @@
   - 튜닝 후 `godotw --headless --fixed-fps 60 --quit-after 36000 -- --auto-levelup --qa-autopilot` x2 통과
 - 5분 회귀 시뮬레이션:
   - `godotw --headless --fixed-fps 60 --quit-after 18000 -- --auto-levelup --qa-autopilot` 통과
+  - `godotw --headless --fixed-fps 60 --quit-after 18000 -- --auto-levelup --qa-autopilot --sfx-preset=quiet` 통과
 - SFX 슬롯 검증:
   - `--boss-test --auto-levelup --qa-autopilot --sfx-preset=hype`에서 warning/spawn/defeat 훅 정상 트리거
   - `--sfx-preset=quiet` 실행 정상

@@ -44,10 +44,12 @@ func _process(delta: float) -> void:
 
 	var active_count: int = get_active_enemy_count()
 	if active_count >= int(_balance.ACTIVE_ENEMY_HARD_CAP):
-		_next_spawn_in = 0.35
+		var hard_over: int = active_count - int(_balance.ACTIVE_ENEMY_HARD_CAP)
+		_next_spawn_in = float(_balance.HARD_CAP_BACKOFF_BASE) + min(0.24, float(hard_over) * 0.012)
 		return
 	if active_count >= int(_balance.ACTIVE_ENEMY_SOFT_CAP):
-		_next_spawn_in = 0.22
+		var soft_over: int = active_count - int(_balance.ACTIVE_ENEMY_SOFT_CAP)
+		_next_spawn_in = float(_balance.SOFT_CAP_BACKOFF_BASE) + min(0.14, float(soft_over) * 0.008)
 		return
 
 	_spawn_enemy()
@@ -94,11 +96,14 @@ func _get_phase_spawn_interval() -> float:
 	var ramp: float = float(_balance.SPAWN_INTERVAL_BASE) - _elapsed * float(_balance.SPAWN_RAMP_PER_SEC)
 	var interval: float = max(float(_balance.SPAWN_INTERVAL_MIN), ramp)
 
-	# Phase shaping: early = gentler, late = slightly tighter
+	# Phase shaping: early = gentler, mid = normal, late = controlled pressure
 	if _elapsed < 120.0:
 		interval += 0.08
 	elif _elapsed > 360.0:
-		interval = max(float(_balance.SPAWN_INTERVAL_MIN), interval - 0.04)
+		interval = max(float(_balance.SPAWN_INTERVAL_MIN), interval - 0.03)
+
+	if _elapsed >= float(_balance.LATE_PHASE_START):
+		interval += float(_balance.LATE_PHASE_INTERVAL_BONUS)
 
 	# Boss phase guardrail: keep reads manageable while boss is active
 	if _is_boss_active():
@@ -114,9 +119,12 @@ func _get_phase_dasher_chance() -> float:
 
 	# Phase shaping: early reduce spike deaths, late recover pressure
 	if _elapsed < 120.0:
-		chance *= 0.60
+		chance *= 0.62
 	elif _elapsed > 360.0:
-		chance += 0.06
+		chance += 0.04
+
+	if _elapsed >= float(_balance.LATE_PHASE_START):
+		chance += float(_balance.LATE_PHASE_DASHER_BONUS)
 
 	# Boss phase guardrail: reduce bursty dash pressure while boss is active
 	if _is_boss_active():

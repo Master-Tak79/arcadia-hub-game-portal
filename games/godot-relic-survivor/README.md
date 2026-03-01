@@ -63,3 +63,4 @@
 - `docs/projects/godot-relic-survivor/13_alpha_readiness_report.md`
 - `docs/projects/godot-relic-survivor/14_pr_description_alpha_candidate.md`
 - `docs/projects/godot-relic-survivor/15_merge_handover_checklist.md`
+- `docs/projects/godot-relic-survivor/16_alpha_candidate_quality_lock.md`

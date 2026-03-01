@@ -583,3 +583,31 @@
 ### 다음 액션
 - 필요 시 최종 상용 음원으로 교체
 - 수동 QA 재개 시 체감/연출 최종 확정
+
+## 2026-03-01 20:31 KST
+### 오늘 목표
+- 후반 웨이브 6차 미세 튜닝 + alpha-candidate 품질 잠금 문서화
+
+### 진행 내용
+- 후반 웨이브 6차 미세 튜닝
+  - 스폰 ramp 계수 현실화(`SPAWN_RAMP_PER_SEC`, `SPAWN_DASHER_CHANCE_RAMP`)
+  - 포화 구간 backoff 세분화(`SOFT/HARD_CAP_BACKOFF_BASE`)
+  - late-phase shaping 상수(`LATE_PHASE_*`) 추가
+  - `spawn_director.gd`에 초과 개체 수 비례 backoff 로직 반영
+- alpha-candidate 품질 잠금 문서 생성
+  - `16_alpha_candidate_quality_lock.md`
+  - lock scope / 허용·제한 변경 / unlock 조건 명시
+- 관련 문서 연동
+  - `13_alpha_readiness_report.md`, `15_merge_handover_checklist.md`, `README.md`
+
+### 이슈/해결
+- 없음
+
+### 검증 결과
+- 스모크 통과
+- 보스 루프 통과
+- 5분 회귀 + `--sfx-preset=quiet` 통과
+
+### 다음 액션
+- 수동 QA 보류 유지 상태로 alpha-candidate 기준선 잠금 운영
+- 수동 QA 재개 시 lock 해제 후 alpha 최종 확정

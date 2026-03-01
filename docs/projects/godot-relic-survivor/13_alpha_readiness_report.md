@@ -38,6 +38,7 @@
 ## 판정
 - 현재 판정: **v0.1.0-alpha-candidate (자동검증 기준)**
 - 병합 권장안: alpha-candidate로 선머지 후 수동 QA 완료 시 alpha 확정 태깅
+- 상태 관리: `16_alpha_candidate_quality_lock.md` 기준으로 품질 잠금 적용
 - 최종 alpha 확정 조건:
   1) 수동 QA 3회 완료
   2) GUI FPS 실측 체크 완료
@@ -45,4 +46,5 @@
 ## 다음 액션
 1. 수동 QA 재개 시 `11_manual_qa_protocol.md` 기준으로 3회 실행
 2. 체크리스트/릴리즈노트 최종 갱신
-3. `v0.1.0-alpha` 확정 태깅
+3. `16_alpha_candidate_quality_lock.md` unlock 조건 확인
+4. `v0.1.0-alpha` 확정 태깅

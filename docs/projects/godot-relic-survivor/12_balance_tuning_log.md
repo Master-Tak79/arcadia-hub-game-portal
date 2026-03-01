@@ -118,3 +118,30 @@
 ### 기대 효과
 - 보스 이벤트의 청각적 구분 강화
 - 상황별(조용/강조) 운용 유연성 확보
+
+## 2026-03-01 (6차 미세 튜닝 — Late Wave Lock)
+
+### 변경 요약
+- Spawn ramp 계수 재조정
+  - `SPAWN_RAMP_PER_SEC`: 0.017 → 0.0018
+  - `SPAWN_DASHER_CHANCE_RAMP`: 0.0045 → 0.00125
+- Saturation backoff 세분화
+  - `SOFT_CAP_BACKOFF_BASE`: 0.24
+  - `HARD_CAP_BACKOFF_BASE`: 0.40
+  - 초과 개체 수에 비례한 backoff 시간 추가
+- Late-phase shaping 파라미터 추가
+  - `LATE_PHASE_START`: 480s
+  - `LATE_PHASE_INTERVAL_BONUS`: +0.02
+  - `LATE_PHASE_DASHER_BONUS`: +0.035
+- Boss/recovery guardrail 유지
+  - 보스 활성/처치 직후 구간에서 웨이브 압박 완화 유지
+
+### 자동 검증 결과
+- 스모크 통과
+- 보스 루프 QA 통과
+- 5분 회귀 루프 통과 (`--sfx-preset=quiet` 포함)
+
+### 기대 효과
+- 후반 웨이브 곡선의 급격한 경사 완화
+- 적 포화 구간에서 난이도 스파이크 억제
+- alpha-candidate 기준선 안정화
