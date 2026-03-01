@@ -42,3 +42,36 @@
 ### 다음 액션
 - 자동공격 + 발사체 충돌 시스템 추가
 - 적 2종(기본/돌진) 실체 구현
+
+## 2026-03-01 16:16 KST
+### 오늘 목표
+- 코어 전투 루프 1차 구현 (자동공격 + 적 2종)
+
+### 진행 내용
+- `ProjectileContainer` 추가 및 발사체 엔티티(`projectile.gd`) 구현
+- 자동공격 시스템(`auto_attack_system.gd`) 구현
+  - 최근접 적 탐색
+  - 사거리/공격속도 기반 발사체 자동 발사
+- 전투 시스템(`combat_system.gd`) 구현
+  - 발사체-적 충돌 판정/피해/처치 카운트
+  - 적-플레이어 충돌 판정/무적시간/사망 처리
+- 적 2종 구현
+  - `enemy_grunt.gd`: 추적형
+  - `enemy_dasher.gd`: 주기 돌진형
+- 스폰 디렉터 고도화(`spawn_director.gd`)
+  - 시간 경과 기반 스폰 주기 감소
+  - 대셔 스폰 확률 점진 증가
+- HUD 확장: ENEMIES/SHOTS 실시간 노출
+
+### 이슈/해결
+- 이슈: GDScript 타입 추론 경고가 에러로 처리되어 컴파일 실패
+- 해결: `spawn_director.gd`의 확률 변수 타입을 명시(`float` + `clampf`)
+
+### 검증 결과
+- `./scripts/godotw --headless --path ./games/godot-relic-survivor --quit-after 600` 통과
+- `./scripts/godotw --headless --path ./games/godot-relic-survivor --fixed-fps 60 --quit-after 9000` 통과
+- `mcporter call godot-local.godot_run_headless ... quitAfter:900` 통과
+
+### 다음 액션
+- EXP/레벨업 3지선다 시스템 구현
+- 업그레이드 데이터 구조(12종) 및 UI 패널 추가

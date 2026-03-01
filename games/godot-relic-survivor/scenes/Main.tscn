@@ -11,11 +11,13 @@ script = ExtResource("1_root")
 [node name="ArenaBackground" type="Node2D" parent="."]
 script = ExtResource("4_bg")
 
+[node name="ProjectileContainer" type="Node2D" parent="."]
+
+[node name="EnemyContainer" type="Node2D" parent="."]
+
 [node name="Player" type="Node2D" parent="."]
 position = Vector2(640, 360)
 script = ExtResource("2_player")
-
-[node name="EnemyContainer" type="Node2D" parent="."]
 
 [node name="HUD" type="CanvasLayer" parent="."]
 script = ExtResource("3_hud")
