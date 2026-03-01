@@ -1,0 +1,55 @@
+extends RefCounted
+
+var boss_spawn_time_override: float = -1.0
+var boss_hp_scale_override: float = 1.0
+var boss_test_boost: bool = false
+
+var auto_levelup: bool = false
+
+var qa_auto_restart: bool = false
+var qa_restart_delay: float = 0.8
+
+var qa_force_damage: bool = false
+var qa_force_damage_interval: float = 0.9
+
+var qa_autopilot: bool = false
+
+func parse_user_args(args: Array) -> void:
+	for arg in args:
+		if arg == "--boss-test" or arg == "boss-test":
+			boss_spawn_time_override = 12.0
+			boss_hp_scale_override = 0.25
+			boss_test_boost = true
+		elif arg == "--auto-levelup" or arg == "auto-levelup":
+			auto_levelup = true
+		elif arg == "--qa-auto-restart" or arg == "qa-auto-restart":
+			qa_auto_restart = true
+		elif arg == "--qa-force-damage" or arg == "qa-force-damage":
+			qa_force_damage = true
+		elif arg == "--qa-autopilot" or arg == "qa-autopilot":
+			qa_autopilot = true
+
+func apply_round_boost_if_needed(state: RefCounted) -> void:
+	if not boss_test_boost:
+		return
+	state.max_hp = 20
+	state.hp = 20
+	state.attack_interval_reduction = 0.35
+	state.attack_range_bonus = 180.0
+	state.projectile_damage_bonus = 2
+	state.extra_projectiles = 1
+	state.player_invuln_bonus = 0.25
+
+func print_enabled_flags() -> void:
+	if boss_spawn_time_override > 0.0:
+		print("BOSS_TEST_MODE_ON")
+	if boss_test_boost:
+		print("BOSS_TEST_BOOST_ON")
+	if auto_levelup:
+		print("AUTO_LEVELUP_ON")
+	if qa_auto_restart:
+		print("QA_AUTO_RESTART_ON")
+	if qa_force_damage:
+		print("QA_FORCE_DAMAGE_ON")
+	if qa_autopilot:
+		print("QA_AUTOPILOT_ON")

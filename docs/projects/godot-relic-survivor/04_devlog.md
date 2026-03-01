@@ -247,3 +247,38 @@
 - 수동 실플레이 QA 3회(조작감/난이도 체감) 수행
 - 보스 연출 폴리싱(배너/효과음/화면 연출)
 - `game_root`를 라운드/QA/보스 리워드 모듈로 분리 리팩터링
+
+## 2026-03-01 18:21 KST
+### 오늘 목표
+- 전체 리뷰 지적사항 반영(모듈 분리/QA 체계 정리)
+
+### 진행 내용
+- `game_root.gd` 리팩터링(모듈 분리)
+  - `core/runtime_options.gd` 분리: 런타임 플래그 파싱/QA 모드 설정
+  - `systems/qa_runtime.gd` 분리: 자동이동/강제사망/자동재시작 처리
+  - `systems/boss_reward_runtime.gd` 분리: 보스 등장/처치 전이, 보상/슬로우모션
+- 기존 `game_root`의 거대 책임 축소(라운드/레벨업 중심 orchestrator로 단순화)
+- 회귀 검증 재실행
+  - 스모크, 보스 루프, 재시작 루프
+
+### 이슈/해결
+- 이슈: 리팩터링 후 런타임 플래그 동작 누락 위험
+- 해결: `RuntimeOptions.print_enabled_flags()`로 부팅 로그 고정 + 회귀 테스트 명령 재검증
+
+### 검증 결과
+- `./scripts/godotw --headless --path ./games/godot-relic-survivor --quit-after 900` 통과
+- `./scripts/godotw --headless --path ./games/godot-relic-survivor --fixed-fps 60 --quit-after 5400 -- --boss-test --auto-levelup --qa-autopilot` 통과
+  - `MINIBOSS_WARNING_ON`, `MINIBOSS_SPAWNED`, `MINIBOSS_DEFEATED`, `BOSS_CLEAR_REWARD_APPLIED`
+- `./scripts/godotw --headless --path ./games/godot-relic-survivor --fixed-fps 60 --quit-after 3000 -- --qa-force-damage --qa-auto-restart` 통과
+  - `QA_FORCE_DEATH`, `QA_AUTO_RESTART_TRIGGERED` 반복 확인
+
+### 전체 리뷰(현재)
+- [x] 보스 처치 UX 1차 보강 완료
+- [x] 보스 경고/등장/처치/보상 자동 QA 루프 확보
+- [x] `game_root` 모듈 분리 1차 완료
+- [ ] 실수동 조작감 QA 3회(사용자 플레이 기준) 미완
+- [ ] 적/보스 난이도 체감 2차 밸런스 미완
+
+### 다음 액션
+- 실수동 조작감 QA 3회 수행 및 체크리스트 갱신
+- 난이도 2차 튜닝(초반 1~3분, 중반 4~8분, 보스 페이즈)

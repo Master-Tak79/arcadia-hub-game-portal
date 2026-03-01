@@ -39,9 +39,14 @@
 - 게임 상태 구조 확장(EXP/업그레이드 스택/런타임 모디파이어)
 - 전투 판정 확장(적별 접촉 피해/EXP 보상)
 - QA 런타임 옵션 확장(`--qa-autopilot`, `--qa-force-damage`, `--qa-auto-restart`)
+- `game_root` 책임 분리 리팩터링
+  - `core/runtime_options.gd`
+  - `systems/qa_runtime.gd`
+  - `systems/boss_reward_runtime.gd`
 
 ## Fixed
 - `spawn_director.gd` 타입 추론 경고 에러 처리(명시 타입 적용)
+- `game_root` 과대 책임 구조 1차 해소(모듈 분리)
 
 ## Verification
 - 문서/경로 구조 반영 확인
