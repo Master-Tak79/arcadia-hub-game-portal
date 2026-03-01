@@ -375,6 +375,9 @@
 ### 다음 액션
 - 수동 QA 재개 시 `14/15/13` 문서 기준으로 alpha 확정 절차 즉시 진행
 
+### 진행 메모
+- PR 오픈: https://github.com/Master-Tak79/arcadia-hub-game-portal/pull/74
+
 ## 2026-03-01 18:40 KST
 ### 오늘 목표
 - 수동 QA 보류 결정 반영 + 다음 단계(Alpha 후보화) 진행

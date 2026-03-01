@@ -8,6 +8,7 @@
 - [x] 자동 검증 로그 확보 (스모크/보스/재시작/장시간)
 - [x] 개발문서 동기화 (`04`, `05`, `06`, `10`, `13`, `14`)
 - [x] 밸런스 변경 이력 기록 (`12_balance_tuning_log.md`)
+- [x] PR 오픈 완료: https://github.com/Master-Tak79/arcadia-hub-game-portal/pull/74
 - [ ] 수동 QA 3회 완료
 - [ ] GUI FPS 실측 완료
 
