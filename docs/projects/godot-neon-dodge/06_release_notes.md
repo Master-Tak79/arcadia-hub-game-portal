@@ -24,6 +24,8 @@
 
 ## Verification
 - headless 실행 스모크 통과
+- headless fixed-fps 5분 시뮬레이션 3회 통과(비정상 종료 없음)
+- GUI write-movie 캡처 프레임 생성 및 확인
 
 ## Known Issues
 - Godot 4.6.1에서 `--headless + --write-movie` 조합 시 크래시 가능성(캡처는 GUI write-movie로 우회)
