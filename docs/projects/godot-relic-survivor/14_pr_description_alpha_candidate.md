@@ -24,6 +24,7 @@
 - Elite Pack 01 추가(Elite Grunt / Elite Dasher + elite_loop 검증)
 - Relic System 01 추가(유물 12종 + relic_loop 검증)
 - Stage Event Pack 01 추가(안개/감속/전류 + event_loop 검증)
+- Boss Phase 2 Upgrade 추가(전환/안전구간/템포 강화 + boss_phase2 검증)
 - 레벨업 선택지 가독성 강화(역할 태그/효과 요약/추천 문구/예상 지표)
 - 압박도 기반 추천 보정(웨이브/보스 압박 신호를 가중치에 반영)
 - auto-levelup 선택 로직의 multi-effect 반영 + 스폰 안전 반경/전투 후보 인덱스 적용
@@ -105,6 +106,7 @@ cd games/godot-relic-survivor
 - 체크포인트 핸드오프 리포트 자동 생성
 
 ## Key Commits (recent, head branch)
+- `bc3cfc0` Boss Phase2 업그레이드 + boss_phase2 게이트 + 문서 동기화
 - `969ab32` 보스 텔레그래프 폴리싱 + 레벨업 가독성 강화
 - `83249b5` headless QA 강화 + leak trace + readiness check
 - `005562d` 원클릭 headless alpha gate 추가

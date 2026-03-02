@@ -44,3 +44,17 @@
 - 에셋 원본은 D 드라이브 우선: `/mnt/d/OpenClaw_Downloads/game-assets/`
 - 프로젝트 반영본은 최적화 후 저장
 - 출처/라이선스/수정 여부를 개발일지 또는 릴리즈노트에 기록
+
+## 7) 타 게임 재사용 템플릿 추출 규칙
+
+- 본 프로젝트에서 검증된 작업 패턴은 `docs/projects/_templates/game_project_template.md`를 기준으로 재사용합니다.
+- 새 게임 시작 시 아래 항목을 먼저 복제/적용합니다.
+  1. Step 기반 순차 실행(WBS + Definition of Done)
+  2. 기능별 테스트 플래그(`--<feature>-test`) + 게이트 토큰 검증
+  3. headless gate → pre-manual → checkpoint → leak trace 검증 순서
+  4. 코드/문서/버전 동기화 일괄 반영
+- 재사용 시 프로젝트 특성에 맞춰 조정 가능하지만, 다음은 기본 고정입니다.
+  - 단일 거대 스크립트 금지
+  - 데이터/시스템/UI 분리
+  - 완료 즉시 문서 동기화
+  - LOCK 정책 하 변경 통제

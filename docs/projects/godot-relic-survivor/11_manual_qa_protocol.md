@@ -29,6 +29,9 @@ cd /home/tak/.openclaw/workspace-coder/games/godot-relic-survivor
 - 체크:
   - 보스 경고 인지성
   - 보스 등장 전후 난이도 곡선
+  - Phase2 전환 텔레그래프 인지성(`PHASE SHIFT` 배너/HUD)
+  - Phase2 전환 안전구간(무피해 윈도우) 공정성
+  - Phase2 진입 후 패턴 템포 상승 체감(대시/소환)
   - 보스 처치 보상 체감(+EXP/+HP)
 
 ## FPS 실측(수동)
