@@ -174,7 +174,7 @@
 
 ### Step 11 결과 기록
 - Step: Tree UI/UX Pack 01
-- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 구현 커밋: `238263e` (tree UI panel + tree_ui gate + docs sync)
 - 자동검증 결과: headless gate PASS (`tree_ui` 포함), pre-manual PASS, leak trace PASS
 - 리스크/이슈: 트리 노드 증가 시 패널 선택지(3개) UX 확장 필요
 - 다음 Step 진행 승인: 트리 고도화(UI 스크롤/노드 상세) 단계 대기

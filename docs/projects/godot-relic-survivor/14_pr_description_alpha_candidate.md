@@ -126,6 +126,7 @@ cd games/godot-relic-survivor
 - 체크포인트 핸드오프 리포트 자동 생성
 
 ## Key Commits (recent, head branch)
+- `238263e` Tree UI/UX Pack 01 + tree_ui 게이트 + 문서 동기화
 - `8ca4a88` Character/Weapon Tree Runtime 01 + tree_loop 게이트 + 문서 동기화
 - `7072b7f` Active Skill Pack 01 + active_loop 게이트 + 문서 동기화
 - `0576aa0` Weapon Archetype Pack 01 + weapon_loop 게이트 + 문서 동기화
