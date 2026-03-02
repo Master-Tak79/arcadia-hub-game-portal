@@ -185,3 +185,27 @@
 ### 운영 메모
 - 본 값들은 수동 QA/FPS 실측 전까지 freeze 기준으로 유지
 - 추가 조정이 필요하면 `16_alpha_candidate_quality_lock.md` exception 규칙에 따라 기록 후 변경
+
+## 2026-03-02 (Review-driven Stability Patch)
+
+### 변경 요약
+- Spawn fairness
+  - `SPAWN_PLAYER_SAFE_RADIUS = 110.0` 추가
+  - `SPAWN_SAFE_ATTEMPTS = 8` 추가
+  - 일반 웨이브 스폰 시 플레이어 근접 스폰 회피 로직 적용
+- Boss pattern QA reliability
+  - `--boss-pattern-test`에서 소환 패턴을 RING/WALL 교차 순환하도록 고정
+  - 게이트에서 RING/WALL 최소 1회 출현 검증 추가
+- Growth/QA consistency
+  - auto-levelup 선택 점수 로직을 multi-effect 기준으로 보강
+  - 압박도(high) 구간에서 생존/기동 선호가 반영되도록 선택 편향 보정
+
+### 자동 검증 결과
+- `headless-alpha-gate.sh` PASS (`boss_pattern` 다양성 포함)
+- `pre-manual-qa-check.sh` PASS
+- `trace-objectdb-leak.sh` PASS
+
+### 기대 효과
+- 자동 QA 결과와 실플레이 체감 간 괴리 축소
+- 스폰 억울사 감소
+- 보스 패턴 회귀 검증의 flaky 리스크 감소

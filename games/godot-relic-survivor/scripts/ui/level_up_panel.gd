@@ -66,7 +66,7 @@ func _build_ui() -> void:
 	_hint = Label.new()
 	_hint.position = Vector2(24, 62)
 	_hint.size = Vector2(900, 40)
-	_hint.text = "숫자키 1/2/3으로 선택 · 🟥공격 🟦기동 🟩생존 🟪혼합"
+	_hint.text = "숫자키 1/2/3으로 선택 · 🟥공격 🟦기동 🟩생존 🟪혼합 · 예상 지표는 간이 추정"
 	_panel.add_child(_hint)
 
 	for i in range(3):
@@ -218,7 +218,7 @@ func _build_projection_line(choice: Dictionary) -> String:
 	var dps_delta: float = _percent_delta(dps_before, dps_after)
 	var surv_delta: float = _percent_delta(surv_before, surv_after)
 
-	return "예상: DPS %.1f → %.1f (%+d%%), 생존 %.1f → %.1f (%+d%%)" % [
+	return "간이예상: DPS %.1f → %.1f (%+d%%), 생존 %.1f → %.1f (%+d%%)" % [
 		dps_before,
 		dps_after,
 		int(round(dps_delta)),

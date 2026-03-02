@@ -201,3 +201,15 @@
 
 ### 검증
 - `pre-manual-qa-check.sh` 내 freeze check 단계 통과 확인
+
+## 2026-03-02 (Comprehensive Review Follow-up)
+
+### 반영
+- QA auto-levelup 선택 품질 개선(multi-effect 평가)
+- 스폰 공정성 개선(플레이어 근접 스폰 회피)
+- 충돌 판정 후보 인덱스 도입(성능 준비)
+- death recap(사망 원인/상황) HUD 노출
+- boss_pattern 다양성 검증(RING/WALL 최소 1회) 게이트 편입
+
+### 검증
+- headless gate / readiness / checkpoint / leak trace 전체 통과

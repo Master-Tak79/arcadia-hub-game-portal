@@ -63,8 +63,25 @@ func get_active_enemy_count() -> int:
 
 func _spawn_enemy() -> void:
 	var enemy: Node2D = _make_enemy()
-	enemy.position = _random_edge_position()
+	enemy.position = _pick_spawn_position_with_safety()
 	_enemy_container.add_child(enemy)
+
+func _pick_spawn_position_with_safety() -> Vector2:
+	var safe_radius: float = float(_balance.SPAWN_PLAYER_SAFE_RADIUS)
+	var attempts: int = max(1, int(_balance.SPAWN_SAFE_ATTEMPTS))
+
+	var fallback: Vector2 = _random_edge_position()
+	var fallback_dist: float = _player.position.distance_to(fallback)
+	for _i in range(attempts):
+		var candidate: Vector2 = _random_edge_position()
+		var dist: float = _player.position.distance_to(candidate)
+		if dist > fallback_dist:
+			fallback = candidate
+			fallback_dist = dist
+		if dist >= safe_radius:
+			return candidate
+
+	return fallback
 
 func _make_enemy() -> Node2D:
 	var dasher_chance: float = _get_phase_dasher_chance()

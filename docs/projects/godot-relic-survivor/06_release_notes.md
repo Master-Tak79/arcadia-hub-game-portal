@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.7-dev
+- version: v0.1.8-dev
 - date: 2026-03-02
 
 ## Added
@@ -62,14 +62,18 @@
   - 비대시형 소환 패턴(`WALL`) + 소환 텔레그래프(`MINIBOSS_SUMMON_*`) 도입
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시
-  - 선택 후 예상 지표(예상 DPS/생존 지표) 프리뷰 표시
+  - 선택 후 예상 지표(예상 DPS/생존 지표, 간이 추정) 프리뷰 표시
 - 업그레이드 제안 시너지 튜닝(`systems/upgrade_system.gd`)
   - 체력/레벨/과중첩(attack speed, multi-shot, mobility) 기반 동적 가중치 반영
   - 실시간 압박도(low/mid/high) 신호를 반영한 가중치 보정 추가
+- QA auto-levelup 선택 로직 보강(`game_root.gd`)
+  - multi-effect 선택지 점수화 및 체력/압박 상황 반영
 - 씬/UI 구조 확장(ProjectileContainer + EventBanner 추가)
 - 입력 액션 확장(level-up 선택 `1/2/3`)
 - 게임 상태 구조 확장(EXP/업그레이드 스택/런타임 모디파이어)
 - 전투 판정 확장(적별 접촉 피해/EXP 보상)
+- 전투 판정 성능 준비(`combat_system.gd`)
+  - 셀 기반 공간 인덱스 도입(충돌 후보 추출)
 - QA 런타임 옵션 확장(`--qa-autopilot`, `--qa-force-damage`, `--qa-auto-restart`, `--boss-pattern-test`)
 - `game_root` 책임 분리 리팩터링
   - `core/runtime_options.gd`
@@ -77,6 +81,7 @@
   - `systems/boss_reward_runtime.gd`
 - 난이도 2차 튜닝(적 속도/대시 빈도/스폰 곡선/보스 압박)
 - 난이도 3차 미세 튜닝(페이즈 기반 스폰 간격/Dasher 확률 보정)
+- 일반 웨이브 스폰 안전 반경 추가(`SPAWN_PLAYER_SAFE_RADIUS`, `SPAWN_SAFE_ATTEMPTS`)
 - 스폰 안전장치 추가(`ACTIVE_ENEMY_SOFT_CAP`, `ACTIVE_ENEMY_HARD_CAP`)
 - 이벤트 배너 2차 폴리싱(배경/페이드/상황별 강조색)
 - 카메라 연출 추가(`camera_fx.gd`): 경고/등장/처치 임팩트
@@ -102,6 +107,7 @@
 - `spawn_director.gd` 타입 추론 경고 에러 처리(명시 타입 적용)
 - `game_root` 과대 책임 구조 1차 해소(모듈 분리)
 - 미니보스 등장 직후/대시 준비 단계의 억울한 접촉 피해 리스크 완화
+- 게임오버 시 사망 원인/상황(death recap) 기록 누락 보완
 
 ## Verification
 - 문서/경로 구조 반영 확인
@@ -129,6 +135,7 @@
   - `godotw --headless --fixed-fps 60 --quit-after 5400 -- --boss-pattern-test --auto-levelup --qa-autopilot`
   - `MINIBOSS_SUMMON_TELEGRAPH_ON`, `MINIBOSS_SUMMON_CAST`
   - `MINIBOSS_DASH_TELEGRAPH_ON`, `MINIBOSS_DASH_START`
+  - 패턴 다양성: `MINIBOSS_SUMMON_PATTERN_RING`, `MINIBOSS_SUMMON_PATTERN_WALL` 최소 1회 이상 확인
   로그 확인
 - 재시작 루프 QA:
   - `godotw --headless --fixed-fps 60 --quit-after 3000 -- --qa-force-damage --qa-auto-restart`

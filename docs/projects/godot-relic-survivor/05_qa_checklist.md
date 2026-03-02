@@ -17,10 +17,12 @@
 - [x] EXP 획득/레벨업 3지선다 정상 (`--auto-levelup` + 패널 선택 루프)
 - [ ] 레벨업 패널 예상 지표(DPS/생존) 가독성 확인 (수동 QA 시 확인)
 - [ ] PRESSURE 표시(low/mid/high)와 실제 체감 압박 일치 여부 확인 (수동 QA 시 확인)
+- [ ] 사망 원인/상황(death recap) 문구 가독성 확인 (수동 QA 시 확인)
 - [x] 보스 경고/등장 루프 정상 (`--boss-test --auto-levelup` 검증)
 - [x] 보스 대시 텔레그래프 루프 정상 (`MINIBOSS_DASH_TELEGRAPH_ON`, `MINIBOSS_DASH_START` 로그 확인)
 - [x] 보스 콤보 대시 패턴 로그 검증 경로 확보 (`MINIBOSS_COMBO_DASH_ON`, `MINIBOSS_DASH_CHAIN_*`)
 - [x] 보스 비대시 소환 패턴 로그 검증 경로 확보 (`MINIBOSS_SUMMON_TELEGRAPH_ON`, `MINIBOSS_SUMMON_CAST`, `MINIBOSS_SUMMON_PATTERN_*`)
+- [x] boss_pattern 다양성 검증(RING/WALL 최소 1회) 자동 체크 통과
 - [x] 보스 처치 루프 정상 (`MINIBOSS_DEFEATED` 로그 확인)
 
 ## 성능

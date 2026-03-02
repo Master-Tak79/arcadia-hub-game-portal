@@ -85,5 +85,10 @@ func _refresh() -> void:
 			text += "\n✅ MINIBOSS DEFEATED"
 
 	if _state.is_game_over:
-		text += "\nGAME OVER\nPress [R] to Restart"
+		text += "\nGAME OVER"
+		if String(_state.death_reason) != "":
+			text += "\n☠ 원인: %s" % String(_state.death_reason)
+		if String(_state.death_context) != "":
+			text += "\nℹ %s" % String(_state.death_context)
+		text += "\nPress [R] to Restart"
 	_label.text = text

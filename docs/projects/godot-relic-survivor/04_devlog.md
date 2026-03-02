@@ -850,3 +850,26 @@
 - `tools/qa/balance-freeze-check.sh` 추가 및 pre-manual QA 파이프라인 편입
 - `12_balance_tuning_log.md`에 수동 QA 전 freeze baseline 값 기록
 - `14/15/16` 문서에 freeze 검증 단계/규칙 반영
+
+## 2026-03-02 19:32 KST
+### 리뷰 반영 패치(A1→A4→B5→B6→B7)
+- A1) QA auto-levelup 편향 보정
+  - `game_root.gd` 선택 점수 로직이 multi-effect를 평가하도록 개선
+- A2) 예상 지표 신뢰도 표기
+  - `level_up_panel.gd`에 "간이 추정" 라벨 추가
+- A3) 일반 스폰 안전 반경
+  - `spawn_director.gd`에 플레이어 근접 회피 스폰 로직 추가
+- A4) 충돌 판정 최적화 준비
+  - `combat_system.gd` 셀 기반 후보 인덱스 도입
+- B5) 보스 패턴 학습 UX 강화
+  - 미니보스 소환/대시 바닥 텔레그래프 시각 보강 + 패턴별 SFX 분리 트리거
+- B6) 사망 원인 리포트
+  - `death_reason`/`death_context`를 HUD GAME OVER 구간에 출력
+- B7) 게이트 패턴 다양성 검증
+  - `headless-alpha-gate.sh`에서 boss_pattern 로그의 RING/WALL 최소 1회 검증
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` PASS (`boss_pattern`: RING/WALL 둘 다 확인)
+- `./tools/qa/pre-manual-qa-check.sh` PASS
+- `./tools/qa/checkpoint-report.sh` PASS
+- `./tools/qa/trace-objectdb-leak.sh` PASS

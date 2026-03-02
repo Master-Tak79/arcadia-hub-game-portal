@@ -43,6 +43,12 @@ func get_exp_reward() -> int:
 func get_contact_damage() -> int:
 	return contact_damage
 
+func get_enemy_kind() -> String:
+	return "dasher"
+
+func is_dashing() -> bool:
+	return _dash_time_left > 0.0
+
 func _process(delta: float) -> void:
 	if target == null:
 		return

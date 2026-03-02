@@ -13,6 +13,9 @@ var kills: int = 0
 var pressure_hint: float = 0.0
 var pressure_band: String = "low"
 
+var death_reason: String = ""
+var death_context: String = ""
+
 var is_game_over: bool = false
 var is_paused: bool = false
 
@@ -43,6 +46,8 @@ func reset() -> void:
 	kills = 0
 	pressure_hint = 0.0
 	pressure_band = "low"
+	death_reason = ""
+	death_context = ""
 
 	is_game_over = false
 	is_paused = false

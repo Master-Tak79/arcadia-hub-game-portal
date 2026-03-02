@@ -1,5 +1,7 @@
 extends Node
 
+const CELL_SIZE: float = 96.0
+
 var _balance: RefCounted
 var _state: RefCounted
 var _player: Node2D
@@ -28,10 +30,11 @@ func _process(delta: float) -> void:
 	if _player_damage_cooldown_left > 0.0:
 		_player_damage_cooldown_left -= delta
 
-	_process_projectile_hits()
-	_process_player_hits()
+	var enemy_index: Dictionary = _build_enemy_spatial_index()
+	_process_projectile_hits(enemy_index)
+	_process_player_hits(enemy_index)
 
-func _process_projectile_hits() -> void:
+func _process_projectile_hits(enemy_index: Dictionary) -> void:
 	for projectile in _projectile_container.get_children():
 		if not (projectile is Node2D):
 			continue
@@ -39,7 +42,8 @@ func _process_projectile_hits() -> void:
 			continue
 
 		var projectile_radius: float = float(projectile.radius)
-		for enemy in _enemy_container.get_children():
+		var candidates: Array = _gather_candidate_enemies(enemy_index, projectile.position, 1)
+		for enemy in candidates:
 			if not (enemy is Node2D):
 				continue
 			if enemy.is_queued_for_deletion():
@@ -62,12 +66,13 @@ func _process_projectile_hits() -> void:
 				projectile.queue_free()
 				break
 
-func _process_player_hits() -> void:
+func _process_player_hits(enemy_index: Dictionary) -> void:
 	if _player_damage_cooldown_left > 0.0:
 		return
 
 	var player_hit_radius: float = float(_balance.PLAYER_HIT_RADIUS)
-	for enemy in _enemy_container.get_children():
+	var candidates: Array = _gather_candidate_enemies(enemy_index, _player.position, 1)
+	for enemy in candidates:
 		if not (enemy is Node2D):
 			continue
 		if enemy.is_queued_for_deletion():
@@ -86,4 +91,75 @@ func _process_player_hits() -> void:
 				_state.is_game_over = true
 				_state.is_paused = false
 				_player.set_enabled(false)
+				_set_death_recap(enemy)
 			return
+
+func _set_death_recap(enemy: Node2D) -> void:
+	var reason: String = "적 접촉 피해"
+	var kind: String = "enemy"
+	if enemy.has_method("get_enemy_kind"):
+		kind = String(enemy.get_enemy_kind())
+
+	match kind:
+		"miniboss":
+			if enemy.has_method("is_dashing") and bool(enemy.is_dashing()):
+				reason = "미니보스 대시 직격"
+			elif enemy.has_method("is_dash_telegraphing") and bool(enemy.is_dash_telegraphing()):
+				reason = "미니보스 대시 예고 구간 접촉"
+			elif enemy.has_method("is_summon_telegraphing") and bool(enemy.is_summon_telegraphing()):
+				reason = "미니보스 소환 시전 구간 접촉"
+			else:
+				reason = "미니보스 접촉 피해"
+		"dasher":
+			if enemy.has_method("is_dashing") and bool(enemy.is_dashing()):
+				reason = "대셔 돌진 접촉"
+			else:
+				reason = "대셔 접촉 피해"
+		"grunt":
+			reason = "그런트 접촉 피해"
+		_:
+			reason = "적 접촉 피해"
+
+	_state.death_reason = reason
+	_state.death_context = "압박도 %s(%.2f) · 활성 적 %d" % [
+		String(_state.pressure_band).to_upper(),
+		float(_state.pressure_hint),
+		int(_enemy_container.get_child_count())
+	]
+
+func _build_enemy_spatial_index() -> Dictionary:
+	var index: Dictionary = {}
+	for enemy in _enemy_container.get_children():
+		if not (enemy is Node2D):
+			continue
+		if enemy.is_queued_for_deletion():
+			continue
+		if not enemy.has_method("get_hit_radius"):
+			continue
+
+		var ix: int = int(floor(enemy.position.x / CELL_SIZE))
+		var iy: int = int(floor(enemy.position.y / CELL_SIZE))
+		var key: String = _cell_key(ix, iy)
+		if not index.has(key):
+			index[key] = []
+		var bucket: Array = index[key]
+		bucket.append(enemy)
+		index[key] = bucket
+	return index
+
+func _gather_candidate_enemies(enemy_index: Dictionary, origin: Vector2, radius_cells: int = 1) -> Array:
+	var out: Array = []
+	var ix: int = int(floor(origin.x / CELL_SIZE))
+	var iy: int = int(floor(origin.y / CELL_SIZE))
+
+	for y in range(iy - radius_cells, iy + radius_cells + 1):
+		for x in range(ix - radius_cells, ix + radius_cells + 1):
+			var key: String = _cell_key(x, y)
+			if not enemy_index.has(key):
+				continue
+			for enemy in Array(enemy_index[key]):
+				out.append(enemy)
+	return out
+
+func _cell_key(x: int, y: int) -> String:
+	return "%d:%d" % [x, y]

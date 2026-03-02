@@ -85,6 +85,17 @@ assert_log_contains "$BOSS_PATTERN_LOG" "MINIBOSS_SUMMON_CAST"
 assert_log_contains "$BOSS_PATTERN_LOG" "MINIBOSS_DASH_TELEGRAPH_ON"
 assert_log_contains "$BOSS_PATTERN_LOG" "MINIBOSS_DASH_START"
 
+RING_COUNT=$(grep -c "MINIBOSS_SUMMON_PATTERN_RING" "$BOSS_PATTERN_LOG" || true)
+WALL_COUNT=$(grep -c "MINIBOSS_SUMMON_PATTERN_WALL" "$BOSS_PATTERN_LOG" || true)
+if [[ "$RING_COUNT" -lt 1 ]]; then
+  echo "[FAIL] boss_pattern diversity check failed: RING pattern missing" >&2
+  exit 1
+fi
+if [[ "$WALL_COUNT" -lt 1 ]]; then
+  echo "[FAIL] boss_pattern diversity check failed: WALL pattern missing" >&2
+  exit 1
+fi
+
 assert_log_contains "$RESTART_LOG" "QA_FORCE_DEATH"
 assert_log_contains "$RESTART_LOG" "QA_AUTO_RESTART_TRIGGERED"
 assert_log_contains "$LONG_LOG" "RELIC_SURVIVOR_BOOT_OK"
@@ -100,7 +111,7 @@ WARN_SUMMARY="$RUN_DIR/warnings-summary.txt"
   echo "# Warning summary"
   echo "run: $STAMP"
   echo
-  grep -HnE "WARNING:|Leaked instance:|Orphan StringName" "$SMOKE_LOG" "$BOSS_LOG" "$RESTART_LOG" "$LONG_LOG" || true
+  grep -HnE "WARNING:|Leaked instance:|Orphan StringName" "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$RESTART_LOG" "$LONG_LOG" || true
 } > "$WARN_SUMMARY"
 
 WARN_COUNT=$(grep -c "WARNING:" "$WARN_SUMMARY" || true)
@@ -112,7 +123,7 @@ cat <<EOF
 - output dir: $RUN_DIR
 - smoke:         PASS
 - boss loop:     PASS
-- boss pattern:  PASS
+- boss pattern:  PASS (RING=$RING_COUNT, WALL=$WALL_COUNT)
 - restart loop:  PASS
 - long sim:      PASS
 - warnings:      $WARN_COUNT

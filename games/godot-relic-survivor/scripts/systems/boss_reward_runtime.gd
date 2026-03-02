@@ -18,6 +18,8 @@ var _slowmo_time_left: float = 0.0
 var _pending_warning_sfx: float = -1.0
 var _pending_spawn_sfx: float = -1.0
 var _pending_defeat_sfx: float = -1.0
+var _dash_telegraph_sfx_cd: float = 0.0
+var _summon_telegraph_sfx_cd: float = 0.0
 
 func setup(
 	balance: RefCounted,
@@ -47,9 +49,13 @@ func reset_round() -> void:
 	_pending_warning_sfx = -1.0
 	_pending_spawn_sfx = -1.0
 	_pending_defeat_sfx = -1.0
+	_dash_telegraph_sfx_cd = 0.0
+	_summon_telegraph_sfx_cd = 0.0
 	Engine.time_scale = 1.0
 
 func process(delta: float) -> void:
+	_dash_telegraph_sfx_cd = max(0.0, _dash_telegraph_sfx_cd - delta)
+	_summon_telegraph_sfx_cd = max(0.0, _summon_telegraph_sfx_cd - delta)
 	_update_slowmo(delta)
 	_process_pending_sfx(delta)
 	_process_miniboss_state_transitions()
@@ -93,6 +99,9 @@ func _process_miniboss_state_transitions() -> void:
 			_event_banner.show_message("⚠ DASH CHARGE — 잠시 옆으로 이탈하세요", 0.72, Color("#7F1D1D"))
 		if _camera_fx and _camera_fx.has_method("play_warning_pulse"):
 			_camera_fx.play_warning_pulse()
+		if _dash_telegraph_sfx_cd <= 0.0 and _sfx_slots and _sfx_slots.has_method("play_boss_warning"):
+			_sfx_slots.play_boss_warning()
+			_dash_telegraph_sfx_cd = 0.48
 
 	if summon_telegraph and not _last_summon_telegraph and boss_alive:
 		var pattern: String = ""
@@ -105,6 +114,12 @@ func _process_miniboss_state_transitions() -> void:
 				_event_banner.show_message("⚠ SUMMON CAST — 소환 링 전개", 0.9, Color("#0F4C5C"))
 		if _camera_fx and _camera_fx.has_method("play_warning_pulse"):
 			_camera_fx.play_warning_pulse()
+		if _summon_telegraph_sfx_cd <= 0.0 and _sfx_slots:
+			if pattern == "wall" and _sfx_slots.has_method("play_boss_spawn"):
+				_sfx_slots.play_boss_spawn()
+			elif _sfx_slots.has_method("play_boss_warning"):
+				_sfx_slots.play_boss_warning()
+			_summon_telegraph_sfx_cd = 0.62
 
 	if not boss_alive and _last_boss_alive and not _boss_reward_applied:
 		_apply_boss_clear_reward()

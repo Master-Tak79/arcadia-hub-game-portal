@@ -83,7 +83,8 @@ func _ready() -> void:
 		_player,
 		_enemy_container,
 		float(_runtime_options.boss_spawn_time_override),
-		float(_runtime_options.boss_hp_scale_override)
+		float(_runtime_options.boss_hp_scale_override),
+		bool(_runtime_options.boss_pattern_test)
 	)
 	_hud.set_miniboss_director(_miniboss_director)
 	if _spawn_director and _spawn_director.has_method("set_miniboss_director"):
@@ -257,31 +258,64 @@ func _on_level_up_choice_selected(choice_index: int) -> void:
 	_level_up_panel.hide_panel()
 
 func _pick_auto_levelup_index(choices: Array) -> int:
+	var best_idx: int = 0
+	var best_score: int = -9999
+	for i in range(choices.size()):
+		var choice: Dictionary = choices[i]
+		var score: int = _score_choice_for_autopilot(choice)
+		if score > best_score:
+			best_score = score
+			best_idx = i
+	return best_idx
+
+func _score_choice_for_autopilot(choice: Dictionary) -> int:
 	var priorities := {
 		"extra_projectiles": 100,
 		"projectile_damage_bonus": 95,
 		"attack_interval_reduction": 92,
 		"projectile_speed_bonus": 80,
 		"attack_range_bonus": 72,
-		"max_hp_plus_heal": 60,
-		"instant_heal": 50,
-		"player_speed_bonus": 40,
-		"dash_cooldown_reduction": 35,
-		"player_invuln_bonus": 30,
+		"max_hp_plus_heal": 68,
+		"instant_heal": 62,
+		"player_speed_bonus": 42,
+		"dash_cooldown_reduction": 38,
+		"player_invuln_bonus": 36,
 		"projectile_radius_bonus": 28,
 		"projectile_lifetime_bonus": 26
 	}
 
-	var best_idx: int = 0
-	var best_score: int = -9999
-	for i in range(choices.size()):
-		var choice: Dictionary = choices[i]
-		var effect_key: String = String(choice.get("effect_key", ""))
-		var score: int = int(priorities.get(effect_key, 0))
-		if score > best_score:
-			best_score = score
-			best_idx = i
-	return best_idx
+	var effects: Array = []
+	if choice.has("effects"):
+		effects = Array(choice.get("effects", []))
+	else:
+		effects = [{"key": String(choice.get("effect_key", "")), "value": choice.get("effect_value", 0)}]
+
+	var score: int = 0
+	var hp_ratio: float = float(_state.hp) / max(1.0, float(_state.max_hp))
+	var pressure: float = float(_state.pressure_hint)
+
+	for raw_effect in effects:
+		var effect: Dictionary = raw_effect
+		var key: String = String(effect.get("key", ""))
+		score += int(priorities.get(key, 0))
+
+		if hp_ratio <= 0.42 and (key == "instant_heal" or key == "max_hp_plus_heal" or key == "player_invuln_bonus"):
+			score += 32
+		if pressure >= 0.95 and (key == "player_speed_bonus" or key == "dash_cooldown_reduction" or key == "player_invuln_bonus"):
+			score += 18
+		if pressure >= 0.95 and (key == "extra_projectiles" or key == "attack_interval_reduction"):
+			score -= 8
+
+	if effects.size() >= 2:
+		score += 12
+
+	var id: String = String(choice.get("id", ""))
+	var current_stack: int = int(_state.get_upgrade_stack(id))
+	var max_stacks: int = max(1, int(choice.get("max_stacks", 1)))
+	if current_stack >= max_stacks - 1:
+		score -= 10
+
+	return score
 
 func _clear_container(container: Node2D) -> void:
 	for node in container.get_children():

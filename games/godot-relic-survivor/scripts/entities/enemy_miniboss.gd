@@ -16,12 +16,12 @@ var dash_duration: float = 0.35
 var dash_windup: float = 0.42
 var dash_recovery: float = 0.24
 var dash_min_distance: float = 96.0
-var combo_dash_chance: float = 0.34
+var combo_dash_chance: float = 0.29
 var combo_dash_gap: float = 0.16
 
 # Summon pattern
-var summon_windup: float = 0.55
-var summon_wall_chance: float = 0.45
+var summon_windup: float = 0.62
+var summon_wall_chance: float = 0.40
 
 var spawn_grace: float = 1.1
 
@@ -35,6 +35,8 @@ var _summon_radius: float = 86.0
 var _summon_cooldown_left: float = 4.5
 var _summon_windup_left: float = 0.0
 var _pending_summon_pattern: String = ""
+var _force_pattern_cycle: bool = false
+var _pattern_cycle_index: int = 0
 var _summon_cfg: Dictionary = {}
 
 var _dash_cooldown_left: float = 1.5
@@ -45,6 +47,7 @@ var _combo_dash_left: int = 0
 var _dash_direction: Vector2 = Vector2.RIGHT
 
 var _spawn_grace_left: float = 0.0
+var _last_target_dir: Vector2 = Vector2.DOWN
 
 func setup(
 	target_node: Node2D,
@@ -67,7 +70,8 @@ func setup(
 	summon_wall_pattern_chance: float,
 	summon_count: int,
 	summon_radius: float,
-	summon_cfg: Dictionary
+	summon_cfg: Dictionary,
+	force_pattern_cycle: bool = false
 ) -> void:
 	target = target_node
 	speed = base_speed
@@ -97,6 +101,8 @@ func setup(
 	_summon_cooldown_left = _summon_interval * 0.7
 	_summon_windup_left = 0.0
 	_pending_summon_pattern = ""
+	_force_pattern_cycle = force_pattern_cycle
+	_pattern_cycle_index = 0
 
 	_dash_cooldown_left = randf_range(1.0, dash_interval)
 	_dash_time_left = 0.0
@@ -128,6 +134,12 @@ func get_contact_damage() -> int:
 
 func get_exp_reward() -> int:
 	return exp_reward
+
+func get_enemy_kind() -> String:
+	return "miniboss"
+
+func is_dashing() -> bool:
+	return _dash_time_left > 0.0
 
 func is_miniboss() -> bool:
 	return true
@@ -171,6 +183,7 @@ func _process(delta: float) -> void:
 	var to_target: Vector2 = target.position - position
 	if to_target.length() > 0.001:
 		rotation = to_target.angle()
+		_last_target_dir = to_target.normalized()
 
 	if _dash_time_left > 0.0:
 		_dash_time_left -= delta
@@ -222,6 +235,13 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _start_summon_cast() -> void:
+	if _force_pattern_cycle:
+		_pending_summon_pattern = "ring" if (_pattern_cycle_index % 2) == 0 else "wall"
+		_pattern_cycle_index += 1
+		_summon_windup_left = summon_windup
+		print("MINIBOSS_SUMMON_TELEGRAPH_ON")
+		return
+
 	var wall_chance: float = summon_wall_chance
 	var hp_ratio: float = clampf(float(hp) / float(_max_hp), 0.0, 1.0)
 	var dist_to_target: float = 9999.0
@@ -339,6 +359,7 @@ func _draw() -> void:
 		var tip: Vector2 = _dash_direction.normalized() * line_len
 		draw_line(Vector2.ZERO, tip, line_color, 5.0)
 		draw_circle(tip, 10.0, Color(line_color.r, line_color.g, line_color.b, 0.5))
+		draw_arc(tip, 24.0, 0.0, TAU, 32, Color(line_color.r, line_color.g, line_color.b, 0.38), 2.4)
 
 	if _summon_windup_left > 0.0:
 		var summon_ratio: float = clampf(_summon_windup_left / max(0.01, summon_windup), 0.0, 1.0)
@@ -347,6 +368,14 @@ func _draw() -> void:
 		if _pending_summon_pattern == "wall":
 			summon_color = Color(0.52, 1.0, 0.68, summon_pulse)
 		draw_arc(Vector2.ZERO, hit_radius + 20.0, 0.0, TAU, 48, summon_color, 3.5)
+
+		if _pending_summon_pattern == "wall":
+			var wall_center: Vector2 = _last_target_dir * (_summon_radius + 24.0)
+			var side: Vector2 = Vector2(-_last_target_dir.y, _last_target_dir.x)
+			var half_len: float = float(_summon_count + 1) * 22.0
+			draw_line(wall_center - side * half_len, wall_center + side * half_len, Color(summon_color.r, summon_color.g, summon_color.b, 0.42), 5.0)
+		else:
+			draw_arc(Vector2.ZERO, _summon_radius + 14.0, 0.0, TAU, 48, Color(summon_color.r, summon_color.g, summon_color.b, 0.42), 2.6)
 
 	if _spawn_grace_left > 0.0:
 		var grace_ratio: float = clampf(_spawn_grace_left / max(0.01, spawn_grace), 0.0, 1.0)

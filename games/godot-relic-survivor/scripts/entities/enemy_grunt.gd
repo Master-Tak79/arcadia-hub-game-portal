@@ -30,6 +30,9 @@ func get_exp_reward() -> int:
 func get_contact_damage() -> int:
 	return contact_damage
 
+func get_enemy_kind() -> String:
+	return "grunt"
+
 func _process(delta: float) -> void:
 	if target == null:
 		return

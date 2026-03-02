@@ -10,6 +10,7 @@ var _enemy_container: Node2D
 var _spawn_time: float = 600.0
 var _warning_duration: float = 3.0
 var _hp_scale: float = 1.0
+var _force_pattern_cycle: bool = false
 
 var _warning_started: bool = false
 var _warning_active: bool = false
@@ -26,7 +27,8 @@ func setup(
 	player: Node2D,
 	enemy_container: Node2D,
 	spawn_time_override: float = -1.0,
-	hp_scale_override: float = 1.0
+	hp_scale_override: float = 1.0,
+	force_pattern_cycle: bool = false
 ) -> void:
 	_balance = balance
 	_state = state
@@ -36,6 +38,7 @@ func setup(
 	_spawn_time = float(_balance.MINIBOSS_SPAWN_TIME)
 	_warning_duration = float(_balance.MINIBOSS_WARNING_DURATION)
 	_hp_scale = max(0.1, hp_scale_override)
+	_force_pattern_cycle = force_pattern_cycle
 	if spawn_time_override > 0.0:
 		_spawn_time = spawn_time_override
 
@@ -192,7 +195,8 @@ func _spawn_miniboss() -> void:
 		float(_balance.MINIBOSS_SUMMON_WALL_CHANCE),
 		int(_balance.MINIBOSS_SUMMON_COUNT),
 		float(_balance.MINIBOSS_SUMMON_RADIUS),
-		summon_cfg
+		summon_cfg,
+		_force_pattern_cycle
 	)
 	boss.position = Vector2(float(_balance.ARENA_SIZE.x) * 0.5, -60.0)
 	_enemy_container.add_child(boss)

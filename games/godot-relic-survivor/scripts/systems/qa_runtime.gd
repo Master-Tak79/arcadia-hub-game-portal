@@ -50,6 +50,8 @@ func _process_force_damage(delta: float) -> void:
 	_state.hp = max(0, _state.hp - 1)
 	if _state.hp <= 0:
 		_state.is_game_over = true
+		_state.death_reason = "QA 강제 데미지 테스트 종료"
+		_state.death_context = "qa_force_damage interval=%.2fs" % float(_options.qa_force_damage_interval)
 		_player.set_enabled(false)
 		print("QA_FORCE_DEATH")
 

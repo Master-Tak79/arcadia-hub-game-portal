@@ -19,6 +19,7 @@
   - 보스 경고/등장/대시텔레그래프(콤보 포함)/소환텔레그래프/처치/보상 로그 검증 통과
   - 재시작 루프 반복 검증 통과
   - 원클릭 게이트(`tools/qa/headless-alpha-gate.sh`) 통과 (`boss_pattern` 포함)
+  - boss_pattern 다양성 체크(RING/WALL 최소 1회) 통과
   - warning/leak summary 기준 `warnings=0`, `leak_lines=0`
   - balance freeze check(`tools/qa/balance-freeze-check.sh`) 통과
 
