@@ -873,3 +873,20 @@
 - `./tools/qa/pre-manual-qa-check.sh` PASS
 - `./tools/qa/checkpoint-report.sh` PASS
 - `./tools/qa/trace-objectdb-leak.sh` PASS
+
+## 2026-03-02 19:48 KST
+### 콘텐츠 확장 사전설계(사용자 승인 반영)
+- 사용자 요청("차례대로 진행")에 따라 다음 콘텐츠 라인 문서화 완료:
+  1) Elite Pack 01
+  2) Relic System 01 (12종)
+  3) Stage Event Pack 01 (3종)
+  4) Boss Phase 2 Upgrade
+- 문서 추가:
+  - `17_content_expansion_execution_plan.md`
+  - `18_content_expansion_checklist.md`
+- 기존 핵심 문서 동기화:
+  - `01_gdd.md`, `02_development_plan.md`, `03_roadmap.md`, `06_release_notes.md`, `README.md`
+
+### 비고
+- 현재 단계는 구현 착수 전 설계/체크리스트 고정 단계
+- 다음 턴부터 Step 1(Elite Pack 01) 코드 작업 가능

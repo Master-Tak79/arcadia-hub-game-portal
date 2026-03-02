@@ -111,3 +111,5 @@
 - `docs/projects/godot-relic-survivor/14_pr_description_alpha_candidate.md`
 - `docs/projects/godot-relic-survivor/15_merge_handover_checklist.md`
 - `docs/projects/godot-relic-survivor/16_alpha_candidate_quality_lock.md`
+- `docs/projects/godot-relic-survivor/17_content_expansion_execution_plan.md`
+- `docs/projects/godot-relic-survivor/18_content_expansion_checklist.md`

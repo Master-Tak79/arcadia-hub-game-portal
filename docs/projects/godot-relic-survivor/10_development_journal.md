@@ -213,3 +213,13 @@
 
 ### 검증
 - headless gate / readiness / checkpoint / leak trace 전체 통과
+
+## 2026-03-02 (Content Expansion Planning Lock)
+
+### 반영
+- 사용자 승인에 따라 차기 콘텐츠를 순차 실행 계획으로 고정
+- GDD/개발계획/로드맵을 확장 마일스톤(M4~M7) 기준으로 정렬
+- 실행계획 + 체크리스트 전용 문서(`17`, `18`) 신설
+
+### 결과
+- 구현 순서/완료기준/공수/QA 절차가 문서 기준선으로 확정됨

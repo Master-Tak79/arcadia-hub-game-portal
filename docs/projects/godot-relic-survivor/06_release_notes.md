@@ -17,6 +17,8 @@
   - `14_pr_description_alpha_candidate.md`
   - `15_merge_handover_checklist.md`
   - `16_alpha_candidate_quality_lock.md`
+  - `17_content_expansion_execution_plan.md`
+  - `18_content_expansion_checklist.md`
 - 기존 `Godot Neon Dodge` 아카이브 전환
 - 코어 전투 시스템 1차
   - 자동공격(`auto_attack_system.gd`)
