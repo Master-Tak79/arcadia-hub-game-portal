@@ -171,3 +171,13 @@
 ### 검증
 - `headless-alpha-gate.sh`에서 `boss_pattern` 시나리오 PASS
 - `MINIBOSS_SUMMON_TELEGRAPH_ON`, `MINIBOSS_SUMMON_CAST` 토큰 검증 PASS
+
+## 2026-03-02 (Pressure-aware Upgrade Steering)
+
+### 반영
+- 웨이브/보스 압박도를 수치화(`pressure_hint`)하여 업그레이드 제안 가중치에 반영
+- HUD에 PRESSURE 상태를 노출해 추천 로직 근거를 시각적으로 확인 가능하게 정리
+- 체크포인트 리포트를 고정 템플릿(게이트 상태 표 + latest 포인터)로 표준화
+
+### 검증
+- headless gate / readiness / checkpoint-report 모두 통과

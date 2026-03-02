@@ -809,3 +809,18 @@
 - `./tools/qa/headless-alpha-gate.sh` PASS (`boss_pattern` 포함)
 - `./tools/qa/pre-manual-qa-check.sh` PASS
 - `./tools/qa/checkpoint-report.sh` PASS
+
+## 2026-03-02 18:42 KST
+### 보강 작업(압박도 기반 추천)
+- `game_root.gd` + `game_state.gd`
+  - 실시간 압박도(`pressure_hint`, `pressure_band`) 계산/저장 로직 추가
+- `hud.gd`
+  - PRESSURE 상태(low/mid/high + 수치) 출력 추가
+- `upgrade_system.gd`
+  - 선택지 가중치에 압박도 신호 반영(고압박 시 생존/기동 우선, 저압박 시 공격 우선)
+- `checkpoint-report.sh`
+  - 고정 템플릿 게이트 표 + latest-checkpoint.md 갱신 루틴 추가
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` PASS
+- `./tools/qa/checkpoint-report.sh` PASS

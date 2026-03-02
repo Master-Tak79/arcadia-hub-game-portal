@@ -58,6 +58,8 @@ func _compute_effective_weight(def: Dictionary) -> float:
 	var weight: float = max(0.01, float(def.get("weight", 1.0)))
 	var hp_ratio: float = float(_state.hp) / max(1.0, float(_state.max_hp))
 	var level: int = int(_state.level)
+	var pressure: float = clampf(float(_state.pressure_hint), 0.0, 2.0)
+	var pressure_band: String = String(_state.pressure_band)
 
 	var effects: Array = _extract_effects(def)
 	var roles: Dictionary = {}
@@ -78,6 +80,20 @@ func _compute_effective_weight(def: Dictionary) -> float:
 			weight *= 0.8
 	elif hp_ratio >= 0.82 and _has_effect(def, "instant_heal"):
 		weight *= 0.45
+
+	# Pressure-aware steering (wave congestion / boss phase)
+	if pressure >= 1.15 or pressure_band == "high":
+		if is_survival:
+			weight *= 1.28
+		if is_mobility:
+			weight *= 1.22
+		if is_offense and not is_hybrid:
+			weight *= 0.84
+	elif pressure <= 0.45 and pressure_band == "low" and hp_ratio >= 0.72:
+		if is_offense:
+			weight *= 1.16
+		if is_survival and not is_hybrid:
+			weight *= 0.82
 
 	# Early game favors readability and core growth
 	if level <= 3 and _has_effect(def, "extra_projectiles"):
@@ -103,6 +119,10 @@ func _compute_effective_weight(def: Dictionary) -> float:
 	# Reward recovery-oriented hybrid when low HP
 	if hp_ratio <= 0.50 and is_hybrid and is_survival:
 		weight *= 1.22
+
+	# Emergency safety boost under extreme pressure
+	if pressure >= 1.35 and (_has_effect(def, "instant_heal") or _has_effect(def, "player_invuln_bonus") or _has_effect(def, "max_hp_plus_heal")):
+		weight *= 1.28
 
 	return max(0.01, weight)
 

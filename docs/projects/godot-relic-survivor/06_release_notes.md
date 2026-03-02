@@ -51,7 +51,7 @@
 
 ## Changed
 - `docs/projects/_index.md` 상태 갱신(archived + in-progress)
-- HUD 정보 확장(ENEMIES/SHOTS/EXP/MAX_HP/DASH + 보스 경고/활성/격파 상태)
+- HUD 정보 확장(ENEMIES/SHOTS/EXP/MAX_HP/DASH + PRESSURE + 보스 경고/활성/격파 상태)
 - 미니보스 텔레그래프 가시성 강화
   - 대시 예고(windup) 시각화/로그/HUD 상태 추가
   - 보스 등장 직후 안전구간(`MINIBOSS_SPAWN_GRACE`) 및 근거리 즉시대시 제한(`MINIBOSS_DASH_MIN_DISTANCE`) 적용
@@ -62,6 +62,7 @@
   - 선택 후 예상 지표(예상 DPS/생존 지표) 프리뷰 표시
 - 업그레이드 제안 시너지 튜닝(`systems/upgrade_system.gd`)
   - 체력/레벨/과중첩(attack speed, multi-shot, mobility) 기반 동적 가중치 반영
+  - 실시간 압박도(low/mid/high) 신호를 반영한 가중치 보정 추가
 - 씬/UI 구조 확장(ProjectileContainer + EventBanner 추가)
 - 입력 액션 확장(level-up 선택 `1/2/3`)
 - 게임 상태 구조 확장(EXP/업그레이드 스택/런타임 모디파이어)

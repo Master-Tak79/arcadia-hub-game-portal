@@ -134,6 +134,7 @@ func _process(delta: float) -> void:
 		return
 
 	_state.elapsed += delta
+	_update_pressure_hint()
 	_qa_runtime.process_active(delta)
 
 	while not _state.is_game_over and not _state.is_paused and _state.can_level_up():
@@ -161,6 +162,34 @@ func _clamp_player_inside_arena() -> void:
 	_player.position.x = clamp(_player.position.x, 0.0, float(_balance.ARENA_SIZE.x))
 	_player.position.y = clamp(_player.position.y, 0.0, float(_balance.ARENA_SIZE.y))
 
+func _update_pressure_hint() -> void:
+	var active_count: int = 0
+	if _spawn_director and _spawn_director.has_method("get_active_enemy_count"):
+		active_count = int(_spawn_director.get_active_enemy_count())
+
+	var soft_cap: float = max(1.0, float(_balance.ACTIVE_ENEMY_SOFT_CAP))
+	var hard_cap: float = max(soft_cap + 1.0, float(_balance.ACTIVE_ENEMY_HARD_CAP))
+
+	var pressure: float = 0.0
+	if float(active_count) <= soft_cap:
+		pressure = float(active_count) / soft_cap
+	else:
+		pressure = 1.0 + ((float(active_count) - soft_cap) / max(1.0, hard_cap - soft_cap))
+
+	if _miniboss_director and _miniboss_director.has_method("is_warning_active") and bool(_miniboss_director.is_warning_active()):
+		pressure += 0.18
+	if _miniboss_director and _miniboss_director.has_method("is_boss_alive") and bool(_miniboss_director.is_boss_alive()):
+		pressure += 0.34
+
+	pressure = clampf(pressure, 0.0, 2.0)
+	_state.pressure_hint = pressure
+	if pressure < 0.55:
+		_state.pressure_band = "low"
+	elif pressure < 1.05:
+		_state.pressure_band = "mid"
+	else:
+		_state.pressure_band = "high"
+
 func _start_round() -> void:
 	_state.reset()
 	_runtime_options.apply_round_boost_if_needed(_state)
@@ -186,6 +215,7 @@ func _start_round() -> void:
 	if _event_banner:
 		_event_banner.visible = false
 
+	_update_pressure_hint()
 	_qa_runtime.reset_round()
 	_boss_reward_runtime.reset_round()
 

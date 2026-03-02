@@ -166,6 +166,7 @@ func _process(delta: float) -> void:
 		if _summon_windup_left <= 0.0:
 			_cast_summon_pattern()
 		queue_redraw()
+		return
 
 	var to_target: Vector2 = target.position - position
 	if to_target.length() > 0.001:

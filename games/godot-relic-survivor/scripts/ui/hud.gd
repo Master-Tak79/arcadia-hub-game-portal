@@ -35,7 +35,7 @@ func _refresh() -> void:
 		var cooldown_left: float = _player.get_dash_cooldown_left()
 		dash_text = "READY" if cooldown_left <= 0.01 else "%.2fs" % cooldown_left
 
-	var text := "HP: %d / %d\nLV: %d\nEXP: %d / %d\nTIME: %.1f\nKILLS: %d\nENEMIES: %d\nSHOTS: %d\nDASH: %s" % [
+	var text := "HP: %d / %d\nLV: %d\nEXP: %d / %d\nTIME: %.1f\nKILLS: %d\nENEMIES: %d\nSHOTS: %d\nDASH: %s\nPRESSURE: %s (%.2f)" % [
 		_state.hp,
 		_state.max_hp,
 		_state.level,
@@ -45,7 +45,9 @@ func _refresh() -> void:
 		_state.kills,
 		enemies,
 		projectiles,
-		dash_text
+		dash_text,
+		String(_state.pressure_band).to_upper(),
+		float(_state.pressure_hint)
 	]
 
 	if _state.is_paused and not _state.is_game_over:

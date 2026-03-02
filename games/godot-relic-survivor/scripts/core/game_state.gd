@@ -10,6 +10,9 @@ var exp_to_next: int = 12
 var elapsed: float = 0.0
 var kills: int = 0
 
+var pressure_hint: float = 0.0
+var pressure_band: String = "low"
+
 var is_game_over: bool = false
 var is_paused: bool = false
 
@@ -38,6 +41,8 @@ func reset() -> void:
 
 	elapsed = 0.0
 	kills = 0
+	pressure_hint = 0.0
+	pressure_band = "low"
 
 	is_game_over = false
 	is_paused = false
