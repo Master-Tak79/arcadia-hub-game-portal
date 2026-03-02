@@ -188,7 +188,7 @@
 
 ### Step 12 결과 기록
 - Step: Visual Upgrade Pack 01
-- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 구현 커밋: `e3d3d2e` (CC0 asset integration + visual upgrade docs sync)
 - 자동검증 결과: headless gate PASS (asset 반영 상태), pre-manual PASS, leak trace PASS
 - 리스크/이슈: 애니메이션/VFX 미반영으로 동적 완성도는 후속 단계 필요
 - 다음 Step 진행 승인: 그래픽 2차 폴리싱(UI/VFX/애니메이션) 단계 대기
