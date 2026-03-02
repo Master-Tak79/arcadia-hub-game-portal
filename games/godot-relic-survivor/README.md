@@ -1,10 +1,10 @@
-# Godot Relic Survivor (v0.1.6-dev)
+# Godot Relic Survivor (v0.1.7-dev)
 
 탑다운 로그라이크 생존 액션 신규 프로젝트입니다.
 현재 코어 전투 루프(이동/대시/자동공격/적 2종 스폰/피격/재시작)와
 레벨업 3지선다 + 업그레이드 16종(복합 효과 포함)까지 반영된 상태입니다.
 
-## 최근 개선 (v0.1.6-dev)
+## 최근 개선 (v0.1.7-dev)
 - 미니보스 패턴 다양화 + 텔레그래프 강화
   - 대시 예고(windup) 시각화 + HUD 텍스트 + 이벤트 배너 추가
   - 콤보 대시 패턴(확률형) 도입으로 보스 패턴 다양화
@@ -21,6 +21,7 @@
 - QA 시나리오/리포트 확장
   - headless gate에 `boss_pattern` 케이스 추가(소환/대시 텔레그래프 검증)
   - 체크포인트 리포트 스크립트(`checkpoint-report.sh`) 추가
+  - 밸런스 프리즈 검증 스크립트(`balance-freeze-check.sh`) 추가
 
 ## 조작
 - 이동: `WASD` 또는 방향키
@@ -64,7 +65,11 @@
 # 체크포인트 리포트 생성(핸드오프용)
 ./tools/qa/checkpoint-report.sh
 # 산출: ./.qa/reports/checkpoint-<timestamp>.md
+
+# 수치 프리즈 검증(수동 QA 전 최종 확인)
+./tools/qa/balance-freeze-check.sh
 ```
+
 
 ## 구조
 - `scenes/` 메인 씬

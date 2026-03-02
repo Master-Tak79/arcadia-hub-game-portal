@@ -34,6 +34,7 @@
 - `games/godot-relic-survivor/tools/qa/trace-objectdb-leak.sh`
 - `games/godot-relic-survivor/tools/qa/pre-manual-qa-check.sh`
 - `games/godot-relic-survivor/tools/qa/checkpoint-report.sh`
+- `games/godot-relic-survivor/tools/qa/balance-freeze-check.sh`
 - 문서:
   - `11_manual_qa_protocol.md`
   - `12_balance_tuning_log.md`
@@ -83,6 +84,7 @@ cd games/godot-relic-survivor
 ```bash
 ./tools/qa/pre-manual-qa-check.sh
 ./tools/qa/checkpoint-report.sh
+./tools/qa/balance-freeze-check.sh
 ```
 - 수동 QA 재개 직전 문서/도구/최근 게이트 상태 점검
 - 체크포인트 핸드오프 리포트 자동 생성

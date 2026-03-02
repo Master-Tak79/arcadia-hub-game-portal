@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.6-dev
+- version: v0.1.7-dev
 - date: 2026-03-02
 
 ## Added
@@ -48,6 +48,9 @@
 - 체크포인트 리포트 스크립트 추가
   - `games/godot-relic-survivor/tools/qa/checkpoint-report.sh`
   - 최신 게이트/누수 추적 결과를 핸드오프용 markdown으로 산출
+- 밸런스 프리즈 검증 스크립트 추가
+  - `games/godot-relic-survivor/tools/qa/balance-freeze-check.sh`
+  - 수동 QA 전 핵심 상수(보스 패턴/압박 임계) 고정값 검증
 
 ## Changed
 - `docs/projects/_index.md` 상태 갱신(archived + in-progress)
@@ -88,7 +91,7 @@
   - 가중치 기반 제안 로직 도입(업그레이드 출현 빈도 제어)
 - 프로젝트 README 실행 가이드 갱신
   - `./tools/qa/headless-alpha-gate.sh` 실행법 및 로그 경로 안내 추가
-  - `trace-objectdb-leak.sh`, `pre-manual-qa-check.sh` 실행법 추가
+  - `trace-objectdb-leak.sh`, `pre-manual-qa-check.sh`, `balance-freeze-check.sh` 실행법 추가
 - `scripts/audio/sfx_slots.gd` headless 안전모드 추가
   - headless 환경에서 오디오 스트림 로딩/재생 비활성화(`SFX_HEADLESS_MODE_ON`)
 - 머지 패키지 문서 최신화
@@ -141,6 +144,9 @@
 - 체크포인트 리포트(2026-03-02):
   - `./tools/qa/checkpoint-report.sh` 실행
   - `.qa/reports/checkpoint-<timestamp>.md` 생성 확인
+  - `.qa/reports/latest-checkpoint.md` 갱신 확인
+- 밸런스 프리즈 체크(2026-03-02):
+  - `./tools/qa/balance-freeze-check.sh` PASS
 
 ## Known Issues
 - 현재 보스 SFX는 generated 자산(v2)이며, 향후 최종 음원 교체 여지

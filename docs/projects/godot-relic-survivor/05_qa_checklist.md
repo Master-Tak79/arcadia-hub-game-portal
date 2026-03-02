@@ -8,6 +8,7 @@
 - [x] leak trace 스크립트 실행 및 누수 요약 확인 (`./tools/qa/trace-objectdb-leak.sh`)
 - [x] 수동 QA 전 준비상태 점검 통과 (`./tools/qa/pre-manual-qa-check.sh`)
 - [x] 체크포인트 리포트 생성 확인 (`./tools/qa/checkpoint-report.sh`)
+- [x] 밸런스 프리즈 검증 확인 (`./tools/qa/balance-freeze-check.sh`)
 
 ## 기능별
 - [ ] 이동/대시 조작 반응성 (수동 QA 보류)

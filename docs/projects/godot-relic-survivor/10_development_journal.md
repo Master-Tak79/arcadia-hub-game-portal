@@ -191,3 +191,13 @@
 
 ### 검증
 - headless gate(`boss_pattern` 포함), readiness, leak trace 모두 통과
+
+## 2026-03-02 (Pre-manual Freeze Documentation)
+
+### 반영
+- `12_balance_tuning_log.md`에 pre-manual freeze baseline 섹션 추가
+- `16_alpha_candidate_quality_lock.md`에 freeze 검사 기준(`balance-freeze-check.sh`) 명시
+- 머지/PR 문서(`14/15`)에 balance freeze 체크 단계 추가
+
+### 검증
+- `pre-manual-qa-check.sh` 내 freeze check 단계 통과 확인

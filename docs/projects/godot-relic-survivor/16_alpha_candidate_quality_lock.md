@@ -8,7 +8,7 @@
 
 ### 1) 코어 루프
 - 이동/대시/자동공격/레벨업/보스/재시작 루프 구조
-- QA 런타임 옵션(`--auto-levelup`, `--qa-*`, `--boss-test`) 인터페이스
+- QA 런타임 옵션(`--auto-levelup`, `--qa-*`, `--boss-test`, `--boss-pattern-test`) 인터페이스
 
 ### 2) 전투/웨이브 곡선
 - `balance.gd` 6차 튜닝값
@@ -23,6 +23,10 @@
 - `12_balance_tuning_log.md`
 - `13_alpha_readiness_report.md`
 - `15_merge_handover_checklist.md`
+
+### 5) Freeze 검사 기준
+- `tools/qa/balance-freeze-check.sh` PASS
+- `tools/qa/pre-manual-qa-check.sh`에서 freeze check 통과
 
 ## Allowed Changes (허용)
 

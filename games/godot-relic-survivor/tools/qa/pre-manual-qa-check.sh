@@ -15,12 +15,13 @@ required_tools=(
   "$ROOT_DIR/tools/qa/headless-alpha-gate.sh"
   "$ROOT_DIR/tools/qa/trace-objectdb-leak.sh"
   "$ROOT_DIR/tools/qa/checkpoint-report.sh"
+  "$ROOT_DIR/tools/qa/balance-freeze-check.sh"
 )
 
 echo "== Pre-manual QA readiness check =="
 echo "project: $ROOT_DIR"
 
-echo "\n[1/3] Required docs"
+echo "\n[1/4] Required docs"
 for doc in "${required_docs[@]}"; do
   path="$DOC_DIR/$doc"
   if [[ -f "$path" ]]; then
@@ -31,7 +32,7 @@ for doc in "${required_docs[@]}"; do
   fi
 done
 
-echo "\n[2/3] QA tools"
+echo "\n[2/4] QA tools"
 for tool in "${required_tools[@]}"; do
   if [[ -x "$tool" ]]; then
     echo "  ✅ $(basename "$tool")"
@@ -41,7 +42,7 @@ for tool in "${required_tools[@]}"; do
   fi
 done
 
-echo "\n[3/3] Latest headless gate run"
+echo "\n[3/4] Latest headless gate run"
 latest_run=""
 if [[ -d "$ROOT_DIR/.qa/headless" ]]; then
   latest_run="$(ls -1 "$ROOT_DIR/.qa/headless" 2>/dev/null | sort | tail -n1 || true)"
@@ -61,6 +62,9 @@ else
   echo "  ⚠ no previous headless gate run found"
 fi
 
+echo "\n[4/4] Balance freeze"
+"$ROOT_DIR/tools/qa/balance-freeze-check.sh"
+
 cat <<'EOF'
 
 Ready for manual QA handoff ✅
@@ -68,4 +72,5 @@ Ready for manual QA handoff ✅
 - GUI run command: ../../scripts/godotw --path .
 - Before manual QA (recommended): ./tools/qa/headless-alpha-gate.sh
 - Checkpoint report (optional): ./tools/qa/checkpoint-report.sh
+- Balance freeze verify: ./tools/qa/balance-freeze-check.sh
 EOF

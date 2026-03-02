@@ -31,7 +31,9 @@
    - `./tools/qa/pre-manual-qa-check.sh`
 5. 체크포인트 리포트 생성(핸드오프 첨부용):
    - `./tools/qa/checkpoint-report.sh`
-6. merge 후 릴리즈 노트에 `alpha-candidate` 상태 유지 명시
+6. 밸런스 프리즈 검증:
+   - `./tools/qa/balance-freeze-check.sh`
+7. merge 후 릴리즈 노트에 `alpha-candidate` 상태 유지 명시
 
 ## Post-merge
 - [ ] 태그/릴리즈 노트 갱신 (`alpha-candidate` 또는 `alpha`)

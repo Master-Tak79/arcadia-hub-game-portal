@@ -163,3 +163,25 @@
 ### 기대 효과
 - 성장 곡선의 편차 완화
 - 빌드 다양성 유지 + 특정 OP 조합 조기 고정 완화
+
+## 2026-03-02 (Pre-manual Freeze Baseline)
+
+### 변경 요약
+- Boss pattern pacing final(수동 QA 전 1차 고정)
+  - `MINIBOSS_COMBO_DASH_CHANCE`: 0.34 → 0.29
+  - `MINIBOSS_SUMMON_WINDUP`: 0.55 → 0.62
+  - `MINIBOSS_SUMMON_WALL_CHANCE`: 0.45 → 0.40
+  - 소환 패턴 선택에 HP/거리 기반 보정 추가(근접 공정성 강화)
+- Pressure threshold final(추천 로직 기준선)
+  - `pressure_band low`: `< 0.50`
+  - `pressure_band mid`: `< 0.95`
+  - `pressure_band high`: `>= 0.95`
+
+### 자동 검증 결과
+- `headless-alpha-gate.sh` PASS (`boss_pattern` 포함)
+- `pre-manual-qa-check.sh` PASS
+- `balance-freeze-check.sh` PASS
+
+### 운영 메모
+- 본 값들은 수동 QA/FPS 실측 전까지 freeze 기준으로 유지
+- 추가 조정이 필요하면 `16_alpha_candidate_quality_lock.md` exception 규칙에 따라 기록 후 변경

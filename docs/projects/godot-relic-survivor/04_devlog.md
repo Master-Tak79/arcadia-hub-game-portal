@@ -844,3 +844,9 @@
 - `./tools/qa/pre-manual-qa-check.sh` PASS
 - `./tools/qa/checkpoint-report.sh` PASS
 - `./tools/qa/trace-objectdb-leak.sh` PASS
+
+## 2026-03-02 19:06 KST
+### 수치 고정 문서화 마감
+- `tools/qa/balance-freeze-check.sh` 추가 및 pre-manual QA 파이프라인 편입
+- `12_balance_tuning_log.md`에 수동 QA 전 freeze baseline 값 기록
+- `14/15/16` 문서에 freeze 검증 단계/규칙 반영

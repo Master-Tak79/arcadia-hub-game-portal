@@ -20,6 +20,7 @@
   - 재시작 루프 반복 검증 통과
   - 원클릭 게이트(`tools/qa/headless-alpha-gate.sh`) 통과 (`boss_pattern` 포함)
   - warning/leak summary 기준 `warnings=0`, `leak_lines=0`
+  - balance freeze check(`tools/qa/balance-freeze-check.sh`) 통과
 
 ### C. 문서화/운영
 - 상태: **통과**
