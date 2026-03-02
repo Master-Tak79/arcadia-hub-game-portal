@@ -90,7 +90,7 @@
 
 ### Step 5 결과 기록
 - Step: Meta Growth 01
-- 구현 커밋: `4f30642` (meta growth + meta_loop gate + docs sync)
+- 구현 커밋: `836b40a` (meta growth + meta_loop gate + docs sync)
 - 자동검증 결과: headless gate PASS (`meta_loop` 포함), pre-manual PASS, leak trace PASS
 - 리스크/이슈: 영구 보정 누적으로 장기 난이도 곡선 재점검 필요
 - 다음 Step 진행 승인: 콘텐츠 확장 2차 설계 대기

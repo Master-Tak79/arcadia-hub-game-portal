@@ -109,7 +109,7 @@ cd games/godot-relic-survivor
 - 체크포인트 핸드오프 리포트 자동 생성
 
 ## Key Commits (recent, head branch)
-- `4f30642` Meta Growth 01 + meta_loop 게이트 + 문서 동기화
+- `836b40a` Meta Growth 01 + meta_loop 게이트 + 문서 동기화
 - `bc3cfc0` Boss Phase2 업그레이드 + boss_phase2 게이트 + 문서 동기화
 - `969ab32` 보스 텔레그래프 폴리싱 + 레벨업 가독성 강화
 - `83249b5` headless QA 강화 + leak trace + readiness check
