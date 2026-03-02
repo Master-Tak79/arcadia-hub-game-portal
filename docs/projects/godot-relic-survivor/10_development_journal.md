@@ -181,3 +181,13 @@
 
 ### 검증
 - headless gate / readiness / checkpoint-report 모두 통과
+
+## 2026-03-02 (Balance Closeout Pass 1)
+
+### 반영
+- 보스 패턴 출현비/전환 타이밍 1차 미세조정(가독성·공정성 우선)
+- 압박도 신호(`pressure_hint`, `pressure_band`)를 추천 로직 및 HUD에 연동
+- 체크포인트 리포트를 고정 템플릿 + latest 포인터 방식으로 표준화
+
+### 검증
+- headless gate(`boss_pattern` 포함), readiness, leak trace 모두 통과

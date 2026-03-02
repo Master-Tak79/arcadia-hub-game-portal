@@ -82,18 +82,18 @@ func _compute_effective_weight(def: Dictionary) -> float:
 		weight *= 0.45
 
 	# Pressure-aware steering (wave congestion / boss phase)
-	if pressure >= 1.15 or pressure_band == "high":
+	if pressure >= 1.00 or pressure_band == "high":
 		if is_survival:
-			weight *= 1.28
+			weight *= 1.32
 		if is_mobility:
-			weight *= 1.22
+			weight *= 1.24
 		if is_offense and not is_hybrid:
-			weight *= 0.84
-	elif pressure <= 0.45 and pressure_band == "low" and hp_ratio >= 0.72:
-		if is_offense:
-			weight *= 1.16
-		if is_survival and not is_hybrid:
 			weight *= 0.82
+	elif pressure <= 0.40 and pressure_band == "low" and hp_ratio >= 0.72:
+		if is_offense:
+			weight *= 1.18
+		if is_survival and not is_hybrid:
+			weight *= 0.80
 
 	# Early game favors readability and core growth
 	if level <= 3 and _has_effect(def, "extra_projectiles"):
@@ -121,8 +121,8 @@ func _compute_effective_weight(def: Dictionary) -> float:
 		weight *= 1.22
 
 	# Emergency safety boost under extreme pressure
-	if pressure >= 1.35 and (_has_effect(def, "instant_heal") or _has_effect(def, "player_invuln_bonus") or _has_effect(def, "max_hp_plus_heal")):
-		weight *= 1.28
+	if pressure >= 1.20 and (_has_effect(def, "instant_heal") or _has_effect(def, "player_invuln_bonus") or _has_effect(def, "max_hp_plus_heal")):
+		weight *= 1.30
 
 	return max(0.01, weight)
 

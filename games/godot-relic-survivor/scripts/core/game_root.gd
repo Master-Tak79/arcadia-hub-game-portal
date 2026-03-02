@@ -183,9 +183,9 @@ func _update_pressure_hint() -> void:
 
 	pressure = clampf(pressure, 0.0, 2.0)
 	_state.pressure_hint = pressure
-	if pressure < 0.55:
+	if pressure < 0.50:
 		_state.pressure_band = "low"
-	elif pressure < 1.05:
+	elif pressure < 0.95:
 		_state.pressure_band = "mid"
 	else:
 		_state.pressure_band = "high"

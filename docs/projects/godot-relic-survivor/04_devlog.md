@@ -824,3 +824,23 @@
 ### 검증
 - `./tools/qa/headless-alpha-gate.sh` PASS
 - `./tools/qa/checkpoint-report.sh` PASS
+
+## 2026-03-02 18:54 KST
+### 밸런스 마감 미세조정(1차)
+- 보스 패턴 출현/전환 미세조정
+  - 콤보 대시 확률 0.34 → 0.29
+  - 소환 windup 0.55 → 0.62
+  - 기본 WALL 패턴 확률 0.45 → 0.40
+  - `_start_summon_cast()`에서 HP/거리 기반 동적 WALL 확률 보정 추가
+- 압박도 기반 추천 고도화
+  - `game_root`에서 `pressure_hint`/`pressure_band` 산출
+  - HUD에 PRESSURE 출력, `upgrade_system` 가중치에 압박도 임계 반영
+- 게이트/리포트 보강
+  - `headless-alpha-gate.sh`에 `boss_pattern` 케이스 유지
+  - `checkpoint-report.sh` 템플릿 고정 + `latest-checkpoint.md` 자동 갱신
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` PASS (`boss_pattern` 포함)
+- `./tools/qa/pre-manual-qa-check.sh` PASS
+- `./tools/qa/checkpoint-report.sh` PASS
+- `./tools/qa/trace-objectdb-leak.sh` PASS

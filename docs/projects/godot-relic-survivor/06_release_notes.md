@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.5-dev
+- version: v0.1.6-dev
 - date: 2026-03-02
 
 ## Added

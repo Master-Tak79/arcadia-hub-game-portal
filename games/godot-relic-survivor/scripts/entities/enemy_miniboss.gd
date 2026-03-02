@@ -222,7 +222,20 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _start_summon_cast() -> void:
-	_pending_summon_pattern = "wall" if randf() < summon_wall_chance else "ring"
+	var wall_chance: float = summon_wall_chance
+	var hp_ratio: float = clampf(float(hp) / float(_max_hp), 0.0, 1.0)
+	var dist_to_target: float = 9999.0
+	if target != null:
+		dist_to_target = position.distance_to(target.position)
+
+	# Low HP -> little more WALL pressure, close range -> prefer RING for fairness/readability
+	if hp_ratio < 0.58:
+		wall_chance += 0.12
+	if dist_to_target < 190.0:
+		wall_chance -= 0.16
+
+	wall_chance = clampf(wall_chance, 0.18, 0.72)
+	_pending_summon_pattern = "wall" if randf() < wall_chance else "ring"
 	_summon_windup_left = summon_windup
 	print("MINIBOSS_SUMMON_TELEGRAPH_ON")
 
