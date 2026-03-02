@@ -61,11 +61,11 @@
   - [x] 입력 액션(`active_skill`, Q) 및 HUD SKILL 상태 노출
   - [x] `active_ranger`, `active_warden` 게이트 확장
   - [x] 릴리즈/체크리스트/저널 반영
-- [ ] **Step 9 — Character/Weapon Tree Design 01**
+- [x] **Step 9 — Character/Weapon Tree Design 01**
   - [x] Draft 01 설계 문서 작성(`19_character_weapon_tree_design.md`)
-  - [ ] 트리 재화/해금 단가/적용 시점 정책 확정
-  - [ ] 데이터 스키마(`character_trees.gd`) 상세 고정
-  - [ ] `tree_*_loop` QA 토큰/시나리오 명세 고정
+  - [x] 트리 재화/해금 단가/적용 시점 정책 확정
+  - [x] 데이터 스키마(`character_trees.gd`) 상세 고정
+  - [x] `tree_*_loop` QA 토큰/시나리오 명세 고정
 
 ## 코드 구조 계획
 - `scripts/core/`: 게임 루프/상태/시그널/모드

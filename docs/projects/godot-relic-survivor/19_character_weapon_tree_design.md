@@ -19,7 +19,7 @@ Character Pack + Weapon Archetype + Active Skill 기반 위에,
 
 ---
 
-## 2) 트리 구조(초안)
+## 2) 트리 구조(확정안 v1)
 
 ### Ranger Tree (코드명: `ranger_tree`)
 - T1
@@ -43,24 +43,30 @@ Character Pack + Weapon Archetype + Active Skill 기반 위에,
 
 ---
 
-## 3) 포인트/해금 규칙(초안)
-- 재화: 기존 `meta_shards`와 분리된 `tree_points` 도입 검토
-- 1 노드 해금 = 1 포인트(기본)
+## 3) 포인트/해금 규칙(확정)
+- 재화: **`meta_shards` 공유**(트리 전용 별도 재화 미도입)
+- 노드 해금 단가: **티어별 상승 고정**
+  - T1: 1 shard
+  - T2: 2 shards
+  - T3: 3 shards
 - Tier 진입 조건:
-  - T2: T1 누적 1포인트
-  - T3: T2 누적 1포인트
+  - T2: T1 누적 1노드 이상
+  - T3: T2 누적 1노드 이상
+- 적용 시점: **해금은 즉시 저장, 효과 적용은 다음 라운드 시작 시 반영**
 - 시즌/리셋 없는 영구 저장(`user://meta_profile.json` 확장)
 
 ---
 
-## 4) 데이터 모델 제안
+## 4) 데이터 모델 확정(v1)
 - 신규 데이터 파일
   - `scripts/data/character_trees.gd`
 - profile 확장 키
-  - `tree_points`
   - `tree_unlocks` (예: `{ "ranger_tree": ["swift_draw"], "warden_tree": [] }`)
+  - `tree_last_spent` (예: `{ "node_id": "swift_draw", "cost": 1, "at": 1709410000 }`)
 - 런타임 적용기
   - `scripts/systems/tree_progression.gd` (신규)
+- node 스키마(고정)
+  - `id`, `tree_id`, `tier`, `cost`, `requires`, `effects[]`
 
 ---
 
@@ -82,6 +88,14 @@ Character Pack + Weapon Archetype + Active Skill 기반 위에,
   - `tree_ranger_loop`
   - `tree_warden_loop`
 
+## 6.1) QA 명세 고정(v1)
+- `tree_ranger_loop`
+  - 입력: `--character=ranger --tree-test`
+  - 필수 토큰: `TREE_PROFILE_LOADED`, `TREE_NODE_UNLOCKED:swift_draw`, `TREE_APPLIED:ranger`
+- `tree_warden_loop`
+  - 입력: `--character=warden --tree-test`
+  - 필수 토큰: `TREE_PROFILE_LOADED`, `TREE_NODE_UNLOCKED:iron_frame`, `TREE_APPLIED:warden`
+
 ---
 
 ## 7) 구현 순서 제안 (Step 9)
@@ -98,7 +112,7 @@ Character Pack + Weapon Archetype + Active Skill 기반 위에,
 - 트리 UI 추가 시 정보 과밀 위험
 - 노드 의존성 설계 복잡도 증가
 
-## 9) 결정 필요 항목
-- 트리 재화를 `meta_shards`와 공유할지 분리할지
-- 노드 해금 단가(고정 1 vs 티어별 상승)
-- 런 중 즉시 반영 여부(즉시/다음 라운드)
+## 9) 확정 결정(2026-03-03)
+- 트리 재화: `meta_shards` 공유
+- 해금 단가: 티어별 상승(T1=1, T2=2, T3=3)
+- 반영 시점: 해금 즉시 저장, 효과는 다음 라운드 시작 시 적용

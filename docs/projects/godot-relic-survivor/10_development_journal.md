@@ -348,3 +348,13 @@
 ### 상태
 - 설계 진행 중(정책 확정 대기)
 - 다음 액션: 재화/해금 단가/적용 시점 확정 후 구현 단계 전환
+
+## 2026-03-03 (Step 9 Complete — Character/Weapon Tree Design 01)
+
+### 반영
+- 트리 설계 Draft 01 정책 확정(재화/단가/적용 시점)
+- 데이터 스키마/QA 토큰 명세 고정
+
+### 상태
+- Step 9 설계 완료
+- 다음 착수: 트리 런타임 구현(`character_trees.gd`, `tree_progression.gd`, `tree_*_loop`)

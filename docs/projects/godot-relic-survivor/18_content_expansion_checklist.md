@@ -74,10 +74,10 @@
 
 ## Step 9 — Character/Weapon Tree Design 01
 - [x] 설계 문서 Draft 01 작성 (`19_character_weapon_tree_design.md`)
-- [ ] 트리 재화 정책 확정(공유/분리)
-- [ ] 트리 노드 해금 단가 규칙 확정
-- [ ] 런 적용 시점(즉시/다음 라운드) 확정
-- [ ] `tree_*_loop` QA 토큰 명세 확정
+- [x] 트리 재화 정책 확정(공유/분리)
+- [x] 트리 노드 해금 단가 규칙 확정
+- [x] 런 적용 시점(즉시/다음 라운드) 확정
+- [x] `tree_*_loop` QA 토큰 명세 확정
 
 ---
 
@@ -146,7 +146,7 @@
 
 ### Step 9 진행 기록
 - Step: Character/Weapon Tree Design 01
-- 현재 상태: Draft 01 작성 완료, 결정 항목 확정 대기
+- 현재 상태: 설계 확정 완료
 - 핵심 산출물: `19_character_weapon_tree_design.md`
-- 남은 결정: 재화 정책 / 해금 단가 / 적용 시점
-- 다음 Step 진행 승인: 정책 확정 후 구현 단계 진입
+- 확정 정책: `meta_shards` 공유 / 티어 단가(1,2,3) / 다음 라운드 적용
+- 다음 Step 진행 승인: 트리 구현 단계 진입
