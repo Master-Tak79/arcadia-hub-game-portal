@@ -2,7 +2,7 @@
 
 ## 목표
 - 단기: `v0.1.0-alpha` 확정(수동 QA + GUI FPS 실측)
-- 병행: 다음 콘텐츠 확장 라인(M4~M14) 사전 설계/작업 분해
+- 병행: 다음 콘텐츠 확장 라인(M4~M15) 사전 설계/작업 분해
 
 ## 작업 분해(WBS)
 
@@ -76,6 +76,11 @@
   - [x] 수동 트리 해금 UX(`T`, `1/2/3`) 연결
   - [x] `--tree-ui-test` + `tree_ui` 게이트 확장
   - [x] 릴리즈/체크리스트/저널 반영
+- [x] **Step 12 — Visual Upgrade Pack 01**
+  - [x] CC0 에셋(플레이어/적/투사체/배경) 1차 적용
+  - [x] 스프라이트 렌더링 경로 + 폴백 경로 유지
+  - [x] 자산 출처/라이선스 등록(`09_asset_register.md`)
+  - [x] 릴리즈/체크리스트/저널 반영
 
 ## 코드 구조 계획
 - `scripts/core/`: 게임 루프/상태/시그널/모드
@@ -96,7 +101,8 @@
 - Step 9 Character/Weapon Tree Design 01: **0.5 ~ 1.0일**
 - Step 10 Character/Weapon Tree Runtime 01: **1.0 ~ 1.5일**
 - Step 11 Tree UI/UX Pack 01: **0.5 ~ 1.0일**
-- 총합(문서/QA 포함): **11.5 ~ 18.5일**
+- Step 12 Visual Upgrade Pack 01: **0.5 ~ 1.0일**
+- 총합(문서/QA 포함): **12.0 ~ 19.5일**
 
 ## 검증 계획
 - 자동:

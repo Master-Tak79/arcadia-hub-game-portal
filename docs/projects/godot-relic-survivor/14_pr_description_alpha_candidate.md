@@ -31,6 +31,7 @@
 - Active Skill Pack 01 추가(Ranger/Warden 전용 스킬 + active_loop 검증)
 - Character/Weapon Tree Runtime 01 추가(트리 데이터/적용기 + tree_loop 검증)
 - Tree UI/UX Pack 01 추가(트리 패널/수동 해금 UX + tree_ui 검증)
+- Visual Upgrade Pack 01 추가(CC0 에셋 기반 스프라이트/배경 교체 + 라이선스 등록)
 - 레벨업 선택지 가독성 강화(역할 태그/효과 요약/추천 문구/예상 지표)
 - 압박도 기반 추천 보정(웨이브/보스 압박 신호를 가중치에 반영)
 - auto-levelup 선택 로직의 multi-effect 반영 + 스폰 안전 반경/전투 후보 인덱스 적용

@@ -1,10 +1,10 @@
-# Godot Relic Survivor (v0.1.18-dev)
+# Godot Relic Survivor (v0.1.19-dev)
 
 탑다운 로그라이크 생존 액션 신규 프로젝트입니다.
 현재 코어 전투 루프(이동/대시/자동공격/적 4종+보스 스폰/피격/재시작),
 레벨업 3지선다 + 업그레이드 16종(복합 효과 포함), 유물 12종 시스템까지 반영된 상태입니다.
 
-## 최근 개선 (v0.1.18-dev)
+## 최근 개선 (v0.1.19-dev)
 - Elite Pack 01 추가
   - `Elite Grunt`: 탱키 + 버스트 돌진
   - `Elite Dasher`: 연속 돌진 체인 패턴
@@ -51,6 +51,10 @@
 - Tree UI/UX Pack 01
   - 트리 메뉴 패널(`T`) 추가: 노드 확인/해금(1/2/3) UX 제공
   - `--tree-ui-test` 자동 검증 경로 + `tree_ui` 게이트 추가
+- Visual Upgrade Pack 01 (Asset Integration)
+  - CC0(Kenney Space Shooter Redux) 에셋 적용(플레이어/적/투사체/배경)
+  - 도형 렌더링 중심에서 스프라이트 렌더링 중심으로 1차 전환
+  - 라이선스/출처 등록(`09_asset_register.md`, `docs/assets/kenney_space_shooter_redux_LICENSE.txt`)
 - 레벨업 선택지 가독성/시너지 개선
   - 역할 태그(공격/기동/생존/혼합) + 효과 요약 + 상황별 추천 문구 노출
   - 선택지별 예상 지표(예상 DPS/생존 지표, 간이 추정) 표시
@@ -72,8 +76,9 @@
 - 이동: `WASD` 또는 방향키
 - 대시: `Shift`
 - 액티브 스킬: `Q`
+- 트리 메뉴: `T`
 - 재시작: `R`
-- 레벨업 선택: `1 / 2 / 3`
+- 레벨업/트리 선택: `1 / 2 / 3`
 
 ## 실행
 ```bash
@@ -190,3 +195,4 @@
 - `docs/projects/godot-relic-survivor/17_content_expansion_execution_plan.md`
 - `docs/projects/godot-relic-survivor/18_content_expansion_checklist.md`
 - `docs/projects/godot-relic-survivor/19_character_weapon_tree_design.md`
+- `docs/projects/godot-relic-survivor/20_quality_upgrade_review.md`

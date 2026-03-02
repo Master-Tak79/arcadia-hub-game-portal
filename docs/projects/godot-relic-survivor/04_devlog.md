@@ -1121,3 +1121,21 @@
 - `./tools/qa/pre-manual-qa-check.sh` PASS
 - `./tools/qa/checkpoint-report.sh` PASS
 - `./tools/qa/trace-objectdb-leak.sh` PASS
+
+## 2026-03-03 08:03 KST
+### Step 12 — Visual Upgrade Pack 01 구현 완료
+- 에셋 도입
+  - Kenney Space Shooter Redux(CC0) 기반 스프라이트 리소스 추가
+  - 플레이어/적(일반/엘리트/미니보스)/투사체/배경에 1차 적용
+- 렌더링 경로 개선
+  - 도형 렌더링 대비 스프라이트 렌더링 중심으로 전환
+  - 텍스처 미존재 시 기존 도형 폴백 유지
+- 문서/라이선스
+  - `09_asset_register.md` 갱신
+  - `docs/assets/kenney_space_shooter_redux_LICENSE.txt` 추가
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` PASS
+- `./tools/qa/pre-manual-qa-check.sh` PASS
+- `./tools/qa/checkpoint-report.sh` PASS
+- `./tools/qa/trace-objectdb-leak.sh` PASS

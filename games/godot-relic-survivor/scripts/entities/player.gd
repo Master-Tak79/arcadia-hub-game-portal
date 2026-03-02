@@ -1,5 +1,7 @@
 extends Node2D
 
+const PLAYER_TEXTURE := preload("res://assets/sprites/kenney/player/player_main.png")
+
 var _state: RefCounted
 
 var _base_move_speed: float = 340.0
@@ -65,8 +67,15 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	var color := Color("#22D3EE") if _enabled else Color("#64748B")
-	draw_circle(Vector2.ZERO, 14.0, color)
+	var color := Color("#FFFFFF") if _enabled else Color("#94A3B8")
+	if PLAYER_TEXTURE:
+		var tex_size: Vector2 = PLAYER_TEXTURE.get_size()
+		var scale: float = 30.0 / max(1.0, max(tex_size.x, tex_size.y))
+		var draw_size: Vector2 = tex_size * scale
+		draw_texture_rect(PLAYER_TEXTURE, Rect2(-draw_size * 0.5, draw_size), false, color)
+	else:
+		draw_circle(Vector2.ZERO, 14.0, Color("#22D3EE") if _enabled else Color("#64748B"))
+
 	draw_arc(Vector2.ZERO, 18.0, 0.0, TAU, 24, Color("#67E8F9"), 2.0)
 	if _dash_time_left > 0.0:
 		draw_arc(Vector2.ZERO, 24.0, 0.0, TAU, 30, Color("#A78BFA"), 2.0)

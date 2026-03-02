@@ -2,6 +2,7 @@ extends Node2D
 
 const EnemyGrunt := preload("res://scripts/entities/enemy_grunt.gd")
 const EnemyDasher := preload("res://scripts/entities/enemy_dasher.gd")
+const MINIBOSS_TEXTURE := preload("res://assets/sprites/kenney/enemies/miniboss.png")
 
 var target: Node2D
 
@@ -435,7 +436,13 @@ func _draw() -> void:
 	if _phase >= 2:
 		body_color = Color("#B91C1C")
 
-	draw_circle(Vector2.ZERO, hit_radius - 2.0, body_color)
+	if MINIBOSS_TEXTURE:
+		var tex_size: Vector2 = MINIBOSS_TEXTURE.get_size()
+		var scale: float = ((hit_radius * 2.9) / max(1.0, max(tex_size.x, tex_size.y)))
+		var draw_size: Vector2 = tex_size * scale
+		draw_texture_rect(MINIBOSS_TEXTURE, Rect2(-draw_size * 0.5, draw_size), false, body_color.lightened(0.18))
+	else:
+		draw_circle(Vector2.ZERO, hit_radius - 2.0, body_color)
 	draw_arc(Vector2.ZERO, hit_radius + 3.0, 0.0, TAU, 40, Color("#FDBA74"), 3.0)
 
 	if _phase_transition_left > 0.0:

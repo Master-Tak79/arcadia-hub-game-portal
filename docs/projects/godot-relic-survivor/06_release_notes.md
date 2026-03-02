@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.18-dev
+- version: v0.1.19-dev
 - date: 2026-03-03
 
 ## Added
@@ -101,6 +101,10 @@
 - Tree UI/UX Pack 01 추가
   - 트리 메뉴 패널(`ui/tree_panel.gd`) 추가, `T`로 열기/닫기 + `1/2/3` 해금 입력 지원
   - `tree_ui` QA 루프 및 `TREE_PANEL_OPEN`, `TREE_UI_UNLOCK_CONFIRMED:*` 검증 토큰 추가
+- Visual Upgrade Pack 01 (Asset Integration)
+  - CC0 에셋(Kenney Space Shooter Redux) 적용: 플레이어/적/투사체/배경 스프라이트 교체
+  - 렌더링 품질 1차 업그레이드(가독성 유지 + 실루엣 다양화)
+  - 자산 출처/라이선스 등록(`09_asset_register.md`, `docs/assets/kenney_space_shooter_redux_LICENSE.txt`)
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시
   - 선택 후 예상 지표(예상 DPS/생존 지표, 간이 추정) 프리뷰 표시

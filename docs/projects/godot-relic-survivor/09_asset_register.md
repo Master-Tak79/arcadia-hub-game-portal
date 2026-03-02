@@ -23,3 +23,26 @@
 - 신규 에셋 반입 시 표에 즉시 1행 추가
 - 라이선스가 불명확하면 반입 보류
 - 유료/제한 라이선스는 사용 범위 명시
+
+## 2026-03-03 추가 에셋 (Visual Upgrade Pack 01)
+
+### Kenney - Space Shooter Redux
+- Source: https://kenney.nl/assets/space-shooter-redux
+- License: CC0 1.0 (Public Domain)
+- Local license copy: `games/godot-relic-survivor/docs/assets/kenney_space_shooter_redux_LICENSE.txt`
+
+#### 반영 파일
+- `assets/sprites/kenney/player/player_main.png`
+- `assets/sprites/kenney/enemies/grunt.png`
+- `assets/sprites/kenney/enemies/dasher.png`
+- `assets/sprites/kenney/enemies/elite_grunt.png`
+- `assets/sprites/kenney/enemies/elite_dasher.png`
+- `assets/sprites/kenney/enemies/miniboss.png`
+- `assets/sprites/kenney/projectiles/default.png`
+- `assets/sprites/kenney/projectiles/pierce.png`
+- `assets/sprites/kenney/projectiles/dot.png`
+- `assets/sprites/kenney/projectiles/aoe.png`
+- `assets/sprites/kenney/background/base.png`
+
+#### 적용 범위
+- Player / Enemy(일반·엘리트·미니보스) / Projectile / Arena Background 렌더링

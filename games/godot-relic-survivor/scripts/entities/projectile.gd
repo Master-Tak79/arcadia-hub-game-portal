@@ -1,5 +1,10 @@
 extends Node2D
 
+const PROJECTILE_DEFAULT_TEXTURE := preload("res://assets/sprites/kenney/projectiles/default.png")
+const PROJECTILE_PIERCE_TEXTURE := preload("res://assets/sprites/kenney/projectiles/pierce.png")
+const PROJECTILE_DOT_TEXTURE := preload("res://assets/sprites/kenney/projectiles/dot.png")
+const PROJECTILE_AOE_TEXTURE := preload("res://assets/sprites/kenney/projectiles/aoe.png")
+
 var direction: Vector2 = Vector2.RIGHT
 var speed: float = 720.0
 var damage: int = 1
@@ -16,6 +21,7 @@ var hit_registry: Dictionary = {}
 
 var _fill_color: Color = Color("#FCD34D")
 var _stroke_color: Color = Color("#F59E0B")
+var _texture: Texture2D
 
 func setup(
 	start_position: Vector2,
@@ -44,7 +50,18 @@ func setup(
 	_fill_color = Color(base_color)
 	_stroke_color = _fill_color.lightened(0.18)
 
-	rotation = direction.angle()
+	var weapon_id: String = String(weapon_profile.get("id", "default"))
+	match weapon_id:
+		"pierce":
+			_texture = PROJECTILE_PIERCE_TEXTURE
+		"dot":
+			_texture = PROJECTILE_DOT_TEXTURE
+		"aoe":
+			_texture = PROJECTILE_AOE_TEXTURE
+		_:
+			_texture = PROJECTILE_DEFAULT_TEXTURE
+
+	rotation = direction.angle() + PI * 0.5
 	queue_redraw()
 
 func _process(delta: float) -> void:
@@ -56,7 +73,15 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	draw_circle(Vector2.ZERO, radius, _fill_color)
+	if _texture:
+		var tex_size: Vector2 = _texture.get_size()
+		var draw_height: float = max(14.0, radius * 6.0)
+		var scale: float = draw_height / max(1.0, tex_size.y)
+		var draw_size: Vector2 = tex_size * scale
+		draw_texture_rect(_texture, Rect2(-draw_size * 0.5, draw_size), false, _fill_color)
+	else:
+		draw_circle(Vector2.ZERO, radius, _fill_color)
+
 	draw_arc(Vector2.ZERO, radius + 2.0, 0.0, TAU, 16, _stroke_color, 2.0)
 	if pierce_left > 0:
 		draw_arc(Vector2.ZERO, radius + 5.0, 0.0, TAU, 20, Color("#22D3EE"), 1.6)

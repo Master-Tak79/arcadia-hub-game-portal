@@ -386,3 +386,17 @@
 ### 상태
 - Step 11 완료
 - 다음 착수: 트리 UI 고도화(스크롤/노드 상세/실해금 메타 화면)
+
+## 2026-03-03 (Step 12 Complete — Visual Upgrade Pack 01)
+
+### 반영
+- CC0 에셋 기반 핵심 오브젝트 스프라이트 교체
+- 배경 텍스처 레이어 적용으로 화면 완성도 상향
+- 에셋 라이선스/출처 문서화 완료
+
+### 검증
+- headless gate/readiness/checkpoint/leak trace 통과
+
+### 상태
+- Step 12 완료
+- 다음 착수: 그래픽 2차 폴리싱(VFX/애니메이션/UI 테마)

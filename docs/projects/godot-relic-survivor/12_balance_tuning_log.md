@@ -423,3 +423,21 @@
 ### 기대 효과
 - 트리 해금 조작 접근성 향상
 - 트리 UX 회귀를 자동검증 경로에서 추적 가능
+
+## 2026-03-03 (Visual Upgrade Pack 01)
+
+### 변경 요약
+- CC0(Kenney) 스프라이트 에셋 도입
+  - Player/Enemy/Projectile/Background 렌더링 갱신
+- 기능 영향 최소화 원칙
+  - 전투 수치/판정 로직은 유지
+  - 텍스처 경로 실패 시 도형 폴백 유지
+
+### 자동 검증 결과
+- `headless-alpha-gate.sh` PASS
+- `pre-manual-qa-check.sh` PASS
+- `trace-objectdb-leak.sh` PASS
+
+### 기대 효과
+- 가독성 유지 상태에서 시각 완성도 1차 상향
+- 이후 VFX/애니메이션 고도화 기반 확보

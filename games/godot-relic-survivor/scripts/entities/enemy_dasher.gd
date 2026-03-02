@@ -1,5 +1,7 @@
 extends Node2D
 
+const DASHER_TEXTURE := preload("res://assets/sprites/kenney/enemies/dasher.png")
+
 var target: Node2D
 var speed: float = 90.0
 var hp: int = 3
@@ -77,7 +79,13 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	draw_circle(Vector2.ZERO, hit_radius - 1.0, Color("#8B5CF6"))
+	if DASHER_TEXTURE:
+		var tex_size: Vector2 = DASHER_TEXTURE.get_size()
+		var scale: float = (hit_radius * 2.6) / max(1.0, max(tex_size.x, tex_size.y))
+		var draw_size: Vector2 = tex_size * scale
+		draw_texture_rect(DASHER_TEXTURE, Rect2(-draw_size * 0.5, draw_size), false, Color.WHITE)
+	else:
+		draw_circle(Vector2.ZERO, hit_radius - 1.0, Color("#8B5CF6"))
 	draw_arc(Vector2.ZERO, hit_radius + 2.0, 0.0, TAU, 20, Color("#C4B5FD"), 2.0)
 	if _dash_time_left > 0.0:
 		draw_arc(Vector2.ZERO, hit_radius + 6.0, 0.0, TAU, 24, Color("#E9D5FF"), 2.0)

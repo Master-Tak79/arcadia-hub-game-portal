@@ -1,5 +1,7 @@
 extends Node2D
 
+const GRUNT_TEXTURE := preload("res://assets/sprites/kenney/enemies/grunt.png")
+
 var target: Node2D
 var speed: float = 130.0
 var hp: int = 2
@@ -43,6 +45,13 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	draw_circle(Vector2.ZERO, hit_radius - 1.0, Color("#EF4444"))
+	if GRUNT_TEXTURE:
+		var tex_size: Vector2 = GRUNT_TEXTURE.get_size()
+		var scale: float = (hit_radius * 2.5) / max(1.0, max(tex_size.x, tex_size.y))
+		var draw_size: Vector2 = tex_size * scale
+		draw_texture_rect(GRUNT_TEXTURE, Rect2(-draw_size * 0.5, draw_size), false, Color.WHITE)
+	else:
+		draw_circle(Vector2.ZERO, hit_radius - 1.0, Color("#EF4444"))
+
 	draw_arc(Vector2.ZERO, hit_radius + 1.5, 0.0, TAU, 18, Color("#FCA5A5"), 2.0)
 	draw_line(Vector2.ZERO, Vector2(hit_radius + 5.0, 0), Color("#FDE68A"), 2.0)
