@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.2-dev
+- version: v0.1.3-dev
 - date: 2026-03-02
 
 ## Added
@@ -49,6 +49,11 @@
 ## Changed
 - `docs/projects/_index.md` 상태 갱신(archived + in-progress)
 - HUD 정보 확장(ENEMIES/SHOTS/EXP/MAX_HP/DASH + 보스 경고/활성/격파 상태)
+- 미니보스 텔레그래프 가시성 강화
+  - 대시 예고(windup) 시각화/로그/HUD 상태 추가
+  - 보스 등장 직후 안전구간(`MINIBOSS_SPAWN_GRACE`) 및 근거리 즉시대시 제한(`MINIBOSS_DASH_MIN_DISTANCE`) 적용
+- 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
+  - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시
 - 씬/UI 구조 확장(ProjectileContainer + EventBanner 추가)
 - 입력 액션 확장(level-up 선택 `1/2/3`)
 - 게임 상태 구조 확장(EXP/업그레이드 스택/런타임 모디파이어)
@@ -84,6 +89,7 @@
 ## Fixed
 - `spawn_director.gd` 타입 추론 경고 에러 처리(명시 타입 적용)
 - `game_root` 과대 책임 구조 1차 해소(모듈 분리)
+- 미니보스 등장 직후/대시 준비 단계의 억울한 접촉 피해 리스크 완화
 
 ## Verification
 - 문서/경로 구조 반영 확인
@@ -102,6 +108,8 @@
   - `godotw --headless --fixed-fps 60 --quit-after 5400 -- --boss-test --auto-levelup --qa-autopilot` x3
   - `MINIBOSS_WARNING_ON`
   - `MINIBOSS_SPAWNED`
+  - `MINIBOSS_DASH_TELEGRAPH_ON`
+  - `MINIBOSS_DASH_START`
   - `MINIBOSS_DEFEATED`
   - `BOSS_CLEAR_REWARD_APPLIED`
   로그 확인

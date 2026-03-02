@@ -733,3 +733,33 @@
 
 ### 다음 액션
 - 사용자 실측 가능 시점에 수동 QA 재개 후 alpha 확정 조건 충족 여부 판정
+
+## 2026-03-02 18:08 KST
+### 오늘 목표
+- 본게임 개발 재개: 보스 체감 개선 → 레벨업 선택 가독성 개선 → QA 시나리오 확장
+
+### 진행 내용
+- 보스 체감 개선(2차)
+  - `enemy_miniboss.gd`: 대시 windup/recovery, 최소 대시 거리, 스폰 안전구간 추가
+  - `miniboss_director.gd`: 보스 대시 텔레그래프/스폰 안전구간 상태 조회 API 추가
+  - `boss_reward_runtime.gd`: 대시 예고 이벤트 배너/카메라 pulse 연동
+  - `hud.gd`: 보스 안전구간/대시 텔레그래프 상태 라인 표시
+  - `event_banner.gd`: 배너 가독성(보더/폰트) 개선
+- 레벨업 선택지 가독성 개선
+  - `level_up_panel.gd`: 역할 태그/효과 요약/추천 문구/스택 진행 표시로 UI 개편
+  - `game_root.gd`: 패널에 상태 전달(`set_state`) 연동
+- QA 시나리오 확장
+  - `tools/qa/headless-alpha-gate.sh`: 보스 대시 텔레그래프 로그 토큰 검증 추가
+
+### 이슈/해결
+- 이슈: 보스 대시가 근거리에서 즉시 시작될 때 억울 피격 체감 발생 가능
+- 해결: 대시 최소 거리 + windup 단계 + 안전구간으로 회피 여지 확보
+
+### 검증 결과
+- `./tools/qa/headless-alpha-gate.sh` PASS
+- `./tools/qa/trace-objectdb-leak.sh` PASS
+- `./tools/qa/pre-manual-qa-check.sh` PASS
+- warning/leak 요약: 0/0
+
+### 다음 액션
+- 수동 QA 재개 시 텔레그래프 체감/레벨업 UI 가독성 항목 집중 검증

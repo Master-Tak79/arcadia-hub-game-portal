@@ -19,6 +19,8 @@
 - EXP/레벨업 3지선다 + 업그레이드 16종(복합 효과 포함)
 - 미니보스(경고/등장/처치/보상) + 소환 패턴
 - 보스 처치 UX(배너/보상/슬로우모션/카메라/SFX 슬롯)
+- 보스 대시 텔레그래프 강화(예고/windup, 안전구간, 대시 로그 검증)
+- 레벨업 선택지 가독성 강화(역할 태그/효과 요약/추천 문구)
 - 자동 QA 모드 확장 및 회귀 검증 체계 확립
 - `game_root` 책임 분리 리팩터링
 - 난이도 6차 튜닝 + 스폰 가드레일/캡 안정화
@@ -58,6 +60,8 @@ cd games/godot-relic-survivor
   - `RELIC_SURVIVOR_BOOT_OK`
   - `MINIBOSS_WARNING_ON`
   - `MINIBOSS_SPAWNED`
+  - `MINIBOSS_DASH_TELEGRAPH_ON`
+  - `MINIBOSS_DASH_START`
   - `MINIBOSS_DEFEATED`
   - `BOSS_CLEAR_REWARD_APPLIED`
   - `QA_FORCE_DEATH`

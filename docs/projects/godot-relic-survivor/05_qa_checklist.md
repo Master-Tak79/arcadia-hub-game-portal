@@ -14,6 +14,7 @@
 - [ ] 적 2종 패턴 정상 (수동 패턴 체감 QA 보류)
 - [x] EXP 획득/레벨업 3지선다 정상 (`--auto-levelup` + 패널 선택 루프)
 - [x] 보스 경고/등장 루프 정상 (`--boss-test --auto-levelup` 검증)
+- [x] 보스 대시 텔레그래프 루프 정상 (`MINIBOSS_DASH_TELEGRAPH_ON`, `MINIBOSS_DASH_START` 로그 확인)
 - [x] 보스 처치 루프 정상 (`MINIBOSS_DEFEATED` 로그 확인)
 
 ## 성능

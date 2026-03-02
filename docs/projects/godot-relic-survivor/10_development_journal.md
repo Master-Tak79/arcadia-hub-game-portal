@@ -113,3 +113,25 @@
 
 ### 결정
 - 실측 전까지는 `alpha-candidate` 병합 전략 유지
+
+## 2026-03-02 (Boss Telegraph + Upgrade Readability Pass)
+
+### 반영
+- 미니보스 체감 폴리싱 2차
+  - 대시 예고(windup) 단계 도입 + 텔레그래프 선/링 렌더링
+  - 보스 등장 직후 짧은 안전구간 적용(접촉 피해 0)
+  - 근거리 즉시대시 제한으로 억울사 완화
+  - HUD/배너에 대시 예고 상태 노출
+- 레벨업 선택지 가독성 강화
+  - 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 추가
+  - 현재/다음 스택 진행도를 명시
+- QA 시나리오 확장
+  - headless gate에 `MINIBOSS_DASH_TELEGRAPH_ON`, `MINIBOSS_DASH_START` 검증 추가
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` 통과
+- `./tools/qa/trace-objectdb-leak.sh` 통과
+- `./tools/qa/pre-manual-qa-check.sh` 통과
+
+### 결정
+- 수동 QA 전까지는 자동검증 기준 alpha-candidate 품질 잠금 유지

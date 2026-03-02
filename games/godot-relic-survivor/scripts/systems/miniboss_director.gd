@@ -89,6 +89,33 @@ func get_warning_remaining() -> float:
 func is_boss_alive() -> bool:
 	return _boss_alive
 
+func is_boss_dash_telegraphing() -> bool:
+	if not _boss_alive:
+		return false
+	if _boss_ref == null:
+		return false
+	if not _boss_ref.has_method("is_dash_telegraphing"):
+		return false
+	return bool(_boss_ref.is_dash_telegraphing())
+
+func get_boss_dash_telegraph_remaining() -> float:
+	if not _boss_alive:
+		return 0.0
+	if _boss_ref == null:
+		return 0.0
+	if not _boss_ref.has_method("get_dash_telegraph_remaining"):
+		return 0.0
+	return float(_boss_ref.get_dash_telegraph_remaining())
+
+func get_boss_spawn_grace_remaining() -> float:
+	if not _boss_alive:
+		return 0.0
+	if _boss_ref == null:
+		return 0.0
+	if not _boss_ref.has_method("get_spawn_grace_remaining"):
+		return 0.0
+	return float(_boss_ref.get_spawn_grace_remaining())
+
 func was_boss_defeated() -> bool:
 	return _boss_defeated
 
@@ -125,6 +152,10 @@ func _spawn_miniboss() -> void:
 		float(_balance.MINIBOSS_DASH_SPEED),
 		float(_balance.MINIBOSS_DASH_INTERVAL),
 		float(_balance.MINIBOSS_DASH_DURATION),
+		float(_balance.MINIBOSS_DASH_WINDUP),
+		float(_balance.MINIBOSS_DASH_RECOVERY),
+		float(_balance.MINIBOSS_DASH_MIN_DISTANCE),
+		float(_balance.MINIBOSS_SPAWN_GRACE),
 		int(_balance.MINIBOSS_CONTACT_DAMAGE),
 		int(_balance.MINIBOSS_EXP_REWARD),
 		float(_balance.MINIBOSS_SUMMON_INTERVAL),

@@ -91,6 +91,8 @@ func _ready() -> void:
 
 	_level_up_panel = LevelUpPanel.new()
 	add_child(_level_up_panel)
+	if _level_up_panel.has_method("set_state"):
+		_level_up_panel.set_state(_state)
 	_level_up_panel.choice_selected.connect(_on_level_up_choice_selected)
 
 	_event_banner = EventBanner.new()

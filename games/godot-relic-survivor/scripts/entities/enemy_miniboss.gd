@@ -12,6 +12,11 @@ var hit_radius: float = 30.0
 var dash_speed: float = 410.0
 var dash_interval: float = 2.5
 var dash_duration: float = 0.35
+var dash_windup: float = 0.42
+var dash_recovery: float = 0.24
+var dash_min_distance: float = 96.0
+
+var spawn_grace: float = 1.1
 
 var exp_reward: int = 80
 var contact_damage: int = 2
@@ -25,7 +30,11 @@ var _summon_cfg: Dictionary = {}
 
 var _dash_cooldown_left: float = 1.5
 var _dash_time_left: float = 0.0
+var _dash_windup_left: float = 0.0
+var _dash_recovery_left: float = 0.0
 var _dash_direction: Vector2 = Vector2.RIGHT
+
+var _spawn_grace_left: float = 0.0
 
 func setup(
 	target_node: Node2D,
@@ -35,6 +44,10 @@ func setup(
 	base_dash_speed: float,
 	base_dash_interval: float,
 	base_dash_duration: float,
+	base_dash_windup: float,
+	base_dash_recovery: float,
+	base_dash_min_distance: float,
+	base_spawn_grace: float,
 	base_contact_damage: int,
 	base_exp_reward: int,
 	summon_interval: float,
@@ -50,6 +63,10 @@ func setup(
 	dash_speed = base_dash_speed
 	dash_interval = base_dash_interval
 	dash_duration = base_dash_duration
+	dash_windup = max(0.08, base_dash_windup)
+	dash_recovery = max(0.05, base_dash_recovery)
+	dash_min_distance = max(24.0, base_dash_min_distance)
+	spawn_grace = max(0.0, base_spawn_grace)
 	contact_damage = base_contact_damage
 	exp_reward = base_exp_reward
 
@@ -61,6 +78,9 @@ func setup(
 
 	_dash_cooldown_left = randf_range(1.0, dash_interval)
 	_dash_time_left = 0.0
+	_dash_windup_left = 0.0
+	_dash_recovery_left = 0.0
+	_spawn_grace_left = spawn_grace
 	queue_redraw()
 
 func apply_damage(amount: int) -> bool:
@@ -75,6 +95,10 @@ func get_hit_radius() -> float:
 	return hit_radius
 
 func get_contact_damage() -> int:
+	if _spawn_grace_left > 0.0:
+		return 0
+	if _dash_windup_left > 0.0:
+		return 0
 	return contact_damage
 
 func get_exp_reward() -> int:
@@ -83,9 +107,21 @@ func get_exp_reward() -> int:
 func is_miniboss() -> bool:
 	return true
 
+func is_dash_telegraphing() -> bool:
+	return _dash_windup_left > 0.0
+
+func get_dash_telegraph_remaining() -> float:
+	return max(0.0, _dash_windup_left)
+
+func get_spawn_grace_remaining() -> float:
+	return max(0.0, _spawn_grace_left)
+
 func _process(delta: float) -> void:
 	if target == null:
 		return
+
+	if _spawn_grace_left > 0.0:
+		_spawn_grace_left -= delta
 
 	_summon_cooldown_left -= delta
 	if _summon_cooldown_left <= 0.0:
@@ -99,14 +135,32 @@ func _process(delta: float) -> void:
 	if _dash_time_left > 0.0:
 		_dash_time_left -= delta
 		position += _dash_direction * dash_speed * delta
+		if _dash_time_left <= 0.0:
+			_dash_recovery_left = dash_recovery
+		queue_redraw()
+		return
+
+	if _dash_recovery_left > 0.0:
+		_dash_recovery_left -= delta
+		if to_target.length() > 0.001:
+			position += to_target.normalized() * speed * 0.35 * delta
+		queue_redraw()
+		return
+
+	if _dash_windup_left > 0.0:
+		_dash_windup_left -= delta
+		if _dash_windup_left <= 0.0:
+			_dash_time_left = dash_duration
+			print("MINIBOSS_DASH_START")
 		queue_redraw()
 		return
 
 	_dash_cooldown_left -= delta
-	if _dash_cooldown_left <= 0.0 and to_target.length() > 0.001:
+	if _dash_cooldown_left <= 0.0 and to_target.length() > dash_min_distance:
 		_dash_direction = to_target.normalized()
-		_dash_time_left = dash_duration
+		_dash_windup_left = dash_windup
 		_dash_cooldown_left = dash_interval
+		print("MINIBOSS_DASH_TELEGRAPH_ON")
 		queue_redraw()
 		return
 
@@ -167,6 +221,18 @@ func _draw() -> void:
 
 	if _dash_time_left > 0.0:
 		draw_arc(Vector2.ZERO, hit_radius + 10.0, 0.0, TAU, 36, Color("#FCA5A5"), 3.0)
+	elif _dash_windup_left > 0.0:
+		var windup_ratio: float = clampf(_dash_windup_left / max(0.01, dash_windup), 0.0, 1.0)
+		var pulse: float = 0.35 + (1.0 - windup_ratio) * 0.55
+		draw_arc(Vector2.ZERO, hit_radius + 12.0, 0.0, TAU, 40, Color(1.0, 0.75, 0.35, pulse), 4.0)
+		var line_len: float = 180.0
+		var tip: Vector2 = _dash_direction.normalized() * line_len
+		draw_line(Vector2.ZERO, tip, Color(1.0, 0.45, 0.35, 0.75), 5.0)
+		draw_circle(tip, 10.0, Color(1.0, 0.62, 0.52, 0.5))
+
+	if _spawn_grace_left > 0.0:
+		var grace_ratio: float = clampf(_spawn_grace_left / max(0.01, spawn_grace), 0.0, 1.0)
+		draw_arc(Vector2.ZERO, hit_radius + 22.0, 0.0, TAU, 48, Color(0.9, 1.0, 0.8, 0.28 + 0.42 * grace_ratio), 3.0)
 
 	# HP ring
 	var hp_angle: float = TAU * hp_ratio

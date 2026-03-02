@@ -59,6 +59,15 @@ func _refresh() -> void:
 			text += "\n⚠ MINIBOSS INCOMING: %.1fs" % remain
 		elif _miniboss_director.has_method("is_boss_alive") and _miniboss_director.is_boss_alive():
 			text += "\n🔥 MINIBOSS ACTIVE"
+			if _miniboss_director.has_method("get_boss_spawn_grace_remaining"):
+				var grace: float = float(_miniboss_director.get_boss_spawn_grace_remaining())
+				if grace > 0.0:
+					text += "\n🛡 BOSS SAFE WINDOW: %.1fs" % grace
+			if _miniboss_director.has_method("is_boss_dash_telegraphing") and _miniboss_director.is_boss_dash_telegraphing():
+				var dash_remain: float = 0.0
+				if _miniboss_director.has_method("get_boss_dash_telegraph_remaining"):
+					dash_remain = float(_miniboss_director.get_boss_dash_telegraph_remaining())
+				text += "\n⚡ DASH TELEGRAPH: %.2fs" % dash_remain
 		elif _miniboss_director.has_method("was_boss_defeated") and _miniboss_director.was_boss_defeated():
 			text += "\n✅ MINIBOSS DEFEATED"
 
