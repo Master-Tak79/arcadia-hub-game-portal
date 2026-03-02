@@ -14,6 +14,7 @@
 8. Active Skill Pack 01
 9. Character/Weapon Tree Design 01
 10. Character/Weapon Tree Runtime 01
+11. Tree UI/UX Pack 01
 
 ---
 
@@ -231,6 +232,27 @@
 
 ### 공수
 - 1.0 ~ 1.5일
+
+---
+
+## Step 11 — Tree UI/UX Pack 01
+- 상태: ✅ 구현/자동검증 완료 (수동 체감 QA 대기)
+
+### 범위
+- 트리 패널 UI(`tree_panel.gd`) 추가
+- `T`로 메뉴 열기/닫기, `1/2/3` 해금 선택 입력
+- `--tree-ui-test` + `tree_ui` 자동검증 루프 확장
+
+### 완료 기준
+- `TREE_PANEL_OPEN`, `TREE_UI_UNLOCK_CONFIRMED:*` 토큰 검증 통과
+- 트리 해금 후 다음 라운드 적용 규칙 유지
+
+### 리스크
+- 패널 표시 중 게임 일시정지 UX 체감 이슈 가능
+- 트리 노드 수 증가 시 3선택 UI 확장 필요
+
+### 공수
+- 0.5 ~ 1.0일
 
 ---
 

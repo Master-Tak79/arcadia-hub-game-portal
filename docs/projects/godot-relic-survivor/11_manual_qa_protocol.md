@@ -28,6 +28,7 @@ cd /home/tak/.openclaw/workspace-coder/games/godot-relic-survivor
   - META 상태(HUD 샤드/특성 랭크) 가독성
   - WEAPON 상태(HUD 무기 계열) 가독성
   - TREE 해금 후 다음 라운드 반영 체감(정상 적용 여부)
+  - TREE 패널(`T`) 열기/선택/닫기 UX 확인
   - 중반 웨이브 과도 압박 여부
 
 ### Run C — 보스 페이즈 중심 (10분)

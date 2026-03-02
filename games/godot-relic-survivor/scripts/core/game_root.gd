@@ -22,6 +22,7 @@ const ActiveSkillSystem := preload("res://scripts/systems/active_skill_system.gd
 const TreeProgression := preload("res://scripts/systems/tree_progression.gd")
 
 const LevelUpPanel := preload("res://scripts/ui/level_up_panel.gd")
+const TreePanel := preload("res://scripts/ui/tree_panel.gd")
 const EventBanner := preload("res://scripts/ui/event_banner.gd")
 const StageEventOverlay := preload("res://scripts/ui/stage_event_overlay.gd")
 const SfxSlots := preload("res://scripts/audio/sfx_slots.gd")
@@ -56,11 +57,15 @@ var _weapon_system: RefCounted
 var _active_skill_system: Node
 
 var _level_up_panel: CanvasLayer
+var _tree_panel: CanvasLayer
 var _event_banner: CanvasLayer
 var _stage_event_overlay: Node2D
 var _sfx_slots: Node
 
 var _current_level_choices: Array = []
+var _current_tree_options: Array = []
+var _tree_menu_open: bool = false
+var _tree_ui_test_done: bool = false
 var _last_game_over: bool = false
 
 func _ready() -> void:
@@ -117,6 +122,11 @@ func _ready() -> void:
 		_level_up_panel.set_state(_state)
 	_level_up_panel.choice_selected.connect(_on_level_up_choice_selected)
 
+	_tree_panel = TreePanel.new()
+	add_child(_tree_panel)
+	_tree_panel.option_selected.connect(_on_tree_option_selected)
+	_tree_panel.close_requested.connect(_close_tree_menu)
+
 	_event_banner = EventBanner.new()
 	add_child(_event_banner)
 
@@ -158,7 +168,14 @@ func _ready() -> void:
 	_meta_progression.setup(_state, _event_banner, bool(_runtime_options.meta_test))
 
 	_tree_progression = TreeProgression.new()
-	_tree_progression.setup(_state, _runtime_options, _meta_progression, _event_banner, bool(_runtime_options.tree_test))
+	_tree_progression.setup(
+		_state,
+		_runtime_options,
+		_meta_progression,
+		_event_banner,
+		bool(_runtime_options.tree_test),
+		bool(_runtime_options.tree_ui_test)
+	)
 
 	_start_round()
 	_runtime_options.print_enabled_flags()
@@ -169,6 +186,15 @@ func _process(delta: float) -> void:
 	_track_game_over_edge()
 
 	if _state.is_game_over:
+		if Input.is_action_just_pressed("tree_menu"):
+			if _tree_menu_open:
+				_close_tree_menu()
+			else:
+				_open_tree_menu()
+			return
+		if _tree_menu_open:
+			_process_tree_menu_pause()
+			return
 		if bool(_runtime_options.qa_auto_restart):
 			if _qa_runtime.process_game_over(delta):
 				_restart_round()
@@ -176,6 +202,19 @@ func _process(delta: float) -> void:
 			return
 		if Input.is_action_just_pressed("restart"):
 			_restart_round()
+		return
+
+	if Input.is_action_just_pressed("tree_menu") and not _state.is_paused and not _tree_menu_open:
+		_open_tree_menu()
+		return
+
+	if bool(_runtime_options.tree_ui_test) and not _tree_ui_test_done and _state.elapsed >= 6.0 and not _state.is_paused and not _tree_menu_open:
+		_open_tree_menu()
+		print("TREE_UI_PANEL_TEST_OPEN")
+		return
+
+	if _tree_menu_open:
+		_process_tree_menu_pause()
 		return
 
 	if _state.is_paused:
@@ -215,6 +254,64 @@ func _process_levelup_pause() -> void:
 		return
 	var auto_idx: int = _pick_auto_levelup_index(_current_level_choices)
 	_on_level_up_choice_selected(auto_idx)
+
+func _process_tree_menu_pause() -> void:
+	if not _tree_menu_open:
+		return
+	if bool(_runtime_options.tree_ui_test) and not _tree_ui_test_done:
+		if not _current_tree_options.is_empty():
+			_on_tree_option_selected(0)
+		else:
+			print("TREE_UI_NO_OPTIONS")
+			_close_tree_menu()
+		_tree_ui_test_done = true
+
+func _open_tree_menu() -> void:
+	if _tree_menu_open:
+		return
+	if _level_up_panel and _level_up_panel.visible:
+		return
+	if _tree_progression == null or not _tree_progression.has_method("get_tree_ui_options"):
+		return
+
+	_current_tree_options = _tree_progression.get_tree_ui_options(3)
+	if _tree_panel and _tree_panel.has_method("show_options"):
+		_tree_panel.show_options(String(_state.character_title), int(_state.meta_shards), _current_tree_options)
+
+	_tree_menu_open = true
+	_state.is_paused = true
+	if _player and _player.has_method("set_enabled"):
+		_player.set_enabled(false)
+	print("TREE_PANEL_OPEN")
+
+func _close_tree_menu() -> void:
+	if not _tree_menu_open:
+		return
+	_tree_menu_open = false
+	_current_tree_options = []
+	if _tree_panel and _tree_panel.has_method("hide_panel"):
+		_tree_panel.hide_panel()
+	if not _state.is_game_over:
+		_state.is_paused = false
+		if _player and _player.has_method("set_enabled"):
+			_player.set_enabled(true)
+	print("TREE_PANEL_CLOSED")
+
+func _on_tree_option_selected(option_index: int) -> void:
+	if option_index < 0 or option_index >= _current_tree_options.size():
+		return
+	if _tree_progression == null or not _tree_progression.has_method("try_unlock_node"):
+		_close_tree_menu()
+		return
+
+	var node: Dictionary = _current_tree_options[option_index]
+	var node_id: String = String(node.get("id", ""))
+	var result: Dictionary = _tree_progression.try_unlock_node(node_id)
+	if bool(result.get("ok", false)):
+		print("TREE_UI_UNLOCK_CONFIRMED:%s" % node_id)
+	else:
+		print("TREE_UI_UNLOCK_FAILED:%s" % String(result.get("reason", "unknown")))
+	_close_tree_menu()
 
 func _clamp_player_inside_arena() -> void:
 	_player.position.x = clamp(_player.position.x, 0.0, float(_balance.ARENA_SIZE.x))
@@ -263,6 +360,9 @@ func _start_round() -> void:
 		_active_skill_system.reset_round()
 
 	_current_level_choices = []
+	_current_tree_options = []
+	_tree_menu_open = false
+	_tree_ui_test_done = false
 	_last_game_over = false
 
 	_player.position = Vector2(float(_balance.ARENA_SIZE.x) * 0.5, float(_balance.ARENA_SIZE.y) * 0.5)
@@ -284,6 +384,8 @@ func _start_round() -> void:
 		_miniboss_director.reset_runtime()
 	if _level_up_panel and _level_up_panel.has_method("hide_panel"):
 		_level_up_panel.hide_panel()
+	if _tree_panel and _tree_panel.has_method("hide_panel"):
+		_tree_panel.hide_panel()
 	if _event_banner:
 		_event_banner.visible = false
 

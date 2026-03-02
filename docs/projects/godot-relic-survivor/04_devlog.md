@@ -1103,3 +1103,21 @@
 - `./tools/qa/pre-manual-qa-check.sh` PASS
 - `./tools/qa/checkpoint-report.sh` PASS
 - `./tools/qa/trace-objectdb-leak.sh` PASS
+
+## 2026-03-03 07:24 KST
+### Step 11 — Tree UI/UX Pack 01 구현 완료
+- UI/입력 흐름
+  - `scripts/ui/tree_panel.gd` 신규 추가
+  - `T` 열기/닫기, `1/2/3` 해금 선택 지원
+- 런타임 연동
+  - `game_root.gd`에 트리 메뉴 오픈/선택/닫기 흐름 연결
+  - `runtime_options.gd`에 `--tree-ui-test` 추가
+- QA 확장
+  - `headless-alpha-gate.sh`에 `tree_ui` 케이스 추가
+  - 검증 토큰: `TREE_PANEL_OPEN`, `TREE_UI_UNLOCK_CONFIRMED:*`
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` PASS (`tree_ui` 포함)
+- `./tools/qa/pre-manual-qa-check.sh` PASS
+- `./tools/qa/checkpoint-report.sh` PASS
+- `./tools/qa/trace-objectdb-leak.sh` PASS

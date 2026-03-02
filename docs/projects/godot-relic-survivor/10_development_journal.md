@@ -373,3 +373,16 @@
 ### 상태
 - Step 10 완료
 - 다음 착수: 트리 실해금 UI/UX(메타 화면) 구현
+
+## 2026-03-03 (Step 11 Complete — Tree UI/UX Pack 01)
+
+### 반영
+- 트리 패널 UI/입력 흐름(`T`, `1/2/3`) 구현
+- `--tree-ui-test` 및 `tree_ui` 자동검증 루프 추가
+
+### 검증
+- headless gate(tree_ui 포함), readiness, checkpoint, leak trace 통과
+
+### 상태
+- Step 11 완료
+- 다음 착수: 트리 UI 고도화(스크롤/노드 상세/실해금 메타 화면)

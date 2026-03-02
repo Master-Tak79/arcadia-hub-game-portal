@@ -7,6 +7,7 @@ func ensure_default_bindings() -> void:
 	_ensure_action("move_down", [KEY_S, KEY_DOWN])
 	_ensure_action("dash", [KEY_SHIFT])
 	_ensure_action("active_skill", [KEY_Q])
+	_ensure_action("tree_menu", [KEY_T])
 	_ensure_action("restart", [KEY_R])
 	_ensure_action("levelup_1", [KEY_1, KEY_KP_1])
 	_ensure_action("levelup_2", [KEY_2, KEY_KP_2])

@@ -406,3 +406,20 @@
 ### 기대 효과
 - 캐릭터 장기 성장 축이 실제 전투 체감으로 연결
 - 트리 해금 검증 경로가 자동 QA에 편입되어 회귀 리스크 감소
+
+## 2026-03-03 (Tree UI/UX Pack 01)
+
+### 변경 요약
+- 트리 해금 UI 패널 추가 (`tree_panel.gd`)
+- 해금 UX 입력 경로 연결(`T`, `1/2/3`)
+- QA 자동 시나리오 `tree_ui` 추가
+
+### 자동 검증 결과
+- `headless-alpha-gate.sh` PASS (`tree_ui` 포함)
+  - `TREE_PANEL_OPEN`, `TREE_UI_UNLOCK_CONFIRMED:*` 확인
+- `pre-manual-qa-check.sh` PASS
+- `trace-objectdb-leak.sh` PASS
+
+### 기대 효과
+- 트리 해금 조작 접근성 향상
+- 트리 UX 회귀를 자동검증 경로에서 추적 가능

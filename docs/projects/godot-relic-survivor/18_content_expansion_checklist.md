@@ -86,6 +86,13 @@
 - [x] `--tree-test` + `tree_ranger`, `tree_warden` QA 케이스 및 토큰 검증 반영
 - [x] HUD `TREE` 상태 표시 및 문서 동기화 반영
 
+## Step 11 — Tree UI/UX Pack 01
+- [x] 트리 패널(`tree_panel.gd`) UI 구현
+- [x] 수동 해금 입력(`T`, `1/2/3`) 흐름 구현
+- [x] `--tree-ui-test` + `tree_ui` QA 케이스 및 토큰 검증 반영
+- [x] 트리 패널/해금 피드백 UX 반영
+- [x] 문서/릴리즈/저널 동기화 반영
+
 ---
 
 ## 결과 기록 템플릿
@@ -164,3 +171,10 @@
 - 자동검증 결과: headless gate PASS (`tree_ranger`, `tree_warden` 포함), pre-manual PASS, leak trace PASS
 - 리스크/이슈: 트리 누적 해금에 따른 장기 난이도 편차 수동 QA에서 추가 확인 필요
 - 다음 Step 진행 승인: 트리 UX 고도화/실해금 UI 단계 대기
+
+### Step 11 결과 기록
+- Step: Tree UI/UX Pack 01
+- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 자동검증 결과: headless gate PASS (`tree_ui` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: 트리 노드 증가 시 패널 선택지(3개) UX 확장 필요
+- 다음 Step 진행 승인: 트리 고도화(UI 스크롤/노드 상세) 단계 대기
