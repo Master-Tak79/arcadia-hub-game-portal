@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.15-dev
+- version: v0.1.16-dev
 - date: 2026-03-02
 
 ## Added
@@ -89,6 +89,10 @@
   - 무기 계열 3종(`pierce`, `dot`, `aoe`) 프로파일 데이터 추가
   - 런 시작 시 무기 계열 자동 적용 + HUD `WEAPON` 상태 노출
   - 무기 루프 QA(`weapon_pierce`, `weapon_dot`, `weapon_aoe`) 추가
+- Active Skill Pack 01 추가
+  - Ranger/Warden 전용 액티브 스킬(`Windstep Burst`, `Bulwark Pulse`) 추가
+  - 입력 액션 `active_skill`(Q) + HUD `SKILL` 상태 노출
+  - 액티브 루프 QA(`active_ranger`, `active_warden`) 추가
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시
   - 선택 후 예상 지표(예상 DPS/생존 지표, 간이 추정) 프리뷰 표시
@@ -185,6 +189,10 @@
   - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --character=ranger --auto-levelup --qa-autopilot`
   - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --character=warden --auto-levelup --qa-autopilot`
   - `CHARACTER_SELECTED:ranger`, `CHARACTER_SELECTED:warden` 확인
+- 액티브 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --character=ranger --character-test --auto-levelup --qa-autopilot`
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --character=warden --character-test --auto-levelup --qa-autopilot`
+  - `ACTIVE_SKILL_USED:ranger_burst`, `ACTIVE_SKILL_USED:warden_bulwark` 확인
 - 무기 루프 QA:
   - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --weapon=pierce --auto-levelup --qa-autopilot`
   - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --weapon=dot --auto-levelup --qa-autopilot`
@@ -196,7 +204,7 @@
 - `mcporter call godot-local.godot_run_headless` 실행 통과
 - 원클릭 게이트 검증(2026-03-02):
   - `./tools/qa/headless-alpha-gate.sh` PASS
-  - 산출 로그: `.qa/headless/<timestamp>/{smoke,boss_loop,boss_pattern,boss_phase2,elite_loop,relic_loop,event_loop,character_ranger,character_warden,weapon_pierce,weapon_dot,weapon_aoe,meta_loop,restart_loop,long_sim}.log`
+  - 산출 로그: `.qa/headless/<timestamp>/{smoke,boss_loop,boss_pattern,boss_phase2,elite_loop,relic_loop,event_loop,character_ranger,character_warden,active_ranger,active_warden,weapon_pierce,weapon_dot,weapon_aoe,meta_loop,restart_loop,long_sim}.log`
   - boss_pattern 다양성: RING/WALL 최소 1회 체크 PASS
   - 경고 요약: `warnings=0`, `leak_lines=0`
 - 누수 심화 추적(2026-03-02):

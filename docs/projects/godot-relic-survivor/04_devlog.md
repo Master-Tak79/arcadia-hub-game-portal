@@ -1035,3 +1035,23 @@
 - `./tools/qa/pre-manual-qa-check.sh` PASS
 - `./tools/qa/checkpoint-report.sh` PASS
 - `./tools/qa/trace-objectdb-leak.sh` PASS
+
+## 2026-03-02 23:26 KST
+### Step 8 — Active Skill Pack 01 구현 완료
+- 액티브 스킬 시스템 추가
+  - `scripts/systems/active_skill_system.gd` 신규
+  - Ranger: `Windstep Burst`(이속/연사 버프)
+  - Warden: `Bulwark Pulse`(근거리 파동 + 방어 버프)
+- 입력/HUD 연동
+  - `input_actions.gd`에 `active_skill`(Q) 추가
+  - `game_state.gd`에 active skill 상태 필드 추가
+  - `hud.gd`에 `SKILL` 상태 라인 추가
+- QA 확장
+  - 게이트에 `active_ranger`, `active_warden` 케이스 추가
+  - 검증 토큰: `ACTIVE_SKILL_USED:ranger_burst`, `ACTIVE_SKILL_USED:warden_bulwark`
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` PASS (active loop 포함)
+- `./tools/qa/pre-manual-qa-check.sh` PASS
+- `./tools/qa/checkpoint-report.sh` PASS
+- `./tools/qa/trace-objectdb-leak.sh` PASS

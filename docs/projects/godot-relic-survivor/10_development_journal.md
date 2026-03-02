@@ -324,3 +324,17 @@
 ### 상태
 - 콘텐츠 확장 Step 7 완료
 - 다음 착수: 캐릭터 전용 액티브 스킬/무기 트리 설계
+
+## 2026-03-02 (Step 8 Complete — Active Skill Pack 01)
+
+### 반영
+- 캐릭터 전용 액티브 스킬 2종(Ranger/Warden) 도입
+- 입력 `Q` 기반 수동 발동 + HUD `SKILL` 상태 노출
+- 게이트에 `active_ranger`, `active_warden` 자동검증 루프 추가
+
+### 검증
+- headless gate(active loop 포함), readiness, checkpoint, leak trace 통과
+
+### 상태
+- 콘텐츠 확장 Step 8 완료
+- 다음 착수: 캐릭터/무기 트리 고도화 설계

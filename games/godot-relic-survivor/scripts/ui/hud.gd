@@ -35,8 +35,17 @@ func _refresh() -> void:
 		var cooldown_left: float = _player.get_dash_cooldown_left()
 		dash_text = "READY" if cooldown_left <= 0.01 else "%.2fs" % cooldown_left
 
+	var skill_text: String = "-"
+	if String(_state.active_skill_id) != "":
+		if float(_state.active_skill_active_left) > 0.0:
+			skill_text = "%s ACTIVE %.1fs" % [String(_state.active_skill_title), float(_state.active_skill_active_left)]
+		elif float(_state.active_skill_cooldown_left) > 0.0:
+			skill_text = "%s CD %.1fs" % [String(_state.active_skill_title), float(_state.active_skill_cooldown_left)]
+		else:
+			skill_text = "%s READY" % String(_state.active_skill_title)
+
 	var ranks: Dictionary = Dictionary(_state.meta_perk_ranks)
-	var text := "HP: %d / %d\nLV: %d\nEXP: %d / %d\nTIME: %.1f\nKILLS: %d\nENEMIES: %d\nSHOTS: %d\nDASH: %s\nCHAR: %s\nWEAPON: %s\nPRESSURE: %s (%.2f)\nRELICS: %d\nMETA: SHARDS %d · RUNS %d · V/C/F %d/%d/%d" % [
+	var text := "HP: %d / %d\nLV: %d\nEXP: %d / %d\nTIME: %.1f\nKILLS: %d\nENEMIES: %d\nSHOTS: %d\nDASH: %s\nCHAR: %s\nWEAPON: %s\nSKILL: %s\nPRESSURE: %s (%.2f)\nRELICS: %d\nMETA: SHARDS %d · RUNS %d · V/C/F %d/%d/%d" % [
 		_state.hp,
 		_state.max_hp,
 		_state.level,
@@ -49,6 +58,7 @@ func _refresh() -> void:
 		dash_text,
 		String(_state.character_title),
 		String(_state.weapon_title),
+		skill_text,
 		String(_state.pressure_band).to_upper(),
 		float(_state.pressure_hint),
 		int(_state.relic_obtained_count),

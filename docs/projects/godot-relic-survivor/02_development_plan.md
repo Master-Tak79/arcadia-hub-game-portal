@@ -2,7 +2,7 @@
 
 ## 목표
 - 단기: `v0.1.0-alpha` 확정(수동 QA + GUI FPS 실측)
-- 병행: 다음 콘텐츠 확장 라인(M4~M10) 사전 설계/작업 분해
+- 병행: 다음 콘텐츠 확장 라인(M4~M11) 사전 설계/작업 분해
 
 ## 작업 분해(WBS)
 
@@ -56,6 +56,11 @@
   - [x] 런타임 선택(`--weapon=<id>`) 및 HUD WEAPON 상태 노출
   - [x] `weapon_pierce`, `weapon_dot`, `weapon_aoe` 게이트 확장
   - [x] 릴리즈/체크리스트/저널 반영
+- [x] **Step 8 — Active Skill Pack 01**
+  - [x] 캐릭터 전용 액티브 스킬 2종(Ranger/Warden) 구현
+  - [x] 입력 액션(`active_skill`, Q) 및 HUD SKILL 상태 노출
+  - [x] `active_ranger`, `active_warden` 게이트 확장
+  - [x] 릴리즈/체크리스트/저널 반영
 
 ## 코드 구조 계획
 - `scripts/core/`: 게임 루프/상태/시그널/모드
@@ -72,7 +77,8 @@
 - Step 5 Meta Growth 01: **1.0 ~ 1.5일**
 - Step 6 Character Pack 01: **1.0 ~ 1.5일**
 - Step 7 Weapon Archetype Pack 01: **1.0 ~ 1.5일**
-- 총합(문서/QA 포함): **8.5 ~ 13.5일**
+- Step 8 Active Skill Pack 01: **1.0 ~ 1.5일**
+- 총합(문서/QA 포함): **9.5 ~ 15.0일**
 
 ## 검증 계획
 - 자동:

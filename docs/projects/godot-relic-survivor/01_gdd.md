@@ -40,6 +40,9 @@
 7. Weapon Archetype Pack 01
    - pierce/dot/aoe 계열 추가
    - 런타임 선택(`--weapon=<id>`) + HUD `WEAPON` 노출
+8. Active Skill Pack 01
+   - Ranger/Warden 전용 액티브 스킬
+   - 입력(`Q`) + HUD `SKILL` + character-test 자동검증
 
 ### 업그레이드/제안 로직
 - 업그레이드(현재 16종): 공격/투사체/기동/회복/방어 + 복합 시너지

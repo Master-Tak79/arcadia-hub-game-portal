@@ -91,6 +91,9 @@
 - 2026-03-02: 사용자 연속 승인("응")에 따른 콘텐츠 확장 Step 7 반영.
   - Weapon Archetype Pack 01(pierce/dot/aoe) 구현
   - `--weapon=<id>` 런타임 옵션 + `weapon_pierce`/`weapon_dot`/`weapon_aoe` 자동 검증 케이스 편입
+- 2026-03-02: 사용자 연속 승인("응")에 따른 콘텐츠 확장 Step 8 반영.
+  - Active Skill Pack 01(Ranger/Warden 전용 액티브 스킬) 구현
+  - `active_ranger`/`active_warden` 자동 검증 케이스 편입
 - 처리 원칙:
   - 자동 회귀 검증 통과 필수
   - 설계/릴리즈/개발일지 즉시 동기화

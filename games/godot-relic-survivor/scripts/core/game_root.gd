@@ -18,6 +18,7 @@ const StageEventSystem := preload("res://scripts/systems/stage_event_system.gd")
 const MetaProgression := preload("res://scripts/systems/meta_progression.gd")
 const CharacterSystem := preload("res://scripts/systems/character_system.gd")
 const WeaponSystem := preload("res://scripts/systems/weapon_system.gd")
+const ActiveSkillSystem := preload("res://scripts/systems/active_skill_system.gd")
 
 const LevelUpPanel := preload("res://scripts/ui/level_up_panel.gd")
 const EventBanner := preload("res://scripts/ui/event_banner.gd")
@@ -50,6 +51,7 @@ var _boss_reward_runtime: RefCounted
 var _meta_progression: RefCounted
 var _character_system: RefCounted
 var _weapon_system: RefCounted
+var _active_skill_system: Node
 
 var _level_up_panel: CanvasLayer
 var _event_banner: CanvasLayer
@@ -145,6 +147,10 @@ func _ready() -> void:
 
 	_weapon_system = WeaponSystem.new()
 	_weapon_system.setup(_state, _runtime_options)
+
+	_active_skill_system = ActiveSkillSystem.new()
+	add_child(_active_skill_system)
+	_active_skill_system.setup(_state, _player, _enemy_container, _event_banner, bool(_runtime_options.character_test))
 
 	_meta_progression = MetaProgression.new()
 	_meta_progression.setup(_state, _event_banner, bool(_runtime_options.meta_test))
@@ -246,6 +252,8 @@ func _start_round() -> void:
 		_weapon_system.apply_round_start_profile()
 	if _meta_progression and _meta_progression.has_method("apply_round_start_modifiers"):
 		_meta_progression.apply_round_start_modifiers()
+	if _active_skill_system and _active_skill_system.has_method("reset_round"):
+		_active_skill_system.reset_round()
 
 	_current_level_choices = []
 	_last_game_over = false

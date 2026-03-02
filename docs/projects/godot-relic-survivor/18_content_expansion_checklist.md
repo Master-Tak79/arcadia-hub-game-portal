@@ -65,6 +65,13 @@
 - [x] `weapon_pierce`, `weapon_dot`, `weapon_aoe` QA 케이스 및 토큰 검증 반영
 - [x] 수동 QA 런시트에 무기 체감 항목 반영
 
+## Step 8 — Active Skill Pack 01
+- [x] 캐릭터 전용 액티브 스킬 2종(Ranger/Warden) 구현
+- [x] 입력 액션(`active_skill`) 및 HUD SKILL 상태 반영
+- [x] `active_ranger`, `active_warden` QA 케이스 및 토큰 검증 반영
+- [x] 수동 QA 런시트에 액티브 스킬 체감 항목 반영
+- [x] 캐릭터/무기/메타 동시 경로에서 회귀 없음 확인
+
 ---
 
 ## 결과 기록 템플릿
@@ -122,3 +129,10 @@
 - 자동검증 결과: headless gate PASS (`weapon_pierce`, `weapon_dot`, `weapon_aoe` 포함), pre-manual PASS, leak trace PASS
 - 리스크/이슈: 캐릭터+메타+무기 조합별 난이도 편차 수동 QA에서 추가 확인 필요
 - 다음 Step 진행 승인: 캐릭터 전용 액티브 스킬/무기 트리 설계 대기
+
+### Step 8 결과 기록
+- Step: Active Skill Pack 01
+- 구현 커밋: 본 단계 feature 커밋(HEAD) 참조
+- 자동검증 결과: headless gate PASS (`active_ranger`, `active_warden` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: 수동 입력(Q) 타이밍 체감은 사용자 수동 QA에서 추가 확인 필요
+- 다음 Step 진행 승인: 캐릭터/무기 트리 고도화 설계 대기

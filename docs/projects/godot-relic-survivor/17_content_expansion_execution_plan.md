@@ -11,6 +11,7 @@
 5. Meta Growth 01
 6. Character Pack 01
 7. Weapon Archetype Pack 01
+8. Active Skill Pack 01
 
 ---
 
@@ -160,6 +161,28 @@
 ### 리스크
 - 메타/캐릭터 보정과 무기 계열 조합에서 편차 확대 가능
 - DoT/AoE 중첩 시 후반 성능/체감 튜닝 필요
+
+### 공수
+- 1.0 ~ 1.5일
+
+---
+
+## Step 8 — Active Skill Pack 01
+- 상태: ✅ 구현/자동검증 완료 (수동 체감 QA 대기)
+
+### 범위
+- Ranger/Warden 캐릭터 전용 액티브 스킬 2종
+- 입력 액션(`active_skill`) + HUD `SKILL` 상태
+- character-test 기반 자동 발동 QA 루프
+- 게이트 `active_ranger`, `active_warden` 확장
+
+### 완료 기준
+- 캐릭터별 액티브 체감 차이가 명확함
+- 액티브 루프 자동검증 토큰 통과(`ACTIVE_SKILL_USED:*`)
+
+### 리스크
+- 액티브 버프와 메타/무기 보정 중첩 시 체감 급등 가능
+- 자동 발동 QA 경로와 수동 입력 체감 차이 점검 필요
 
 ### 공수
 - 1.0 ~ 1.5일

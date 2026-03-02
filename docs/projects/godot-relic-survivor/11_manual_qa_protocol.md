@@ -19,6 +19,7 @@ cd /home/tak/.openclaw/workspace-coder/games/godot-relic-survivor
   - 대시 타이밍/쿨다운 체감
   - 피격 판정 억울함 여부
   - 캐릭터 시작 체감 차이(Ranger vs Warden)
+  - 액티브 스킬(Q) 입력 반응/쿨다운 피드백 확인
 
 ### Run B — 성장/웨이브 중심 (0~10분)
 - 체크:

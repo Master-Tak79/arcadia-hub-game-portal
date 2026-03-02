@@ -363,3 +363,24 @@
 ### 기대 효과
 - 플레이 스타일 분기(관통/지속/광역)로 빌드 선택 폭 확대
 - 캐릭터/메타와 결합 시 반복 플레이 다양성 상승
+
+## 2026-03-02 (Active Skill Pack 01)
+
+### 변경 요약
+- Ranger 액티브: `Windstep Burst`
+  - 지속 3.5s, 이동/연사 버프, 쿨다운 16s
+- Warden 액티브: `Bulwark Pulse`
+  - 근거리 파동 피해 + 방어 버프, 쿨다운 18s
+- 입력/상태
+  - `active_skill`(Q) 액션 추가
+  - HUD `SKILL` 상태 표시
+
+### 자동 검증 결과
+- `headless-alpha-gate.sh` PASS
+  - `active_ranger`, `active_warden`에서 `ACTIVE_SKILL_USED:*` 확인
+- `pre-manual-qa-check.sh` PASS
+- `trace-objectdb-leak.sh` PASS
+
+### 기대 효과
+- 캐릭터 정체성 강화(수동 개입 순간 창출)
+- 보스/엘리트 구간에서 리듬감 있는 의사결정 추가

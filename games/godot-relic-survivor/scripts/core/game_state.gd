@@ -22,6 +22,11 @@ var weapon_id: String = "default"
 var weapon_title: String = "Relic Bolt"
 var weapon_profile: Dictionary = {}
 
+var active_skill_id: String = ""
+var active_skill_title: String = ""
+var active_skill_cooldown_left: float = 0.0
+var active_skill_active_left: float = 0.0
+
 var event_move_speed_mult: float = 1.0
 var event_attack_range_mult: float = 1.0
 var active_event_id: String = ""
@@ -79,6 +84,10 @@ func reset() -> void:
 	weapon_id = "default"
 	weapon_title = "Relic Bolt"
 	weapon_profile = {}
+	active_skill_id = ""
+	active_skill_title = ""
+	active_skill_cooldown_left = 0.0
+	active_skill_active_left = 0.0
 	event_move_speed_mult = 1.0
 	event_attack_range_mult = 1.0
 	active_event_id = ""
