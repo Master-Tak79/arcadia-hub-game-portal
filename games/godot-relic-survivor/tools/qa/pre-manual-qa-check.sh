@@ -14,6 +14,7 @@ required_docs=(
 required_tools=(
   "$ROOT_DIR/tools/qa/headless-alpha-gate.sh"
   "$ROOT_DIR/tools/qa/trace-objectdb-leak.sh"
+  "$ROOT_DIR/tools/qa/checkpoint-report.sh"
 )
 
 echo "== Pre-manual QA readiness check =="
@@ -66,4 +67,5 @@ Ready for manual QA handoff ✅
 - Manual QA protocol: docs/projects/godot-relic-survivor/11_manual_qa_protocol.md
 - GUI run command: ../../scripts/godotw --path .
 - Before manual QA (recommended): ./tools/qa/headless-alpha-gate.sh
+- Checkpoint report (optional): ./tools/qa/checkpoint-report.sh
 EOF

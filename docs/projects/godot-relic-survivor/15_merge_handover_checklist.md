@@ -9,6 +9,7 @@
 - [x] 원클릭 게이트 스크립트 확보 (`tools/qa/headless-alpha-gate.sh`)
 - [x] warning/leak 심화 추적 스크립트 확보 (`tools/qa/trace-objectdb-leak.sh`)
 - [x] 수동 QA 전 readiness 스크립트 확보 (`tools/qa/pre-manual-qa-check.sh`)
+- [x] 체크포인트 리포트 스크립트 확보 (`tools/qa/checkpoint-report.sh`)
 - [x] 개발문서 동기화 (`04`, `05`, `06`, `10`, `13`, `14`, `16`)
 - [x] 밸런스 변경 이력 기록 (`12_balance_tuning_log.md`)
 - [x] PR 오픈 완료: https://github.com/Master-Tak79/arcadia-hub-game-portal/pull/74
@@ -27,7 +28,9 @@
    - `./tools/qa/trace-objectdb-leak.sh`
 4. 수동 QA 직전 준비 체크:
    - `./tools/qa/pre-manual-qa-check.sh`
-5. merge 후 릴리즈 노트에 `alpha-candidate` 상태 유지 명시
+5. 체크포인트 리포트 생성(핸드오프 첨부용):
+   - `./tools/qa/checkpoint-report.sh`
+6. merge 후 릴리즈 노트에 `alpha-candidate` 상태 유지 명시
 
 ## Post-merge
 - [ ] 태그/릴리즈 노트 갱신 (`alpha-candidate` 또는 `alpha`)

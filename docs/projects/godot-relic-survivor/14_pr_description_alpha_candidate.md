@@ -32,6 +32,7 @@
 - `games/godot-relic-survivor/tools/qa/headless-alpha-gate.sh`
 - `games/godot-relic-survivor/tools/qa/trace-objectdb-leak.sh`
 - `games/godot-relic-survivor/tools/qa/pre-manual-qa-check.sh`
+- `games/godot-relic-survivor/tools/qa/checkpoint-report.sh`
 - 문서:
   - `11_manual_qa_protocol.md`
   - `12_balance_tuning_log.md`
@@ -78,10 +79,13 @@ cd games/godot-relic-survivor
 ### Pre-manual readiness
 ```bash
 ./tools/qa/pre-manual-qa-check.sh
+./tools/qa/checkpoint-report.sh
 ```
 - 수동 QA 재개 직전 문서/도구/최근 게이트 상태 점검
+- 체크포인트 핸드오프 리포트 자동 생성
 
 ## Key Commits (recent, head branch)
+- `969ab32` 보스 텔레그래프 폴리싱 + 레벨업 가독성 강화
 - `83249b5` headless QA 강화 + leak trace + readiness check
 - `005562d` 원클릭 headless alpha gate 추가
 - `d59a8cc` 업그레이드 가중치 롤 안정화

@@ -15,6 +15,8 @@ var dash_duration: float = 0.35
 var dash_windup: float = 0.42
 var dash_recovery: float = 0.24
 var dash_min_distance: float = 96.0
+var combo_dash_chance: float = 0.34
+var combo_dash_gap: float = 0.16
 
 var spawn_grace: float = 1.1
 
@@ -32,6 +34,7 @@ var _dash_cooldown_left: float = 1.5
 var _dash_time_left: float = 0.0
 var _dash_windup_left: float = 0.0
 var _dash_recovery_left: float = 0.0
+var _combo_dash_left: int = 0
 var _dash_direction: Vector2 = Vector2.RIGHT
 
 var _spawn_grace_left: float = 0.0
@@ -47,6 +50,8 @@ func setup(
 	base_dash_windup: float,
 	base_dash_recovery: float,
 	base_dash_min_distance: float,
+	base_combo_dash_chance: float,
+	base_combo_dash_gap: float,
 	base_spawn_grace: float,
 	base_contact_damage: int,
 	base_exp_reward: int,
@@ -66,6 +71,8 @@ func setup(
 	dash_windup = max(0.08, base_dash_windup)
 	dash_recovery = max(0.05, base_dash_recovery)
 	dash_min_distance = max(24.0, base_dash_min_distance)
+	combo_dash_chance = clampf(base_combo_dash_chance, 0.0, 1.0)
+	combo_dash_gap = max(0.06, base_combo_dash_gap)
 	spawn_grace = max(0.0, base_spawn_grace)
 	contact_damage = base_contact_damage
 	exp_reward = base_exp_reward
@@ -80,6 +87,7 @@ func setup(
 	_dash_time_left = 0.0
 	_dash_windup_left = 0.0
 	_dash_recovery_left = 0.0
+	_combo_dash_left = 0
 	_spawn_grace_left = spawn_grace
 	queue_redraw()
 
@@ -136,7 +144,13 @@ func _process(delta: float) -> void:
 		_dash_time_left -= delta
 		position += _dash_direction * dash_speed * delta
 		if _dash_time_left <= 0.0:
-			_dash_recovery_left = dash_recovery
+			if _combo_dash_left > 0 and to_target.length() > dash_min_distance * 0.75:
+				_combo_dash_left -= 1
+				_dash_direction = to_target.normalized()
+				_dash_windup_left = combo_dash_gap + (dash_windup * 0.55)
+				print("MINIBOSS_DASH_CHAIN_TELEGRAPH_ON")
+			else:
+				_dash_recovery_left = dash_recovery
 		queue_redraw()
 		return
 
@@ -151,7 +165,10 @@ func _process(delta: float) -> void:
 		_dash_windup_left -= delta
 		if _dash_windup_left <= 0.0:
 			_dash_time_left = dash_duration
-			print("MINIBOSS_DASH_START")
+			if _combo_dash_left > 0:
+				print("MINIBOSS_DASH_CHAIN_START")
+			else:
+				print("MINIBOSS_DASH_START")
 		queue_redraw()
 		return
 
@@ -160,6 +177,9 @@ func _process(delta: float) -> void:
 		_dash_direction = to_target.normalized()
 		_dash_windup_left = dash_windup
 		_dash_cooldown_left = dash_interval
+		_combo_dash_left = 1 if randf() < combo_dash_chance else 0
+		if _combo_dash_left > 0:
+			print("MINIBOSS_COMBO_DASH_ON")
 		print("MINIBOSS_DASH_TELEGRAPH_ON")
 		queue_redraw()
 		return
@@ -222,13 +242,19 @@ func _draw() -> void:
 	if _dash_time_left > 0.0:
 		draw_arc(Vector2.ZERO, hit_radius + 10.0, 0.0, TAU, 36, Color("#FCA5A5"), 3.0)
 	elif _dash_windup_left > 0.0:
-		var windup_ratio: float = clampf(_dash_windup_left / max(0.01, dash_windup), 0.0, 1.0)
+		var norm_windup: float = dash_windup if _combo_dash_left <= 0 else (dash_windup * 0.55 + combo_dash_gap)
+		var windup_ratio: float = clampf(_dash_windup_left / max(0.01, norm_windup), 0.0, 1.0)
 		var pulse: float = 0.35 + (1.0 - windup_ratio) * 0.55
-		draw_arc(Vector2.ZERO, hit_radius + 12.0, 0.0, TAU, 40, Color(1.0, 0.75, 0.35, pulse), 4.0)
+		var telegraph_color: Color = Color(1.0, 0.75, 0.35, pulse)
+		var line_color: Color = Color(1.0, 0.45, 0.35, 0.75)
+		if _combo_dash_left > 0:
+			telegraph_color = Color(0.95, 0.62, 1.0, pulse)
+			line_color = Color(0.86, 0.44, 1.0, 0.78)
+		draw_arc(Vector2.ZERO, hit_radius + 12.0, 0.0, TAU, 40, telegraph_color, 4.0)
 		var line_len: float = 180.0
 		var tip: Vector2 = _dash_direction.normalized() * line_len
-		draw_line(Vector2.ZERO, tip, Color(1.0, 0.45, 0.35, 0.75), 5.0)
-		draw_circle(tip, 10.0, Color(1.0, 0.62, 0.52, 0.5))
+		draw_line(Vector2.ZERO, tip, line_color, 5.0)
+		draw_circle(tip, 10.0, Color(line_color.r, line_color.g, line_color.b, 0.5))
 
 	if _spawn_grace_left > 0.0:
 		var grace_ratio: float = clampf(_spawn_grace_left / max(0.01, spawn_grace), 0.0, 1.0)

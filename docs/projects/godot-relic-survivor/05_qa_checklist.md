@@ -7,6 +7,7 @@
 - [x] 원클릭 헤드리스 Alpha Gate 통과 (`./tools/qa/headless-alpha-gate.sh`)
 - [x] leak trace 스크립트 실행 및 누수 요약 확인 (`./tools/qa/trace-objectdb-leak.sh`)
 - [x] 수동 QA 전 준비상태 점검 통과 (`./tools/qa/pre-manual-qa-check.sh`)
+- [x] 체크포인트 리포트 생성 확인 (`./tools/qa/checkpoint-report.sh`)
 
 ## 기능별
 - [ ] 이동/대시 조작 반응성 (수동 QA 보류)
@@ -15,6 +16,7 @@
 - [x] EXP 획득/레벨업 3지선다 정상 (`--auto-levelup` + 패널 선택 루프)
 - [x] 보스 경고/등장 루프 정상 (`--boss-test --auto-levelup` 검증)
 - [x] 보스 대시 텔레그래프 루프 정상 (`MINIBOSS_DASH_TELEGRAPH_ON`, `MINIBOSS_DASH_START` 로그 확인)
+- [x] 보스 콤보 대시 패턴 로그 검증 경로 확보 (`MINIBOSS_COMBO_DASH_ON`, `MINIBOSS_DASH_CHAIN_*`)
 - [x] 보스 처치 루프 정상 (`MINIBOSS_DEFEATED` 로그 확인)
 
 ## 성능

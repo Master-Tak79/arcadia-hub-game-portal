@@ -17,7 +17,9 @@ func roll_choices(count: int = 3) -> Array:
 		var max_stacks: int = int(def.get("max_stacks", 1))
 		var current: int = _state.get_upgrade_stack(id)
 		if current < max_stacks:
-			pool.append(def)
+			var candidate: Dictionary = def.duplicate(true)
+			candidate["effective_weight"] = _compute_effective_weight(def)
+			pool.append(candidate)
 
 	if pool.is_empty():
 		return []
@@ -37,7 +39,7 @@ func _pick_weighted_index(pool: Array) -> int:
 	var total: float = 0.0
 	for raw_def in pool:
 		var def: Dictionary = raw_def
-		total += max(0.01, float(def.get("weight", 1.0)))
+		total += max(0.01, float(def.get("effective_weight", def.get("weight", 1.0))))
 
 	if total <= 0.0:
 		return int(randi() % pool.size())
@@ -46,11 +48,86 @@ func _pick_weighted_index(pool: Array) -> int:
 	var acc: float = 0.0
 	for i in range(pool.size()):
 		var def: Dictionary = pool[i]
-		acc += max(0.01, float(def.get("weight", 1.0)))
+		acc += max(0.01, float(def.get("effective_weight", def.get("weight", 1.0))))
 		if roll <= acc:
 			return i
 
 	return pool.size() - 1
+
+func _compute_effective_weight(def: Dictionary) -> float:
+	var weight: float = max(0.01, float(def.get("weight", 1.0)))
+	var hp_ratio: float = float(_state.hp) / max(1.0, float(_state.max_hp))
+	var level: int = int(_state.level)
+
+	var effects: Array = _extract_effects(def)
+	var roles: Dictionary = {}
+	for raw_effect in effects:
+		var effect: Dictionary = raw_effect
+		roles[_effect_role(String(effect.get("key", "")))] = true
+
+	var is_offense: bool = bool(roles.get("offense", false))
+	var is_mobility: bool = bool(roles.get("mobility", false))
+	var is_survival: bool = bool(roles.get("survival", false))
+	var is_hybrid: bool = roles.size() >= 2
+
+	# Survival priority when HP is low
+	if hp_ratio <= 0.42:
+		if is_survival:
+			weight *= 1.7
+		elif is_offense and not is_hybrid:
+			weight *= 0.8
+	elif hp_ratio >= 0.82 and _has_effect(def, "instant_heal"):
+		weight *= 0.45
+
+	# Early game favors readability and core growth
+	if level <= 3 and _has_effect(def, "extra_projectiles"):
+		weight *= 0.9
+
+	# Mid game encourages hybrid build options
+	if level >= 6 and is_hybrid:
+		weight *= 1.18
+
+	# Anti-overstack nudges
+	var atk_speed_stack: int = _state.get_upgrade_stack("rapid_trigger")
+	if atk_speed_stack >= 4 and _has_effect(def, "attack_interval_reduction"):
+		weight *= 0.72
+
+	var multi_shot_stack: int = _state.get_upgrade_stack("multi_cast")
+	if multi_shot_stack >= 1 and _has_effect(def, "extra_projectiles"):
+		weight *= 0.42
+
+	var mobility_stack: int = _state.get_upgrade_stack("fleet_step") + _state.get_upgrade_stack("tactical_dash")
+	if mobility_stack >= 8 and is_mobility and not is_hybrid:
+		weight *= 0.74
+
+	# Reward recovery-oriented hybrid when low HP
+	if hp_ratio <= 0.50 and is_hybrid and is_survival:
+		weight *= 1.22
+
+	return max(0.01, weight)
+
+func _extract_effects(def: Dictionary) -> Array:
+	if def.has("effects"):
+		return Array(def.get("effects", []))
+	return [{"key": String(def.get("effect_key", "")), "value": def.get("effect_value", 0)}]
+
+func _has_effect(def: Dictionary, key: String) -> bool:
+	for raw_effect in _extract_effects(def):
+		var effect: Dictionary = raw_effect
+		if String(effect.get("key", "")) == key:
+			return true
+	return false
+
+func _effect_role(effect_key: String) -> String:
+	match effect_key:
+		"attack_interval_reduction", "projectile_damage_bonus", "projectile_speed_bonus", "projectile_radius_bonus", "projectile_lifetime_bonus", "attack_range_bonus", "extra_projectiles":
+			return "offense"
+		"player_speed_bonus", "dash_cooldown_reduction":
+			return "mobility"
+		"player_invuln_bonus", "max_hp_plus_heal", "instant_heal":
+			return "survival"
+		_:
+			return "utility"
 
 func apply_upgrade(choice: Dictionary) -> Dictionary:
 	var id: String = String(choice.get("id", ""))

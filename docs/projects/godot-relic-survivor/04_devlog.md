@@ -763,3 +763,34 @@
 
 ### 다음 액션
 - 수동 QA 재개 시 텔레그래프 체감/레벨업 UI 가독성 항목 집중 검증
+
+## 2026-03-02 18:18 KST
+### 오늘 목표
+- 본게임 개발 지속: 보스 패턴 다양화 + 성장 선택 시너지 튜닝 + 체크포인트 리포트 자동화
+
+### 진행 내용
+- 보스 패턴 다양화
+  - `enemy_miniboss.gd`: 콤보 대시(확률형) 로직 추가
+    - `MINIBOSS_COMBO_DASH_ON`, `MINIBOSS_DASH_CHAIN_TELEGRAPH_ON`, `MINIBOSS_DASH_CHAIN_START` 로그 추가
+  - `balance.gd`: `MINIBOSS_COMBO_DASH_CHANCE`, `MINIBOSS_COMBO_DASH_GAP` 추가
+  - `miniboss_director.gd`: 신규 파라미터 전달
+- 성장 선택 시너지 튜닝
+  - `upgrade_system.gd`: 동적 가중치 기반 제안 로직 도입
+    - 체력 비율/레벨/과중첩 상태에 따라 effective weight 조정
+- QA 리포트 자동화
+  - `tools/qa/checkpoint-report.sh` 추가
+  - `pre-manual-qa-check.sh`에 checkpoint-report 도구 체크 반영
+  - README/체크리스트/핸드오버 문서에 실행 경로 반영
+
+### 이슈/해결
+- 이슈: 콤보 대시는 확률형이므로 고정 토큰 검증에 바로 포함 시 flaky 위험
+- 해결: 게이트 필수 토큰은 안정적 텔레그래프/대시 시작에 유지, 콤보 로그는 추적 항목으로 분리
+
+### 검증 결과
+- `./tools/qa/headless-alpha-gate.sh` PASS (warnings=0, leak_lines=0)
+- `./tools/qa/trace-objectdb-leak.sh` PASS
+- `./tools/qa/pre-manual-qa-check.sh` PASS
+- `./tools/qa/checkpoint-report.sh` PASS
+
+### 다음 액션
+- 수동 QA 재개 시 보스 콤보 대시 회피 체감/업그레이드 추천 신뢰도 집중 점검

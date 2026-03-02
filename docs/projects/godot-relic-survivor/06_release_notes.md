@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.3-dev
+- version: v0.1.4-dev
 - date: 2026-03-02
 
 ## Added
@@ -45,6 +45,9 @@
 - 수동 QA 직전 준비상태 점검 스크립트 추가
   - `games/godot-relic-survivor/tools/qa/pre-manual-qa-check.sh`
   - 문서/도구/최근 게이트 로그 상태를 한 번에 검증
+- 체크포인트 리포트 스크립트 추가
+  - `games/godot-relic-survivor/tools/qa/checkpoint-report.sh`
+  - 최신 게이트/누수 추적 결과를 핸드오프용 markdown으로 산출
 
 ## Changed
 - `docs/projects/_index.md` 상태 갱신(archived + in-progress)
@@ -52,8 +55,11 @@
 - 미니보스 텔레그래프 가시성 강화
   - 대시 예고(windup) 시각화/로그/HUD 상태 추가
   - 보스 등장 직후 안전구간(`MINIBOSS_SPAWN_GRACE`) 및 근거리 즉시대시 제한(`MINIBOSS_DASH_MIN_DISTANCE`) 적용
+  - 콤보 대시 패턴(`MINIBOSS_COMBO_DASH_CHANCE`, `MINIBOSS_COMBO_DASH_GAP`) 도입
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시
+- 업그레이드 제안 시너지 튜닝(`systems/upgrade_system.gd`)
+  - 체력/레벨/과중첩(attack speed, multi-shot, mobility) 기반 동적 가중치 반영
 - 씬/UI 구조 확장(ProjectileContainer + EventBanner 추가)
 - 입력 액션 확장(level-up 선택 `1/2/3`)
 - 게임 상태 구조 확장(EXP/업그레이드 스택/런타임 모디파이어)
@@ -124,6 +130,9 @@
 - 누수 심화 추적(2026-03-02):
   - `./tools/qa/trace-objectdb-leak.sh` 실행
   - `leak-summary.txt` 기준 `Leaked instance` 미검출
+- 체크포인트 리포트(2026-03-02):
+  - `./tools/qa/checkpoint-report.sh` 실행
+  - `.qa/reports/checkpoint-<timestamp>.md` 생성 확인
 
 ## Known Issues
 - 현재 보스 SFX는 generated 자산(v2)이며, 향후 최종 음원 교체 여지

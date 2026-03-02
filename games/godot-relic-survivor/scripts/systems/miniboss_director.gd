@@ -155,6 +155,8 @@ func _spawn_miniboss() -> void:
 		float(_balance.MINIBOSS_DASH_WINDUP),
 		float(_balance.MINIBOSS_DASH_RECOVERY),
 		float(_balance.MINIBOSS_DASH_MIN_DISTANCE),
+		float(_balance.MINIBOSS_COMBO_DASH_CHANCE),
+		float(_balance.MINIBOSS_COMBO_DASH_GAP),
 		float(_balance.MINIBOSS_SPAWN_GRACE),
 		int(_balance.MINIBOSS_CONTACT_DAMAGE),
 		int(_balance.MINIBOSS_EXP_REWARD),

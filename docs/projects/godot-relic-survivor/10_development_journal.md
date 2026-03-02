@@ -135,3 +135,24 @@
 
 ### 결정
 - 수동 QA 전까지는 자동검증 기준 alpha-candidate 품질 잠금 유지
+
+## 2026-03-02 (Core Game Progression Pass 2)
+
+### 반영
+- 보스 패턴 다양화
+  - 미니보스 콤보 대시 패턴(확률형) 추가
+  - 체감 억울사 완화를 위한 최소 대시거리/스폰 안전구간 유지
+- 성장 시스템 튜닝
+  - 업그레이드 제안 로직에 동적 가중치 반영(체력, 레벨, 과중첩)
+  - 저체력 구간에서 생존/혼합 선택지 우선도 강화
+- QA 운영 강화
+  - `tools/qa/checkpoint-report.sh` 추가(게이트/누수 추적 결과를 핸드오프 리포트로 생성)
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` 통과
+- `./tools/qa/trace-objectdb-leak.sh` 통과
+- `./tools/qa/pre-manual-qa-check.sh` 통과
+- `./tools/qa/checkpoint-report.sh` 리포트 생성 확인
+
+### 결정
+- 실측 전까지 alpha-candidate 기준선 유지, 수동 QA 재개 시 체감 항목 우선 검증
