@@ -60,3 +60,20 @@
 
 ### 검증
 - 스모크/보스 루프/5분 회귀 통과
+
+## 2026-03-02 (Headless Gate Automation)
+
+### 반영
+- 헤드리스 검증 신뢰도 강화를 위해 원클릭 게이트 스크립트 추가
+  - `games/godot-relic-survivor/tools/qa/headless-alpha-gate.sh`
+  - 시나리오: smoke → boss_loop → restart_loop → long_sim
+  - 토큰 검증: `RELIC_SURVIVOR_BOOT_OK`, `MINIBOSS_*`, `BOSS_CLEAR_REWARD_APPLIED`, `QA_FORCE_*`
+- 실행 로그 보관 규칙 추가
+  - `.qa/headless/<timestamp>/*.log`
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` 통과
+- 수동 QA/FPS 실측 보류 상태는 유지(알파 확정 조건 미충족)
+
+### 메모
+- 장시간 종료 시 `ObjectDB instances leaked at exit` 경고가 간헐 노출되어 추적 후보로 등록

@@ -667,3 +667,26 @@
 ### 다음 액션
 - 수동 QA 보류 유지 상태로 alpha-candidate 잠금 운영 지속
 - 수동 QA 재개 시 unlock 조건 검증 후 alpha 확정
+
+## 2026-03-02 17:35 KST
+### 오늘 목표
+- 헤드리스 기반 알파 게이트를 원클릭으로 재현 가능하게 자동화
+
+### 진행 내용
+- `games/godot-relic-survivor/tools/qa/headless-alpha-gate.sh` 추가
+  - smoke / boss_loop / restart_loop / long_sim 시나리오를 순차 실행
+  - 핵심 로그 토큰 자동 검증(`RELIC_SURVIVOR_BOOT_OK`, `MINIBOSS_*`, `BOSS_CLEAR_REWARD_APPLIED`, `QA_FORCE_*`)
+  - 실행 로그를 `.qa/headless/<timestamp>/`에 저장
+- `games/godot-relic-survivor/README.md` 실행 가이드에 원클릭 게이트 명령/로그 경로 반영
+- QA/릴리즈/저널 문서(`05/06/10/13`) 동기화
+
+### 이슈/해결
+- 이슈: 장시간 시뮬레이션 종료 시 `ObjectDB instances leaked at exit` 경고가 간헐 출력
+- 해결: 실패로 간주하지 않고 Known Issue로 등록, 추적 항목으로 관리 시작
+
+### 검증 결과
+- `./tools/qa/headless-alpha-gate.sh` 통과
+- 세부 로그 토큰 검증 모두 통과
+
+### 다음 액션
+- 수동 QA 3회 + GUI FPS 실측 재개 시 알파 확정 조건 충족 여부 재판정

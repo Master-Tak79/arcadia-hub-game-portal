@@ -1,8 +1,8 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.0-dev
-- date: 2026-03-01
+- version: v0.1.1-dev
+- date: 2026-03-02
 
 ## Added
 - 신규 프로젝트 문서 세트(청사진/GDD/개발계획/로드맵/개발일지/QA/릴리즈노트)
@@ -36,6 +36,9 @@
   - 이벤트 배너(`ui/event_banner.gd`)
   - 보스 처치 보상(`+EXP`, `+HP`) 적용
   - 짧은 슬로우모션 연출 적용
+- 헤드리스 Alpha Gate 원클릭 스크립트 추가
+  - `games/godot-relic-survivor/tools/qa/headless-alpha-gate.sh`
+  - 스모크/보스루프/재시작루프/장시간 시뮬레이션 순차 실행 + 로그 토큰 검증
 
 ## Changed
 - `docs/projects/_index.md` 상태 갱신(archived + in-progress)
@@ -63,6 +66,8 @@
   - 총 16종으로 확대(기존 12 + 복합 효과 4)
   - `upgrade_system.gd` multi-effect 처리 지원
   - 가중치 기반 제안 로직 도입(업그레이드 출현 빈도 제어)
+- 프로젝트 README 실행 가이드 갱신
+  - `./tools/qa/headless-alpha-gate.sh` 실행법 및 로그 경로 안내 추가
 
 ## Fixed
 - `spawn_director.gd` 타입 추론 경고 에러 처리(명시 타입 적용)
@@ -92,9 +97,13 @@
   - `godotw --headless --fixed-fps 60 --quit-after 3000 -- --qa-force-damage --qa-auto-restart`
   - `QA_FORCE_DEATH`, `QA_AUTO_RESTART_TRIGGERED` 반복 확인
 - `mcporter call godot-local.godot_run_headless` 실행 통과
+- 원클릭 게이트 검증(2026-03-02):
+  - `./tools/qa/headless-alpha-gate.sh` PASS
+  - 산출 로그: `.qa/headless/<timestamp>/{smoke,boss_loop,restart_loop,long_sim}.log`
 
 ## Known Issues
 - 현재 보스 SFX는 generated 자산(v2)이며, 향후 최종 음원 교체 여지
 - 후반 웨이브 밀도 미세조정(6차 폴리싱) 여지
 - 실수동 QA 3회(키 입력 기반 조작감/난이도 체감) 사용자 요청으로 보류
 - 실GUI 환경 FPS 실측 체크 보류(수동 QA 재개 시 동시 수행)
+- 일부 headless 장시간 종료 시 `ObjectDB instances leaked at exit` 경고가 간헐 출력됨(크래시/실행 실패는 없음, 추적 필요)

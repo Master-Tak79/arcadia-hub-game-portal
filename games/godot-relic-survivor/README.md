@@ -1,4 +1,4 @@
-# Godot Relic Survivor (v0.1.0-dev)
+# Godot Relic Survivor (v0.1.1-dev)
 
 탑다운 로그라이크 생존 액션 신규 프로젝트입니다.
 현재 코어 전투 루프(이동/대시/자동공격/적 2종 스폰/피격/재시작)와
@@ -28,6 +28,10 @@
 
 # 재시작 루프 QA
 ../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 3000 -- --qa-force-damage --qa-auto-restart
+
+# 원클릭 헤드리스 Alpha Gate (스모크/보스/재시작/장시간)
+./tools/qa/headless-alpha-gate.sh
+# 로그 출력 위치: ./.qa/headless/<timestamp>/*.log
 ```
 
 ## 구조

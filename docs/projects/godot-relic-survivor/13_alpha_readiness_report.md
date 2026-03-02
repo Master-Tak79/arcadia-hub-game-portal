@@ -1,7 +1,7 @@
 # 13_alpha_readiness_report — Godot Relic Survivor
 
 ## 기준 시점
-- 2026-03-01
+- 2026-03-02
 - 브랜치: `feat/relic-survivor-bootstrap`
 
 ## Alpha Gate 요약
@@ -18,6 +18,7 @@
   - 10분 fixed-fps 장시간 시뮬레이션 통과
   - 보스 경고/등장/처치/보상 로그 검증 통과
   - 재시작 루프 반복 검증 통과
+  - 원클릭 게이트(`tools/qa/headless-alpha-gate.sh`) 통과
 
 ### C. 문서화/운영
 - 상태: **통과**

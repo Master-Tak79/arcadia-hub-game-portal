@@ -4,6 +4,7 @@
 - [x] 프로젝트 headless 실행 성공
 - [x] 10분 시뮬레이션 3회에서 비정상 종료 없음 (`--auto-levelup`, 36000프레임 x3)
 - [x] 게임오버/재시작 루프 정상 (`--qa-force-damage --qa-auto-restart`)
+- [x] 원클릭 헤드리스 Alpha Gate 통과 (`./tools/qa/headless-alpha-gate.sh`)
 
 ## 기능별
 - [ ] 이동/대시 조작 반응성 (수동 QA 보류)
