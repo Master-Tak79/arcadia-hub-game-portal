@@ -16,6 +16,7 @@ const QaRuntime := preload("res://scripts/systems/qa_runtime.gd")
 const BossRewardRuntime := preload("res://scripts/systems/boss_reward_runtime.gd")
 const StageEventSystem := preload("res://scripts/systems/stage_event_system.gd")
 const MetaProgression := preload("res://scripts/systems/meta_progression.gd")
+const CharacterSystem := preload("res://scripts/systems/character_system.gd")
 
 const LevelUpPanel := preload("res://scripts/ui/level_up_panel.gd")
 const EventBanner := preload("res://scripts/ui/event_banner.gd")
@@ -46,6 +47,7 @@ var _stage_event_system: RefCounted
 var _qa_runtime: RefCounted
 var _boss_reward_runtime: RefCounted
 var _meta_progression: RefCounted
+var _character_system: RefCounted
 
 var _level_up_panel: CanvasLayer
 var _event_banner: CanvasLayer
@@ -135,6 +137,9 @@ func _ready() -> void:
 
 	_boss_reward_runtime = BossRewardRuntime.new()
 	_boss_reward_runtime.setup(_balance, _state, _signal_bus, _miniboss_director, _event_banner, _camera_fx, _sfx_slots)
+
+	_character_system = CharacterSystem.new()
+	_character_system.setup(_state, _runtime_options)
 
 	_meta_progression = MetaProgression.new()
 	_meta_progression.setup(_state, _event_banner, bool(_runtime_options.meta_test))
@@ -230,6 +235,8 @@ func _update_pressure_hint() -> void:
 func _start_round() -> void:
 	_state.reset()
 	_runtime_options.apply_round_boost_if_needed(_state)
+	if _character_system and _character_system.has_method("apply_round_start_profile"):
+		_character_system.apply_round_start_profile()
 	if _meta_progression and _meta_progression.has_method("apply_round_start_modifiers"):
 		_meta_progression.apply_round_start_modifiers()
 

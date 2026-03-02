@@ -296,3 +296,17 @@
 ### 상태
 - 콘텐츠 확장 Step 5 완료
 - 다음 착수: 캐릭터/무기 계열 확장 설계
+
+## 2026-03-02 (Step 6 Complete — Character Pack 01)
+
+### 반영
+- 캐릭터 2종(Ranger/Warden) 시작 프로파일 도입
+- `--character=<id>` 런타임 선택 + HUD `CHAR` 상태 노출
+- 게이트에 `character_ranger`, `character_warden` 자동검증 루프 추가
+
+### 검증
+- headless gate(캐릭터 루프 포함), readiness, checkpoint, leak trace 통과
+
+### 상태
+- 콘텐츠 확장 Step 6 완료
+- 다음 착수: 무기 계열 분화(관통/도트/광역) 설계

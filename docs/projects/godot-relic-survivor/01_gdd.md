@@ -34,6 +34,9 @@
 5. Meta Growth 01
    - 런 종료 보상(Shards) + 영구 특성 3종(vitality/celerity/focus)
    - 런 시작 시 영구 보정 자동 적용 + 저장 프로파일(user://)
+6. Character Pack 01
+   - Ranger(기동/연사형), Warden(탱커형)
+   - 런타임 선택(`--character=<id>`) + HUD `CHAR` 노출
 
 ### 업그레이드/제안 로직
 - 업그레이드(현재 16종): 공격/투사체/기동/회복/방어 + 복합 시너지

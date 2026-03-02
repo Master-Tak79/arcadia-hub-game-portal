@@ -9,6 +9,8 @@ var elite_test: bool = false
 var relic_test: bool = false
 var event_test: bool = false
 var meta_test: bool = false
+var character_test: bool = false
+var character_id: String = "default"
 
 var auto_levelup: bool = false
 
@@ -50,6 +52,14 @@ func parse_user_args(args: Array) -> void:
 			event_test = true
 		elif arg == "--meta-test" or arg == "meta-test":
 			meta_test = true
+		elif arg == "--character-test" or arg == "character-test":
+			character_test = true
+			if character_id == "default":
+				character_id = "ranger"
+		elif String(arg).begins_with("--character="):
+			character_id = _sanitize_character_id(String(arg).get_slice("=", 1))
+		elif String(arg).begins_with("character="):
+			character_id = _sanitize_character_id(String(arg).get_slice("=", 1))
 		elif arg == "--auto-levelup" or arg == "auto-levelup":
 			auto_levelup = true
 		elif arg == "--qa-auto-restart" or arg == "qa-auto-restart":
@@ -93,6 +103,10 @@ func print_enabled_flags() -> void:
 		print("EVENT_TEST_ON")
 	if meta_test:
 		print("META_TEST_ON")
+	if character_test:
+		print("CHARACTER_TEST_ON")
+	if character_id != "default":
+		print("CHARACTER_OVERRIDE:%s" % character_id)
 	if qa_auto_restart:
 		print("QA_AUTO_RESTART_ON")
 	if qa_force_damage:
@@ -107,5 +121,13 @@ func _sanitize_sfx_preset(raw: String) -> String:
 	match preset:
 		"default", "quiet", "hype":
 			return preset
+		_:
+			return "default"
+
+func _sanitize_character_id(raw: String) -> String:
+	var cid := raw.strip_edges().to_lower()
+	match cid:
+		"default", "ranger", "warden":
+			return cid
 		_:
 			return "default"

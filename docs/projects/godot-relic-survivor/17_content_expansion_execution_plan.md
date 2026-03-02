@@ -9,6 +9,7 @@
 3. Stage Event Pack 01 (3종)
 4. Boss Phase 2 Upgrade
 5. Meta Growth 01
+6. Character Pack 01
 
 ---
 
@@ -114,6 +115,28 @@
 ### 리스크
 - 누적 영구 보정으로 기존 QA 시나리오 난이도/속도 편차 증가
 - 장기적으로는 수동 특성 선택 UX 필요
+
+### 공수
+- 1.0 ~ 1.5일
+
+---
+
+## Step 6 — Character Pack 01
+- 상태: ✅ 구현/자동검증 완료 (수동 체감 QA 대기)
+
+### 범위
+- 캐릭터 2종(Ranger/Warden) 프로파일 데이터
+- 런타임 선택(`--character=ranger|warden`) + HUD `CHAR` 상태
+- 캐릭터별 시작 보정(체력/기동/연사/무적) 적용
+- 게이트 `character_ranger`, `character_warden` 확장
+
+### 완료 기준
+- 캐릭터별 시작 체감 차이가 명확함
+- 캐릭터 루프 자동검증 토큰 통과(`CHARACTER_SELECTED:*`)
+
+### 리스크
+- 영구 보정 + 캐릭터 보정 누적으로 후반 난이도 편차 확대
+- 캐릭터별 추천 빌드 UX 부재(후속 개선 필요)
 
 ### 공수
 - 1.0 ~ 1.5일

@@ -26,6 +26,7 @@
 - Stage Event Pack 01 추가(안개/감속/전류 + event_loop 검증)
 - Boss Phase 2 Upgrade 추가(전환/안전구간/템포 강화 + boss_phase2 검증)
 - Meta Growth 01 추가(Shard 보상/영구특성 3종/프로파일 저장 + meta_loop 검증)
+- Character Pack 01 추가(Ranger/Warden + character_loop 검증)
 - 레벨업 선택지 가독성 강화(역할 태그/효과 요약/추천 문구/예상 지표)
 - 압박도 기반 추천 보정(웨이브/보스 압박 신호를 가중치에 반영)
 - auto-levelup 선택 로직의 multi-effect 반영 + 스폰 안전 반경/전투 후보 인덱스 적용
@@ -65,7 +66,7 @@ cd games/godot-relic-survivor
 ./tools/qa/headless-alpha-gate.sh
 ```
 검증 항목:
-- smoke / boss_loop / boss_pattern / boss_phase2 / elite_loop / relic_loop / event_loop / meta_loop / restart_loop / long_sim
+- smoke / boss_loop / boss_pattern / boss_phase2 / elite_loop / relic_loop / event_loop / character_ranger / character_warden / meta_loop / restart_loop / long_sim
 - 필수 토큰:
   - `RELIC_SURVIVOR_BOOT_OK`
   - `MINIBOSS_WARNING_ON`
@@ -86,6 +87,8 @@ cd games/godot-relic-survivor
   - `EVENT_START:fog`
   - `EVENT_START:slow_zone`
   - `EVENT_START:shock_zone`
+  - `CHARACTER_SELECTED:ranger`
+  - `CHARACTER_SELECTED:warden`
   - `META_PROFILE_LOADED`
   - `META_RUN_REWARD`
   - `QA_FORCE_DEATH`

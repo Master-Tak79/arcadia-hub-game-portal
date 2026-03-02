@@ -1,10 +1,10 @@
-# Godot Relic Survivor (v0.1.13-dev)
+# Godot Relic Survivor (v0.1.14-dev)
 
 탑다운 로그라이크 생존 액션 신규 프로젝트입니다.
 현재 코어 전투 루프(이동/대시/자동공격/적 4종+보스 스폰/피격/재시작),
 레벨업 3지선다 + 업그레이드 16종(복합 효과 포함), 유물 12종 시스템까지 반영된 상태입니다.
 
-## 최근 개선 (v0.1.13-dev)
+## 최근 개선 (v0.1.14-dev)
 - Elite Pack 01 추가
   - `Elite Grunt`: 탱키 + 버스트 돌진
   - `Elite Dasher`: 연속 돌진 체인 패턴
@@ -32,6 +32,10 @@
   - 런 종료 보상(Shards) + 영구 특성 3종(vitality/celerity/focus) 추가
   - 런 시작 시 영구 보정 자동 적용 + HUD META 상태 노출
   - `--meta-test` QA 루프 및 게이트 검증 추가
+- Character Pack 01
+  - 캐릭터 2종 추가: `Ranger`(기동/연사형), `Warden`(탱커형)
+  - 런타임 선택 `--character=ranger|warden` + HUD `CHAR` 상태 노출
+  - 게이트 `character_ranger`, `character_warden` 검증 추가
 - 레벨업 선택지 가독성/시너지 개선
   - 역할 태그(공격/기동/생존/혼합) + 효과 요약 + 상황별 추천 문구 노출
   - 선택지별 예상 지표(예상 DPS/생존 지표, 간이 추정) 표시
@@ -80,6 +84,10 @@
 
 # 메타 성장 테스트 모드(보상/영구특성)
 ../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 2400 -- --meta-test --qa-force-damage --qa-auto-restart --auto-levelup
+
+# 캐릭터 테스트 모드(기동형/탱커형)
+../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 1800 -- --character=ranger --auto-levelup --qa-autopilot
+../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 1800 -- --character=warden --auto-levelup --qa-autopilot
 
 # SFX 프리셋 옵션
 # --sfx-preset=default | quiet | hype

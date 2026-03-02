@@ -323,3 +323,23 @@
 ### 기대 효과
 - 런 간 지속 동기(성장 축) 확보
 - 반복 플레이 시 초반 진입 피로 완화
+
+## 2026-03-02 (Character Pack 01)
+
+### 변경 요약
+- 캐릭터 시작 프로파일 추가
+  - Ranger: `max_hp -1`, `move_speed +52`, `attack_interval_reduction +0.05`, `dash_cooldown_reduction +0.10`
+  - Warden: `max_hp +3`, `move_speed -20`, `player_invuln_bonus +0.14`
+- 런타임 선택 플래그
+  - `--character=ranger|warden`
+  - QA용 `--character-test`
+
+### 자동 검증 결과
+- `headless-alpha-gate.sh` PASS
+  - `character_ranger`, `character_warden` 케이스에서 `CHARACTER_SELECTED:*` 확인
+- `pre-manual-qa-check.sh` PASS
+- `trace-objectdb-leak.sh` PASS
+
+### 기대 효과
+- 시작 체감 다양화로 반복 플레이 선택 동기 강화
+- 메타 성장과 결합된 초반 플레이 템포 차별화 기반 확보

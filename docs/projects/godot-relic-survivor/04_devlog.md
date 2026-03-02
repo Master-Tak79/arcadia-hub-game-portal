@@ -996,3 +996,22 @@
 - `./tools/qa/pre-manual-qa-check.sh` PASS
 - `./tools/qa/checkpoint-report.sh` PASS
 - `./tools/qa/trace-objectdb-leak.sh` PASS
+
+## 2026-03-02 23:03 KST
+### Step 6 — Character Pack 01 구현 완료
+- 캐릭터 시스템 추가
+  - `scripts/data/characters.gd`: `default`/`ranger`/`warden` 프로파일
+  - `scripts/systems/character_system.gd`: 라운드 시작 캐릭터 보정 적용
+- 런타임/HUD 연동
+  - `runtime_options.gd`에 `--character=<id>`, `--character-test` 추가
+  - `game_state.gd`에 캐릭터 상태 필드 추가
+  - `hud.gd`에 `CHAR` 상태 라인 추가
+- QA 확장
+  - `headless-alpha-gate.sh`에 `character_ranger`, `character_warden` 케이스 추가
+  - 캐릭터 토큰(`CHARACTER_SELECTED:*`) 검증 편입
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` PASS (`character_ranger`, `character_warden` 포함)
+- `./tools/qa/pre-manual-qa-check.sh` PASS
+- `./tools/qa/checkpoint-report.sh` PASS
+- `./tools/qa/trace-objectdb-leak.sh` PASS

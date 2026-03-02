@@ -51,6 +51,13 @@
 - [x] HUD META 상태 표시(샤드/런수/특성 랭크)
 - [x] `meta_loop` QA 케이스 및 토큰 검증 반영
 
+## Step 6 — Character Pack 01
+- [x] 캐릭터 2종(Ranger/Warden) 프로파일 구현
+- [x] 런타임 선택(`--character=<id>`) 인터페이스 추가
+- [x] HUD CHAR 상태 표시 반영
+- [x] `character_ranger`, `character_warden` QA 케이스 및 토큰 검증 반영
+- [x] 수동 QA 런시트에 캐릭터 체감 항목 반영
+
 ---
 
 ## 결과 기록 템플릿
@@ -94,3 +101,10 @@
 - 자동검증 결과: headless gate PASS (`meta_loop` 포함), pre-manual PASS, leak trace PASS
 - 리스크/이슈: 영구 보정 누적으로 장기 난이도 곡선 재점검 필요
 - 다음 Step 진행 승인: 콘텐츠 확장 2차 설계 대기
+
+### Step 6 결과 기록
+- Step: Character Pack 01
+- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 자동검증 결과: headless gate PASS (`character_ranger`, `character_warden` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: 캐릭터+메타 누적 보정으로 장기 밸런스 재점검 필요
+- 다음 Step 진행 승인: 무기 계열 분화 설계 대기

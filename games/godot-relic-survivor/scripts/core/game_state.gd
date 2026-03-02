@@ -16,6 +16,9 @@ var pressure_band: String = "low"
 var death_reason: String = ""
 var death_context: String = ""
 
+var character_id: String = "default"
+var character_title: String = "Wanderer"
+
 var event_move_speed_mult: float = 1.0
 var event_attack_range_mult: float = 1.0
 var active_event_id: String = ""
@@ -68,6 +71,8 @@ func reset() -> void:
 	pressure_band = "low"
 	death_reason = ""
 	death_context = ""
+	character_id = "default"
+	character_title = "Wanderer"
 	event_move_speed_mult = 1.0
 	event_attack_range_mult = 1.0
 	active_event_id = ""
