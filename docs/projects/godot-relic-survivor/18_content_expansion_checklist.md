@@ -118,7 +118,7 @@
 
 ### Step 7 결과 기록
 - Step: Weapon Archetype Pack 01
-- 구현 커밋: 본 단계 feature 커밋(HEAD) 참조
+- 구현 커밋: `0576aa0` (weapon archetype pack + weapon_loop gate + docs sync)
 - 자동검증 결과: headless gate PASS (`weapon_pierce`, `weapon_dot`, `weapon_aoe` 포함), pre-manual PASS, leak trace PASS
 - 리스크/이슈: 캐릭터+메타+무기 조합별 난이도 편차 수동 QA에서 추가 확인 필요
 - 다음 Step 진행 승인: 캐릭터 전용 액티브 스킬/무기 트리 설계 대기
