@@ -209,3 +209,27 @@
 - 자동 QA 결과와 실플레이 체감 간 괴리 축소
 - 스폰 억울사 감소
 - 보스 패턴 회귀 검증의 flaky 리스크 감소
+
+## 2026-03-02 (Elite Pack 01)
+
+### 변경 요약
+- 신규 엘리트 적 2종 추가
+  - Elite Grunt: 버스트 돌진형 근접 압박
+  - Elite Dasher: 연속 돌진 체인형 압박
+- 엘리트 스폰 파라미터 추가
+  - `ELITE_PHASE_START = 210.0`
+  - `ELITE_GRUNT_CHANCE_BASE/RAMP = 0.03 / 0.00028`
+  - `ELITE_DASHER_CHANCE_BASE/RAMP = 0.015 / 0.00022`
+  - `ELITE_TOTAL_CHANCE_CAP = 0.24`
+- 엘리트 테스트 모드 추가
+  - `--elite-test` (QA에서 엘리트 스폰 검증 용도)
+
+### 자동 검증 결과
+- `headless-alpha-gate.sh` PASS
+  - `elite_loop`에서 `ELITE_SPAWNED:elite_grunt`, `ELITE_SPAWNED:elite_dasher` 확인
+- `pre-manual-qa-check.sh` PASS
+- `trace-objectdb-leak.sh` PASS
+
+### 기대 효과
+- 중반(약 3~10분) 난이도 브릿지 강화
+- 기본 grunt/dasher만 반복되는 패턴 피로도 완화

@@ -223,3 +223,18 @@
 
 ### 결과
 - 구현 순서/완료기준/공수/QA 절차가 문서 기준선으로 확정됨
+
+## 2026-03-02 (Step 1 Complete — Elite Pack 01)
+
+### 반영
+- Elite Grunt / Elite Dasher 구현 및 일반 웨이브 연동
+- `--elite-test` 런타임 플래그 + `elite_loop` 자동 검증 추가
+- 자동 선택/스폰 공정성/전투 성능 준비/사망 리포트/패턴 다양성 검증까지 리뷰 항목 일괄 반영
+
+### 검증
+- headless gate(`boss_pattern`, `elite_loop` 포함) 통과
+- readiness/checkpoint/leak trace 통과
+
+### 상태
+- 콘텐츠 확장 Step 1 완료
+- 다음 착수: Step 2 (Relic System 01)

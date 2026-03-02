@@ -16,6 +16,8 @@
 ### 적 타입
 - Grunt: 추적형 기본 적
 - Dasher: 준비 후 돌진형
+- Elite Grunt: 버스트 돌진형 중간 정예
+- Elite Dasher: 연속 돌진형 중간 정예
 - MiniBoss: 고체력 + 패턴 공격
 
 ### 차기 확장(순차)

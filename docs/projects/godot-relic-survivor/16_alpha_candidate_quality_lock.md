@@ -70,6 +70,9 @@
   - 전투 판정 후보 인덱스(셀 기반) 도입
   - death recap(사망 원인/상황) 표시 추가
   - boss_pattern 다양성 검증(RING/WALL 최소 1회) 게이트 편입
+- 2026-03-02: 사용자 진행 승인("응 차례대로 진행해")에 따른 콘텐츠 확장 Step 1 반영.
+  - Elite Pack 01(Elite Grunt / Elite Dasher) 구현
+  - `--elite-test` 런타임 옵션 + `elite_loop` 자동 검증 케이스 편입
 - 처리 원칙:
   - 자동 회귀 검증 통과 필수
   - 설계/릴리즈/개발일지 즉시 동기화

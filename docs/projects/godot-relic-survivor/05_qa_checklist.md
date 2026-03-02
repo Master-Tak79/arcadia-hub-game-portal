@@ -13,7 +13,8 @@
 ## 기능별
 - [ ] 이동/대시 조작 반응성 (수동 QA 보류)
 - [x] 자동공격/탄환 충돌 정상 (보스 처치 루프에서 처치/보상 확인)
-- [ ] 적 2종 패턴 정상 (수동 패턴 체감 QA 보류)
+- [ ] 기본 적 2종 패턴 정상 (수동 패턴 체감 QA 보류)
+- [ ] 엘리트 2종 패턴 정상 (수동 패턴 체감 QA 보류)
 - [x] EXP 획득/레벨업 3지선다 정상 (`--auto-levelup` + 패널 선택 루프)
 - [ ] 레벨업 패널 예상 지표(DPS/생존) 가독성 확인 (수동 QA 시 확인)
 - [ ] PRESSURE 표시(low/mid/high)와 실제 체감 압박 일치 여부 확인 (수동 QA 시 확인)
@@ -23,6 +24,7 @@
 - [x] 보스 콤보 대시 패턴 로그 검증 경로 확보 (`MINIBOSS_COMBO_DASH_ON`, `MINIBOSS_DASH_CHAIN_*`)
 - [x] 보스 비대시 소환 패턴 로그 검증 경로 확보 (`MINIBOSS_SUMMON_TELEGRAPH_ON`, `MINIBOSS_SUMMON_CAST`, `MINIBOSS_SUMMON_PATTERN_*`)
 - [x] boss_pattern 다양성 검증(RING/WALL 최소 1회) 자동 체크 통과
+- [x] elite_loop 검증 통과 (`ELITE_SPAWNED:elite_grunt`, `ELITE_SPAWNED:elite_dasher`)
 - [x] 보스 처치 루프 정상 (`MINIBOSS_DEFEATED` 로그 확인)
 
 ## 성능

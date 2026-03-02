@@ -2,6 +2,8 @@ extends Node
 
 const EnemyGrunt := preload("res://scripts/entities/enemy_grunt.gd")
 const EnemyDasher := preload("res://scripts/entities/enemy_dasher.gd")
+const EnemyEliteGrunt := preload("res://scripts/entities/enemy_elite_grunt.gd")
+const EnemyEliteDasher := preload("res://scripts/entities/enemy_elite_dasher.gd")
 
 var _balance: RefCounted
 var _state: RefCounted
@@ -11,6 +13,8 @@ var _miniboss_director: Node
 
 var _elapsed: float = 0.0
 var _next_spawn_in: float = 1.0
+var _elite_test_mode: bool = false
+var _elite_cycle_index: int = 0
 
 func setup(balance: RefCounted, state: RefCounted, player: Node2D, enemy_container: Node2D) -> void:
 	_balance = balance
@@ -24,9 +28,13 @@ func setup(balance: RefCounted, state: RefCounted, player: Node2D, enemy_contain
 func set_miniboss_director(director: Node) -> void:
 	_miniboss_director = director
 
+func set_elite_test_mode(enabled: bool) -> void:
+	_elite_test_mode = enabled
+
 func reset_runtime() -> void:
 	_elapsed = 0.0
 	_next_spawn_in = float(_balance.SPAWN_INTERVAL_BASE)
+	_elite_cycle_index = 0
 	if _enemy_container:
 		for enemy in _enemy_container.get_children():
 			enemy.queue_free()
@@ -84,21 +92,21 @@ func _pick_spawn_position_with_safety() -> Vector2:
 	return fallback
 
 func _make_enemy() -> Node2D:
+	var elite_kind: String = _roll_elite_kind()
+	if elite_kind == "elite_grunt":
+		print("ELITE_SPAWNED:elite_grunt")
+		return _make_elite_grunt()
+	if elite_kind == "elite_dasher":
+		print("ELITE_SPAWNED:elite_dasher")
+		return _make_elite_dasher()
+
 	var dasher_chance: float = _get_phase_dasher_chance()
 	if randf() < dasher_chance:
-		var dasher := Node2D.new()
-		dasher.set_script(EnemyDasher)
-		dasher.setup(
-			_player,
-			float(_balance.ENEMY_DASHER_SPEED),
-			int(_balance.ENEMY_DASHER_HP),
-			float(_balance.ENEMY_DASHER_HIT_RADIUS),
-			float(_balance.ENEMY_DASHER_DASH_SPEED),
-			float(_balance.ENEMY_DASHER_DASH_INTERVAL),
-			float(_balance.ENEMY_DASHER_DASH_DURATION)
-		)
-		return dasher
+		return _make_dasher()
 
+	return _make_grunt()
+
+func _make_grunt() -> Node2D:
 	var grunt := Node2D.new()
 	grunt.set_script(EnemyGrunt)
 	grunt.setup(
@@ -108,6 +116,89 @@ func _make_enemy() -> Node2D:
 		float(_balance.ENEMY_GRUNT_HIT_RADIUS)
 	)
 	return grunt
+
+func _make_dasher() -> Node2D:
+	var dasher := Node2D.new()
+	dasher.set_script(EnemyDasher)
+	dasher.setup(
+		_player,
+		float(_balance.ENEMY_DASHER_SPEED),
+		int(_balance.ENEMY_DASHER_HP),
+		float(_balance.ENEMY_DASHER_HIT_RADIUS),
+		float(_balance.ENEMY_DASHER_DASH_SPEED),
+		float(_balance.ENEMY_DASHER_DASH_INTERVAL),
+		float(_balance.ENEMY_DASHER_DASH_DURATION)
+	)
+	return dasher
+
+func _make_elite_grunt() -> Node2D:
+	var enemy := Node2D.new()
+	enemy.set_script(EnemyEliteGrunt)
+	enemy.setup(
+		_player,
+		float(_balance.ELITE_GRUNT_SPEED),
+		int(_balance.ELITE_GRUNT_HP),
+		float(_balance.ELITE_GRUNT_HIT_RADIUS),
+		int(_balance.ELITE_GRUNT_CONTACT_DAMAGE),
+		int(_balance.ELITE_GRUNT_EXP_REWARD),
+		float(_balance.ELITE_GRUNT_BURST_SPEED_MULT),
+		float(_balance.ELITE_GRUNT_BURST_INTERVAL),
+		float(_balance.ELITE_GRUNT_BURST_DURATION)
+	)
+	return enemy
+
+func _make_elite_dasher() -> Node2D:
+	var enemy := Node2D.new()
+	enemy.set_script(EnemyEliteDasher)
+	enemy.setup(
+		_player,
+		float(_balance.ELITE_DASHER_SPEED),
+		int(_balance.ELITE_DASHER_HP),
+		float(_balance.ELITE_DASHER_HIT_RADIUS),
+		int(_balance.ELITE_DASHER_CONTACT_DAMAGE),
+		int(_balance.ELITE_DASHER_EXP_REWARD),
+		float(_balance.ELITE_DASHER_DASH_SPEED),
+		float(_balance.ELITE_DASHER_DASH_INTERVAL),
+		float(_balance.ELITE_DASHER_DASH_DURATION),
+		float(_balance.ELITE_DASHER_DASH_CHAIN_GAP),
+		int(_balance.ELITE_DASHER_DASH_CHAIN_COUNT)
+	)
+	return enemy
+
+func _roll_elite_kind() -> String:
+	if _elite_test_mode and _elapsed >= float(_balance.ELITE_TEST_START):
+		var forced: String = "elite_grunt" if (_elite_cycle_index % 2) == 0 else "elite_dasher"
+		_elite_cycle_index += 1
+		return forced
+
+	if _elapsed < float(_balance.ELITE_PHASE_START):
+		return ""
+
+	var grunt_chance: float = float(_balance.ELITE_GRUNT_CHANCE_BASE) + (_elapsed * float(_balance.ELITE_GRUNT_CHANCE_RAMP))
+	var dasher_chance: float = float(_balance.ELITE_DASHER_CHANCE_BASE) + (_elapsed * float(_balance.ELITE_DASHER_CHANCE_RAMP))
+
+	if _is_boss_active():
+		grunt_chance *= 0.70
+		dasher_chance *= 0.70
+	elif _is_post_boss_recovery():
+		grunt_chance *= 0.82
+		dasher_chance *= 0.82
+
+	var total: float = grunt_chance + dasher_chance
+	var cap: float = float(_balance.ELITE_TOTAL_CHANCE_CAP)
+	if total > cap and total > 0.0:
+		var scale: float = cap / total
+		grunt_chance *= scale
+		dasher_chance *= scale
+		total = cap
+
+	var roll: float = randf()
+	if roll >= total:
+		return ""
+
+	if roll < grunt_chance:
+		return "elite_grunt"
+	return "elite_dasher"
 
 func _get_phase_spawn_interval() -> float:
 	var ramp: float = float(_balance.SPAWN_INTERVAL_BASE) - _elapsed * float(_balance.SPAWN_RAMP_PER_SEC)

@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.8-dev
+- version: v0.1.9-dev
 - date: 2026-03-02
 
 ## Added
@@ -56,7 +56,10 @@
 
 ## Changed
 - `docs/projects/_index.md` 상태 갱신(archived + in-progress)
-- HUD 정보 확장(ENEMIES/SHOTS/EXP/MAX_HP/DASH + PRESSURE + 보스 경고/활성/격파 상태)
+- HUD 정보 확장(ENEMIES/SHOTS/EXP/MAX_HP/DASH + PRESSURE + 보스 경고/활성/격파 상태 + death recap)
+- Elite Pack 01 추가
+  - `enemy_elite_grunt.gd` / `enemy_elite_dasher.gd`
+  - 일반 웨이브 엘리트 스폰 확률/구간 로직 추가(`spawn_director.gd`)
 - 미니보스 텔레그래프 가시성 강화
   - 대시 예고(windup) 시각화/로그/HUD 상태 추가
   - 보스 등장 직후 안전구간(`MINIBOSS_SPAWN_GRACE`) 및 근거리 즉시대시 제한(`MINIBOSS_DASH_MIN_DISTANCE`) 적용
@@ -76,7 +79,7 @@
 - 전투 판정 확장(적별 접촉 피해/EXP 보상)
 - 전투 판정 성능 준비(`combat_system.gd`)
   - 셀 기반 공간 인덱스 도입(충돌 후보 추출)
-- QA 런타임 옵션 확장(`--qa-autopilot`, `--qa-force-damage`, `--qa-auto-restart`, `--boss-pattern-test`)
+- QA 런타임 옵션 확장(`--qa-autopilot`, `--qa-force-damage`, `--qa-auto-restart`, `--boss-pattern-test`, `--elite-test`)
 - `game_root` 책임 분리 리팩터링
   - `core/runtime_options.gd`
   - `systems/qa_runtime.gd`
@@ -139,13 +142,17 @@
   - `MINIBOSS_DASH_TELEGRAPH_ON`, `MINIBOSS_DASH_START`
   - 패턴 다양성: `MINIBOSS_SUMMON_PATTERN_RING`, `MINIBOSS_SUMMON_PATTERN_WALL` 최소 1회 이상 확인
   로그 확인
+- 엘리트 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 2400 -- --elite-test --auto-levelup --qa-autopilot`
+  - `ELITE_SPAWNED:elite_grunt`, `ELITE_SPAWNED:elite_dasher` 확인
 - 재시작 루프 QA:
   - `godotw --headless --fixed-fps 60 --quit-after 3000 -- --qa-force-damage --qa-auto-restart`
   - `QA_FORCE_DEATH`, `QA_AUTO_RESTART_TRIGGERED` 반복 확인
 - `mcporter call godot-local.godot_run_headless` 실행 통과
 - 원클릭 게이트 검증(2026-03-02):
   - `./tools/qa/headless-alpha-gate.sh` PASS
-  - 산출 로그: `.qa/headless/<timestamp>/{smoke,boss_loop,boss_pattern,restart_loop,long_sim}.log`
+  - 산출 로그: `.qa/headless/<timestamp>/{smoke,boss_loop,boss_pattern,elite_loop,restart_loop,long_sim}.log`
+  - boss_pattern 다양성: RING/WALL 최소 1회 체크 PASS
   - 경고 요약: `warnings=0`, `leak_lines=0`
 - 누수 심화 추적(2026-03-02):
   - `./tools/qa/trace-objectdb-leak.sh` 실행

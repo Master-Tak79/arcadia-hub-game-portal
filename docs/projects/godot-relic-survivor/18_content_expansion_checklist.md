@@ -14,11 +14,12 @@
 ---
 
 ## Step 1 — Elite Pack 01
-- [ ] Elite Grunt 구현
-- [ ] Elite Dasher 구현
-- [ ] 스폰 테이블 반영
-- [ ] elite 구분 HUD/로그 반영
-- [ ] 밸런스 로그 기록(12)
+- [x] Elite Grunt 구현
+- [x] Elite Dasher 구현
+- [x] 스폰 테이블 반영
+- [x] elite 구분 HUD/로그 반영
+- [x] 밸런스 로그 기록(12)
+- [x] 게이트에 elite_loop 추가 및 토큰 검증 반영
 
 ## Step 2 — Relic System 01 (12종)
 - [ ] 유물 데이터 구조 추가
@@ -49,3 +50,10 @@
 - 자동검증 결과:
 - 리스크/이슈:
 - 다음 Step 진행 승인:
+
+### Step 1 결과 기록
+- Step: Elite Pack 01
+- 구현 커밋: `338cece` (review pass 기반), `9303bf6`(docs plan), 이번 단계 코드/문서 일괄 커밋 예정
+- 자동검증 결과: headless gate PASS (`elite_loop` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: elite long_sim 로그량 증가(정보성), 추후 로그 압축 필요 가능
+- 다음 Step 진행 승인: 대기 중

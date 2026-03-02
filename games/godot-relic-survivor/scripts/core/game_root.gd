@@ -62,6 +62,8 @@ func _ready() -> void:
 	_spawn_director = SpawnDirector.new()
 	add_child(_spawn_director)
 	_spawn_director.setup(_balance, _state, _player, _enemy_container)
+	if _spawn_director.has_method("set_elite_test_mode"):
+		_spawn_director.set_elite_test_mode(bool(_runtime_options.elite_test))
 
 	_auto_attack_system = AutoAttackSystem.new()
 	add_child(_auto_attack_system)

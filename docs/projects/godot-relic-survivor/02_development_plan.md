@@ -18,11 +18,11 @@
 - [ ] GUI FPS 실측
 
 ### B. 콘텐츠 확장 1차(요청 반영, 순차 진행)
-- [ ] **Step 1 — Elite Pack 01**
-  - [ ] Elite Grunt 설계/구현
-  - [ ] Elite Dasher 설계/구현
-  - [ ] 스폰 확률/구간 테이블 반영
-  - [ ] QA 시나리오/문서 업데이트
+- [x] **Step 1 — Elite Pack 01**
+  - [x] Elite Grunt 설계/구현
+  - [x] Elite Dasher 설계/구현
+  - [x] 스폰 확률/구간 테이블 반영
+  - [x] QA 시나리오/문서 업데이트
 - [ ] **Step 2 — Relic System 01 (12종)**
   - [ ] 유물 데이터 구조/런타임 적용기 추가
   - [ ] 유물 획득 UX(표시/설명/상태) 추가

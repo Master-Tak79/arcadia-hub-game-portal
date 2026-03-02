@@ -115,8 +115,18 @@ func _set_death_recap(enemy: Node2D) -> void:
 				reason = "대셔 돌진 접촉"
 			else:
 				reason = "대셔 접촉 피해"
+		"elite_dasher":
+			if enemy.has_method("is_dashing") and bool(enemy.is_dashing()):
+				reason = "엘리트 대셔 연속 돌진 직격"
+			else:
+				reason = "엘리트 대셔 접촉 피해"
 		"grunt":
 			reason = "그런트 접촉 피해"
+		"elite_grunt":
+			if enemy.has_method("is_bursting") and bool(enemy.is_bursting()):
+				reason = "엘리트 그런트 돌진 직격"
+			else:
+				reason = "엘리트 그런트 접촉 피해"
 		_:
 			reason = "적 접촉 피해"
 

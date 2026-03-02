@@ -890,3 +890,27 @@
 ### 비고
 - 현재 단계는 구현 착수 전 설계/체크리스트 고정 단계
 - 다음 턴부터 Step 1(Elite Pack 01) 코드 작업 가능
+
+## 2026-03-02 20:03 KST
+### Step 1 — Elite Pack 01 구현 완료
+- 신규 엔티티 추가
+  - `enemy_elite_grunt.gd`: 버스트 돌진형
+  - `enemy_elite_dasher.gd`: 연속 돌진 체인형
+- 스폰/밸런스 연동
+  - `spawn_director.gd` 엘리트 스폰 확률/구간 로직 추가
+  - `--elite-test` 옵션 기반 강제 검증 루프 추가
+- QA/신뢰도 보강
+  - `headless-alpha-gate.sh`에 `elite_loop` 케이스 추가
+  - Elite Grunt/Dasher 토큰 검증 추가
+- 리뷰 후속 보강(동시 반영)
+  - auto-levelup multi-effect 점수화
+  - 스폰 안전 반경/충돌 후보 인덱스/사망 리포트
+  - boss_pattern 다양성(RING/WALL) 자동 검증
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` PASS
+  - boss_pattern: RING=5, WALL=5
+  - elite_loop: elite_grunt/elite_dasher 토큰 확인
+- `./tools/qa/pre-manual-qa-check.sh` PASS
+- `./tools/qa/checkpoint-report.sh` PASS
+- `./tools/qa/trace-objectdb-leak.sh` PASS

@@ -1,10 +1,14 @@
-# Godot Relic Survivor (v0.1.8-dev)
+# Godot Relic Survivor (v0.1.9-dev)
 
 탑다운 로그라이크 생존 액션 신규 프로젝트입니다.
-현재 코어 전투 루프(이동/대시/자동공격/적 2종 스폰/피격/재시작)와
+현재 코어 전투 루프(이동/대시/자동공격/적 4종+보스 스폰/피격/재시작)와
 레벨업 3지선다 + 업그레이드 16종(복합 효과 포함)까지 반영된 상태입니다.
 
-## 최근 개선 (v0.1.8-dev)
+## 최근 개선 (v0.1.9-dev)
+- Elite Pack 01 추가
+  - `Elite Grunt`: 탱키 + 버스트 돌진
+  - `Elite Dasher`: 연속 돌진 체인 패턴
+  - 일반 웨이브에 엘리트 스폰 구간/확률 반영
 - 미니보스 패턴 다양화 + 텔레그래프 강화
   - 대시 예고(windup) 시각화 + HUD 텍스트 + 이벤트 배너 추가
   - 콤보 대시 패턴(확률형) 도입으로 보스 패턴 다양화
@@ -44,6 +48,9 @@
 
 # 보스 패턴 테스트 모드(소환/대시 텔레그래프 검증)
 ../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 5400 -- --boss-pattern-test --auto-levelup --qa-autopilot
+
+# 엘리트 스폰 테스트 모드
+../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 2400 -- --elite-test --auto-levelup --qa-autopilot
 
 # SFX 프리셋 옵션
 # --sfx-preset=default | quiet | hype
