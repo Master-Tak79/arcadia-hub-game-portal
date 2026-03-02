@@ -16,6 +16,8 @@ var _ranger_speed_bonus: float = 120.0
 var _ranger_attack_bonus: float = 0.12
 
 var _warden_invuln_bonus: float = 0.35
+var _guardian_echo_bonus: float = 0.45
+var _guardian_echo_left: float = 0.0
 
 func setup(state: RefCounted, player: Node2D, enemy_container: Node2D, event_banner: CanvasLayer, character_test: bool = false) -> void:
 	_state = state
@@ -30,6 +32,7 @@ func reset_round() -> void:
 	_cooldown = 0.0
 	_cooldown_left = 0.0
 	_active_left = 0.0
+	_guardian_echo_left = 0.0
 
 	if _state == null:
 		return
@@ -48,6 +51,9 @@ func reset_round() -> void:
 			_skill_title = ""
 			_cooldown = 0.0
 
+	var cd_scale: float = clampf(float(_state.active_skill_cooldown_scale), 0.55, 1.0)
+	_cooldown *= cd_scale
+
 	_state.active_skill_id = _skill_id
 	_state.active_skill_title = _skill_title
 	_state.active_skill_cooldown_left = 0.0
@@ -61,6 +67,11 @@ func _process(delta: float) -> void:
 
 	if _cooldown_left > 0.0:
 		_cooldown_left = max(0.0, _cooldown_left - delta)
+
+	if _guardian_echo_left > 0.0:
+		_guardian_echo_left = max(0.0, _guardian_echo_left - delta)
+		if _guardian_echo_left <= 0.0:
+			_state.player_invuln_bonus -= _guardian_echo_bonus
 
 	if _active_left > 0.0:
 		_active_left = max(0.0, _active_left - delta)
@@ -91,6 +102,10 @@ func _activate_skill() -> void:
 		"warden_bulwark":
 			_active_left = 2.2
 			_state.player_invuln_bonus += _warden_invuln_bonus
+			if bool(_state.active_skill_guardian_echo):
+				_state.player_invuln_bonus += _guardian_echo_bonus
+				_guardian_echo_left = _guardian_echo_bonus
+				print("ACTIVE_SKILL_GUARDIAN_ECHO")
 			var hit_count: int = _apply_warden_pulse_damage()
 			print("ACTIVE_SKILL_USED:warden_bulwark")
 			print("ACTIVE_SKILL_HIT:%d" % hit_count)
@@ -110,7 +125,7 @@ func _apply_warden_pulse_damage() -> int:
 		return 0
 
 	var count: int = 0
-	var pulse_radius: float = 128.0
+	var pulse_radius: float = 128.0 + float(_state.active_skill_pulse_radius_bonus)
 	var pulse_damage: int = 2
 	for enemy in _enemy_container.get_children():
 		if not (enemy is Node2D):

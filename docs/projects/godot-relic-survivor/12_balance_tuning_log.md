@@ -384,3 +384,25 @@
 ### 기대 효과
 - 캐릭터 정체성 강화(수동 개입 순간 창출)
 - 보스/엘리트 구간에서 리듬감 있는 의사결정 추가
+
+## 2026-03-03 (Character/Weapon Tree Runtime 01)
+
+### 변경 요약
+- 트리 정책 런타임 반영
+  - 재화: `meta_shards` 공유
+  - 비용: T1=1, T2=2, T3=3
+  - 적용: 해금 즉시 저장, 효과는 다음 라운드 적용
+- 트리 효과 반영 항목
+  - 공격 간격/이동속도/관통/무기 피해 계수
+  - 접촉 피해 감소/피격 무적 보정
+  - 액티브 스킬 쿨다운/펄스 반경/guardian echo
+
+### 자동 검증 결과
+- `headless-alpha-gate.sh` PASS (`tree_ranger`, `tree_warden` 포함)
+  - `TREE_PROFILE_LOADED`, `TREE_NODE_UNLOCKED:*`, `TREE_APPLIED:*` 확인
+- `pre-manual-qa-check.sh` PASS
+- `trace-objectdb-leak.sh` PASS
+
+### 기대 효과
+- 캐릭터 장기 성장 축이 실제 전투 체감으로 연결
+- 트리 해금 검증 경로가 자동 QA에 편입되어 회귀 리스크 감소

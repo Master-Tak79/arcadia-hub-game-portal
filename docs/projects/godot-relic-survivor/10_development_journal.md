@@ -358,3 +358,18 @@
 ### 상태
 - Step 9 설계 완료
 - 다음 착수: 트리 런타임 구현(`character_trees.gd`, `tree_progression.gd`, `tree_*_loop`)
+
+## 2026-03-03 (Step 10 Complete — Character/Weapon Tree Runtime 01)
+
+### 반영
+- 트리 데이터(`character_trees.gd`) + 적용기(`tree_progression.gd`) 구현
+- 메타 프로파일 트리 필드(`tree_unlocks`, `tree_last_spent`) 연동
+- 트리 효과를 전투/액티브/HUD 경로에 연결
+- `--tree-test`, `tree_ranger`, `tree_warden` 자동검증 루프 추가
+
+### 검증
+- headless gate(tree loop 포함), readiness, checkpoint, leak trace 통과
+
+### 상태
+- Step 10 완료
+- 다음 착수: 트리 실해금 UI/UX(메타 화면) 구현

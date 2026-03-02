@@ -10,6 +10,7 @@ var relic_test: bool = false
 var event_test: bool = false
 var meta_test: bool = false
 var character_test: bool = false
+var tree_test: bool = false
 var character_id: String = "default"
 var weapon_id: String = "default"
 
@@ -55,6 +56,10 @@ func parse_user_args(args: Array) -> void:
 			meta_test = true
 		elif arg == "--character-test" or arg == "character-test":
 			character_test = true
+			if character_id == "default":
+				character_id = "ranger"
+		elif arg == "--tree-test" or arg == "tree-test":
+			tree_test = true
 			if character_id == "default":
 				character_id = "ranger"
 		elif String(arg).begins_with("--character="):
@@ -110,6 +115,8 @@ func print_enabled_flags() -> void:
 		print("META_TEST_ON")
 	if character_test:
 		print("CHARACTER_TEST_ON")
+	if tree_test:
+		print("TREE_TEST_ON")
 	if character_id != "default":
 		print("CHARACTER_OVERRIDE:%s" % character_id)
 	if weapon_id != "default":

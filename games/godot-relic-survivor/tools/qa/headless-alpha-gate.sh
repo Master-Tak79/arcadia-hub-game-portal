@@ -89,6 +89,14 @@ run_case active_warden \
   "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 1800 -- \
   --character=warden --character-test --auto-levelup --qa-autopilot --sfx-preset=quiet
 
+run_case tree_ranger \
+  "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 1800 -- \
+  --character=ranger --tree-test --auto-levelup --qa-autopilot --sfx-preset=quiet
+
+run_case tree_warden \
+  "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 1800 -- \
+  --character=warden --tree-test --auto-levelup --qa-autopilot --sfx-preset=quiet
+
 run_case weapon_pierce \
   "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 1800 -- \
   --weapon=pierce --auto-levelup --qa-autopilot --sfx-preset=quiet
@@ -124,6 +132,8 @@ CHAR_RANGER_LOG="$RUN_DIR/character_ranger.log"
 CHAR_WARDEN_LOG="$RUN_DIR/character_warden.log"
 ACTIVE_RANGER_LOG="$RUN_DIR/active_ranger.log"
 ACTIVE_WARDEN_LOG="$RUN_DIR/active_warden.log"
+TREE_RANGER_LOG="$RUN_DIR/tree_ranger.log"
+TREE_WARDEN_LOG="$RUN_DIR/tree_warden.log"
 WEAPON_PIERCE_LOG="$RUN_DIR/weapon_pierce.log"
 WEAPON_DOT_LOG="$RUN_DIR/weapon_dot.log"
 WEAPON_AOE_LOG="$RUN_DIR/weapon_aoe.log"
@@ -186,6 +196,15 @@ assert_log_contains "$ACTIVE_RANGER_LOG" "ACTIVE_SKILL_USED:ranger_burst"
 assert_log_contains "$ACTIVE_WARDEN_LOG" "CHARACTER_TEST_ON"
 assert_log_contains "$ACTIVE_WARDEN_LOG" "ACTIVE_SKILL_USED:warden_bulwark"
 
+assert_log_contains "$TREE_RANGER_LOG" "TREE_TEST_ON"
+assert_log_contains "$TREE_RANGER_LOG" "TREE_PROFILE_LOADED"
+assert_log_contains "$TREE_RANGER_LOG" "TREE_NODE_UNLOCKED:"
+assert_log_contains "$TREE_RANGER_LOG" "TREE_APPLIED:ranger"
+assert_log_contains "$TREE_WARDEN_LOG" "TREE_TEST_ON"
+assert_log_contains "$TREE_WARDEN_LOG" "TREE_PROFILE_LOADED"
+assert_log_contains "$TREE_WARDEN_LOG" "TREE_NODE_UNLOCKED:"
+assert_log_contains "$TREE_WARDEN_LOG" "TREE_APPLIED:warden"
+
 assert_log_contains "$WEAPON_PIERCE_LOG" "WEAPON_OVERRIDE:pierce"
 assert_log_contains "$WEAPON_PIERCE_LOG" "WEAPON_SELECTED:pierce"
 assert_log_contains "$WEAPON_PIERCE_LOG" "WEAPON_PIERCE_HIT"
@@ -204,7 +223,7 @@ assert_log_contains "$RESTART_LOG" "QA_FORCE_DEATH"
 assert_log_contains "$RESTART_LOG" "QA_AUTO_RESTART_TRIGGERED"
 assert_log_contains "$LONG_LOG" "RELIC_SURVIVOR_BOOT_OK"
 
-for log in "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$BOSS_PHASE2_LOG" "$ELITE_LOG" "$RELIC_LOG" "$EVENT_LOG" "$CHAR_RANGER_LOG" "$CHAR_WARDEN_LOG" "$ACTIVE_RANGER_LOG" "$ACTIVE_WARDEN_LOG" "$WEAPON_PIERCE_LOG" "$WEAPON_DOT_LOG" "$WEAPON_AOE_LOG" "$META_LOG" "$RESTART_LOG" "$LONG_LOG"; do
+for log in "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$BOSS_PHASE2_LOG" "$ELITE_LOG" "$RELIC_LOG" "$EVENT_LOG" "$CHAR_RANGER_LOG" "$CHAR_WARDEN_LOG" "$ACTIVE_RANGER_LOG" "$ACTIVE_WARDEN_LOG" "$TREE_RANGER_LOG" "$TREE_WARDEN_LOG" "$WEAPON_PIERCE_LOG" "$WEAPON_DOT_LOG" "$WEAPON_AOE_LOG" "$META_LOG" "$RESTART_LOG" "$LONG_LOG"; do
   assert_log_not_contains "$log" "SCRIPT ERROR"
   assert_log_not_contains "$log" "ERROR:"
   assert_log_not_contains "$log" "CRASH"
@@ -215,7 +234,7 @@ WARN_SUMMARY="$RUN_DIR/warnings-summary.txt"
   echo "# Warning summary"
   echo "run: $STAMP"
   echo
-  grep -HnE "WARNING:|Leaked instance:|Orphan StringName" "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$BOSS_PHASE2_LOG" "$ELITE_LOG" "$RELIC_LOG" "$EVENT_LOG" "$CHAR_RANGER_LOG" "$CHAR_WARDEN_LOG" "$ACTIVE_RANGER_LOG" "$ACTIVE_WARDEN_LOG" "$WEAPON_PIERCE_LOG" "$WEAPON_DOT_LOG" "$WEAPON_AOE_LOG" "$META_LOG" "$RESTART_LOG" "$LONG_LOG" || true
+  grep -HnE "WARNING:|Leaked instance:|Orphan StringName" "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$BOSS_PHASE2_LOG" "$ELITE_LOG" "$RELIC_LOG" "$EVENT_LOG" "$CHAR_RANGER_LOG" "$CHAR_WARDEN_LOG" "$ACTIVE_RANGER_LOG" "$ACTIVE_WARDEN_LOG" "$TREE_RANGER_LOG" "$TREE_WARDEN_LOG" "$WEAPON_PIERCE_LOG" "$WEAPON_DOT_LOG" "$WEAPON_AOE_LOG" "$META_LOG" "$RESTART_LOG" "$LONG_LOG" || true
 } > "$WARN_SUMMARY"
 
 WARN_COUNT=$(grep -c "WARNING:" "$WARN_SUMMARY" || true)
@@ -234,6 +253,7 @@ cat <<EOF
 - event loop:    PASS
 - character loop: PASS (ranger/warden)
 - active loop:   PASS (ranger/warden)
+- tree loop:     PASS (ranger/warden)
 - weapon loop:   PASS (pierce/dot/aoe)
 - meta loop:     PASS
 - restart loop:  PASS

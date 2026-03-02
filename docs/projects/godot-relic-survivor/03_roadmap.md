@@ -108,7 +108,18 @@
 - 완료 기준:
   - 설계 문서 `19_character_weapon_tree_design.md` 확정
   - 구현 순서/리스크/결정 포인트 명시
-- 상태: ✅ 설계 확정 완료 (구현 단계 대기)
+- 상태: ✅ 완료
+
+## M13 — Character/Weapon Tree Runtime 01 (v0.1.10-dev)
+- 목표: 설계 고정된 트리 시스템을 런타임/저장/QA 경로에 연결
+- 콘텐츠:
+  - `character_trees.gd`, `tree_progression.gd` 구현
+  - `meta_profile.json` 트리 필드 연동 + HUD TREE 상태
+  - `tree_ranger`, `tree_warden` 자동검증 루프
+- 완료 기준:
+  - 트리 해금/저장/다음 라운드 반영 루프 정상
+  - 트리 루프 자동검증 시나리오 통과
+- 상태: 🟡 구현/자동검증 완료 (수동 체감 QA 대기)
 
 ## 백로그 (중기)
 - 캐릭터 전용 무기/액티브 스킬 트리 고도화 구현

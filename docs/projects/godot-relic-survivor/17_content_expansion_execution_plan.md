@@ -13,6 +13,7 @@
 7. Weapon Archetype Pack 01
 8. Active Skill Pack 01
 9. Character/Weapon Tree Design 01
+10. Character/Weapon Tree Runtime 01
 
 ---
 
@@ -208,6 +209,28 @@
 
 ### 공수
 - 0.5 ~ 1.0일
+
+---
+
+## Step 10 — Character/Weapon Tree Runtime 01
+- 상태: ✅ 구현/자동검증 완료 (수동 체감 QA 대기)
+
+### 범위
+- 트리 데이터(`character_trees.gd`) + 적용기(`tree_progression.gd`) 구현
+- 메타 프로파일 트리 필드(`tree_unlocks`, `tree_last_spent`) 연동
+- `--tree-test` 런타임 옵션 + `tree_ranger`/`tree_warden` QA 루프 확장
+- HUD `TREE` 상태 표시 및 다음 라운드 적용 규칙 반영
+
+### 완료 기준
+- 트리 해금/저장/다음 라운드 적용 루프 정상
+- 트리 루프 자동검증 토큰 통과(`TREE_PROFILE_LOADED`, `TREE_NODE_UNLOCKED:*`, `TREE_APPLIED:*`)
+
+### 리스크
+- 트리 해금 누적에 따른 장기 난이도 편차
+- 자동 트리 해금 테스트와 실제 수동 해금 UX 차이
+
+### 공수
+- 1.0 ~ 1.5일
 
 ---
 

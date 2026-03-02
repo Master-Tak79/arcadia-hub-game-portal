@@ -24,6 +24,7 @@
 - [ ] 캐릭터별 시작 체감 차이(Ranger/Warden) 확인 (수동 QA 시 확인)
 - [ ] 무기 계열별 타격 감각 차이(pierce/dot/aoe) 확인 (수동 QA 시 확인)
 - [ ] 액티브 스킬(Q) 타이밍/쿨다운/체감 차이 확인 (수동 QA 시 확인)
+- [ ] 트리 해금/다음 라운드 반영 체감 확인 (수동 QA 시 확인)
 - [ ] PRESSURE 표시(low/mid/high)와 실제 체감 압박 일치 여부 확인 (수동 QA 시 확인)
 - [ ] 사망 원인/상황(death recap) 문구 가독성 확인 (수동 QA 시 확인)
 - [x] 보스 경고/등장 루프 정상 (`--boss-test --auto-levelup` 검증)
@@ -39,6 +40,7 @@
 - [x] character_loop 검증 통과 (`CHARACTER_SELECTED:ranger`, `CHARACTER_SELECTED:warden`)
 - [x] weapon_loop 검증 통과 (`WEAPON_PIERCE_HIT`, `WEAPON_DOT_APPLIED`, `WEAPON_AOE_HIT`)
 - [x] active_loop 검증 통과 (`ACTIVE_SKILL_USED:ranger_burst`, `ACTIVE_SKILL_USED:warden_bulwark`)
+- [x] tree_loop 검증 통과 (`TREE_PROFILE_LOADED`, `TREE_NODE_UNLOCKED:*`, `TREE_APPLIED:*`)
 - [x] 보스 처치 루프 정상 (`MINIBOSS_DEFEATED` 로그 확인)
 
 ## 성능

@@ -40,6 +40,9 @@
 7. Weapon Archetype Pack 01
    - pierce/dot/aoe 계열 추가
    - 런타임 선택(`--weapon=<id>`) + HUD `WEAPON` 노출
+8. Character/Weapon Tree Runtime 01
+   - 트리 해금/저장(`tree_unlocks`, `tree_last_spent`) + 다음 라운드 적용
+   - `--tree-test` + `tree_ranger`/`tree_warden` QA 경로
 8. Active Skill Pack 01
    - Ranger/Warden 전용 액티브 스킬
    - 입력(`Q`) + HUD `SKILL` + character-test 자동검증

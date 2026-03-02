@@ -1,10 +1,10 @@
-# Godot Relic Survivor (v0.1.16-dev)
+# Godot Relic Survivor (v0.1.17-dev)
 
 탑다운 로그라이크 생존 액션 신규 프로젝트입니다.
 현재 코어 전투 루프(이동/대시/자동공격/적 4종+보스 스폰/피격/재시작),
 레벨업 3지선다 + 업그레이드 16종(복합 효과 포함), 유물 12종 시스템까지 반영된 상태입니다.
 
-## 최근 개선 (v0.1.16-dev)
+## 최근 개선 (v0.1.17-dev)
 - Elite Pack 01 추가
   - `Elite Grunt`: 탱키 + 버스트 돌진
   - `Elite Dasher`: 연속 돌진 체인 패턴
@@ -44,6 +44,10 @@
   - 캐릭터 전용 액티브 스킬 추가: Ranger `Windstep Burst`, Warden `Bulwark Pulse`
   - 입력 액션 `Q`(active skill) + HUD `SKILL` 상태 노출
   - 게이트 `active_ranger`, `active_warden` 검증 추가
+- Character/Weapon Tree Runtime 01
+  - 캐릭터 전용 트리 적용기(`tree_progression`) + 노드 데이터(`character_trees`) 추가
+  - 트리 정책 반영: `meta_shards` 공유 / T1~T3 비용 1/2/3 / 다음 라운드 적용
+  - 게이트 `tree_ranger`, `tree_warden` 검증 추가
 - 레벨업 선택지 가독성/시너지 개선
   - 역할 태그(공격/기동/생존/혼합) + 효과 요약 + 상황별 추천 문구 노출
   - 선택지별 예상 지표(예상 DPS/생존 지표, 간이 추정) 표시
@@ -101,6 +105,10 @@
 # 캐릭터 액티브 스킬 테스트 모드
 ../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 1800 -- --character=ranger --character-test --auto-levelup --qa-autopilot
 ../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 1800 -- --character=warden --character-test --auto-levelup --qa-autopilot
+
+# 트리 적용 테스트 모드
+../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 1800 -- --character=ranger --tree-test --auto-levelup --qa-autopilot
+../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 1800 -- --character=warden --tree-test --auto-levelup --qa-autopilot
 
 # 무기 계열 테스트 모드(관통/도트/광역)
 ../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 1800 -- --weapon=pierce --auto-levelup --qa-autopilot

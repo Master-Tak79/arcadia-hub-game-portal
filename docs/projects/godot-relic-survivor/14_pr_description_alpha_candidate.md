@@ -29,6 +29,7 @@
 - Character Pack 01 추가(Ranger/Warden + character_loop 검증)
 - Weapon Archetype Pack 01 추가(pierce/dot/aoe + weapon_loop 검증)
 - Active Skill Pack 01 추가(Ranger/Warden 전용 스킬 + active_loop 검증)
+- Character/Weapon Tree Runtime 01 추가(트리 데이터/적용기 + tree_loop 검증)
 - 레벨업 선택지 가독성 강화(역할 태그/효과 요약/추천 문구/예상 지표)
 - 압박도 기반 추천 보정(웨이브/보스 압박 신호를 가중치에 반영)
 - auto-levelup 선택 로직의 multi-effect 반영 + 스폰 안전 반경/전투 후보 인덱스 적용
@@ -68,7 +69,7 @@ cd games/godot-relic-survivor
 ./tools/qa/headless-alpha-gate.sh
 ```
 검증 항목:
-- smoke / boss_loop / boss_pattern / boss_phase2 / elite_loop / relic_loop / event_loop / character_ranger / character_warden / active_ranger / active_warden / weapon_pierce / weapon_dot / weapon_aoe / meta_loop / restart_loop / long_sim
+- smoke / boss_loop / boss_pattern / boss_phase2 / elite_loop / relic_loop / event_loop / character_ranger / character_warden / active_ranger / active_warden / tree_ranger / tree_warden / weapon_pierce / weapon_dot / weapon_aoe / meta_loop / restart_loop / long_sim
 - 필수 토큰:
   - `RELIC_SURVIVOR_BOOT_OK`
   - `MINIBOSS_WARNING_ON`
@@ -96,6 +97,9 @@ cd games/godot-relic-survivor
   - `WEAPON_AOE_HIT`
   - `ACTIVE_SKILL_USED:ranger_burst`
   - `ACTIVE_SKILL_USED:warden_bulwark`
+  - `TREE_PROFILE_LOADED`
+  - `TREE_NODE_UNLOCKED:*`
+  - `TREE_APPLIED:*`
   - `META_PROFILE_LOADED`
   - `META_RUN_REWARD`
   - `QA_FORCE_DEATH`
@@ -119,6 +123,7 @@ cd games/godot-relic-survivor
 - 체크포인트 핸드오프 리포트 자동 생성
 
 ## Key Commits (recent, head branch)
+- `(latest)` Character/Weapon Tree Runtime 01 + tree_loop 게이트 + 문서 동기화
 - `7072b7f` Active Skill Pack 01 + active_loop 게이트 + 문서 동기화
 - `0576aa0` Weapon Archetype Pack 01 + weapon_loop 게이트 + 문서 동기화
 - `46d2d8b` Character Pack 01 + character_loop 게이트 + 문서 동기화

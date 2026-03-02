@@ -45,7 +45,10 @@ func _refresh() -> void:
 			skill_text = "%s READY" % String(_state.active_skill_title)
 
 	var ranks: Dictionary = Dictionary(_state.meta_perk_ranks)
-	var text := "HP: %d / %d\nLV: %d\nEXP: %d / %d\nTIME: %.1f\nKILLS: %d\nENEMIES: %d\nSHOTS: %d\nDASH: %s\nCHAR: %s\nWEAPON: %s\nSKILL: %s\nPRESSURE: %s (%.2f)\nRELICS: %d\nMETA: SHARDS %d · RUNS %d · V/C/F %d/%d/%d" % [
+	var unlocks: Dictionary = Dictionary(_state.tree_unlocks)
+	var ranger_nodes: int = Array(unlocks.get("ranger_tree", [])).size()
+	var warden_nodes: int = Array(unlocks.get("warden_tree", [])).size()
+	var text := "HP: %d / %d\nLV: %d\nEXP: %d / %d\nTIME: %.1f\nKILLS: %d\nENEMIES: %d\nSHOTS: %d\nDASH: %s\nCHAR: %s\nWEAPON: %s\nSKILL: %s\nPRESSURE: %s (%.2f)\nRELICS: %d\nMETA: SHARDS %d · RUNS %d · V/C/F %d/%d/%d\nTREE: R %d · W %d" % [
 		_state.hp,
 		_state.max_hp,
 		_state.level,
@@ -66,7 +69,9 @@ func _refresh() -> void:
 		int(_state.meta_total_runs),
 		int(ranks.get("vitality", 0)),
 		int(ranks.get("celerity", 0)),
-		int(ranks.get("focus", 0))
+		int(ranks.get("focus", 0)),
+		ranger_nodes,
+		warden_nodes
 	]
 
 	if _state.is_paused and not _state.is_game_over:

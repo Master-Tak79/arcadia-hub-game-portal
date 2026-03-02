@@ -79,6 +79,13 @@
 - [x] 런 적용 시점(즉시/다음 라운드) 확정
 - [x] `tree_*_loop` QA 토큰 명세 확정
 
+## Step 10 — Character/Weapon Tree Runtime 01
+- [x] 트리 데이터(`character_trees.gd`) 구현
+- [x] 트리 런타임(`tree_progression.gd`) 구현
+- [x] 메타 프로파일 트리 필드(`tree_unlocks`, `tree_last_spent`) 연동
+- [x] `--tree-test` + `tree_ranger`, `tree_warden` QA 케이스 및 토큰 검증 반영
+- [x] HUD `TREE` 상태 표시 및 문서 동기화 반영
+
 ---
 
 ## 결과 기록 템플릿
@@ -150,3 +157,10 @@
 - 핵심 산출물: `19_character_weapon_tree_design.md`
 - 확정 정책: `meta_shards` 공유 / 티어 단가(1,2,3) / 다음 라운드 적용
 - 다음 Step 진행 승인: 트리 구현 단계 진입
+
+### Step 10 결과 기록
+- Step: Character/Weapon Tree Runtime 01
+- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 자동검증 결과: headless gate PASS (`tree_ranger`, `tree_warden` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: 트리 누적 해금에 따른 장기 난이도 편차 수동 QA에서 추가 확인 필요
+- 다음 Step 진행 승인: 트리 UX 고도화/실해금 UI 단계 대기

@@ -2,7 +2,7 @@
 
 ## 목표
 - 단기: `v0.1.0-alpha` 확정(수동 QA + GUI FPS 실측)
-- 병행: 다음 콘텐츠 확장 라인(M4~M12) 사전 설계/작업 분해
+- 병행: 다음 콘텐츠 확장 라인(M4~M13) 사전 설계/작업 분해
 
 ## 작업 분해(WBS)
 
@@ -66,6 +66,11 @@
   - [x] 트리 재화/해금 단가/적용 시점 정책 확정
   - [x] 데이터 스키마(`character_trees.gd`) 상세 고정
   - [x] `tree_*_loop` QA 토큰/시나리오 명세 고정
+- [x] **Step 10 — Character/Weapon Tree Runtime 01**
+  - [x] 트리 런타임(`tree_progression.gd`) 구현
+  - [x] 프로파일 연동(`tree_unlocks`, `tree_last_spent`) 및 HUD `TREE` 표시
+  - [x] `--tree-test`, `tree_ranger`, `tree_warden` 게이트 확장
+  - [x] 릴리즈/체크리스트/저널 반영
 
 ## 코드 구조 계획
 - `scripts/core/`: 게임 루프/상태/시그널/모드
@@ -84,7 +89,8 @@
 - Step 7 Weapon Archetype Pack 01: **1.0 ~ 1.5일**
 - Step 8 Active Skill Pack 01: **1.0 ~ 1.5일**
 - Step 9 Character/Weapon Tree Design 01: **0.5 ~ 1.0일**
-- 총합(문서/QA 포함): **10.0 ~ 16.0일**
+- Step 10 Character/Weapon Tree Runtime 01: **1.0 ~ 1.5일**
+- 총합(문서/QA 포함): **11.0 ~ 17.5일**
 
 ## 검증 계획
 - 자동:

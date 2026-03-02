@@ -209,6 +209,7 @@ func _process_player_hits(enemy_index: Dictionary) -> void:
 			var damage: int = 1
 			if enemy.has_method("get_contact_damage"):
 				damage = max(1, int(enemy.get_contact_damage()))
+			damage = max(1, damage - int(_state.contact_damage_reduction))
 			_state.hp = max(0, _state.hp - damage)
 			_player_damage_cooldown_left = float(_balance.PLAYER_HIT_INVULN) + float(_state.player_invuln_bonus)
 			if _state.hp <= 0:

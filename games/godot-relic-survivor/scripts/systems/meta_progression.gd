@@ -20,9 +20,53 @@ func setup(state: RefCounted, event_banner: CanvasLayer, meta_test: bool = false
 
 	if _meta_test:
 		_bootstrap_meta_test_profile()
+	ensure_tree_profile()
 
 	_sync_state_view()
 	print("META_PROFILE_LOADED")
+
+func ensure_tree_profile() -> void:
+	var changed: bool = false
+	if not _profile.has("tree_unlocks"):
+		_profile["tree_unlocks"] = {"ranger_tree": [], "warden_tree": []}
+		changed = true
+	if not _profile.has("tree_last_spent"):
+		_profile["tree_last_spent"] = {}
+		changed = true
+	if changed:
+		_save_profile()
+		_sync_state_view()
+
+func ensure_min_shards(min_shards: int) -> void:
+	var target: int = max(0, min_shards)
+	if int(_profile.get("shards", 0)) >= target:
+		return
+	_profile["shards"] = target
+	_save_profile()
+	_sync_state_view()
+
+func spend_shards(amount: int) -> bool:
+	var cost: int = max(0, amount)
+	var shards: int = int(_profile.get("shards", 0))
+	if cost <= 0:
+		return true
+	if shards < cost:
+		return false
+	_profile["shards"] = shards - cost
+	_save_profile()
+	_sync_state_view()
+	return true
+
+func get_tree_unlocks() -> Dictionary:
+	ensure_tree_profile()
+	return Dictionary(_profile.get("tree_unlocks", {})).duplicate(true)
+
+func set_tree_unlocks(tree_unlocks: Dictionary, tree_last_spent: Dictionary = {}) -> void:
+	_profile["tree_unlocks"] = Dictionary(tree_unlocks).duplicate(true)
+	if not tree_last_spent.is_empty():
+		_profile["tree_last_spent"] = Dictionary(tree_last_spent).duplicate(true)
+	_save_profile()
+	_sync_state_view()
 
 func apply_round_start_modifiers() -> void:
 	if _state == null:
@@ -112,6 +156,8 @@ func _sync_state_view() -> void:
 	_state.meta_total_kills = int(_profile.get("total_kills", 0))
 	_state.meta_boss_kills = int(_profile.get("boss_kills", 0))
 	_state.meta_perk_ranks = Dictionary(_profile.get("perk_ranks", {}))
+	_state.tree_unlocks = Dictionary(_profile.get("tree_unlocks", {})).duplicate(true)
+	_state.tree_last_spent = Dictionary(_profile.get("tree_last_spent", {})).duplicate(true)
 
 func _bootstrap_meta_test_profile() -> void:
 	var shards: int = int(_profile.get("shards", 0))
@@ -127,7 +173,12 @@ func _default_profile() -> Dictionary:
 		"total_runs": 0,
 		"total_kills": 0,
 		"boss_kills": 0,
-		"perk_ranks": _meta_perks.ensure_ranks({})
+		"perk_ranks": _meta_perks.ensure_ranks({}),
+		"tree_unlocks": {
+			"ranger_tree": [],
+			"warden_tree": []
+		},
+		"tree_last_spent": {}
 	}
 
 func _normalize_profile(raw: Dictionary) -> Dictionary:
@@ -138,6 +189,13 @@ func _normalize_profile(raw: Dictionary) -> Dictionary:
 	profile["total_kills"] = max(0, int(raw.get("total_kills", 0)))
 	profile["boss_kills"] = max(0, int(raw.get("boss_kills", 0)))
 	profile["perk_ranks"] = _meta_perks.ensure_ranks(Dictionary(raw.get("perk_ranks", {})))
+	var tree_unlocks_raw: Dictionary = Dictionary(raw.get("tree_unlocks", {}))
+	var tree_unlocks: Dictionary = {
+		"ranger_tree": Array(tree_unlocks_raw.get("ranger_tree", [])).duplicate(),
+		"warden_tree": Array(tree_unlocks_raw.get("warden_tree", [])).duplicate()
+	}
+	profile["tree_unlocks"] = tree_unlocks
+	profile["tree_last_spent"] = Dictionary(raw.get("tree_last_spent", {})).duplicate(true)
 	return profile
 
 func _load_profile() -> Dictionary:

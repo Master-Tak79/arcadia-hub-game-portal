@@ -1,8 +1,8 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.16-dev
-- date: 2026-03-02
+- version: v0.1.17-dev
+- date: 2026-03-03
 
 ## Added
 - 신규 프로젝트 문서 세트(청사진/GDD/개발계획/로드맵/개발일지/QA/릴리즈노트)
@@ -93,6 +93,11 @@
   - Ranger/Warden 전용 액티브 스킬(`Windstep Burst`, `Bulwark Pulse`) 추가
   - 입력 액션 `active_skill`(Q) + HUD `SKILL` 상태 노출
   - 액티브 루프 QA(`active_ranger`, `active_warden`) 추가
+- Character/Weapon Tree Runtime 01 추가
+  - 트리 데이터(`data/character_trees.gd`) + 적용기(`systems/tree_progression.gd`) 추가
+  - 트리 정책 반영: `meta_shards` 공유 / 티어 비용(T1~T3=1/2/3) / 다음 라운드 적용
+  - `meta_profile.json` 확장(`tree_unlocks`, `tree_last_spent`) 및 HUD `TREE` 상태 노출
+  - 트리 루프 QA(`tree_ranger`, `tree_warden`) 추가
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시
   - 선택 후 예상 지표(예상 DPS/생존 지표, 간이 추정) 프리뷰 표시
@@ -107,7 +112,7 @@
 - 전투 판정 확장(적별 접촉 피해/EXP 보상)
 - 전투 판정 성능 준비(`combat_system.gd`)
   - 셀 기반 공간 인덱스 도입(충돌 후보 추출)
-- QA 런타임 옵션 확장(`--qa-autopilot`, `--qa-force-damage`, `--qa-auto-restart`, `--boss-pattern-test`, `--boss-phase2-test`, `--elite-test`, `--relic-test`, `--event-test`, `--meta-test`, `--character=<id>`, `--character-test`, `--weapon=<id>`)
+- QA 런타임 옵션 확장(`--qa-autopilot`, `--qa-force-damage`, `--qa-auto-restart`, `--boss-pattern-test`, `--boss-phase2-test`, `--elite-test`, `--relic-test`, `--event-test`, `--meta-test`, `--character=<id>`, `--character-test`, `--weapon=<id>`, `--tree-test`)
 - `game_root` 책임 분리 리팩터링
   - `core/runtime_options.gd`
   - `systems/qa_runtime.gd`
@@ -198,23 +203,27 @@
   - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --weapon=dot --auto-levelup --qa-autopilot`
   - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --weapon=aoe --auto-levelup --qa-autopilot`
   - `WEAPON_PIERCE_HIT`, `WEAPON_DOT_APPLIED`, `WEAPON_AOE_HIT` 확인
+- 트리 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --character=ranger --tree-test --auto-levelup --qa-autopilot`
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --character=warden --tree-test --auto-levelup --qa-autopilot`
+  - `TREE_PROFILE_LOADED`, `TREE_NODE_UNLOCKED:*`, `TREE_APPLIED:*` 확인
 - 재시작 루프 QA:
   - `godotw --headless --fixed-fps 60 --quit-after 3000 -- --qa-force-damage --qa-auto-restart --qa-autopilot --auto-levelup`
   - `QA_FORCE_DEATH`, `QA_AUTO_RESTART_TRIGGERED` 반복 확인
 - `mcporter call godot-local.godot_run_headless` 실행 통과
-- 원클릭 게이트 검증(2026-03-02):
+- 원클릭 게이트 검증(2026-03-03):
   - `./tools/qa/headless-alpha-gate.sh` PASS
-  - 산출 로그: `.qa/headless/<timestamp>/{smoke,boss_loop,boss_pattern,boss_phase2,elite_loop,relic_loop,event_loop,character_ranger,character_warden,active_ranger,active_warden,weapon_pierce,weapon_dot,weapon_aoe,meta_loop,restart_loop,long_sim}.log`
+  - 산출 로그: `.qa/headless/<timestamp>/{smoke,boss_loop,boss_pattern,boss_phase2,elite_loop,relic_loop,event_loop,character_ranger,character_warden,active_ranger,active_warden,tree_ranger,tree_warden,weapon_pierce,weapon_dot,weapon_aoe,meta_loop,restart_loop,long_sim}.log`
   - boss_pattern 다양성: RING/WALL 최소 1회 체크 PASS
   - 경고 요약: `warnings=0`, `leak_lines=0`
-- 누수 심화 추적(2026-03-02):
+- 누수 심화 추적(2026-03-03):
   - `./tools/qa/trace-objectdb-leak.sh` 실행
   - `leak-summary.txt` 기준 `Leaked instance` 미검출
-- 체크포인트 리포트(2026-03-02):
+- 체크포인트 리포트(2026-03-03):
   - `./tools/qa/checkpoint-report.sh` 실행
   - `.qa/reports/checkpoint-<timestamp>.md` 생성 확인
   - `.qa/reports/latest-checkpoint.md` 갱신 확인
-- 밸런스 프리즈 체크(2026-03-02):
+- 밸런스 프리즈 체크(2026-03-03):
   - `./tools/qa/balance-freeze-check.sh` PASS
 
 ## Known Issues

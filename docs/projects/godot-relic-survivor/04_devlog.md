@@ -1080,3 +1080,26 @@
   - `19_character_weapon_tree_design.md`에 데이터 스키마/QA 명세(v1) 추가
 - 계획 문서 상태 동기화
   - `02`, `03`, `17`, `18` Step9 완료로 갱신
+
+## 2026-03-03 06:36 KST
+### Step 10 — Character/Weapon Tree Runtime 01 구현 완료
+- 트리 시스템 구현
+  - `scripts/data/character_trees.gd`: Ranger/Warden 트리 노드 데이터
+  - `scripts/systems/tree_progression.gd`: 트리 해금/저장/다음 라운드 적용기
+- 프로파일/상태 연동
+  - `meta_progression.gd`에 `tree_unlocks`, `tree_last_spent` 동기화
+  - `game_state.gd`에 트리 런타임 필드(감뎀/스킬쿨/펄스반경/echo 등) 추가
+- 런타임/전투 연동
+  - `game_root.gd` 라운드 시작 경로에 tree 적용기 연결
+  - `combat_system.gd` 접촉 피해 감소(`contact_damage_reduction`) 반영
+  - `active_skill_system.gd`에 트리 기반 쿨다운/펄스반경/guardian echo 반영
+  - `hud.gd` TREE 요약 상태(R/W 해금 수) 추가
+- QA 확장
+  - `runtime_options.gd`: `--tree-test` 추가
+  - `headless-alpha-gate.sh`: `tree_ranger`, `tree_warden` 케이스 및 토큰 검증 추가
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` PASS (`tree_ranger`, `tree_warden` 포함)
+- `./tools/qa/pre-manual-qa-check.sh` PASS
+- `./tools/qa/checkpoint-report.sh` PASS
+- `./tools/qa/trace-objectdb-leak.sh` PASS

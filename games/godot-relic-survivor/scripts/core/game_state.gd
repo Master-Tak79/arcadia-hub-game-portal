@@ -27,6 +27,14 @@ var active_skill_title: String = ""
 var active_skill_cooldown_left: float = 0.0
 var active_skill_active_left: float = 0.0
 
+var tree_unlocks: Dictionary = {}
+var tree_last_spent: Dictionary = {}
+
+var contact_damage_reduction: int = 0
+var active_skill_cooldown_scale: float = 1.0
+var active_skill_pulse_radius_bonus: float = 0.0
+var active_skill_guardian_echo: bool = false
+
 var event_move_speed_mult: float = 1.0
 var event_attack_range_mult: float = 1.0
 var active_event_id: String = ""
@@ -88,6 +96,12 @@ func reset() -> void:
 	active_skill_title = ""
 	active_skill_cooldown_left = 0.0
 	active_skill_active_left = 0.0
+	tree_unlocks = {}
+	tree_last_spent = {}
+	contact_damage_reduction = 0
+	active_skill_cooldown_scale = 1.0
+	active_skill_pulse_radius_bonus = 0.0
+	active_skill_guardian_echo = false
 	event_move_speed_mult = 1.0
 	event_attack_range_mult = 1.0
 	active_event_id = ""
