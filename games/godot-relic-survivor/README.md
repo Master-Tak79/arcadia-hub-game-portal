@@ -175,3 +175,4 @@
 - `docs/projects/godot-relic-survivor/16_alpha_candidate_quality_lock.md`
 - `docs/projects/godot-relic-survivor/17_content_expansion_execution_plan.md`
 - `docs/projects/godot-relic-survivor/18_content_expansion_checklist.md`
+- `docs/projects/godot-relic-survivor/19_character_weapon_tree_design.md`

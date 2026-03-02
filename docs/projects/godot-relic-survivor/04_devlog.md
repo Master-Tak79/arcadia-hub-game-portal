@@ -1055,3 +1055,17 @@
 - `./tools/qa/pre-manual-qa-check.sh` PASS
 - `./tools/qa/checkpoint-report.sh` PASS
 - `./tools/qa/trace-objectdb-leak.sh` PASS
+
+## 2026-03-03 06:15 KST
+### Step 9 — Character/Weapon Tree Design 01 착수 (Draft 01)
+- 설계 문서 신규 작성
+  - `19_character_weapon_tree_design.md`
+- 초안 포함 내용
+  - Ranger/Warden 전용 트리 노드 구조(T1~T3)
+  - 트리 포인트/해금 규칙/저장 모델 제안
+  - `tree_*_loop` QA 토큰/시나리오 설계
+  - 구현 순서/리스크/결정 필요 항목 정리
+
+### 상태
+- Draft 01 완료
+- 정책 확정(재화/단가/적용시점) 대기

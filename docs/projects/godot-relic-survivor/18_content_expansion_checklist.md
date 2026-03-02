@@ -72,6 +72,13 @@
 - [x] 수동 QA 런시트에 액티브 스킬 체감 항목 반영
 - [x] 캐릭터/무기/메타 동시 경로에서 회귀 없음 확인
 
+## Step 9 — Character/Weapon Tree Design 01
+- [x] 설계 문서 Draft 01 작성 (`19_character_weapon_tree_design.md`)
+- [ ] 트리 재화 정책 확정(공유/분리)
+- [ ] 트리 노드 해금 단가 규칙 확정
+- [ ] 런 적용 시점(즉시/다음 라운드) 확정
+- [ ] `tree_*_loop` QA 토큰 명세 확정
+
 ---
 
 ## 결과 기록 템플릿
@@ -136,3 +143,10 @@
 - 자동검증 결과: headless gate PASS (`active_ranger`, `active_warden` 포함), pre-manual PASS, leak trace PASS
 - 리스크/이슈: 수동 입력(Q) 타이밍 체감은 사용자 수동 QA에서 추가 확인 필요
 - 다음 Step 진행 승인: 캐릭터/무기 트리 고도화 설계 대기
+
+### Step 9 진행 기록
+- Step: Character/Weapon Tree Design 01
+- 현재 상태: Draft 01 작성 완료, 결정 항목 확정 대기
+- 핵심 산출물: `19_character_weapon_tree_design.md`
+- 남은 결정: 재화 정책 / 해금 단가 / 적용 시점
+- 다음 Step 진행 승인: 정책 확정 후 구현 단계 진입
