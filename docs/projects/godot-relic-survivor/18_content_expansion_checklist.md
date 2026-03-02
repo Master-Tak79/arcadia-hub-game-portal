@@ -104,7 +104,7 @@
 
 ### Step 6 결과 기록
 - Step: Character Pack 01
-- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 구현 커밋: `46d2d8b` (character pack + character_loop gate + docs sync)
 - 자동검증 결과: headless gate PASS (`character_ranger`, `character_warden` 포함), pre-manual PASS, leak trace PASS
 - 리스크/이슈: 캐릭터+메타 누적 보정으로 장기 밸런스 재점검 필요
 - 다음 Step 진행 승인: 무기 계열 분화 설계 대기
