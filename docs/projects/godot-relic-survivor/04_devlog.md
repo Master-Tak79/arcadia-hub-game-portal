@@ -1015,3 +1015,23 @@
 - `./tools/qa/pre-manual-qa-check.sh` PASS
 - `./tools/qa/checkpoint-report.sh` PASS
 - `./tools/qa/trace-objectdb-leak.sh` PASS
+
+## 2026-03-02 23:09 KST
+### Step 7 — Weapon Archetype Pack 01 구현 완료
+- 무기 시스템 추가
+  - `scripts/data/weapons.gd`: `default`/`pierce`/`dot`/`aoe` 프로파일
+  - `scripts/systems/weapon_system.gd`: 라운드 시작 무기 계열 적용(캐릭터 연동 포함)
+- 전투 연동
+  - `projectile.gd`: 관통/도트/광역 파라미터 및 색상 표현 추가
+  - `combat_system.gd`: 관통 히트 처리, DoT 적용/틱, AoE 스플래시 처리
+  - 토큰 추가: `WEAPON_PIERCE_HIT`, `WEAPON_DOT_APPLIED`, `WEAPON_AOE_HIT`
+- 런타임/HUD/QA
+  - `runtime_options.gd`에 `--weapon=<id>` 추가
+  - `hud.gd`에 `WEAPON` 상태 라인 추가
+  - `headless-alpha-gate.sh`에 `weapon_pierce`, `weapon_dot`, `weapon_aoe` 케이스 추가
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` PASS (weapon loop 포함)
+- `./tools/qa/pre-manual-qa-check.sh` PASS
+- `./tools/qa/checkpoint-report.sh` PASS
+- `./tools/qa/trace-objectdb-leak.sh` PASS

@@ -24,7 +24,7 @@
 1. PR 생성/갱신 시 본문: `14_pr_description_alpha_candidate.md` 사용
 2. merge 전 최신 자동검증 실행:
    - `cd games/godot-relic-survivor && ./tools/qa/headless-alpha-gate.sh`
-   - (포함 시나리오: `boss_pattern`, `boss_phase2`, `elite_loop`, `relic_loop`, `event_loop`, `character_ranger`, `character_warden`, `meta_loop`)
+   - (포함 시나리오: `boss_pattern`, `boss_phase2`, `elite_loop`, `relic_loop`, `event_loop`, `character_ranger`, `character_warden`, `weapon_pierce`, `weapon_dot`, `weapon_aoe`, `meta_loop`)
 3. 필요 시 leak 추적:
    - `./tools/qa/trace-objectdb-leak.sh`
 4. 수동 QA 직전 준비 체크:
@@ -37,6 +37,6 @@
 
 ## Post-merge
 - [ ] 태그/릴리즈 노트 갱신 (`alpha-candidate` 또는 `alpha`)
-- [ ] 다음 마일스톤(무기 계열 확장) 작업 브랜치 분기
+- [ ] 다음 마일스톤(캐릭터 전용 액티브/무기 트리) 작업 브랜치 분기
 - [ ] 잔여 리스크(연출 폴리싱/체감 난이도 미세조정) 이관
 - [ ] 수동 QA 결과 문서 반영 (`04`, `05`, `06`, `13`)

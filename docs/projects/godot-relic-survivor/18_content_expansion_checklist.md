@@ -58,6 +58,13 @@
 - [x] `character_ranger`, `character_warden` QA 케이스 및 토큰 검증 반영
 - [x] 수동 QA 런시트에 캐릭터 체감 항목 반영
 
+## Step 7 — Weapon Archetype Pack 01
+- [x] 무기 계열 3종(pierce/dot/aoe) 프로파일 구현
+- [x] 런타임 선택(`--weapon=<id>`) 인터페이스 추가
+- [x] HUD WEAPON 상태 표시 반영
+- [x] `weapon_pierce`, `weapon_dot`, `weapon_aoe` QA 케이스 및 토큰 검증 반영
+- [x] 수동 QA 런시트에 무기 체감 항목 반영
+
 ---
 
 ## 결과 기록 템플릿
@@ -108,3 +115,10 @@
 - 자동검증 결과: headless gate PASS (`character_ranger`, `character_warden` 포함), pre-manual PASS, leak trace PASS
 - 리스크/이슈: 캐릭터+메타 누적 보정으로 장기 밸런스 재점검 필요
 - 다음 Step 진행 승인: 무기 계열 분화 설계 대기
+
+### Step 7 결과 기록
+- Step: Weapon Archetype Pack 01
+- 구현 커밋: 본 단계 feature 커밋(HEAD) 참조
+- 자동검증 결과: headless gate PASS (`weapon_pierce`, `weapon_dot`, `weapon_aoe` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: 캐릭터+메타+무기 조합별 난이도 편차 수동 QA에서 추가 확인 필요
+- 다음 Step 진행 승인: 캐릭터 전용 액티브 스킬/무기 트리 설계 대기

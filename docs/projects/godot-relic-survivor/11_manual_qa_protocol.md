@@ -25,6 +25,7 @@ cd /home/tak/.openclaw/workspace-coder/games/godot-relic-survivor
   - 레벨업 3지선다 체감
   - 업그레이드 선택 의미(딜/생존/기동)
   - META 상태(HUD 샤드/특성 랭크) 가독성
+  - WEAPON 상태(HUD 무기 계열) 가독성
   - 중반 웨이브 과도 압박 여부
 
 ### Run C — 보스 페이즈 중심 (10분)

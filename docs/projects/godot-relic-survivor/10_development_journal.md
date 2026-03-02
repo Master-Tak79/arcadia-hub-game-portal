@@ -310,3 +310,17 @@
 ### 상태
 - 콘텐츠 확장 Step 6 완료
 - 다음 착수: 무기 계열 분화(관통/도트/광역) 설계
+
+## 2026-03-02 (Step 7 Complete — Weapon Archetype Pack 01)
+
+### 반영
+- 무기 계열 3종(pierce/dot/aoe) 도입
+- `--weapon=<id>` 런타임 선택 + HUD `WEAPON` 상태 노출
+- 게이트에 `weapon_pierce`, `weapon_dot`, `weapon_aoe` 자동검증 루프 추가
+
+### 검증
+- headless gate(weapon loop 포함), readiness, checkpoint, leak trace 통과
+
+### 상태
+- 콘텐츠 확장 Step 7 완료
+- 다음 착수: 캐릭터 전용 액티브 스킬/무기 트리 설계

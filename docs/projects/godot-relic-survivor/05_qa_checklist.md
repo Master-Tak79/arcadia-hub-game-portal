@@ -22,6 +22,7 @@
 - [ ] BOSS PHASE2 전환 텔레그래프/안전구간 가독성 확인 (수동 QA 시 확인)
 - [ ] META HUD(샤드/런수/영구특성) 가독성 확인 (수동 QA 시 확인)
 - [ ] 캐릭터별 시작 체감 차이(Ranger/Warden) 확인 (수동 QA 시 확인)
+- [ ] 무기 계열별 타격 감각 차이(pierce/dot/aoe) 확인 (수동 QA 시 확인)
 - [ ] PRESSURE 표시(low/mid/high)와 실제 체감 압박 일치 여부 확인 (수동 QA 시 확인)
 - [ ] 사망 원인/상황(death recap) 문구 가독성 확인 (수동 QA 시 확인)
 - [x] 보스 경고/등장 루프 정상 (`--boss-test --auto-levelup` 검증)
@@ -35,6 +36,7 @@
 - [x] event_loop 검증 통과 (`EVENT_START:fog/slow_zone/shock_zone`)
 - [x] meta_loop 검증 통과 (`META_PROFILE_LOADED`, `META_RUN_REWARD`)
 - [x] character_loop 검증 통과 (`CHARACTER_SELECTED:ranger`, `CHARACTER_SELECTED:warden`)
+- [x] weapon_loop 검증 통과 (`WEAPON_PIERCE_HIT`, `WEAPON_DOT_APPLIED`, `WEAPON_AOE_HIT`)
 - [x] 보스 처치 루프 정상 (`MINIBOSS_DEFEATED` 로그 확인)
 
 ## 성능

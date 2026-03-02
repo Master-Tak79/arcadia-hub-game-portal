@@ -69,12 +69,23 @@ func _fire_projectiles(direction: Vector2) -> void:
 func _fire_single_projectile(direction: Vector2) -> void:
 	var projectile := Node2D.new()
 	projectile.set_script(ProjectileScript)
+
+	var weapon_profile: Dictionary = Dictionary(_state.weapon_profile)
+	var speed_mult: float = max(0.4, float(weapon_profile.get("speed_mult", 1.0)))
+	var damage_mult: float = max(0.2, float(weapon_profile.get("damage_mult", 1.0)))
+	var radius_bonus: float = float(weapon_profile.get("radius_bonus", 0.0))
+
+	var speed_value: float = (float(_balance.PROJECTILE_SPEED) + float(_state.projectile_speed_bonus)) * speed_mult
+	var damage_value: int = max(1, int(round((int(_balance.PROJECTILE_DAMAGE) + int(_state.projectile_damage_bonus)) * damage_mult)))
+	var radius_value: float = max(2.0, float(_balance.PROJECTILE_RADIUS) + float(_state.projectile_radius_bonus) + radius_bonus)
+
 	projectile.setup(
 		_player.position,
 		direction,
-		float(_balance.PROJECTILE_SPEED) + float(_state.projectile_speed_bonus),
-		int(_balance.PROJECTILE_DAMAGE) + int(_state.projectile_damage_bonus),
+		speed_value,
+		damage_value,
 		float(_balance.PROJECTILE_LIFETIME) + float(_state.projectile_lifetime_bonus),
-		float(_balance.PROJECTILE_RADIUS) + float(_state.projectile_radius_bonus)
+		radius_value,
+		weapon_profile
 	)
 	_projectile_container.add_child(projectile)

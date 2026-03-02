@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.14-dev
+- version: v0.1.15-dev
 - date: 2026-03-02
 
 ## Added
@@ -85,6 +85,10 @@
   - 캐릭터 2종(`ranger`, `warden`) 특성 프로파일 데이터 추가
   - 런 시작 시 캐릭터 특성 자동 적용 + HUD `CHAR` 상태 노출
   - 캐릭터 루프 QA(`character_ranger`, `character_warden`) 추가
+- Weapon Archetype Pack 01 추가
+  - 무기 계열 3종(`pierce`, `dot`, `aoe`) 프로파일 데이터 추가
+  - 런 시작 시 무기 계열 자동 적용 + HUD `WEAPON` 상태 노출
+  - 무기 루프 QA(`weapon_pierce`, `weapon_dot`, `weapon_aoe`) 추가
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시
   - 선택 후 예상 지표(예상 DPS/생존 지표, 간이 추정) 프리뷰 표시
@@ -99,7 +103,7 @@
 - 전투 판정 확장(적별 접촉 피해/EXP 보상)
 - 전투 판정 성능 준비(`combat_system.gd`)
   - 셀 기반 공간 인덱스 도입(충돌 후보 추출)
-- QA 런타임 옵션 확장(`--qa-autopilot`, `--qa-force-damage`, `--qa-auto-restart`, `--boss-pattern-test`, `--boss-phase2-test`, `--elite-test`, `--relic-test`, `--event-test`, `--meta-test`, `--character=<id>`, `--character-test`)
+- QA 런타임 옵션 확장(`--qa-autopilot`, `--qa-force-damage`, `--qa-auto-restart`, `--boss-pattern-test`, `--boss-phase2-test`, `--elite-test`, `--relic-test`, `--event-test`, `--meta-test`, `--character=<id>`, `--character-test`, `--weapon=<id>`)
 - `game_root` 책임 분리 리팩터링
   - `core/runtime_options.gd`
   - `systems/qa_runtime.gd`
@@ -181,13 +185,18 @@
   - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --character=ranger --auto-levelup --qa-autopilot`
   - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --character=warden --auto-levelup --qa-autopilot`
   - `CHARACTER_SELECTED:ranger`, `CHARACTER_SELECTED:warden` 확인
+- 무기 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --weapon=pierce --auto-levelup --qa-autopilot`
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --weapon=dot --auto-levelup --qa-autopilot`
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --weapon=aoe --auto-levelup --qa-autopilot`
+  - `WEAPON_PIERCE_HIT`, `WEAPON_DOT_APPLIED`, `WEAPON_AOE_HIT` 확인
 - 재시작 루프 QA:
   - `godotw --headless --fixed-fps 60 --quit-after 3000 -- --qa-force-damage --qa-auto-restart --qa-autopilot --auto-levelup`
   - `QA_FORCE_DEATH`, `QA_AUTO_RESTART_TRIGGERED` 반복 확인
 - `mcporter call godot-local.godot_run_headless` 실행 통과
 - 원클릭 게이트 검증(2026-03-02):
   - `./tools/qa/headless-alpha-gate.sh` PASS
-  - 산출 로그: `.qa/headless/<timestamp>/{smoke,boss_loop,boss_pattern,boss_phase2,elite_loop,relic_loop,event_loop,character_ranger,character_warden,meta_loop,restart_loop,long_sim}.log`
+  - 산출 로그: `.qa/headless/<timestamp>/{smoke,boss_loop,boss_pattern,boss_phase2,elite_loop,relic_loop,event_loop,character_ranger,character_warden,weapon_pierce,weapon_dot,weapon_aoe,meta_loop,restart_loop,long_sim}.log`
   - boss_pattern 다양성: RING/WALL 최소 1회 체크 PASS
   - 경고 요약: `warnings=0`, `leak_lines=0`
 - 누수 심화 추적(2026-03-02):

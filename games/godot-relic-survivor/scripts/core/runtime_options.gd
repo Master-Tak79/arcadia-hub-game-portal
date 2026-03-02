@@ -11,6 +11,7 @@ var event_test: bool = false
 var meta_test: bool = false
 var character_test: bool = false
 var character_id: String = "default"
+var weapon_id: String = "default"
 
 var auto_levelup: bool = false
 
@@ -60,6 +61,10 @@ func parse_user_args(args: Array) -> void:
 			character_id = _sanitize_character_id(String(arg).get_slice("=", 1))
 		elif String(arg).begins_with("character="):
 			character_id = _sanitize_character_id(String(arg).get_slice("=", 1))
+		elif String(arg).begins_with("--weapon="):
+			weapon_id = _sanitize_weapon_id(String(arg).get_slice("=", 1))
+		elif String(arg).begins_with("weapon="):
+			weapon_id = _sanitize_weapon_id(String(arg).get_slice("=", 1))
 		elif arg == "--auto-levelup" or arg == "auto-levelup":
 			auto_levelup = true
 		elif arg == "--qa-auto-restart" or arg == "qa-auto-restart":
@@ -107,6 +112,8 @@ func print_enabled_flags() -> void:
 		print("CHARACTER_TEST_ON")
 	if character_id != "default":
 		print("CHARACTER_OVERRIDE:%s" % character_id)
+	if weapon_id != "default":
+		print("WEAPON_OVERRIDE:%s" % weapon_id)
 	if qa_auto_restart:
 		print("QA_AUTO_RESTART_ON")
 	if qa_force_damage:
@@ -129,5 +136,13 @@ func _sanitize_character_id(raw: String) -> String:
 	match cid:
 		"default", "ranger", "warden":
 			return cid
+		_:
+			return "default"
+
+func _sanitize_weapon_id(raw: String) -> String:
+	var wid := raw.strip_edges().to_lower()
+	match wid:
+		"default", "pierce", "dot", "aoe":
+			return wid
 		_:
 			return "default"

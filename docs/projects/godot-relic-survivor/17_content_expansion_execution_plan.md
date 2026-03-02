@@ -10,6 +10,7 @@
 4. Boss Phase 2 Upgrade
 5. Meta Growth 01
 6. Character Pack 01
+7. Weapon Archetype Pack 01
 
 ---
 
@@ -137,6 +138,28 @@
 ### 리스크
 - 영구 보정 + 캐릭터 보정 누적으로 후반 난이도 편차 확대
 - 캐릭터별 추천 빌드 UX 부재(후속 개선 필요)
+
+### 공수
+- 1.0 ~ 1.5일
+
+---
+
+## Step 7 — Weapon Archetype Pack 01
+- 상태: ✅ 구현/자동검증 완료 (수동 체감 QA 대기)
+
+### 범위
+- 무기 계열 3종(pierce/dot/aoe) 프로파일 데이터
+- 런타임 선택(`--weapon=<id>`) + HUD `WEAPON` 상태
+- 관통/도트/광역 효과 전투 적용
+- 게이트 `weapon_pierce`, `weapon_dot`, `weapon_aoe` 확장
+
+### 완료 기준
+- 무기별 타격 감각 차이가 명확함
+- 무기 루프 자동검증 토큰 통과(`WEAPON_PIERCE_HIT`, `WEAPON_DOT_APPLIED`, `WEAPON_AOE_HIT`)
+
+### 리스크
+- 메타/캐릭터 보정과 무기 계열 조합에서 편차 확대 가능
+- DoT/AoE 중첩 시 후반 성능/체감 튜닝 필요
 
 ### 공수
 - 1.0 ~ 1.5일

@@ -343,3 +343,23 @@
 ### 기대 효과
 - 시작 체감 다양화로 반복 플레이 선택 동기 강화
 - 메타 성장과 결합된 초반 플레이 템포 차별화 기반 확보
+
+## 2026-03-02 (Weapon Archetype Pack 01)
+
+### 변경 요약
+- 무기 계열 3종 프로파일 추가
+  - pierce: 관통 2회, 피해 계수 보정(연사/선형 압박형)
+  - dot: 직격 피해 낮추고 DoT 누적 부여
+  - aoe: 광역 파편 피해(스플래시 반경/계수)
+- 런타임 선택 플래그
+  - `--weapon=pierce|dot|aoe`
+
+### 자동 검증 결과
+- `headless-alpha-gate.sh` PASS
+  - `weapon_pierce`, `weapon_dot`, `weapon_aoe` 케이스에서 토큰 확인
+- `pre-manual-qa-check.sh` PASS
+- `trace-objectdb-leak.sh` PASS
+
+### 기대 효과
+- 플레이 스타일 분기(관통/지속/광역)로 빌드 선택 폭 확대
+- 캐릭터/메타와 결합 시 반복 플레이 다양성 상승

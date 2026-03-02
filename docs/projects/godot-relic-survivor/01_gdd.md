@@ -37,6 +37,9 @@
 6. Character Pack 01
    - Ranger(기동/연사형), Warden(탱커형)
    - 런타임 선택(`--character=<id>`) + HUD `CHAR` 노출
+7. Weapon Archetype Pack 01
+   - pierce/dot/aoe 계열 추가
+   - 런타임 선택(`--weapon=<id>`) + HUD `WEAPON` 노출
 
 ### 업그레이드/제안 로직
 - 업그레이드(현재 16종): 공격/투사체/기동/회복/방어 + 복합 시너지

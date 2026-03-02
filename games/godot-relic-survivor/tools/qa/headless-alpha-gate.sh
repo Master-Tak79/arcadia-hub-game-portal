@@ -81,6 +81,18 @@ run_case character_warden \
   "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 1800 -- \
   --character=warden --auto-levelup --qa-autopilot --sfx-preset=quiet
 
+run_case weapon_pierce \
+  "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 1800 -- \
+  --weapon=pierce --auto-levelup --qa-autopilot --sfx-preset=quiet
+
+run_case weapon_dot \
+  "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 1800 -- \
+  --weapon=dot --auto-levelup --qa-autopilot --sfx-preset=quiet
+
+run_case weapon_aoe \
+  "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 1800 -- \
+  --weapon=aoe --auto-levelup --qa-autopilot --sfx-preset=quiet
+
 run_case meta_loop \
   "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 2400 -- \
   --meta-test --qa-force-damage --qa-auto-restart --auto-levelup --sfx-preset=quiet
@@ -102,6 +114,9 @@ RELIC_LOG="$RUN_DIR/relic_loop.log"
 EVENT_LOG="$RUN_DIR/event_loop.log"
 CHAR_RANGER_LOG="$RUN_DIR/character_ranger.log"
 CHAR_WARDEN_LOG="$RUN_DIR/character_warden.log"
+WEAPON_PIERCE_LOG="$RUN_DIR/weapon_pierce.log"
+WEAPON_DOT_LOG="$RUN_DIR/weapon_dot.log"
+WEAPON_AOE_LOG="$RUN_DIR/weapon_aoe.log"
 META_LOG="$RUN_DIR/meta_loop.log"
 RESTART_LOG="$RUN_DIR/restart_loop.log"
 LONG_LOG="$RUN_DIR/long_sim.log"
@@ -156,6 +171,16 @@ assert_log_contains "$CHAR_RANGER_LOG" "CHARACTER_SELECTED:ranger"
 assert_log_contains "$CHAR_WARDEN_LOG" "CHARACTER_OVERRIDE:warden"
 assert_log_contains "$CHAR_WARDEN_LOG" "CHARACTER_SELECTED:warden"
 
+assert_log_contains "$WEAPON_PIERCE_LOG" "WEAPON_OVERRIDE:pierce"
+assert_log_contains "$WEAPON_PIERCE_LOG" "WEAPON_SELECTED:pierce"
+assert_log_contains "$WEAPON_PIERCE_LOG" "WEAPON_PIERCE_HIT"
+assert_log_contains "$WEAPON_DOT_LOG" "WEAPON_OVERRIDE:dot"
+assert_log_contains "$WEAPON_DOT_LOG" "WEAPON_SELECTED:dot"
+assert_log_contains "$WEAPON_DOT_LOG" "WEAPON_DOT_APPLIED"
+assert_log_contains "$WEAPON_AOE_LOG" "WEAPON_OVERRIDE:aoe"
+assert_log_contains "$WEAPON_AOE_LOG" "WEAPON_SELECTED:aoe"
+assert_log_contains "$WEAPON_AOE_LOG" "WEAPON_AOE_HIT"
+
 assert_log_contains "$META_LOG" "META_TEST_ON"
 assert_log_contains "$META_LOG" "META_PROFILE_LOADED"
 assert_log_contains "$META_LOG" "META_RUN_REWARD"
@@ -164,7 +189,7 @@ assert_log_contains "$RESTART_LOG" "QA_FORCE_DEATH"
 assert_log_contains "$RESTART_LOG" "QA_AUTO_RESTART_TRIGGERED"
 assert_log_contains "$LONG_LOG" "RELIC_SURVIVOR_BOOT_OK"
 
-for log in "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$BOSS_PHASE2_LOG" "$ELITE_LOG" "$RELIC_LOG" "$EVENT_LOG" "$CHAR_RANGER_LOG" "$CHAR_WARDEN_LOG" "$META_LOG" "$RESTART_LOG" "$LONG_LOG"; do
+for log in "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$BOSS_PHASE2_LOG" "$ELITE_LOG" "$RELIC_LOG" "$EVENT_LOG" "$CHAR_RANGER_LOG" "$CHAR_WARDEN_LOG" "$WEAPON_PIERCE_LOG" "$WEAPON_DOT_LOG" "$WEAPON_AOE_LOG" "$META_LOG" "$RESTART_LOG" "$LONG_LOG"; do
   assert_log_not_contains "$log" "SCRIPT ERROR"
   assert_log_not_contains "$log" "ERROR:"
   assert_log_not_contains "$log" "CRASH"
@@ -175,7 +200,7 @@ WARN_SUMMARY="$RUN_DIR/warnings-summary.txt"
   echo "# Warning summary"
   echo "run: $STAMP"
   echo
-  grep -HnE "WARNING:|Leaked instance:|Orphan StringName" "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$BOSS_PHASE2_LOG" "$ELITE_LOG" "$RELIC_LOG" "$EVENT_LOG" "$CHAR_RANGER_LOG" "$CHAR_WARDEN_LOG" "$META_LOG" "$RESTART_LOG" "$LONG_LOG" || true
+  grep -HnE "WARNING:|Leaked instance:|Orphan StringName" "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$BOSS_PHASE2_LOG" "$ELITE_LOG" "$RELIC_LOG" "$EVENT_LOG" "$CHAR_RANGER_LOG" "$CHAR_WARDEN_LOG" "$WEAPON_PIERCE_LOG" "$WEAPON_DOT_LOG" "$WEAPON_AOE_LOG" "$META_LOG" "$RESTART_LOG" "$LONG_LOG" || true
 } > "$WARN_SUMMARY"
 
 WARN_COUNT=$(grep -c "WARNING:" "$WARN_SUMMARY" || true)
@@ -193,6 +218,7 @@ cat <<EOF
 - relic loop:    PASS (grants=$RELIC_COUNT)
 - event loop:    PASS
 - character loop: PASS (ranger/warden)
+- weapon loop:   PASS (pierce/dot/aoe)
 - meta loop:     PASS
 - restart loop:  PASS
 - long sim:      PASS

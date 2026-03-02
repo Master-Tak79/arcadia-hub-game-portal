@@ -2,7 +2,7 @@
 
 ## 목표
 - 단기: `v0.1.0-alpha` 확정(수동 QA + GUI FPS 실측)
-- 병행: 다음 콘텐츠 확장 라인(M4~M9) 사전 설계/작업 분해
+- 병행: 다음 콘텐츠 확장 라인(M4~M10) 사전 설계/작업 분해
 
 ## 작업 분해(WBS)
 
@@ -51,6 +51,11 @@
   - [x] 런타임 선택(`--character=<id>`) 및 HUD CHAR 상태 노출
   - [x] `character_ranger`, `character_warden` 게이트 확장
   - [x] 릴리즈/체크리스트/저널 반영
+- [x] **Step 7 — Weapon Archetype Pack 01**
+  - [x] 무기 계열 3종(pierce/dot/aoe) 프로파일 구현
+  - [x] 런타임 선택(`--weapon=<id>`) 및 HUD WEAPON 상태 노출
+  - [x] `weapon_pierce`, `weapon_dot`, `weapon_aoe` 게이트 확장
+  - [x] 릴리즈/체크리스트/저널 반영
 
 ## 코드 구조 계획
 - `scripts/core/`: 게임 루프/상태/시그널/모드
@@ -66,7 +71,8 @@
 - Step 4 Boss Phase 2: **1.0 ~ 2.0일**
 - Step 5 Meta Growth 01: **1.0 ~ 1.5일**
 - Step 6 Character Pack 01: **1.0 ~ 1.5일**
-- 총합(문서/QA 포함): **7.5 ~ 12.0일**
+- Step 7 Weapon Archetype Pack 01: **1.0 ~ 1.5일**
+- 총합(문서/QA 포함): **8.5 ~ 13.5일**
 
 ## 검증 계획
 - 자동:

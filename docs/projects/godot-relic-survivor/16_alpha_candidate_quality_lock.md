@@ -8,7 +8,7 @@
 
 ### 1) 코어 루프
 - 이동/대시/자동공격/레벨업/보스/재시작 루프 구조
-- QA 런타임 옵션(`--auto-levelup`, `--qa-*`, `--boss-test`, `--boss-pattern-test`, `--boss-phase2-test`, `--elite-test`, `--relic-test`, `--event-test`, `--meta-test`, `--character=<id>`, `--character-test`) 인터페이스
+- QA 런타임 옵션(`--auto-levelup`, `--qa-*`, `--boss-test`, `--boss-pattern-test`, `--boss-phase2-test`, `--elite-test`, `--relic-test`, `--event-test`, `--meta-test`, `--character=<id>`, `--character-test`, `--weapon=<id>`) 인터페이스
 
 ### 2) 전투/웨이브 곡선
 - `balance.gd` 6차 튜닝값
@@ -88,6 +88,9 @@
 - 2026-03-02: 사용자 연속 승인("응")에 따른 콘텐츠 확장 Step 6 반영.
   - Character Pack 01(Ranger/Warden) 구현
   - `--character=<id>` 런타임 옵션 + `character_ranger`/`character_warden` 자동 검증 케이스 편입
+- 2026-03-02: 사용자 연속 승인("응")에 따른 콘텐츠 확장 Step 7 반영.
+  - Weapon Archetype Pack 01(pierce/dot/aoe) 구현
+  - `--weapon=<id>` 런타임 옵션 + `weapon_pierce`/`weapon_dot`/`weapon_aoe` 자동 검증 케이스 편입
 - 처리 원칙:
   - 자동 회귀 검증 통과 필수
   - 설계/릴리즈/개발일지 즉시 동기화

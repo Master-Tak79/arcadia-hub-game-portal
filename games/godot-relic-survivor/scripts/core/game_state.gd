@@ -18,6 +18,9 @@ var death_context: String = ""
 
 var character_id: String = "default"
 var character_title: String = "Wanderer"
+var weapon_id: String = "default"
+var weapon_title: String = "Relic Bolt"
+var weapon_profile: Dictionary = {}
 
 var event_move_speed_mult: float = 1.0
 var event_attack_range_mult: float = 1.0
@@ -73,6 +76,9 @@ func reset() -> void:
 	death_context = ""
 	character_id = "default"
 	character_title = "Wanderer"
+	weapon_id = "default"
+	weapon_title = "Relic Bolt"
+	weapon_profile = {}
 	event_move_speed_mult = 1.0
 	event_attack_range_mult = 1.0
 	active_event_id = ""
