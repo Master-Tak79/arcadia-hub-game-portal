@@ -14,9 +14,11 @@ const RelicSystem := preload("res://scripts/systems/relic_system.gd")
 const MiniBossDirector := preload("res://scripts/systems/miniboss_director.gd")
 const QaRuntime := preload("res://scripts/systems/qa_runtime.gd")
 const BossRewardRuntime := preload("res://scripts/systems/boss_reward_runtime.gd")
+const StageEventSystem := preload("res://scripts/systems/stage_event_system.gd")
 
 const LevelUpPanel := preload("res://scripts/ui/level_up_panel.gd")
 const EventBanner := preload("res://scripts/ui/event_banner.gd")
+const StageEventOverlay := preload("res://scripts/ui/stage_event_overlay.gd")
 const SfxSlots := preload("res://scripts/audio/sfx_slots.gd")
 
 @onready var _player: Node2D = $Player
@@ -38,11 +40,14 @@ var _upgrade_system: Node
 var _relic_system: Node
 var _miniboss_director: Node
 
+var _stage_event_system: RefCounted
+
 var _qa_runtime: RefCounted
 var _boss_reward_runtime: RefCounted
 
 var _level_up_panel: CanvasLayer
 var _event_banner: CanvasLayer
+var _stage_event_overlay: Node2D
 var _sfx_slots: Node
 
 var _current_level_choices: Array = []
@@ -105,9 +110,18 @@ func _ready() -> void:
 	_event_banner = EventBanner.new()
 	add_child(_event_banner)
 
+	_stage_event_overlay = StageEventOverlay.new()
+	add_child(_stage_event_overlay)
+	move_child(_stage_event_overlay, 1)
+	if _stage_event_overlay.has_method("setup"):
+		_stage_event_overlay.setup(_balance, _state)
+
 	_relic_system = RelicSystem.new()
 	add_child(_relic_system)
 	_relic_system.setup(_balance, _state, _signal_bus, _event_banner, bool(_runtime_options.relic_test))
+
+	_stage_event_system = StageEventSystem.new()
+	_stage_event_system.setup(_balance, _state, _signal_bus, _player, _event_banner, _stage_event_overlay, bool(_runtime_options.event_test))
 
 	_sfx_slots = SfxSlots.new()
 	add_child(_sfx_slots)
@@ -143,6 +157,10 @@ func _process(delta: float) -> void:
 		return
 
 	_state.elapsed += delta
+	if _stage_event_system and _stage_event_system.has_method("process"):
+		_stage_event_system.process(delta)
+	if _state.is_game_over:
+		return
 	_update_pressure_hint()
 	_qa_runtime.process_active(delta)
 
@@ -219,6 +237,8 @@ func _start_round() -> void:
 		_combat_system.reset_runtime()
 	if _relic_system and _relic_system.has_method("reset_runtime"):
 		_relic_system.reset_runtime()
+	if _stage_event_system and _stage_event_system.has_method("reset_runtime"):
+		_stage_event_system.reset_runtime()
 	if _miniboss_director and _miniboss_director.has_method("reset_runtime"):
 		_miniboss_director.reset_runtime()
 	if _level_up_panel and _level_up_panel.has_method("hide_panel"):

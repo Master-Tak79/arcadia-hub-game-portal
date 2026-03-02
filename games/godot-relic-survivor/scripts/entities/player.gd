@@ -41,7 +41,7 @@ func _process(delta: float) -> void:
 		queue_redraw()
 		return
 
-	var move_speed: float = _base_move_speed + float(_state.player_speed_bonus)
+	var move_speed: float = (_base_move_speed + float(_state.player_speed_bonus)) * float(_state.event_move_speed_mult)
 	var dash_multiplier: float = _base_dash_multiplier
 	var dash_duration: float = _base_dash_duration
 	var dash_cooldown: float = max(0.2, _base_dash_cooldown * (1.0 - float(_state.dash_cooldown_reduction)))

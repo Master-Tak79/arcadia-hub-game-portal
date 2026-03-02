@@ -23,6 +23,7 @@
 - 보스 패턴 테스트 안정화(`boss_pattern` 다양성 검증: RING/WALL 최소 1회)
 - Elite Pack 01 추가(Elite Grunt / Elite Dasher + elite_loop 검증)
 - Relic System 01 추가(유물 12종 + relic_loop 검증)
+- Stage Event Pack 01 추가(안개/감속/전류 + event_loop 검증)
 - 레벨업 선택지 가독성 강화(역할 태그/효과 요약/추천 문구/예상 지표)
 - 압박도 기반 추천 보정(웨이브/보스 압박 신호를 가중치에 반영)
 - auto-levelup 선택 로직의 multi-effect 반영 + 스폰 안전 반경/전투 후보 인덱스 적용
@@ -62,7 +63,7 @@ cd games/godot-relic-survivor
 ./tools/qa/headless-alpha-gate.sh
 ```
 검증 항목:
-- smoke / boss_loop / boss_pattern / elite_loop / relic_loop / restart_loop / long_sim
+- smoke / boss_loop / boss_pattern / elite_loop / relic_loop / event_loop / restart_loop / long_sim
 - 필수 토큰:
   - `RELIC_SURVIVOR_BOOT_OK`
   - `MINIBOSS_WARNING_ON`
@@ -77,6 +78,10 @@ cd games/godot-relic-survivor
   - `ELITE_SPAWNED:elite_dasher`
   - `RELIC_TEST_ON`
   - `RELIC_GRANTED:*` (2회 이상)
+  - `EVENT_TEST_ON`
+  - `EVENT_START:fog`
+  - `EVENT_START:slow_zone`
+  - `EVENT_START:shock_zone`
   - `QA_FORCE_DEATH`
   - `QA_AUTO_RESTART_TRIGGERED`
 - 경고 요약 파일:

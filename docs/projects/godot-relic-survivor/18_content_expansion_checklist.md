@@ -30,11 +30,12 @@
 - [x] relic_loop QA 케이스 및 토큰 검증 반영
 
 ## Step 3 — Stage Event Pack 01 (3종)
-- [ ] 안개 이벤트
-- [ ] 감속지대 이벤트
-- [ ] 전류지대 이벤트
-- [ ] 이벤트 텔레그래프/안전장치 반영
-- [ ] death recap 이벤트 원인 구분 반영
+- [x] 안개 이벤트
+- [x] 감속지대 이벤트
+- [x] 전류지대 이벤트
+- [x] 이벤트 텔레그래프/안전장치 반영
+- [x] death recap 이벤트 원인 구분 반영
+- [x] event_loop QA 케이스 및 토큰 검증 반영
 
 ## Step 4 — Boss Phase 2 Upgrade
 - [ ] 페이즈 전환 조건/상태 구현
@@ -64,4 +65,11 @@
 - 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
 - 자동검증 결과: headless gate PASS (`relic_loop` 포함), pre-manual PASS, leak trace PASS
 - 리스크/이슈: long_sim 로그량 증가(유물/엘리트 토큰 다수 출력), 추후 로그 레벨 옵션 검토 필요
+- 다음 Step 진행 승인: 대기 중
+
+### Step 3 결과 기록
+- Step: Stage Event Pack 01 (3종)
+- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 자동검증 결과: headless gate PASS (`event_loop` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: long_sim에서 이벤트 로그량 증가(정보성)
 - 다음 Step 진행 승인: 대기 중

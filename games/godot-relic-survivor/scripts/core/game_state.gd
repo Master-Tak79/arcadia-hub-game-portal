@@ -16,6 +16,13 @@ var pressure_band: String = "low"
 var death_reason: String = ""
 var death_context: String = ""
 
+var event_move_speed_mult: float = 1.0
+var event_attack_range_mult: float = 1.0
+var active_event_id: String = ""
+var active_event_label: String = ""
+var active_event_phase: String = ""
+var active_event_time_left: float = 0.0
+
 var is_game_over: bool = false
 var is_paused: bool = false
 
@@ -54,6 +61,12 @@ func reset() -> void:
 	pressure_band = "low"
 	death_reason = ""
 	death_context = ""
+	event_move_speed_mult = 1.0
+	event_attack_range_mult = 1.0
+	active_event_id = ""
+	active_event_label = ""
+	active_event_phase = ""
+	active_event_time_left = 0.0
 
 	is_game_over = false
 	is_paused = false

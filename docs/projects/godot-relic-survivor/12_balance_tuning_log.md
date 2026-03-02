@@ -254,3 +254,27 @@
 ### 기대 효과
 - 런별 빌드 분기 확대로 리플레이 동기 강화
 - auto-levelup/압박도 시스템과의 시너지로 중반 이후 전략성 향상
+
+## 2026-03-02 (Stage Event Pack 01)
+
+### 변경 요약
+- Stage Event 3종 추가
+  - `fog`: 사거리 배수 디버프 (`event_attack_range_mult`)
+  - `slow_zone`: 지대 내부 이동속도 배수 디버프 (`event_move_speed_mult`)
+  - `shock_zone`: 지대 내부 주기 피해 + 사망 원인 연동
+- 이벤트 스케줄링
+  - 일반: `EVENT_FIRST_TIME`, `EVENT_INTERVAL`, `EVENT_INTERVAL_MIN/RAMP`
+  - 테스트: `EVENT_TEST_FIRST_TIME`, `EVENT_TEST_INTERVAL`, `EVENT_TEST_*_MULT`
+- 이벤트 가시화
+  - `stage_event_overlay.gd`로 텔레그래프/지대 렌더링
+  - HUD 이벤트 상태(이름/phase/time) 출력
+
+### 자동 검증 결과
+- `headless-alpha-gate.sh` PASS
+  - `event_loop`: `EVENT_START:fog/slow_zone/shock_zone` 검증 통과
+- `pre-manual-qa-check.sh` PASS
+- `trace-objectdb-leak.sh` PASS
+
+### 기대 효과
+- 런 중 환경 변주로 반복 플레이 피로도 감소
+- 위험 예고 기반 회피 의사결정 강화

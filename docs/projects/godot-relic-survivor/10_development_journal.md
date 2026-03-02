@@ -253,3 +253,17 @@
 ### 상태
 - 콘텐츠 확장 Step 2 완료
 - 다음 착수: Step 3 (Stage Event Pack 01)
+
+## 2026-03-02 (Step 3 Complete — Stage Event Pack 01)
+
+### 반영
+- 이벤트 시스템(안개/감속지대/전류지대) 구현 및 HUD/오버레이 연동
+- `event_test` 시나리오 및 event_loop 자동검증 추가
+- 이벤트 피해가 death recap에 원인으로 반영되도록 연결
+
+### 검증
+- headless gate(`event_loop` 포함), readiness, checkpoint, leak trace 통과
+
+### 상태
+- 콘텐츠 확장 Step 3 완료
+- 다음 착수: Step 4 (Boss Phase 2 Upgrade)

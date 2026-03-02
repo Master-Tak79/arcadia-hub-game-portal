@@ -68,6 +68,13 @@ func _refresh() -> void:
 		if not preview.is_empty():
 			text += "\nSET: " + " | ".join(preview)
 
+	if String(_state.active_event_id) != "":
+		text += "\n🌐 EVENT: %s (%s %.1fs)" % [
+			String(_state.active_event_label),
+			String(_state.active_event_phase).to_upper(),
+			float(_state.active_event_time_left)
+		]
+
 	if _miniboss_director:
 		if _miniboss_director.has_method("is_warning_active") and _miniboss_director.is_warning_active():
 			var remain: float = 0.0

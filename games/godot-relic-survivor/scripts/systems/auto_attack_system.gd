@@ -36,7 +36,7 @@ func _process(delta: float) -> void:
 		return
 
 	var to_target: Vector2 = target.position - _player.position
-	var attack_range: float = float(_balance.ATTACK_RANGE) + float(_state.attack_range_bonus)
+	var attack_range: float = (float(_balance.ATTACK_RANGE) + float(_state.attack_range_bonus)) * float(_state.event_attack_range_mult)
 	if to_target.length() > attack_range:
 		return
 

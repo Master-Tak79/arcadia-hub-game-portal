@@ -1,10 +1,10 @@
-# Godot Relic Survivor (v0.1.10-dev)
+# Godot Relic Survivor (v0.1.11-dev)
 
 탑다운 로그라이크 생존 액션 신규 프로젝트입니다.
 현재 코어 전투 루프(이동/대시/자동공격/적 4종+보스 스폰/피격/재시작),
 레벨업 3지선다 + 업그레이드 16종(복합 효과 포함), 유물 12종 시스템까지 반영된 상태입니다.
 
-## 최근 개선 (v0.1.10-dev)
+## 최근 개선 (v0.1.11-dev)
 - Elite Pack 01 추가
   - `Elite Grunt`: 탱키 + 버스트 돌진
   - `Elite Dasher`: 연속 돌진 체인 패턴
@@ -13,6 +13,11 @@
   - 공격4 / 기동3 / 생존3 / 혼합2 유물 구현
   - 런타임 유물 획득 루프 + HUD 요약 + 획득 배너 연동
   - `--relic-test` QA 루프 및 게이트 검증 추가
+- Stage Event Pack 01 추가 (3종)
+  - 안개(Fog): 사거리 저하 이벤트
+  - 감속지대(Slow Zone): 지대 내부 이동속도 저하
+  - 전류지대(Shock Zone): 주기 피해 지대
+  - 텔레그래프/종료 로그 + `--event-test` QA 루프 및 게이트 검증 추가
 - 미니보스 패턴 다양화 + 텔레그래프 강화
   - 대시 예고(windup) 시각화 + HUD 텍스트 + 이벤트 배너 추가
   - 콤보 대시 패턴(확률형) 도입으로 보스 패턴 다양화
@@ -58,6 +63,9 @@
 
 # 유물 획득 테스트 모드
 ../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 1800 -- --relic-test --auto-levelup --qa-autopilot
+
+# 이벤트 테스트 모드(안개/감속/전류)
+../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 2400 -- --event-test --auto-levelup --qa-autopilot
 
 # SFX 프리셋 옵션
 # --sfx-preset=default | quiet | hype

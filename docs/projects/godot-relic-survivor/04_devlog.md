@@ -933,3 +933,25 @@
 - `./tools/qa/pre-manual-qa-check.sh` PASS
 - `./tools/qa/checkpoint-report.sh` PASS
 - `./tools/qa/trace-objectdb-leak.sh` PASS
+
+## 2026-03-02 21:20 KST
+### Step 3 — Stage Event Pack 01 구현 완료
+- 신규 시스템/데이터/UI
+  - `scripts/data/events.gd`
+  - `scripts/systems/stage_event_system.gd`
+  - `scripts/ui/stage_event_overlay.gd`
+- 이벤트 3종 반영
+  - Fog(사거리 저하), Slow Zone(이동 감속), Shock Zone(주기 피해)
+- 런타임/HUD 연동
+  - `game_state` 이벤트 상태 필드 추가
+  - HUD 이벤트 상태 라인 추가
+  - `death recap` 이벤트 사망 원인 반영
+- QA 확장
+  - `--event-test` 옵션 추가
+  - `headless-alpha-gate.sh`에 `event_loop` 케이스 추가
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` PASS (`event_loop` 포함)
+- `./tools/qa/pre-manual-qa-check.sh` PASS
+- `./tools/qa/checkpoint-report.sh` PASS
+- `./tools/qa/trace-objectdb-leak.sh` PASS

@@ -18,6 +18,7 @@
 - [x] EXP 획득/레벨업 3지선다 정상 (`--auto-levelup` + 패널 선택 루프)
 - [ ] 레벨업 패널 예상 지표(DPS/생존) 가독성 확인 (수동 QA 시 확인)
 - [ ] RELIC 획득 배너/요약(HUD LAST/SET) 가독성 확인 (수동 QA 시 확인)
+- [ ] EVENT 텔레그래프(안개/감속/전류) 가독성/공정성 확인 (수동 QA 시 확인)
 - [ ] PRESSURE 표시(low/mid/high)와 실제 체감 압박 일치 여부 확인 (수동 QA 시 확인)
 - [ ] 사망 원인/상황(death recap) 문구 가독성 확인 (수동 QA 시 확인)
 - [x] 보스 경고/등장 루프 정상 (`--boss-test --auto-levelup` 검증)
@@ -27,6 +28,7 @@
 - [x] boss_pattern 다양성 검증(RING/WALL 최소 1회) 자동 체크 통과
 - [x] elite_loop 검증 통과 (`ELITE_SPAWNED:elite_grunt`, `ELITE_SPAWNED:elite_dasher`)
 - [x] relic_loop 검증 통과 (`RELIC_GRANTED:*` 2회 이상)
+- [x] event_loop 검증 통과 (`EVENT_START:fog/slow_zone/shock_zone`)
 - [x] 보스 처치 루프 정상 (`MINIBOSS_DEFEATED` 로그 확인)
 
 ## 성능
