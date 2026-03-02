@@ -267,3 +267,17 @@
 ### 상태
 - 콘텐츠 확장 Step 3 완료
 - 다음 착수: Step 4 (Boss Phase 2 Upgrade)
+
+## 2026-03-02 (Step 4 Complete — Boss Phase 2 Upgrade)
+
+### 반영
+- 미니보스 HP 구간 기반 phase shift 도입
+- phase2에서 대시/소환 패턴 템포 강화 및 HUD 상태 노출
+- `boss_phase2` 자동검증 시나리오 추가
+
+### 검증
+- headless gate(`boss_phase2` 포함), readiness, checkpoint, leak trace 통과
+
+### 상태
+- 콘텐츠 확장 Step 4 완료
+- 확장 1차(M4~M7) 구현/자동검증 라인 완료

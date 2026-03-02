@@ -18,8 +18,9 @@
   - 10분 fixed-fps 장시간 시뮬레이션 통과
   - 보스 경고/등장/대시텔레그래프(콤보 포함)/소환텔레그래프/처치/보상 로그 검증 통과
   - 재시작 루프 반복 검증 통과
-  - 원클릭 게이트(`tools/qa/headless-alpha-gate.sh`) 통과 (`boss_pattern`, `elite_loop`, `relic_loop`, `event_loop` 포함)
+  - 원클릭 게이트(`tools/qa/headless-alpha-gate.sh`) 통과 (`boss_pattern`, `boss_phase2`, `elite_loop`, `relic_loop`, `event_loop` 포함)
   - boss_pattern 다양성 체크(RING/WALL 최소 1회) 통과
+  - boss_phase2 체크(`MINIBOSS_PHASE2_TRANSITION`, `MINIBOSS_PHASE2_ACTIVE`) 통과
   - elite loop 체크(Elite Grunt/Elite Dasher 최소 1회) 통과
   - relic loop 체크(RELIC_GRANTED 2회 이상) 통과
   - event loop 체크(EVENT_START:fog/slow_zone/shock_zone) 통과

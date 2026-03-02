@@ -57,6 +57,10 @@ run_case boss_pattern \
   "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 5400 -- \
   --boss-pattern-test --auto-levelup --qa-autopilot --sfx-preset=quiet
 
+run_case boss_phase2 \
+  "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 4200 -- \
+  --boss-phase2-test --auto-levelup --qa-autopilot --sfx-preset=quiet
+
 run_case elite_loop \
   "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 2400 -- \
   --elite-test --auto-levelup --qa-autopilot --sfx-preset=quiet
@@ -80,6 +84,7 @@ run_case long_sim \
 SMOKE_LOG="$RUN_DIR/smoke.log"
 BOSS_LOG="$RUN_DIR/boss_loop.log"
 BOSS_PATTERN_LOG="$RUN_DIR/boss_pattern.log"
+BOSS_PHASE2_LOG="$RUN_DIR/boss_phase2.log"
 ELITE_LOG="$RUN_DIR/elite_loop.log"
 RELIC_LOG="$RUN_DIR/relic_loop.log"
 EVENT_LOG="$RUN_DIR/event_loop.log"
@@ -111,6 +116,10 @@ if [[ "$WALL_COUNT" -lt 1 ]]; then
   exit 1
 fi
 
+assert_log_contains "$BOSS_PHASE2_LOG" "BOSS_PHASE2_TEST_ON"
+assert_log_contains "$BOSS_PHASE2_LOG" "MINIBOSS_PHASE2_TRANSITION"
+assert_log_contains "$BOSS_PHASE2_LOG" "MINIBOSS_PHASE2_ACTIVE"
+
 assert_log_contains "$ELITE_LOG" "ELITE_TEST_ON"
 assert_log_contains "$ELITE_LOG" "ELITE_SPAWNED:elite_grunt"
 assert_log_contains "$ELITE_LOG" "ELITE_SPAWNED:elite_dasher"
@@ -131,7 +140,7 @@ assert_log_contains "$RESTART_LOG" "QA_FORCE_DEATH"
 assert_log_contains "$RESTART_LOG" "QA_AUTO_RESTART_TRIGGERED"
 assert_log_contains "$LONG_LOG" "RELIC_SURVIVOR_BOOT_OK"
 
-for log in "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$ELITE_LOG" "$RELIC_LOG" "$EVENT_LOG" "$RESTART_LOG" "$LONG_LOG"; do
+for log in "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$BOSS_PHASE2_LOG" "$ELITE_LOG" "$RELIC_LOG" "$EVENT_LOG" "$RESTART_LOG" "$LONG_LOG"; do
   assert_log_not_contains "$log" "SCRIPT ERROR"
   assert_log_not_contains "$log" "ERROR:"
   assert_log_not_contains "$log" "CRASH"
@@ -142,7 +151,7 @@ WARN_SUMMARY="$RUN_DIR/warnings-summary.txt"
   echo "# Warning summary"
   echo "run: $STAMP"
   echo
-  grep -HnE "WARNING:|Leaked instance:|Orphan StringName" "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$ELITE_LOG" "$RELIC_LOG" "$EVENT_LOG" "$RESTART_LOG" "$LONG_LOG" || true
+  grep -HnE "WARNING:|Leaked instance:|Orphan StringName" "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$BOSS_PHASE2_LOG" "$ELITE_LOG" "$RELIC_LOG" "$EVENT_LOG" "$RESTART_LOG" "$LONG_LOG" || true
 } > "$WARN_SUMMARY"
 
 WARN_COUNT=$(grep -c "WARNING:" "$WARN_SUMMARY" || true)
@@ -155,6 +164,7 @@ cat <<EOF
 - smoke:         PASS
 - boss loop:     PASS
 - boss pattern:  PASS (RING=$RING_COUNT, WALL=$WALL_COUNT)
+- boss phase2:   PASS
 - elite loop:    PASS
 - relic loop:    PASS (grants=$RELIC_COUNT)
 - event loop:    PASS

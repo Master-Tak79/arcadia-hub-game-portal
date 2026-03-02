@@ -23,11 +23,27 @@ var combo_dash_gap: float = 0.16
 var summon_windup: float = 0.62
 var summon_wall_chance: float = 0.40
 
+# Phase 2 tuning
+var phase2_hp_ratio: float = 0.52
+var phase2_transition: float = 1.15
+var phase2_speed_mult: float = 1.12
+var phase2_dash_speed_mult: float = 1.14
+var phase2_dash_interval_mult: float = 0.84
+var phase2_dash_windup_mult: float = 0.84
+var phase2_combo_bonus: int = 1
+var phase2_summon_interval_mult: float = 0.78
+var phase2_summon_wall_bonus: float = 0.10
+var phase2_spawn_grace: float = 0.85
+
 var spawn_grace: float = 1.1
 
 var exp_reward: int = 80
 var contact_damage: int = 2
 var _max_hp: int = 140
+
+var _phase: int = 1
+var _phase2_started: bool = false
+var _phase_transition_left: float = 0.0
 
 var _summon_interval: float = 6.0
 var _summon_count: int = 3
@@ -71,6 +87,16 @@ func setup(
 	summon_count: int,
 	summon_radius: float,
 	summon_cfg: Dictionary,
+	phase2_hp_ratio_value: float,
+	phase2_transition_value: float,
+	phase2_speed_mult_value: float,
+	phase2_dash_speed_mult_value: float,
+	phase2_dash_interval_mult_value: float,
+	phase2_dash_windup_mult_value: float,
+	phase2_combo_bonus_value: int,
+	phase2_summon_interval_mult_value: float,
+	phase2_summon_wall_bonus_value: float,
+	phase2_spawn_grace_value: float,
 	force_pattern_cycle: bool = false
 ) -> void:
 	target = target_node
@@ -93,6 +119,21 @@ func setup(
 	spawn_grace = max(0.0, base_spawn_grace)
 	contact_damage = base_contact_damage
 	exp_reward = base_exp_reward
+
+	phase2_hp_ratio = clampf(phase2_hp_ratio_value, 0.25, 0.9)
+	phase2_transition = max(0.2, phase2_transition_value)
+	phase2_speed_mult = max(1.0, phase2_speed_mult_value)
+	phase2_dash_speed_mult = max(1.0, phase2_dash_speed_mult_value)
+	phase2_dash_interval_mult = clampf(phase2_dash_interval_mult_value, 0.55, 1.0)
+	phase2_dash_windup_mult = clampf(phase2_dash_windup_mult_value, 0.55, 1.0)
+	phase2_combo_bonus = clampi(phase2_combo_bonus_value, 0, 2)
+	phase2_summon_interval_mult = clampf(phase2_summon_interval_mult_value, 0.55, 1.0)
+	phase2_summon_wall_bonus = clampf(phase2_summon_wall_bonus_value, 0.0, 0.35)
+	phase2_spawn_grace = max(0.0, phase2_spawn_grace_value)
+
+	_phase = 1
+	_phase2_started = false
+	_phase_transition_left = 0.0
 
 	_summon_interval = max(1.0, summon_interval)
 	_summon_count = max(1, summon_count)
@@ -126,6 +167,8 @@ func get_hit_radius() -> float:
 func get_contact_damage() -> int:
 	if _spawn_grace_left > 0.0:
 		return 0
+	if _phase_transition_left > 0.0:
+		return 0
 	if _dash_windup_left > 0.0:
 		return 0
 	if _summon_windup_left > 0.0:
@@ -137,6 +180,15 @@ func get_exp_reward() -> int:
 
 func get_enemy_kind() -> String:
 	return "miniboss"
+
+func get_phase() -> int:
+	return _phase
+
+func is_phase_transitioning() -> bool:
+	return _phase_transition_left > 0.0
+
+func get_phase_transition_remaining() -> float:
+	return max(0.0, _phase_transition_left)
 
 func is_dashing() -> bool:
 	return _dash_time_left > 0.0
@@ -166,8 +218,18 @@ func _process(delta: float) -> void:
 	if target == null:
 		return
 
+	if not _phase2_started and float(hp) <= float(_max_hp) * phase2_hp_ratio:
+		_start_phase2_transition()
+
 	if _spawn_grace_left > 0.0:
 		_spawn_grace_left -= delta
+
+	if _phase_transition_left > 0.0:
+		_phase_transition_left -= delta
+		if _phase_transition_left <= 0.0:
+			_enter_phase2()
+		queue_redraw()
+		return
 
 	_summon_cooldown_left -= delta
 	if _summon_windup_left <= 0.0 and _summon_cooldown_left <= 0.0:
@@ -222,7 +284,8 @@ func _process(delta: float) -> void:
 		_dash_direction = to_target.normalized()
 		_dash_windup_left = dash_windup
 		_dash_cooldown_left = dash_interval
-		_combo_dash_left = 1 if randf() < combo_dash_chance else 0
+		var base_combo: int = 1 if randf() < combo_dash_chance else 0
+		_combo_dash_left = base_combo + (phase2_combo_bonus if _phase >= 2 else 0)
 		if _combo_dash_left > 0:
 			print("MINIBOSS_COMBO_DASH_ON")
 		print("MINIBOSS_DASH_TELEGRAPH_ON")
@@ -233,6 +296,34 @@ func _process(delta: float) -> void:
 		position += to_target.normalized() * speed * delta
 
 	queue_redraw()
+
+func _start_phase2_transition() -> void:
+	_phase2_started = true
+	_phase_transition_left = phase2_transition
+	_spawn_grace_left = max(_spawn_grace_left, phase2_spawn_grace)
+
+	_dash_time_left = 0.0
+	_dash_windup_left = 0.0
+	_dash_recovery_left = 0.0
+	_combo_dash_left = 0
+	_summon_windup_left = 0.0
+	_pending_summon_pattern = ""
+
+	print("MINIBOSS_PHASE2_TRANSITION")
+
+func _enter_phase2() -> void:
+	_phase = 2
+	_phase_transition_left = 0.0
+
+	speed *= phase2_speed_mult
+	dash_speed *= phase2_dash_speed_mult
+	dash_interval = max(0.85, dash_interval * phase2_dash_interval_mult)
+	dash_windup = max(0.12, dash_windup * phase2_dash_windup_mult)
+	_summon_interval = max(1.2, _summon_interval * phase2_summon_interval_mult)
+	summon_wall_chance = clampf(summon_wall_chance + phase2_summon_wall_bonus, 0.0, 0.95)
+	_spawn_grace_left = max(_spawn_grace_left, phase2_spawn_grace)
+
+	print("MINIBOSS_PHASE2_ACTIVE")
 
 func _start_summon_cast() -> void:
 	if _force_pattern_cycle:
@@ -253,8 +344,10 @@ func _start_summon_cast() -> void:
 		wall_chance += 0.12
 	if dist_to_target < 190.0:
 		wall_chance -= 0.16
+	if _phase >= 2:
+		wall_chance += 0.08
 
-	wall_chance = clampf(wall_chance, 0.18, 0.72)
+	wall_chance = clampf(wall_chance, 0.18, 0.82)
 	_pending_summon_pattern = "wall" if randf() < wall_chance else "ring"
 	_summon_windup_left = summon_windup
 	print("MINIBOSS_SUMMON_TELEGRAPH_ON")
@@ -298,7 +391,7 @@ func _summon_wall_wave() -> void:
 
 	var center: Vector2 = position + to_target * (_summon_radius + 24.0)
 	var side: Vector2 = Vector2(-to_target.y, to_target.x)
-	var wall_count: int = _summon_count + 2
+	var wall_count: int = _summon_count + 2 + (1 if _phase >= 2 else 0)
 	var spacing: float = 44.0
 	var half: float = (float(wall_count) - 1.0) * 0.5
 
@@ -314,7 +407,7 @@ func _make_grunt() -> Node2D:
 	node.set_script(EnemyGrunt)
 	node.setup(
 		target,
-		float(_summon_cfg.get("grunt_speed", 138.0)),
+		float(_summon_cfg.get("grunt_speed", 138.0)) * (1.05 if _phase >= 2 else 1.0),
 		int(_summon_cfg.get("grunt_hp", 2)),
 		float(_summon_cfg.get("grunt_hit_radius", 13.0))
 	)
@@ -325,7 +418,7 @@ func _make_dasher() -> Node2D:
 	node.set_script(EnemyDasher)
 	node.setup(
 		target,
-		float(_summon_cfg.get("dasher_speed", 96.0)),
+		float(_summon_cfg.get("dasher_speed", 96.0)) * (1.06 if _phase >= 2 else 1.0),
 		int(_summon_cfg.get("dasher_hp", 2)),
 		float(_summon_cfg.get("dasher_hit_radius", 14.0)),
 		float(_summon_cfg.get("dasher_dash_speed", 320.0)),
@@ -339,20 +432,28 @@ func _draw() -> void:
 	var body_color := Color("#F97316")
 	if hp_ratio < 0.35:
 		body_color = Color("#DC2626")
+	if _phase >= 2:
+		body_color = Color("#B91C1C")
 
 	draw_circle(Vector2.ZERO, hit_radius - 2.0, body_color)
 	draw_arc(Vector2.ZERO, hit_radius + 3.0, 0.0, TAU, 40, Color("#FDBA74"), 3.0)
+
+	if _phase_transition_left > 0.0:
+		var ratio: float = clampf(_phase_transition_left / max(0.01, phase2_transition), 0.0, 1.0)
+		var pulse: float = 0.35 + (1.0 - ratio) * 0.55
+		draw_arc(Vector2.ZERO, hit_radius + 28.0, 0.0, TAU, 52, Color(1.0, 0.5, 0.2, pulse), 5.0)
+		draw_arc(Vector2.ZERO, hit_radius + 36.0, 0.0, TAU, 52, Color(1.0, 0.75, 0.3, pulse * 0.75), 3.0)
 
 	if _dash_time_left > 0.0:
 		draw_arc(Vector2.ZERO, hit_radius + 10.0, 0.0, TAU, 36, Color("#FCA5A5"), 3.0)
 	elif _dash_windup_left > 0.0:
 		var norm_windup: float = dash_windup if _combo_dash_left <= 0 else (dash_windup * 0.55 + combo_dash_gap)
 		var windup_ratio: float = clampf(_dash_windup_left / max(0.01, norm_windup), 0.0, 1.0)
-		var pulse: float = 0.35 + (1.0 - windup_ratio) * 0.55
-		var telegraph_color: Color = Color(1.0, 0.75, 0.35, pulse)
+		var pulse_dash: float = 0.35 + (1.0 - windup_ratio) * 0.55
+		var telegraph_color: Color = Color(1.0, 0.75, 0.35, pulse_dash)
 		var line_color: Color = Color(1.0, 0.45, 0.35, 0.75)
 		if _combo_dash_left > 0:
-			telegraph_color = Color(0.95, 0.62, 1.0, pulse)
+			telegraph_color = Color(0.95, 0.62, 1.0, pulse_dash)
 			line_color = Color(0.86, 0.44, 1.0, 0.78)
 		draw_arc(Vector2.ZERO, hit_radius + 12.0, 0.0, TAU, 40, telegraph_color, 4.0)
 		var line_len: float = 180.0
@@ -384,3 +485,6 @@ func _draw() -> void:
 	# HP ring
 	var hp_angle: float = TAU * hp_ratio
 	draw_arc(Vector2.ZERO, hit_radius + 16.0, -PI * 0.5, -PI * 0.5 + hp_angle, 36, Color("#22C55E"), 4.0)
+
+	if _phase >= 2:
+		draw_arc(Vector2.ZERO, hit_radius + 32.0, 0.0, TAU, 52, Color(0.96, 0.5, 0.5, 0.45), 2.4)

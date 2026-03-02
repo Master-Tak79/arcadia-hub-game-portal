@@ -10,6 +10,8 @@ var _sfx_slots: Node
 
 var _last_warning_active: bool = false
 var _last_boss_alive: bool = false
+var _last_boss_phase: int = 0
+var _last_phase_transition: bool = false
 var _last_dash_telegraph: bool = false
 var _last_summon_telegraph: bool = false
 var _boss_reward_applied: bool = false
@@ -42,6 +44,8 @@ func setup(
 func reset_round() -> void:
 	_last_warning_active = false
 	_last_boss_alive = false
+	_last_boss_phase = 0
+	_last_phase_transition = false
 	_last_dash_telegraph = false
 	_last_summon_telegraph = false
 	_boss_reward_applied = false
@@ -72,6 +76,13 @@ func _process_miniboss_state_transitions() -> void:
 	if _miniboss_director.has_method("is_boss_alive"):
 		boss_alive = bool(_miniboss_director.is_boss_alive())
 
+	var boss_phase: int = 0
+	if _miniboss_director.has_method("get_boss_phase"):
+		boss_phase = int(_miniboss_director.get_boss_phase())
+	var phase_transition: bool = false
+	if _miniboss_director.has_method("is_boss_phase_transitioning"):
+		phase_transition = bool(_miniboss_director.is_boss_phase_transitioning())
+
 	var dash_telegraph: bool = false
 	if _miniboss_director.has_method("is_boss_dash_telegraphing"):
 		dash_telegraph = bool(_miniboss_director.is_boss_dash_telegraphing())
@@ -93,6 +104,20 @@ func _process_miniboss_state_transitions() -> void:
 		if _camera_fx and _camera_fx.has_method("play_boss_spawn_impact"):
 			_camera_fx.play_boss_spawn_impact()
 		_pending_spawn_sfx = float(_balance.SFX_BOSS_SPAWN_DELAY)
+
+	if phase_transition and not _last_phase_transition and boss_alive:
+		if _event_banner and _last_boss_phase < 2:
+			_event_banner.show_message("⚠ PHASE SHIFT — 패턴 전환 중", 1.05, Color("#7F1D1D"))
+		if _camera_fx and _camera_fx.has_method("play_warning_pulse"):
+			_camera_fx.play_warning_pulse()
+
+	if boss_phase >= 2 and _last_boss_phase < 2 and boss_alive:
+		if _event_banner:
+			_event_banner.show_message("🔥 PHASE 2: OVERDRIVE", 1.3, Color("#991B1B"))
+		if _camera_fx and _camera_fx.has_method("play_boss_spawn_impact"):
+			_camera_fx.play_boss_spawn_impact()
+		if _sfx_slots and _sfx_slots.has_method("play_boss_spawn"):
+			_sfx_slots.play_boss_spawn()
 
 	if dash_telegraph and not _last_dash_telegraph and boss_alive:
 		if _event_banner:
@@ -126,6 +151,8 @@ func _process_miniboss_state_transitions() -> void:
 
 	_last_warning_active = warning_active
 	_last_boss_alive = boss_alive
+	_last_boss_phase = boss_phase
+	_last_phase_transition = phase_transition
 	_last_dash_telegraph = dash_telegraph
 	_last_summon_telegraph = summon_telegraph
 

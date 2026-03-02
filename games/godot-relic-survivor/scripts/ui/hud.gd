@@ -82,7 +82,15 @@ func _refresh() -> void:
 				remain = _miniboss_director.get_warning_remaining()
 			text += "\n⚠ MINIBOSS INCOMING: %.1fs" % remain
 		elif _miniboss_director.has_method("is_boss_alive") and _miniboss_director.is_boss_alive():
-			text += "\n🔥 MINIBOSS ACTIVE"
+			var phase: int = 1
+			if _miniboss_director.has_method("get_boss_phase"):
+				phase = int(_miniboss_director.get_boss_phase())
+			text += "\n🔥 MINIBOSS ACTIVE · PHASE %d" % phase
+			if _miniboss_director.has_method("is_boss_phase_transitioning") and _miniboss_director.is_boss_phase_transitioning():
+				var shift_left: float = 0.0
+				if _miniboss_director.has_method("get_boss_phase_transition_remaining"):
+					shift_left = float(_miniboss_director.get_boss_phase_transition_remaining())
+				text += "\n🔻 PHASE SHIFT: %.2fs" % shift_left
 			if _miniboss_director.has_method("get_boss_spawn_grace_remaining"):
 				var grace: float = float(_miniboss_director.get_boss_spawn_grace_remaining())
 				if grace > 0.0:

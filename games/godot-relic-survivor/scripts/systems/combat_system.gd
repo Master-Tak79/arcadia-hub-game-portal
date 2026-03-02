@@ -102,14 +102,23 @@ func _set_death_recap(enemy: Node2D) -> void:
 
 	match kind:
 		"miniboss":
-			if enemy.has_method("is_dashing") and bool(enemy.is_dashing()):
+			var phase: int = 1
+			if enemy.has_method("get_phase"):
+				phase = int(enemy.get_phase())
+			if enemy.has_method("is_phase_transitioning") and bool(enemy.is_phase_transitioning()):
+				reason = "미니보스 페이즈 전환 압박"
+			elif enemy.has_method("is_dashing") and bool(enemy.is_dashing()):
 				reason = "미니보스 대시 직격"
+				if phase >= 2:
+					reason = "미니보스 PHASE2 대시 직격"
 			elif enemy.has_method("is_dash_telegraphing") and bool(enemy.is_dash_telegraphing()):
 				reason = "미니보스 대시 예고 구간 접촉"
 			elif enemy.has_method("is_summon_telegraphing") and bool(enemy.is_summon_telegraphing()):
 				reason = "미니보스 소환 시전 구간 접촉"
 			else:
 				reason = "미니보스 접촉 피해"
+				if phase >= 2:
+					reason = "미니보스 PHASE2 접촉 피해"
 		"dasher":
 			if enemy.has_method("is_dashing") and bool(enemy.is_dashing()):
 				reason = "대셔 돌진 접촉"

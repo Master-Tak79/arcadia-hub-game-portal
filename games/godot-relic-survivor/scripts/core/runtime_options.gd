@@ -4,6 +4,7 @@ var boss_spawn_time_override: float = -1.0
 var boss_hp_scale_override: float = 1.0
 var boss_test_boost: bool = false
 var boss_pattern_test: bool = false
+var boss_phase2_test: bool = false
 var elite_test: bool = false
 var relic_test: bool = false
 var event_test: bool = false
@@ -27,11 +28,19 @@ func parse_user_args(args: Array) -> void:
 			boss_hp_scale_override = 0.25
 			boss_test_boost = true
 			boss_pattern_test = false
+			boss_phase2_test = false
 		elif arg == "--boss-pattern-test" or arg == "boss-pattern-test":
 			boss_spawn_time_override = 12.0
 			boss_hp_scale_override = 1.0
 			boss_test_boost = false
 			boss_pattern_test = true
+			boss_phase2_test = false
+		elif arg == "--boss-phase2-test" or arg == "boss-phase2-test":
+			boss_spawn_time_override = 12.0
+			boss_hp_scale_override = 0.78
+			boss_test_boost = true
+			boss_pattern_test = false
+			boss_phase2_test = true
 		elif arg == "--elite-test" or arg == "elite-test":
 			elite_test = true
 		elif arg == "--relic-test" or arg == "relic-test":
@@ -69,6 +78,8 @@ func print_enabled_flags() -> void:
 		print("BOSS_TEST_BOOST_ON")
 	if boss_pattern_test:
 		print("BOSS_PATTERN_TEST_ON")
+	if boss_phase2_test:
+		print("BOSS_PHASE2_TEST_ON")
 	if auto_levelup:
 		print("AUTO_LEVELUP_ON")
 	if elite_test:

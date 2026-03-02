@@ -1,10 +1,10 @@
-# Godot Relic Survivor (v0.1.11-dev)
+# Godot Relic Survivor (v0.1.12-dev)
 
 탑다운 로그라이크 생존 액션 신규 프로젝트입니다.
 현재 코어 전투 루프(이동/대시/자동공격/적 4종+보스 스폰/피격/재시작),
 레벨업 3지선다 + 업그레이드 16종(복합 효과 포함), 유물 12종 시스템까지 반영된 상태입니다.
 
-## 최근 개선 (v0.1.11-dev)
+## 최근 개선 (v0.1.12-dev)
 - Elite Pack 01 추가
   - `Elite Grunt`: 탱키 + 버스트 돌진
   - `Elite Dasher`: 연속 돌진 체인 패턴
@@ -24,6 +24,10 @@
   - 비대시형 소환 패턴(차단열 WALL) 도입 + 소환 텔레그래프 추가
   - 소환 패턴 출현비/대시 연계 타이밍 1차 미세조정(가독성 우선)
   - 보스 등장 직후 짧은 안전구간(접촉 피해 없음) + 근거리 즉시대시 제한 적용
+- Boss Phase 2 Upgrade
+  - HP 구간 기반 페이즈 전환 + 전환 연출/안전구간 추가
+  - 페이즈2에서 대시/소환 템포 강화 및 HUD PHASE 상태 노출
+  - `--boss-phase2-test` QA 루프 및 게이트 검증 추가
 - 레벨업 선택지 가독성/시너지 개선
   - 역할 태그(공격/기동/생존/혼합) + 효과 요약 + 상황별 추천 문구 노출
   - 선택지별 예상 지표(예상 DPS/생존 지표, 간이 추정) 표시
@@ -57,6 +61,9 @@
 
 # 보스 패턴 테스트 모드(소환/대시 텔레그래프 검증)
 ../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 5400 -- --boss-pattern-test --auto-levelup --qa-autopilot
+
+# 보스 페이즈2 테스트 모드
+../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 4200 -- --boss-phase2-test --auto-levelup --qa-autopilot
 
 # 엘리트 스폰 테스트 모드
 ../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 2400 -- --elite-test --auto-levelup --qa-autopilot

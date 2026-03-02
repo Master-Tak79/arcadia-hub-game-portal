@@ -63,7 +63,7 @@ cd games/godot-relic-survivor
 ./tools/qa/headless-alpha-gate.sh
 ```
 검증 항목:
-- smoke / boss_loop / boss_pattern / elite_loop / relic_loop / event_loop / restart_loop / long_sim
+- smoke / boss_loop / boss_pattern / boss_phase2 / elite_loop / relic_loop / event_loop / restart_loop / long_sim
 - 필수 토큰:
   - `RELIC_SURVIVOR_BOOT_OK`
   - `MINIBOSS_WARNING_ON`
@@ -72,6 +72,8 @@ cd games/godot-relic-survivor
   - `MINIBOSS_SUMMON_CAST`
   - `MINIBOSS_DASH_TELEGRAPH_ON`
   - `MINIBOSS_DASH_START`
+  - `MINIBOSS_PHASE2_TRANSITION`
+  - `MINIBOSS_PHASE2_ACTIVE`
   - `MINIBOSS_DEFEATED`
   - `BOSS_CLEAR_REWARD_APPLIED`
   - `ELITE_SPAWNED:elite_grunt`

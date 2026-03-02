@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.11-dev
+- version: v0.1.12-dev
 - date: 2026-03-02
 
 ## Added
@@ -73,6 +73,10 @@
   - 보스 등장 직후 안전구간(`MINIBOSS_SPAWN_GRACE`) 및 근거리 즉시대시 제한(`MINIBOSS_DASH_MIN_DISTANCE`) 적용
   - 콤보 대시 패턴(`MINIBOSS_COMBO_DASH_CHANCE`, `MINIBOSS_COMBO_DASH_GAP`) 도입
   - 비대시형 소환 패턴(`WALL`) + 소환 텔레그래프(`MINIBOSS_SUMMON_*`) 도입
+- Boss Phase 2 업그레이드
+  - HP 구간 기반 전환(`MINIBOSS_PHASE2_HP_RATIO`) 및 전환 안전구간(`MINIBOSS_PHASE2_TRANSITION`) 추가
+  - 페이즈2에서 대시/소환 템포 강화(속도/간격/콤보/벽소환 확률 보정)
+  - HUD에 `PHASE`/`PHASE SHIFT` 상태 노출 및 전환 이벤트 배너 추가
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시
   - 선택 후 예상 지표(예상 DPS/생존 지표, 간이 추정) 프리뷰 표시
@@ -87,7 +91,7 @@
 - 전투 판정 확장(적별 접촉 피해/EXP 보상)
 - 전투 판정 성능 준비(`combat_system.gd`)
   - 셀 기반 공간 인덱스 도입(충돌 후보 추출)
-- QA 런타임 옵션 확장(`--qa-autopilot`, `--qa-force-damage`, `--qa-auto-restart`, `--boss-pattern-test`, `--elite-test`, `--relic-test`, `--event-test`)
+- QA 런타임 옵션 확장(`--qa-autopilot`, `--qa-force-damage`, `--qa-auto-restart`, `--boss-pattern-test`, `--boss-phase2-test`, `--elite-test`, `--relic-test`, `--event-test`)
 - `game_root` 책임 분리 리팩터링
   - `core/runtime_options.gd`
   - `systems/qa_runtime.gd`
@@ -150,6 +154,9 @@
   - `MINIBOSS_DASH_TELEGRAPH_ON`, `MINIBOSS_DASH_START`
   - 패턴 다양성: `MINIBOSS_SUMMON_PATTERN_RING`, `MINIBOSS_SUMMON_PATTERN_WALL` 최소 1회 이상 확인
   로그 확인
+- 보스 페이즈2 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 4200 -- --boss-phase2-test --auto-levelup --qa-autopilot`
+  - `MINIBOSS_PHASE2_TRANSITION`, `MINIBOSS_PHASE2_ACTIVE` 확인
 - 엘리트 루프 QA:
   - `godotw --headless --fixed-fps 60 --quit-after 2400 -- --elite-test --auto-levelup --qa-autopilot`
   - `ELITE_SPAWNED:elite_grunt`, `ELITE_SPAWNED:elite_dasher` 확인
@@ -165,7 +172,7 @@
 - `mcporter call godot-local.godot_run_headless` 실행 통과
 - 원클릭 게이트 검증(2026-03-02):
   - `./tools/qa/headless-alpha-gate.sh` PASS
-  - 산출 로그: `.qa/headless/<timestamp>/{smoke,boss_loop,boss_pattern,elite_loop,relic_loop,event_loop,restart_loop,long_sim}.log`
+  - 산출 로그: `.qa/headless/<timestamp>/{smoke,boss_loop,boss_pattern,boss_phase2,elite_loop,relic_loop,event_loop,restart_loop,long_sim}.log`
   - boss_pattern 다양성: RING/WALL 최소 1회 체크 PASS
   - 경고 요약: `warnings=0`, `leak_lines=0`
 - 누수 심화 추적(2026-03-02):

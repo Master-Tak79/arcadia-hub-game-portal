@@ -38,11 +38,11 @@
 - [x] event_loop QA 케이스 및 토큰 검증 반영
 
 ## Step 4 — Boss Phase 2 Upgrade
-- [ ] 페이즈 전환 조건/상태 구현
-- [ ] 전환 연출/안전구간 반영
-- [ ] 페이즈2 패턴 2종 이상 반영
-- [ ] boss-pattern 게이트 확장
-- [ ] 수동 QA 런시트에 phase2 항목 추가
+- [x] 페이즈 전환 조건/상태 구현
+- [x] 전환 연출/안전구간 반영
+- [x] 페이즈2 패턴 2종 이상 반영
+- [x] boss-pattern 게이트 확장
+- [x] 수동 QA 런시트에 phase2 항목 추가
 
 ---
 
@@ -73,3 +73,10 @@
 - 자동검증 결과: headless gate PASS (`event_loop` 포함), pre-manual PASS, leak trace PASS
 - 리스크/이슈: long_sim에서 이벤트 로그량 증가(정보성)
 - 다음 Step 진행 승인: 대기 중
+
+### Step 4 결과 기록
+- Step: Boss Phase 2 Upgrade
+- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 자동검증 결과: headless gate PASS (`boss_phase2` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: phase2 전환 직후 체감 난도 스파이크 수동 QA에서 추가 확인 필요
+- 다음 Step 진행 승인: 콘텐츠 확장 1차 완료

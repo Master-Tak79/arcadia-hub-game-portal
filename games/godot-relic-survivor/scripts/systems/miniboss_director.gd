@@ -119,6 +119,33 @@ func get_boss_spawn_grace_remaining() -> float:
 		return 0.0
 	return float(_boss_ref.get_spawn_grace_remaining())
 
+func get_boss_phase() -> int:
+	if not _boss_alive:
+		return 0
+	if _boss_ref == null:
+		return 0
+	if not _boss_ref.has_method("get_phase"):
+		return 0
+	return int(_boss_ref.get_phase())
+
+func is_boss_phase_transitioning() -> bool:
+	if not _boss_alive:
+		return false
+	if _boss_ref == null:
+		return false
+	if not _boss_ref.has_method("is_phase_transitioning"):
+		return false
+	return bool(_boss_ref.is_phase_transitioning())
+
+func get_boss_phase_transition_remaining() -> float:
+	if not _boss_alive:
+		return 0.0
+	if _boss_ref == null:
+		return 0.0
+	if not _boss_ref.has_method("get_phase_transition_remaining"):
+		return 0.0
+	return float(_boss_ref.get_phase_transition_remaining())
+
 func is_boss_summon_telegraphing() -> bool:
 	if not _boss_alive:
 		return false
@@ -196,6 +223,16 @@ func _spawn_miniboss() -> void:
 		int(_balance.MINIBOSS_SUMMON_COUNT),
 		float(_balance.MINIBOSS_SUMMON_RADIUS),
 		summon_cfg,
+		float(_balance.MINIBOSS_PHASE2_HP_RATIO),
+		float(_balance.MINIBOSS_PHASE2_TRANSITION),
+		float(_balance.MINIBOSS_PHASE2_SPEED_MULT),
+		float(_balance.MINIBOSS_PHASE2_DASH_SPEED_MULT),
+		float(_balance.MINIBOSS_PHASE2_DASH_INTERVAL_MULT),
+		float(_balance.MINIBOSS_PHASE2_DASH_WINDUP_MULT),
+		int(_balance.MINIBOSS_PHASE2_COMBO_BONUS),
+		float(_balance.MINIBOSS_PHASE2_SUMMON_INTERVAL_MULT),
+		float(_balance.MINIBOSS_PHASE2_SUMMON_WALL_BONUS),
+		float(_balance.MINIBOSS_PHASE2_SPAWN_GRACE),
 		_force_pattern_cycle
 	)
 	boss.position = Vector2(float(_balance.ARENA_SIZE.x) * 0.5, -60.0)

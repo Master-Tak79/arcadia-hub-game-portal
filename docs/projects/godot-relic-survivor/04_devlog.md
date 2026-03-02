@@ -955,3 +955,23 @@
 - `./tools/qa/pre-manual-qa-check.sh` PASS
 - `./tools/qa/checkpoint-report.sh` PASS
 - `./tools/qa/trace-objectdb-leak.sh` PASS
+
+## 2026-03-02 21:34 KST
+### Step 4 — Boss Phase 2 Upgrade 구현 완료
+- 페이즈 전환 로직
+  - `enemy_miniboss.gd`에 HP 구간 기반 phase shift 추가
+  - 전환 중 안전구간/행동 리셋/전환 로그 토큰 추가
+- 페이즈2 패턴 강화
+  - 대시/소환 템포 강화, 콤보 보너스, WALL 가중치 보정
+- 연출/HUD
+  - `boss_reward_runtime.gd` 전환/활성 배너 및 카메라/SFX 연동
+  - `hud.gd`에 PHASE/PHASE SHIFT 상태 표시
+- QA 확장
+  - 런타임 옵션 `--boss-phase2-test` 추가
+  - `headless-alpha-gate.sh`에 `boss_phase2` 케이스 추가 및 토큰 검증
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` PASS (`boss_phase2` 포함)
+- `./tools/qa/pre-manual-qa-check.sh` PASS
+- `./tools/qa/checkpoint-report.sh` PASS
+- `./tools/qa/trace-objectdb-leak.sh` PASS

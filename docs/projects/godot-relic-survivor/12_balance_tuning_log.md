@@ -278,3 +278,26 @@
 ### 기대 효과
 - 런 중 환경 변주로 반복 플레이 피로도 감소
 - 위험 예고 기반 회피 의사결정 강화
+
+## 2026-03-02 (Boss Phase 2 Upgrade)
+
+### 변경 요약
+- 보스 페이즈 전환 기준 추가
+  - `MINIBOSS_PHASE2_HP_RATIO = 0.52`
+  - `MINIBOSS_PHASE2_TRANSITION = 1.15`
+- 페이즈2 강화 파라미터 적용
+  - 이동/대시 속도 상승, 대시 간격/윈드업 단축
+  - 콤보 대시 보너스 + 소환 간격 단축 + WALL 가중치 상승
+- HUD/배너/QA 연동
+  - PHASE/PHASE SHIFT 상태 노출
+  - `--boss-phase2-test` + 게이트 `boss_phase2` 케이스 추가
+
+### 자동 검증 결과
+- `headless-alpha-gate.sh` PASS
+  - `boss_phase2`: `MINIBOSS_PHASE2_TRANSITION`, `MINIBOSS_PHASE2_ACTIVE` 확인
+- `pre-manual-qa-check.sh` PASS
+- `trace-objectdb-leak.sh` PASS
+
+### 기대 효과
+- 보스전 후반 체감 고조 + 전환 가독성 확보
+- 페이즈 전환 회귀 검증 신뢰도 향상
