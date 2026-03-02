@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.4-dev
+- version: v0.1.5-dev
 - date: 2026-03-02
 
 ## Added
@@ -56,15 +56,17 @@
   - 대시 예고(windup) 시각화/로그/HUD 상태 추가
   - 보스 등장 직후 안전구간(`MINIBOSS_SPAWN_GRACE`) 및 근거리 즉시대시 제한(`MINIBOSS_DASH_MIN_DISTANCE`) 적용
   - 콤보 대시 패턴(`MINIBOSS_COMBO_DASH_CHANCE`, `MINIBOSS_COMBO_DASH_GAP`) 도입
+  - 비대시형 소환 패턴(`WALL`) + 소환 텔레그래프(`MINIBOSS_SUMMON_*`) 도입
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시
+  - 선택 후 예상 지표(예상 DPS/생존 지표) 프리뷰 표시
 - 업그레이드 제안 시너지 튜닝(`systems/upgrade_system.gd`)
   - 체력/레벨/과중첩(attack speed, multi-shot, mobility) 기반 동적 가중치 반영
 - 씬/UI 구조 확장(ProjectileContainer + EventBanner 추가)
 - 입력 액션 확장(level-up 선택 `1/2/3`)
 - 게임 상태 구조 확장(EXP/업그레이드 스택/런타임 모디파이어)
 - 전투 판정 확장(적별 접촉 피해/EXP 보상)
-- QA 런타임 옵션 확장(`--qa-autopilot`, `--qa-force-damage`, `--qa-auto-restart`)
+- QA 런타임 옵션 확장(`--qa-autopilot`, `--qa-force-damage`, `--qa-auto-restart`, `--boss-pattern-test`)
 - `game_root` 책임 분리 리팩터링
   - `core/runtime_options.gd`
   - `systems/qa_runtime.gd`
@@ -119,13 +121,18 @@
   - `MINIBOSS_DEFEATED`
   - `BOSS_CLEAR_REWARD_APPLIED`
   로그 확인
+- 보스 패턴 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 5400 -- --boss-pattern-test --auto-levelup --qa-autopilot`
+  - `MINIBOSS_SUMMON_TELEGRAPH_ON`, `MINIBOSS_SUMMON_CAST`
+  - `MINIBOSS_DASH_TELEGRAPH_ON`, `MINIBOSS_DASH_START`
+  로그 확인
 - 재시작 루프 QA:
   - `godotw --headless --fixed-fps 60 --quit-after 3000 -- --qa-force-damage --qa-auto-restart`
   - `QA_FORCE_DEATH`, `QA_AUTO_RESTART_TRIGGERED` 반복 확인
 - `mcporter call godot-local.godot_run_headless` 실행 통과
 - 원클릭 게이트 검증(2026-03-02):
   - `./tools/qa/headless-alpha-gate.sh` PASS
-  - 산출 로그: `.qa/headless/<timestamp>/{smoke,boss_loop,restart_loop,long_sim}.log`
+  - 산출 로그: `.qa/headless/<timestamp>/{smoke,boss_loop,boss_pattern,restart_loop,long_sim}.log`
   - 경고 요약: `warnings=0`, `leak_lines=0`
 - 누수 심화 추적(2026-03-02):
   - `./tools/qa/trace-objectdb-leak.sh` 실행

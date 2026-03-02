@@ -1,19 +1,21 @@
-# Godot Relic Survivor (v0.1.4-dev)
+# Godot Relic Survivor (v0.1.5-dev)
 
 탑다운 로그라이크 생존 액션 신규 프로젝트입니다.
 현재 코어 전투 루프(이동/대시/자동공격/적 2종 스폰/피격/재시작)와
 레벨업 3지선다 + 업그레이드 16종(복합 효과 포함)까지 반영된 상태입니다.
 
-## 최근 개선 (v0.1.4-dev)
+## 최근 개선 (v0.1.5-dev)
 - 미니보스 패턴 다양화 + 텔레그래프 강화
   - 대시 예고(windup) 시각화 + HUD 텍스트 + 이벤트 배너 추가
   - 콤보 대시 패턴(확률형) 도입으로 보스 패턴 다양화
+  - 비대시형 소환 패턴(차단열 WALL) 도입 + 소환 텔레그래프 추가
   - 보스 등장 직후 짧은 안전구간(접촉 피해 없음) + 근거리 즉시대시 제한 적용
 - 레벨업 선택지 가독성/시너지 개선
   - 역할 태그(공격/기동/생존/혼합) + 효과 요약 + 상황별 추천 문구 노출
+  - 선택지별 예상 지표(예상 DPS/생존 지표) 표시
   - 업그레이드 제안 가중치에 컨텍스트(체력/레벨/과중첩) 반영
 - QA 시나리오/리포트 확장
-  - headless gate에 `MINIBOSS_DASH_TELEGRAPH_ON`, `MINIBOSS_DASH_START` 검증 추가
+  - headless gate에 `boss_pattern` 케이스 추가(소환/대시 텔레그래프 검증)
   - 체크포인트 리포트 스크립트(`checkpoint-report.sh`) 추가
 
 ## 조작
@@ -29,6 +31,9 @@
 
 # 보스 테스트 모드(경고/등장/처치 검증)
 ../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 5400 -- --boss-test --auto-levelup --qa-autopilot
+
+# 보스 패턴 테스트 모드(소환/대시 텔레그래프 검증)
+../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 5400 -- --boss-pattern-test --auto-levelup --qa-autopilot
 
 # SFX 프리셋 옵션
 # --sfx-preset=default | quiet | hype

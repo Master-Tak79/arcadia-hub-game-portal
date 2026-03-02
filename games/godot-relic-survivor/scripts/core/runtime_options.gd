@@ -3,6 +3,7 @@ extends RefCounted
 var boss_spawn_time_override: float = -1.0
 var boss_hp_scale_override: float = 1.0
 var boss_test_boost: bool = false
+var boss_pattern_test: bool = false
 
 var auto_levelup: bool = false
 
@@ -22,6 +23,12 @@ func parse_user_args(args: Array) -> void:
 			boss_spawn_time_override = 12.0
 			boss_hp_scale_override = 0.25
 			boss_test_boost = true
+			boss_pattern_test = false
+		elif arg == "--boss-pattern-test" or arg == "boss-pattern-test":
+			boss_spawn_time_override = 12.0
+			boss_hp_scale_override = 1.0
+			boss_test_boost = false
+			boss_pattern_test = true
 		elif arg == "--auto-levelup" or arg == "auto-levelup":
 			auto_levelup = true
 		elif arg == "--qa-auto-restart" or arg == "qa-auto-restart":
@@ -51,6 +58,8 @@ func print_enabled_flags() -> void:
 		print("BOSS_TEST_MODE_ON")
 	if boss_test_boost:
 		print("BOSS_TEST_BOOST_ON")
+	if boss_pattern_test:
+		print("BOSS_PATTERN_TEST_ON")
 	if auto_levelup:
 		print("AUTO_LEVELUP_ON")
 	if qa_auto_restart:

@@ -68,6 +68,17 @@ func _refresh() -> void:
 				if _miniboss_director.has_method("get_boss_dash_telegraph_remaining"):
 					dash_remain = float(_miniboss_director.get_boss_dash_telegraph_remaining())
 				text += "\n⚡ DASH TELEGRAPH: %.2fs" % dash_remain
+			if _miniboss_director.has_method("is_boss_summon_telegraphing") and _miniboss_director.is_boss_summon_telegraphing():
+				var summon_remain: float = 0.0
+				if _miniboss_director.has_method("get_boss_summon_telegraph_remaining"):
+					summon_remain = float(_miniboss_director.get_boss_summon_telegraph_remaining())
+				var summon_pattern: String = ""
+				if _miniboss_director.has_method("get_boss_pending_summon_pattern"):
+					summon_pattern = String(_miniboss_director.get_boss_pending_summon_pattern())
+				var pattern_label: String = "RING"
+				if summon_pattern == "wall":
+					pattern_label = "WALL"
+				text += "\n🌀 SUMMON %s: %.2fs" % [pattern_label, summon_remain]
 		elif _miniboss_director.has_method("was_boss_defeated") and _miniboss_director.was_boss_defeated():
 			text += "\n✅ MINIBOSS DEFEATED"
 

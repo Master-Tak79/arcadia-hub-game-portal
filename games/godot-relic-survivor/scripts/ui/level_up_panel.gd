@@ -3,6 +3,7 @@ extends CanvasLayer
 signal choice_selected(choice_index: int)
 
 var _state: RefCounted
+var _balance: RefCounted
 
 var _bg: ColorRect
 var _panel: Panel
@@ -13,6 +14,10 @@ var _choices: Array = []
 
 func set_state(state: RefCounted) -> void:
 	_state = state
+
+func set_context(state: RefCounted, balance: RefCounted) -> void:
+	_state = state
+	_balance = balance
 
 func _ready() -> void:
 	_build_ui()
@@ -112,8 +117,9 @@ func _build_option_text(index: int, choice: Dictionary) -> String:
 	var desc: String = String(choice.get("desc", ""))
 	var note: String = _build_priority_note(role)
 	var final_note: String = note if note != "" else "추천: 현재 빌드 방향과 시너지가 높은 항목을 선택하세요"
+	var projection_line: String = _build_projection_line(choice)
 
-	return "%d) %s [%s %s]\n   효과: %s\n   설명: %s\n   STACK: %d/%d → %d/%d\n   %s" % [
+	return "%d) %s [%s %s]\n   효과: %s\n   설명: %s\n   STACK: %d/%d → %d/%d\n   %s\n   %s" % [
 		index,
 		name,
 		role_tag,
@@ -124,6 +130,7 @@ func _build_option_text(index: int, choice: Dictionary) -> String:
 		max_stack,
 		stack_next,
 		max_stack,
+		projection_line,
 		final_note,
 	]
 
@@ -192,6 +199,100 @@ func _format_effect_line(effect: Dictionary) -> String:
 			return "즉시 HP +%d" % int(value)
 		_:
 			return "%s %+s" % [key, str(value)]
+
+func _build_projection_line(choice: Dictionary) -> String:
+	if _state == null or _balance == null:
+		return "예상 지표: 계산 불가"
+
+	var before: Dictionary = _snapshot_runtime_stats()
+	var after: Dictionary = before.duplicate(true)
+
+	for raw_effect in _extract_effects(choice):
+		_apply_effect_to_snapshot(after, raw_effect)
+
+	var dps_before: float = _estimate_dps_index(before)
+	var dps_after: float = _estimate_dps_index(after)
+	var surv_before: float = _estimate_survival_index(before)
+	var surv_after: float = _estimate_survival_index(after)
+
+	var dps_delta: float = _percent_delta(dps_before, dps_after)
+	var surv_delta: float = _percent_delta(surv_before, surv_after)
+
+	return "예상: DPS %.1f → %.1f (%+d%%), 생존 %.1f → %.1f (%+d%%)" % [
+		dps_before,
+		dps_after,
+		int(round(dps_delta)),
+		surv_before,
+		surv_after,
+		int(round(surv_delta)),
+	]
+
+func _snapshot_runtime_stats() -> Dictionary:
+	return {
+		"max_hp": int(_state.max_hp),
+		"hp": int(_state.hp),
+		"attack_interval_reduction": float(_state.attack_interval_reduction),
+		"projectile_damage_bonus": int(_state.projectile_damage_bonus),
+		"extra_projectiles": int(_state.extra_projectiles),
+		"player_speed_bonus": float(_state.player_speed_bonus),
+		"dash_cooldown_reduction": float(_state.dash_cooldown_reduction),
+		"player_invuln_bonus": float(_state.player_invuln_bonus),
+	}
+
+func _apply_effect_to_snapshot(snapshot: Dictionary, raw_effect: Variant) -> void:
+	var effect: Dictionary = raw_effect
+	var key: String = String(effect.get("key", ""))
+	var value: Variant = effect.get("value", 0)
+
+	match key:
+		"attack_interval_reduction":
+			snapshot["attack_interval_reduction"] = min(0.75, float(snapshot["attack_interval_reduction"]) + float(value))
+		"projectile_damage_bonus":
+			snapshot["projectile_damage_bonus"] = int(snapshot["projectile_damage_bonus"]) + int(value)
+		"extra_projectiles":
+			snapshot["extra_projectiles"] = int(snapshot["extra_projectiles"]) + int(value)
+		"player_speed_bonus":
+			snapshot["player_speed_bonus"] = float(snapshot["player_speed_bonus"]) + float(value)
+		"dash_cooldown_reduction":
+			snapshot["dash_cooldown_reduction"] = min(0.75, float(snapshot["dash_cooldown_reduction"]) + float(value))
+		"player_invuln_bonus":
+			snapshot["player_invuln_bonus"] = float(snapshot["player_invuln_bonus"]) + float(value)
+		"max_hp_plus_heal":
+			var hp_gain: int = int(value)
+			snapshot["max_hp"] = int(snapshot["max_hp"]) + hp_gain
+			snapshot["hp"] = min(int(snapshot["max_hp"]), int(snapshot["hp"]) + hp_gain)
+		"instant_heal":
+			snapshot["hp"] = min(int(snapshot["max_hp"]), int(snapshot["hp"]) + int(value))
+		_:
+			pass
+
+func _estimate_dps_index(snapshot: Dictionary) -> float:
+	var base_interval: float = max(0.1, float(_balance.ATTACK_INTERVAL))
+	var reduction: float = clampf(float(snapshot["attack_interval_reduction"]), 0.0, 0.75)
+	var interval: float = max(0.08, base_interval * (1.0 - reduction))
+
+	var damage: float = max(1.0, float(_balance.PROJECTILE_DAMAGE) + float(snapshot["projectile_damage_bonus"]))
+	var shots: float = max(1.0, 1.0 + float(snapshot["extra_projectiles"]))
+
+	return (damage * shots) / interval
+
+func _estimate_survival_index(snapshot: Dictionary) -> float:
+	var hp: float = max(1.0, float(snapshot["hp"]))
+	var max_hp: float = max(1.0, float(snapshot["max_hp"]))
+	var hp_factor: float = hp + (max_hp * 0.35)
+
+	var invuln: float = max(0.0, float(_balance.PLAYER_HIT_INVULN) + float(snapshot["player_invuln_bonus"]))
+	var move_speed: float = max(1.0, float(_balance.PLAYER_SPEED) + float(snapshot["player_speed_bonus"]))
+	var move_factor: float = move_speed / max(1.0, float(_balance.PLAYER_SPEED))
+	var dash_cd: float = max(0.2, float(_balance.DASH_COOLDOWN) * (1.0 - float(snapshot["dash_cooldown_reduction"])))
+
+	var mobility_factor: float = (1.0 / dash_cd) * 0.22 + move_factor * 0.18
+	return hp_factor * (1.0 + invuln * 0.6 + mobility_factor)
+
+func _percent_delta(before: float, after: float) -> float:
+	if before <= 0.0001:
+		return 0.0
+	return ((after - before) / before) * 100.0
 
 func _build_priority_note(role: String) -> String:
 	if _state == null:

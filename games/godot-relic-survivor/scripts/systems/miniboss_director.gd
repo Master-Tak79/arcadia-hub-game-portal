@@ -116,6 +116,33 @@ func get_boss_spawn_grace_remaining() -> float:
 		return 0.0
 	return float(_boss_ref.get_spawn_grace_remaining())
 
+func is_boss_summon_telegraphing() -> bool:
+	if not _boss_alive:
+		return false
+	if _boss_ref == null:
+		return false
+	if not _boss_ref.has_method("is_summon_telegraphing"):
+		return false
+	return bool(_boss_ref.is_summon_telegraphing())
+
+func get_boss_summon_telegraph_remaining() -> float:
+	if not _boss_alive:
+		return 0.0
+	if _boss_ref == null:
+		return 0.0
+	if not _boss_ref.has_method("get_summon_telegraph_remaining"):
+		return 0.0
+	return float(_boss_ref.get_summon_telegraph_remaining())
+
+func get_boss_pending_summon_pattern() -> String:
+	if not _boss_alive:
+		return ""
+	if _boss_ref == null:
+		return ""
+	if not _boss_ref.has_method("get_pending_summon_pattern"):
+		return ""
+	return String(_boss_ref.get_pending_summon_pattern())
+
 func was_boss_defeated() -> bool:
 	return _boss_defeated
 
@@ -161,6 +188,8 @@ func _spawn_miniboss() -> void:
 		int(_balance.MINIBOSS_CONTACT_DAMAGE),
 		int(_balance.MINIBOSS_EXP_REWARD),
 		float(_balance.MINIBOSS_SUMMON_INTERVAL),
+		float(_balance.MINIBOSS_SUMMON_WINDUP),
+		float(_balance.MINIBOSS_SUMMON_WALL_CHANCE),
 		int(_balance.MINIBOSS_SUMMON_COUNT),
 		float(_balance.MINIBOSS_SUMMON_RADIUS),
 		summon_cfg

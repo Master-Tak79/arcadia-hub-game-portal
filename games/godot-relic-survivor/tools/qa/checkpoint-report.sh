@@ -30,6 +30,21 @@ if [[ -n "$latest_headless" ]]; then
   fi
 fi
 
+trend_lines=""
+if [[ -d "$ROOT_DIR/.qa/headless" ]]; then
+  while IFS= read -r run; do
+    [[ -z "$run" ]] && continue
+    summary="$ROOT_DIR/.qa/headless/$run/warnings-summary.txt"
+    w="n/a"
+    l="n/a"
+    if [[ -f "$summary" ]]; then
+      w="$(grep -c "WARNING:" "$summary" || true)"
+      l="$(grep -c "Leaked instance:" "$summary" || true)"
+    fi
+    trend_lines+="- $run: warnings=$w, leak_lines=$l"$'\n'
+  done < <(ls -1 "$ROOT_DIR/.qa/headless" 2>/dev/null | sort | tail -n3)
+fi
+
 project_version="unknown"
 if [[ -f "$ROOT_DIR/README.md" ]]; then
   project_version="$(grep -m1 -oE 'v[0-9]+\.[0-9]+\.[0-9]+-dev' "$ROOT_DIR/README.md" || true)"
@@ -52,6 +67,9 @@ cat > "$REPORT_FILE" <<EOF
 - warnings: $warn_count
 - leak lines: $leak_count
 - summary: ${warn_summary:-n/a}
+
+## Headless Trend (latest 3)
+${trend_lines:-- no history found}
 
 ## Leak Trace
 - latest run: ${latest_leak:-none}

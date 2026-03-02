@@ -156,3 +156,18 @@
 
 ### 결정
 - 실측 전까지 alpha-candidate 기준선 유지, 수동 QA 재개 시 체감 항목 우선 검증
+
+## 2026-03-02 (Pattern Coverage Completion)
+
+### 반영
+- 보스 패턴 요구사항 보강
+  - 비대시 소환 패턴(WALL) + 소환 텔레그래프 상태 추가
+  - `--boss-pattern-test` 런타임 옵션으로 패턴 검증 분리
+- 레벨업 UI 예측 지표 반영
+  - 선택 후 예상 DPS/생존 지표 프리뷰 계산 노출
+- 체크포인트 리포트 고도화
+  - 최신 3회 게이트 추세(warnings/leaks) 포함
+
+### 검증
+- `headless-alpha-gate.sh`에서 `boss_pattern` 시나리오 PASS
+- `MINIBOSS_SUMMON_TELEGRAPH_ON`, `MINIBOSS_SUMMON_CAST` 토큰 검증 PASS

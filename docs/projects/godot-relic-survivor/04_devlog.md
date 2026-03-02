@@ -794,3 +794,18 @@
 
 ### 다음 액션
 - 수동 QA 재개 시 보스 콤보 대시 회피 체감/업그레이드 추천 신뢰도 집중 점검
+
+## 2026-03-02 18:30 KST
+### 보강 작업(요구사항 정합)
+- 보스 패턴 요구사항 중 "비대시 소환 패턴"을 명시적으로 충족하도록 보강
+  - `enemy_miniboss.gd`: 소환 windup/패턴 선택(`ring`/`wall`) 및 소환 로그 토큰 추가
+  - `miniboss_director.gd`, `boss_reward_runtime.gd`, `hud.gd`: 소환 텔레그래프 상태 노출/배너 연동
+- 레벨업 패널에 선택 후 예상 지표(DPS/생존) 계산 표시 반영
+- `runtime_options.gd`: `--boss-pattern-test` 옵션 추가
+- `headless-alpha-gate.sh`: `boss_pattern` 케이스 추가 및 소환/대시 텔레그래프 검증 분리
+- `checkpoint-report.sh`: 최근 3회 게이트 추세(warnings/leaks) 섹션 추가
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` PASS (`boss_pattern` 포함)
+- `./tools/qa/pre-manual-qa-check.sh` PASS
+- `./tools/qa/checkpoint-report.sh` PASS

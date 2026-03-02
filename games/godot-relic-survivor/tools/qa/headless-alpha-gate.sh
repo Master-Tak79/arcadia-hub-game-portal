@@ -53,6 +53,10 @@ run_case boss_loop \
   "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 5400 -- \
   --boss-test --auto-levelup --qa-autopilot --sfx-preset=quiet
 
+run_case boss_pattern \
+  "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 5400 -- \
+  --boss-pattern-test --auto-levelup --qa-autopilot --sfx-preset=quiet
+
 run_case restart_loop \
   "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 3000 -- \
   --qa-force-damage --qa-auto-restart
@@ -63,22 +67,29 @@ run_case long_sim \
 
 SMOKE_LOG="$RUN_DIR/smoke.log"
 BOSS_LOG="$RUN_DIR/boss_loop.log"
+BOSS_PATTERN_LOG="$RUN_DIR/boss_pattern.log"
 RESTART_LOG="$RUN_DIR/restart_loop.log"
 LONG_LOG="$RUN_DIR/long_sim.log"
 
 assert_log_contains "$SMOKE_LOG" "RELIC_SURVIVOR_BOOT_OK"
 assert_log_contains "$SMOKE_LOG" "SFX_HEADLESS_MODE_ON"
+
 assert_log_contains "$BOSS_LOG" "MINIBOSS_WARNING_ON"
 assert_log_contains "$BOSS_LOG" "MINIBOSS_SPAWNED"
-assert_log_contains "$BOSS_LOG" "MINIBOSS_DASH_TELEGRAPH_ON"
-assert_log_contains "$BOSS_LOG" "MINIBOSS_DASH_START"
 assert_log_contains "$BOSS_LOG" "MINIBOSS_DEFEATED"
 assert_log_contains "$BOSS_LOG" "BOSS_CLEAR_REWARD_APPLIED"
+
+assert_log_contains "$BOSS_PATTERN_LOG" "BOSS_PATTERN_TEST_ON"
+assert_log_contains "$BOSS_PATTERN_LOG" "MINIBOSS_SUMMON_TELEGRAPH_ON"
+assert_log_contains "$BOSS_PATTERN_LOG" "MINIBOSS_SUMMON_CAST"
+assert_log_contains "$BOSS_PATTERN_LOG" "MINIBOSS_DASH_TELEGRAPH_ON"
+assert_log_contains "$BOSS_PATTERN_LOG" "MINIBOSS_DASH_START"
+
 assert_log_contains "$RESTART_LOG" "QA_FORCE_DEATH"
 assert_log_contains "$RESTART_LOG" "QA_AUTO_RESTART_TRIGGERED"
 assert_log_contains "$LONG_LOG" "RELIC_SURVIVOR_BOOT_OK"
 
-for log in "$SMOKE_LOG" "$BOSS_LOG" "$RESTART_LOG" "$LONG_LOG"; do
+for log in "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$RESTART_LOG" "$LONG_LOG"; do
   assert_log_not_contains "$log" "SCRIPT ERROR"
   assert_log_not_contains "$log" "ERROR:"
   assert_log_not_contains "$log" "CRASH"
@@ -101,6 +112,7 @@ cat <<EOF
 - output dir: $RUN_DIR
 - smoke:         PASS
 - boss loop:     PASS
+- boss pattern:  PASS
 - restart loop:  PASS
 - long sim:      PASS
 - warnings:      $WARN_COUNT

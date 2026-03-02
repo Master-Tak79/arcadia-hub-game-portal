@@ -11,6 +11,7 @@ var _sfx_slots: Node
 var _last_warning_active: bool = false
 var _last_boss_alive: bool = false
 var _last_dash_telegraph: bool = false
+var _last_summon_telegraph: bool = false
 var _boss_reward_applied: bool = false
 var _slowmo_time_left: float = 0.0
 
@@ -40,6 +41,7 @@ func reset_round() -> void:
 	_last_warning_active = false
 	_last_boss_alive = false
 	_last_dash_telegraph = false
+	_last_summon_telegraph = false
 	_boss_reward_applied = false
 	_slowmo_time_left = 0.0
 	_pending_warning_sfx = -1.0
@@ -68,6 +70,10 @@ func _process_miniboss_state_transitions() -> void:
 	if _miniboss_director.has_method("is_boss_dash_telegraphing"):
 		dash_telegraph = bool(_miniboss_director.is_boss_dash_telegraphing())
 
+	var summon_telegraph: bool = false
+	if _miniboss_director.has_method("is_boss_summon_telegraphing"):
+		summon_telegraph = bool(_miniboss_director.is_boss_summon_telegraphing())
+
 	if warning_active and not _last_warning_active:
 		if _event_banner:
 			_event_banner.show_message("⚠ WARNING: MINIBOSS APPROACHING", 1.6, Color("#7C2D12"))
@@ -88,12 +94,25 @@ func _process_miniboss_state_transitions() -> void:
 		if _camera_fx and _camera_fx.has_method("play_warning_pulse"):
 			_camera_fx.play_warning_pulse()
 
+	if summon_telegraph and not _last_summon_telegraph and boss_alive:
+		var pattern: String = ""
+		if _miniboss_director.has_method("get_boss_pending_summon_pattern"):
+			pattern = String(_miniboss_director.get_boss_pending_summon_pattern())
+		if _event_banner:
+			if pattern == "wall":
+				_event_banner.show_message("⚠ SUMMON CAST — 전방 차단열 전개", 0.9, Color("#14532D"))
+			else:
+				_event_banner.show_message("⚠ SUMMON CAST — 소환 링 전개", 0.9, Color("#0F4C5C"))
+		if _camera_fx and _camera_fx.has_method("play_warning_pulse"):
+			_camera_fx.play_warning_pulse()
+
 	if not boss_alive and _last_boss_alive and not _boss_reward_applied:
 		_apply_boss_clear_reward()
 
 	_last_warning_active = warning_active
 	_last_boss_alive = boss_alive
 	_last_dash_telegraph = dash_telegraph
+	_last_summon_telegraph = summon_telegraph
 
 func _apply_boss_clear_reward() -> void:
 	_boss_reward_applied = true
