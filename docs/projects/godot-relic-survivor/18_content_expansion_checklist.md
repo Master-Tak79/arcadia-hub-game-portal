@@ -132,7 +132,7 @@
 
 ### Step 8 결과 기록
 - Step: Active Skill Pack 01
-- 구현 커밋: 본 단계 feature 커밋(HEAD) 참조
+- 구현 커밋: `7072b7f` (active skill pack + active_loop gate + docs sync)
 - 자동검증 결과: headless gate PASS (`active_ranger`, `active_warden` 포함), pre-manual PASS, leak trace PASS
 - 리스크/이슈: 수동 입력(Q) 타이밍 체감은 사용자 수동 QA에서 추가 확인 필요
 - 다음 Step 진행 승인: 캐릭터/무기 트리 고도화 설계 대기
