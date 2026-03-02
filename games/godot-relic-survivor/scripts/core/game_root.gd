@@ -15,6 +15,7 @@ const MiniBossDirector := preload("res://scripts/systems/miniboss_director.gd")
 const QaRuntime := preload("res://scripts/systems/qa_runtime.gd")
 const BossRewardRuntime := preload("res://scripts/systems/boss_reward_runtime.gd")
 const StageEventSystem := preload("res://scripts/systems/stage_event_system.gd")
+const MetaProgression := preload("res://scripts/systems/meta_progression.gd")
 
 const LevelUpPanel := preload("res://scripts/ui/level_up_panel.gd")
 const EventBanner := preload("res://scripts/ui/event_banner.gd")
@@ -44,6 +45,7 @@ var _stage_event_system: RefCounted
 
 var _qa_runtime: RefCounted
 var _boss_reward_runtime: RefCounted
+var _meta_progression: RefCounted
 
 var _level_up_panel: CanvasLayer
 var _event_banner: CanvasLayer
@@ -134,6 +136,9 @@ func _ready() -> void:
 	_boss_reward_runtime = BossRewardRuntime.new()
 	_boss_reward_runtime.setup(_balance, _state, _signal_bus, _miniboss_director, _event_banner, _camera_fx, _sfx_slots)
 
+	_meta_progression = MetaProgression.new()
+	_meta_progression.setup(_state, _event_banner, bool(_runtime_options.meta_test))
+
 	_start_round()
 	_runtime_options.print_enabled_flags()
 	print("RELIC_SURVIVOR_BOOT_OK")
@@ -174,6 +179,11 @@ func _track_game_over_edge() -> void:
 	if _state.is_game_over and not _last_game_over:
 		_last_game_over = true
 		_qa_runtime.on_game_over_entered()
+		if _meta_progression and _meta_progression.has_method("on_run_finished"):
+			var boss_defeated: bool = false
+			if _miniboss_director and _miniboss_director.has_method("was_boss_defeated"):
+				boss_defeated = bool(_miniboss_director.was_boss_defeated())
+			_meta_progression.on_run_finished(int(_state.kills), boss_defeated)
 	elif not _state.is_game_over:
 		_last_game_over = false
 
@@ -220,6 +230,8 @@ func _update_pressure_hint() -> void:
 func _start_round() -> void:
 	_state.reset()
 	_runtime_options.apply_round_boost_if_needed(_state)
+	if _meta_progression and _meta_progression.has_method("apply_round_start_modifiers"):
+		_meta_progression.apply_round_start_modifiers()
 
 	_current_level_choices = []
 	_last_game_over = false

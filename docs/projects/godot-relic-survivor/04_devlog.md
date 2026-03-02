@@ -975,3 +975,24 @@
 - `./tools/qa/pre-manual-qa-check.sh` PASS
 - `./tools/qa/checkpoint-report.sh` PASS
 - `./tools/qa/trace-objectdb-leak.sh` PASS
+
+## 2026-03-02 22:24 KST
+### Step 5 — Meta Growth 01 구현 완료
+- 메타 진행 시스템 추가
+  - `scripts/data/meta_perks.gd`: 영구 특성 3종(vitality/celerity/focus) 테이블
+  - `scripts/systems/meta_progression.gd`: 프로파일 로드/세이브 + 런 보상 + 자동 해금
+  - 저장 경로: `user://meta_profile.json`
+- 런타임/HUD 연동
+  - `game_state.gd`에 META 상태 필드 추가
+  - `game_root.gd`에서 런 시작 영구 보정 적용 + 런 종료 보상 반영
+  - `hud.gd`에 `META: SHARDS / RUNS / V/C/F` 상태 노출
+- QA 확장
+  - 런타임 옵션 `--meta-test` 추가
+  - `headless-alpha-gate.sh`에 `meta_loop` 케이스 및 토큰 검증 추가
+  - restart_loop를 `--auto-levelup --qa-autopilot` 조합으로 고정해 안정 검증
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` PASS (`meta_loop` 포함)
+- `./tools/qa/pre-manual-qa-check.sh` PASS
+- `./tools/qa/checkpoint-report.sh` PASS
+- `./tools/qa/trace-objectdb-leak.sh` PASS

@@ -281,3 +281,18 @@
 ### 상태
 - 콘텐츠 확장 Step 4 완료
 - 확장 1차(M4~M7) 구현/자동검증 라인 완료
+
+## 2026-03-02 (Step 5 Complete — Meta Growth 01)
+
+### 반영
+- 런 종료 보상(Shards) + 영구 특성 3종(vitality/celerity/focus) 도입
+- `user://meta_profile.json` 기반 프로파일 로드/세이브 연동
+- 런 시작 시 영구 보정 자동 적용 + HUD META 상태 노출
+- `--meta-test` / `meta_loop` 자동검증 시나리오 추가
+
+### 검증
+- headless gate(`meta_loop` 포함), readiness, checkpoint, leak trace 통과
+
+### 상태
+- 콘텐츠 확장 Step 5 완료
+- 다음 착수: 캐릭터/무기 계열 확장 설계

@@ -8,6 +8,7 @@
 2. Relic System 01 (12종)
 3. Stage Event Pack 01 (3종)
 4. Boss Phase 2 Upgrade
+5. Meta Growth 01
 
 ---
 
@@ -94,6 +95,28 @@
 
 ### 공수
 - 1.0 ~ 2.0일
+
+---
+
+## Step 5 — Meta Growth 01
+- 상태: ✅ 구현/자동검증 완료 (수동 체감 QA 대기)
+
+### 범위
+- 런 종료 보상(Shards) 시스템
+- 영구 특성 3종(vitality/celerity/focus) + 자동 해금
+- 저장 프로파일(`user://meta_profile.json`) 로드/세이브
+- HUD META 상태 표시 + `meta_loop` QA 확장
+
+### 완료 기준
+- 런 종료 후 보상 획득/저장/재시작 적용이 안정적으로 반복됨
+- `META_PROFILE_LOADED`, `META_RUN_REWARD` 자동검증 토큰 통과
+
+### 리스크
+- 누적 영구 보정으로 기존 QA 시나리오 난이도/속도 편차 증가
+- 장기적으로는 수동 특성 선택 UX 필요
+
+### 공수
+- 1.0 ~ 1.5일
 
 ---
 

@@ -8,6 +8,7 @@ var boss_phase2_test: bool = false
 var elite_test: bool = false
 var relic_test: bool = false
 var event_test: bool = false
+var meta_test: bool = false
 
 var auto_levelup: bool = false
 
@@ -47,6 +48,8 @@ func parse_user_args(args: Array) -> void:
 			relic_test = true
 		elif arg == "--event-test" or arg == "event-test":
 			event_test = true
+		elif arg == "--meta-test" or arg == "meta-test":
+			meta_test = true
 		elif arg == "--auto-levelup" or arg == "auto-levelup":
 			auto_levelup = true
 		elif arg == "--qa-auto-restart" or arg == "qa-auto-restart":
@@ -88,6 +91,8 @@ func print_enabled_flags() -> void:
 		print("RELIC_TEST_ON")
 	if event_test:
 		print("EVENT_TEST_ON")
+	if meta_test:
+		print("META_TEST_ON")
 	if qa_auto_restart:
 		print("QA_AUTO_RESTART_ON")
 	if qa_force_damage:

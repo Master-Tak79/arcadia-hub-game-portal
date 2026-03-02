@@ -20,6 +20,7 @@
 - [ ] RELIC 획득 배너/요약(HUD LAST/SET) 가독성 확인 (수동 QA 시 확인)
 - [ ] EVENT 텔레그래프(안개/감속/전류) 가독성/공정성 확인 (수동 QA 시 확인)
 - [ ] BOSS PHASE2 전환 텔레그래프/안전구간 가독성 확인 (수동 QA 시 확인)
+- [ ] META HUD(샤드/런수/영구특성) 가독성 확인 (수동 QA 시 확인)
 - [ ] PRESSURE 표시(low/mid/high)와 실제 체감 압박 일치 여부 확인 (수동 QA 시 확인)
 - [ ] 사망 원인/상황(death recap) 문구 가독성 확인 (수동 QA 시 확인)
 - [x] 보스 경고/등장 루프 정상 (`--boss-test --auto-levelup` 검증)
@@ -31,6 +32,7 @@
 - [x] elite_loop 검증 통과 (`ELITE_SPAWNED:elite_grunt`, `ELITE_SPAWNED:elite_dasher`)
 - [x] relic_loop 검증 통과 (`RELIC_GRANTED:*` 2회 이상)
 - [x] event_loop 검증 통과 (`EVENT_START:fog/slow_zone/shock_zone`)
+- [x] meta_loop 검증 통과 (`META_PROFILE_LOADED`, `META_RUN_REWARD`)
 - [x] 보스 처치 루프 정상 (`MINIBOSS_DEFEATED` 로그 확인)
 
 ## 성능

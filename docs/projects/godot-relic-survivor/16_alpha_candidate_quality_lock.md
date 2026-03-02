@@ -8,7 +8,7 @@
 
 ### 1) 코어 루프
 - 이동/대시/자동공격/레벨업/보스/재시작 루프 구조
-- QA 런타임 옵션(`--auto-levelup`, `--qa-*`, `--boss-test`, `--boss-pattern-test`, `--boss-phase2-test`, `--elite-test`, `--relic-test`, `--event-test`) 인터페이스
+- QA 런타임 옵션(`--auto-levelup`, `--qa-*`, `--boss-test`, `--boss-pattern-test`, `--boss-phase2-test`, `--elite-test`, `--relic-test`, `--event-test`, `--meta-test`) 인터페이스
 
 ### 2) 전투/웨이브 곡선
 - `balance.gd` 6차 튜닝값
@@ -82,6 +82,9 @@
 - 2026-03-02: 사용자 연속 승인("응")에 따른 콘텐츠 확장 Step 4 반영.
   - Boss Phase 2 전환 로직/연출/안전구간 구현
   - `--boss-phase2-test` 런타임 옵션 + `boss_phase2` 자동 검증 케이스 편입
+- 2026-03-02: 사용자 연속 승인("응")에 따른 콘텐츠 확장 Step 5 반영.
+  - Meta Growth 01(Shard 보상/영구 특성 3종/저장 프로파일) 구현
+  - `--meta-test` 런타임 옵션 + `meta_loop` 자동 검증 케이스 편입
 - 처리 원칙:
   - 자동 회귀 검증 통과 필수
   - 설계/릴리즈/개발일지 즉시 동기화

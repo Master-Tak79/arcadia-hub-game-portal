@@ -34,6 +34,13 @@ var relic_obtained_count: int = 0
 var relic_last_title: String = ""
 var relic_last_desc: String = ""
 
+var meta_shards: int = 0
+var meta_total_runs: int = 0
+var meta_total_kills: int = 0
+var meta_boss_kills: int = 0
+var meta_last_reward: int = 0
+var meta_perk_ranks: Dictionary = {}
+
 # Upgrade-driven runtime modifiers
 var attack_interval_reduction: float = 0.0
 var attack_range_bonus: float = 0.0
@@ -78,6 +85,13 @@ func reset() -> void:
 	relic_obtained_count = 0
 	relic_last_title = ""
 	relic_last_desc = ""
+
+	meta_shards = 0
+	meta_total_runs = 0
+	meta_total_kills = 0
+	meta_boss_kills = 0
+	meta_last_reward = 0
+	meta_perk_ranks = {}
 
 	attack_interval_reduction = 0.0
 	attack_range_bonus = 0.0

@@ -301,3 +301,25 @@
 ### 기대 효과
 - 보스전 후반 체감 고조 + 전환 가독성 확보
 - 페이즈 전환 회귀 검증 신뢰도 향상
+
+## 2026-03-02 (Meta Growth 01)
+
+### 변경 요약
+- 런 종료 보상 규칙 추가
+  - 기본 1 Shard + 처치 수 기반 보정(+floor(kills/25))
+  - 보스 처치 시 추가 보너스(+3)
+- 영구 특성 3종 추가
+  - vitality: 시작 최대 체력 +1/rank
+  - celerity: 시작 이동속도 +10/rank
+  - focus: 시작 공격 간격 감소 +0.015/rank
+- 저장 프로파일 `user://meta_profile.json` 로드/세이브 및 자동 해금 로직 반영
+
+### 자동 검증 결과
+- `headless-alpha-gate.sh` PASS (`meta_loop` 포함)
+  - `META_PROFILE_LOADED`, `META_RUN_REWARD` 토큰 확인
+- `pre-manual-qa-check.sh` PASS
+- `trace-objectdb-leak.sh` PASS
+
+### 기대 효과
+- 런 간 지속 동기(성장 축) 확보
+- 반복 플레이 시 초반 진입 피로 완화
