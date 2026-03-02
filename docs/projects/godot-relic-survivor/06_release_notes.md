@@ -77,6 +77,9 @@
   - `trace-objectdb-leak.sh`, `pre-manual-qa-check.sh` 실행법 추가
 - `scripts/audio/sfx_slots.gd` headless 안전모드 추가
   - headless 환경에서 오디오 스트림 로딩/재생 비활성화(`SFX_HEADLESS_MODE_ON`)
+- 머지 패키지 문서 최신화
+  - `14_pr_description_alpha_candidate.md` 전면 갱신
+  - `15_merge_handover_checklist.md` 실무 체크리스트 정렬
 
 ## Fixed
 - `spawn_director.gd` 타입 추론 경고 에러 처리(명시 타입 적용)

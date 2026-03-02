@@ -99,3 +99,17 @@
 ### 결정
 - 실측 전까지는 headless 기준선 안정화 유지
 - 알파 확정 게이트는 기존과 동일(수동 QA 3회 + GUI FPS 실측)
+
+## 2026-03-02 (Merge Package Refresh)
+
+### 반영
+- `14_pr_description_alpha_candidate.md`를 최신 기준으로 재작성
+  - QA 도구(게이트/누수추적/readiness)와 최근 커밋/검증 항목 반영
+- `15_merge_handover_checklist.md`를 실무 체크리스트 형태로 정리
+  - merge 전 자동검증/추적/준비 점검 단계 명시
+
+### 검증
+- 문서 참조/명령 경로 일치 확인
+
+### 결정
+- 실측 전까지는 `alpha-candidate` 병합 전략 유지
