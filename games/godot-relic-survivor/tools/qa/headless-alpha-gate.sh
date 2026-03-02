@@ -67,6 +67,7 @@ RESTART_LOG="$RUN_DIR/restart_loop.log"
 LONG_LOG="$RUN_DIR/long_sim.log"
 
 assert_log_contains "$SMOKE_LOG" "RELIC_SURVIVOR_BOOT_OK"
+assert_log_contains "$SMOKE_LOG" "SFX_HEADLESS_MODE_ON"
 assert_log_contains "$BOSS_LOG" "MINIBOSS_WARNING_ON"
 assert_log_contains "$BOSS_LOG" "MINIBOSS_SPAWNED"
 assert_log_contains "$BOSS_LOG" "MINIBOSS_DEFEATED"
@@ -81,6 +82,17 @@ for log in "$SMOKE_LOG" "$BOSS_LOG" "$RESTART_LOG" "$LONG_LOG"; do
   assert_log_not_contains "$log" "CRASH"
 done
 
+WARN_SUMMARY="$RUN_DIR/warnings-summary.txt"
+{
+  echo "# Warning summary"
+  echo "run: $STAMP"
+  echo
+  grep -HnE "WARNING:|Leaked instance:|Orphan StringName" "$SMOKE_LOG" "$BOSS_LOG" "$RESTART_LOG" "$LONG_LOG" || true
+} > "$WARN_SUMMARY"
+
+WARN_COUNT=$(grep -c "WARNING:" "$WARN_SUMMARY" || true)
+LEAK_COUNT=$(grep -c "Leaked instance:" "$WARN_SUMMARY" || true)
+
 cat <<EOF
 
 ✅ Headless alpha gate passed
@@ -89,4 +101,11 @@ cat <<EOF
 - boss loop:     PASS
 - restart loop:  PASS
 - long sim:      PASS
+- warnings:      $WARN_COUNT
+- leak lines:    $LEAK_COUNT
+- warning log:   $WARN_SUMMARY
 EOF
+
+if [[ "$WARN_COUNT" -gt 0 || "$LEAK_COUNT" -gt 0 ]]; then
+  echo "[WARN] warnings detected. For deep trace run: ./tools/qa/trace-objectdb-leak.sh"
+fi

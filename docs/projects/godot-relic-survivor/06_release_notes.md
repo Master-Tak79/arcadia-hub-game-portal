@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.1-dev
+- version: v0.1.2-dev
 - date: 2026-03-02
 
 ## Added
@@ -39,6 +39,12 @@
 - 헤드리스 Alpha Gate 원클릭 스크립트 추가
   - `games/godot-relic-survivor/tools/qa/headless-alpha-gate.sh`
   - 스모크/보스루프/재시작루프/장시간 시뮬레이션 순차 실행 + 로그 토큰 검증
+- 누수/경고 심화 추적 스크립트 추가
+  - `games/godot-relic-survivor/tools/qa/trace-objectdb-leak.sh`
+  - verbose 장시간 실행 후 `Leaked instance`/`WARNING` 요약 산출
+- 수동 QA 직전 준비상태 점검 스크립트 추가
+  - `games/godot-relic-survivor/tools/qa/pre-manual-qa-check.sh`
+  - 문서/도구/최근 게이트 로그 상태를 한 번에 검증
 
 ## Changed
 - `docs/projects/_index.md` 상태 갱신(archived + in-progress)
@@ -68,6 +74,9 @@
   - 가중치 기반 제안 로직 도입(업그레이드 출현 빈도 제어)
 - 프로젝트 README 실행 가이드 갱신
   - `./tools/qa/headless-alpha-gate.sh` 실행법 및 로그 경로 안내 추가
+  - `trace-objectdb-leak.sh`, `pre-manual-qa-check.sh` 실행법 추가
+- `scripts/audio/sfx_slots.gd` headless 안전모드 추가
+  - headless 환경에서 오디오 스트림 로딩/재생 비활성화(`SFX_HEADLESS_MODE_ON`)
 
 ## Fixed
 - `spawn_director.gd` 타입 추론 경고 에러 처리(명시 타입 적용)
@@ -100,10 +109,14 @@
 - 원클릭 게이트 검증(2026-03-02):
   - `./tools/qa/headless-alpha-gate.sh` PASS
   - 산출 로그: `.qa/headless/<timestamp>/{smoke,boss_loop,restart_loop,long_sim}.log`
+  - 경고 요약: `warnings=0`, `leak_lines=0`
+- 누수 심화 추적(2026-03-02):
+  - `./tools/qa/trace-objectdb-leak.sh` 실행
+  - `leak-summary.txt` 기준 `Leaked instance` 미검출
 
 ## Known Issues
 - 현재 보스 SFX는 generated 자산(v2)이며, 향후 최종 음원 교체 여지
 - 후반 웨이브 밀도 미세조정(6차 폴리싱) 여지
 - 실수동 QA 3회(키 입력 기반 조작감/난이도 체감) 사용자 요청으로 보류
 - 실GUI 환경 FPS 실측 체크 보류(수동 QA 재개 시 동시 수행)
-- 일부 headless 장시간 종료 시 `ObjectDB instances leaked at exit` 경고가 간헐 출력됨(크래시/실행 실패는 없음, 추적 필요)
+- headless 오디오를 비활성화해 ObjectDB 누수 경고는 해소했으며, GUI 실측 시 오디오 경로 재확인 필요

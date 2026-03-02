@@ -5,6 +5,8 @@
 - [x] 10분 시뮬레이션 3회에서 비정상 종료 없음 (`--auto-levelup`, 36000프레임 x3)
 - [x] 게임오버/재시작 루프 정상 (`--qa-force-damage --qa-auto-restart`)
 - [x] 원클릭 헤드리스 Alpha Gate 통과 (`./tools/qa/headless-alpha-gate.sh`)
+- [x] leak trace 스크립트 실행 및 누수 요약 확인 (`./tools/qa/trace-objectdb-leak.sh`)
+- [x] 수동 QA 전 준비상태 점검 통과 (`./tools/qa/pre-manual-qa-check.sh`)
 
 ## 기능별
 - [ ] 이동/대시 조작 반응성 (수동 QA 보류)

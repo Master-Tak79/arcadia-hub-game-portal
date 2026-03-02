@@ -690,3 +690,29 @@
 
 ### 다음 액션
 - 수동 QA 3회 + GUI FPS 실측 재개 시 알파 확정 조건 충족 여부 재판정
+
+## 2026-03-02 17:52 KST
+### 오늘 목표
+- leak trace 결과 반영 및 수동 QA 전 준비 자동화 마무리
+
+### 진행 내용
+- `scripts/audio/sfx_slots.gd`에 headless 오디오 안전모드 적용
+  - headless에서는 스트림 로드/재생을 비활성화하고 `SFX_HEADLESS_MODE_ON` 로그 출력
+- QA 도구 2종 추가
+  - `tools/qa/trace-objectdb-leak.sh` (Verbose leak 추적)
+  - `tools/qa/pre-manual-qa-check.sh` (수동 QA 준비 체크)
+- `headless-alpha-gate.sh` 강화
+  - warning/leak summary 자동 산출 (`warnings-summary.txt`)
+  - headless 오디오 모드 토큰 검증 추가
+
+### 이슈/해결
+- 이슈: headless long sim 종료 시 ObjectDB leak 경고 발생
+- 해결: headless 모드에서 오디오 스트림 로딩을 비활성화해 경고 재현 종료
+
+### 검증 결과
+- `./tools/qa/headless-alpha-gate.sh` 재실행 통과 (warnings=0, leak_lines=0)
+- `./tools/qa/trace-objectdb-leak.sh` 실행 시 leaked instance 미검출
+- `./tools/qa/pre-manual-qa-check.sh` 통과
+
+### 다음 액션
+- 사용자 실측 가능 시점에 수동 QA 3회 + GUI FPS 실측 진행

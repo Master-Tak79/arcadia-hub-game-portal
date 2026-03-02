@@ -49,11 +49,16 @@ const _PRESET_JITTER_SCALE := {
 var _players: Dictionary = {}
 var _missing_reported: Dictionary = {}
 var _active_preset: String = "default"
+var _headless_audio_disabled: bool = false
 
 func _ready() -> void:
+	_headless_audio_disabled = bool(OS.has_feature("headless")) or String(DisplayServer.get_name()) == "headless"
 	_create_slot(SLOT_BOSS_WARNING)
 	_create_slot(SLOT_BOSS_SPAWN)
 	_create_slot(SLOT_BOSS_DEFEAT)
+	if _headless_audio_disabled:
+		print("SFX_HEADLESS_MODE_ON")
+		return
 	configure_default_paths()
 	apply_preset("default")
 
@@ -79,12 +84,16 @@ func get_active_preset() -> String:
 	return _active_preset
 
 func set_slot_stream(slot: String, stream: AudioStream) -> void:
+	if _headless_audio_disabled:
+		return
 	if not _players.has(slot):
 		return
 	var player: AudioStreamPlayer = _players[slot]
 	player.stream = stream
 
 func set_slot_stream_from_path(slot: String, resource_path: String) -> void:
+	if _headless_audio_disabled:
+		return
 	if not _players.has(slot):
 		return
 
@@ -103,6 +112,8 @@ func set_slot_stream_from_path(slot: String, resource_path: String) -> void:
 			set_slot_stream(slot, ogg_stream)
 
 func play_slot(slot: String) -> void:
+	if _headless_audio_disabled:
+		return
 	if not _players.has(slot):
 		return
 	var player: AudioStreamPlayer = _players[slot]
@@ -136,3 +147,13 @@ func _create_slot(slot: String) -> void:
 	player.volume_db = float(_BASE_SLOT_VOLUMES.get(slot, -8.0))
 	add_child(player)
 	_players[slot] = player
+
+func _exit_tree() -> void:
+	for slot in _players.keys():
+		var player: AudioStreamPlayer = _players[slot]
+		if player == null:
+			continue
+		if player.playing:
+			player.stop()
+		player.stream = null
+	_players.clear()

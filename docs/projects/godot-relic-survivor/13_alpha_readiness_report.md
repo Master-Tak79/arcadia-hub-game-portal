@@ -45,7 +45,8 @@
   2) GUI FPS 실측 체크 완료
 
 ## 다음 액션
-1. 수동 QA 재개 시 `11_manual_qa_protocol.md` 기준으로 3회 실행
-2. 체크리스트/릴리즈노트 최종 갱신
-3. `16_alpha_candidate_quality_lock.md` unlock 조건 확인
-4. `v0.1.0-alpha` 확정 태깅
+1. 수동 QA 재개 직전 `tools/qa/pre-manual-qa-check.sh` 실행
+2. 수동 QA 재개 시 `11_manual_qa_protocol.md` 기준으로 3회 실행
+3. 체크리스트/릴리즈노트 최종 갱신
+4. `16_alpha_candidate_quality_lock.md` unlock 조건 확인
+5. `v0.1.0-alpha` 확정 태깅

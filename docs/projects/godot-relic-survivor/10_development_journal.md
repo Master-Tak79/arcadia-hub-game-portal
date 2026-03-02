@@ -77,3 +77,25 @@
 
 ### 메모
 - 장시간 종료 시 `ObjectDB instances leaked at exit` 경고가 간헐 노출되어 추적 후보로 등록
+
+## 2026-03-02 (Leak Trace + Pre-Manual QA Readiness)
+
+### 반영
+- `ObjectDB instances leaked at exit` 경고 추적 수행
+  - `tools/qa/trace-objectdb-leak.sh` 추가(Verbose long sim + leak summary 추출)
+- headless 환경 오디오 안전모드 적용
+  - `scripts/audio/sfx_slots.gd`에서 headless 시 스트림 로드/재생 비활성화
+  - 런타임 로그 `SFX_HEADLESS_MODE_ON` 추가
+- 수동 QA 직전 점검 자동화
+  - `tools/qa/pre-manual-qa-check.sh` 추가(문서/도구/최근 게이트 상태 확인)
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` 재실행 통과
+  - warnings=0, leak_lines=0
+- `./tools/qa/trace-objectdb-leak.sh` 실행
+  - leak-summary 기준 `Leaked instance` 미검출
+- `./tools/qa/pre-manual-qa-check.sh` 통과
+
+### 결정
+- 실측 전까지는 headless 기준선 안정화 유지
+- 알파 확정 게이트는 기존과 동일(수동 QA 3회 + GUI FPS 실측)
