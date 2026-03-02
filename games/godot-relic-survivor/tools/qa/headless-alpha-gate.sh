@@ -61,6 +61,10 @@ run_case elite_loop \
   "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 2400 -- \
   --elite-test --auto-levelup --qa-autopilot --sfx-preset=quiet
 
+run_case relic_loop \
+  "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 1800 -- \
+  --relic-test --auto-levelup --qa-autopilot --sfx-preset=quiet
+
 run_case restart_loop \
   "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 3000 -- \
   --qa-force-damage --qa-auto-restart
@@ -73,6 +77,7 @@ SMOKE_LOG="$RUN_DIR/smoke.log"
 BOSS_LOG="$RUN_DIR/boss_loop.log"
 BOSS_PATTERN_LOG="$RUN_DIR/boss_pattern.log"
 ELITE_LOG="$RUN_DIR/elite_loop.log"
+RELIC_LOG="$RUN_DIR/relic_loop.log"
 RESTART_LOG="$RUN_DIR/restart_loop.log"
 LONG_LOG="$RUN_DIR/long_sim.log"
 
@@ -105,11 +110,18 @@ assert_log_contains "$ELITE_LOG" "ELITE_TEST_ON"
 assert_log_contains "$ELITE_LOG" "ELITE_SPAWNED:elite_grunt"
 assert_log_contains "$ELITE_LOG" "ELITE_SPAWNED:elite_dasher"
 
+assert_log_contains "$RELIC_LOG" "RELIC_TEST_ON"
+RELIC_COUNT=$(grep -c "RELIC_GRANTED:" "$RELIC_LOG" || true)
+if [[ "$RELIC_COUNT" -lt 2 ]]; then
+  echo "[FAIL] relic_loop validation failed: expected >=2 relic grants, got $RELIC_COUNT" >&2
+  exit 1
+fi
+
 assert_log_contains "$RESTART_LOG" "QA_FORCE_DEATH"
 assert_log_contains "$RESTART_LOG" "QA_AUTO_RESTART_TRIGGERED"
 assert_log_contains "$LONG_LOG" "RELIC_SURVIVOR_BOOT_OK"
 
-for log in "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$ELITE_LOG" "$RESTART_LOG" "$LONG_LOG"; do
+for log in "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$ELITE_LOG" "$RELIC_LOG" "$RESTART_LOG" "$LONG_LOG"; do
   assert_log_not_contains "$log" "SCRIPT ERROR"
   assert_log_not_contains "$log" "ERROR:"
   assert_log_not_contains "$log" "CRASH"
@@ -120,7 +132,7 @@ WARN_SUMMARY="$RUN_DIR/warnings-summary.txt"
   echo "# Warning summary"
   echo "run: $STAMP"
   echo
-  grep -HnE "WARNING:|Leaked instance:|Orphan StringName" "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$ELITE_LOG" "$RESTART_LOG" "$LONG_LOG" || true
+  grep -HnE "WARNING:|Leaked instance:|Orphan StringName" "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$ELITE_LOG" "$RELIC_LOG" "$RESTART_LOG" "$LONG_LOG" || true
 } > "$WARN_SUMMARY"
 
 WARN_COUNT=$(grep -c "WARNING:" "$WARN_SUMMARY" || true)
@@ -134,6 +146,7 @@ cat <<EOF
 - boss loop:     PASS
 - boss pattern:  PASS (RING=$RING_COUNT, WALL=$WALL_COUNT)
 - elite loop:    PASS
+- relic loop:    PASS (grants=$RELIC_COUNT)
 - restart loop:  PASS
 - long sim:      PASS
 - warnings:      $WARN_COUNT

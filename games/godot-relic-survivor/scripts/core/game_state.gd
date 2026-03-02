@@ -20,6 +20,12 @@ var is_game_over: bool = false
 var is_paused: bool = false
 
 var upgrade_stacks: Dictionary = {}
+var relic_stacks: Dictionary = {}
+var relic_titles: Dictionary = {}
+var relic_order: Array = []
+var relic_obtained_count: int = 0
+var relic_last_title: String = ""
+var relic_last_desc: String = ""
 
 # Upgrade-driven runtime modifiers
 var attack_interval_reduction: float = 0.0
@@ -53,6 +59,12 @@ func reset() -> void:
 	is_paused = false
 
 	upgrade_stacks = {}
+	relic_stacks = {}
+	relic_titles = {}
+	relic_order = []
+	relic_obtained_count = 0
+	relic_last_title = ""
+	relic_last_desc = ""
 
 	attack_interval_reduction = 0.0
 	attack_range_bonus = 0.0

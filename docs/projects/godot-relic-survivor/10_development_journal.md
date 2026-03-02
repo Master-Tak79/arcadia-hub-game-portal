@@ -238,3 +238,18 @@
 ### 상태
 - 콘텐츠 확장 Step 1 완료
 - 다음 착수: Step 2 (Relic System 01)
+
+## 2026-03-02 (Step 2 Complete — Relic System 01)
+
+### 반영
+- 유물 12종 데이터/적용기/획득 루프 구현
+- 압박도/체력 기반 유물 가중치 보정 적용
+- HUD/배너에 유물 획득 및 현재 세트 요약 노출
+- QA 게이트에 `relic_loop` 시나리오 추가
+
+### 검증
+- headless gate(`relic_loop` 포함), readiness, checkpoint, leak trace 통과
+
+### 상태
+- 콘텐츠 확장 Step 2 완료
+- 다음 착수: Step 3 (Stage Event Pack 01)

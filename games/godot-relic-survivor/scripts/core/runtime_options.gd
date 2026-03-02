@@ -5,6 +5,7 @@ var boss_hp_scale_override: float = 1.0
 var boss_test_boost: bool = false
 var boss_pattern_test: bool = false
 var elite_test: bool = false
+var relic_test: bool = false
 
 var auto_levelup: bool = false
 
@@ -32,6 +33,8 @@ func parse_user_args(args: Array) -> void:
 			boss_pattern_test = true
 		elif arg == "--elite-test" or arg == "elite-test":
 			elite_test = true
+		elif arg == "--relic-test" or arg == "relic-test":
+			relic_test = true
 		elif arg == "--auto-levelup" or arg == "auto-levelup":
 			auto_levelup = true
 		elif arg == "--qa-auto-restart" or arg == "qa-auto-restart":
@@ -67,6 +70,8 @@ func print_enabled_flags() -> void:
 		print("AUTO_LEVELUP_ON")
 	if elite_test:
 		print("ELITE_TEST_ON")
+	if relic_test:
+		print("RELIC_TEST_ON")
 	if qa_auto_restart:
 		print("QA_AUTO_RESTART_ON")
 	if qa_force_damage:

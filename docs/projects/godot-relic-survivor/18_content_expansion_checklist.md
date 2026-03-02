@@ -22,11 +22,12 @@
 - [x] 게이트에 elite_loop 추가 및 토큰 검증 반영
 
 ## Step 2 — Relic System 01 (12종)
-- [ ] 유물 데이터 구조 추가
-- [ ] 유물 획득/적용 시스템 추가
-- [ ] 유물 UI(획득/효과 요약) 추가
-- [ ] 유물 12종 효과 구현
-- [ ] OP 조합 완화 규칙 반영
+- [x] 유물 데이터 구조 추가
+- [x] 유물 획득/적용 시스템 추가
+- [x] 유물 UI(획득/효과 요약) 추가
+- [x] 유물 12종 효과 구현
+- [x] OP 조합 완화 규칙 반영
+- [x] relic_loop QA 케이스 및 토큰 검증 반영
 
 ## Step 3 — Stage Event Pack 01 (3종)
 - [ ] 안개 이벤트
@@ -56,4 +57,11 @@
 - 구현 커밋: `338cece` (review pass 기반), `9303bf6`(docs plan), 이번 단계 코드/문서 일괄 커밋 예정
 - 자동검증 결과: headless gate PASS (`elite_loop` 포함), pre-manual PASS, leak trace PASS
 - 리스크/이슈: elite long_sim 로그량 증가(정보성), 추후 로그 압축 필요 가능
+- 다음 Step 진행 승인: 대기 중
+
+### Step 2 결과 기록
+- Step: Relic System 01 (12종)
+- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 자동검증 결과: headless gate PASS (`relic_loop` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: long_sim 로그량 증가(유물/엘리트 토큰 다수 출력), 추후 로그 레벨 옵션 검토 필요
 - 다음 Step 진행 승인: 대기 중

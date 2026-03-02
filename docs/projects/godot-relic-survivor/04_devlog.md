@@ -914,3 +914,22 @@
 - `./tools/qa/pre-manual-qa-check.sh` PASS
 - `./tools/qa/checkpoint-report.sh` PASS
 - `./tools/qa/trace-objectdb-leak.sh` PASS
+
+## 2026-03-02 20:26 KST
+### Step 2 — Relic System 01 구현 완료
+- 유물 시스템 핵심 추가
+  - `scripts/data/relics.gd`: 유물 12종(공격4/기동3/생존3/혼합2)
+  - `scripts/systems/relic_system.gd`: 획득/가중치 롤/효과 적용 파이프라인
+- 런타임/UI 연동
+  - `game_state.gd`에 relic 상태 필드 추가
+  - `hud.gd`에 RELICS 수량/최근 획득/세트 요약 표시
+  - `event_banner` 통해 획득 배너/역할 태그 노출
+- QA 확장
+  - 런타임 옵션 `--relic-test` 추가
+  - `headless-alpha-gate.sh`에 `relic_loop` 케이스 + `RELIC_GRANTED` 최소 횟수 검증 추가
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` PASS (`relic_loop` 포함)
+- `./tools/qa/pre-manual-qa-check.sh` PASS
+- `./tools/qa/checkpoint-report.sh` PASS
+- `./tools/qa/trace-objectdb-leak.sh` PASS

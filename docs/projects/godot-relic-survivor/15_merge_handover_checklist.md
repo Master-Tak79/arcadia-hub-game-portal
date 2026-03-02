@@ -24,7 +24,7 @@
 1. PR 생성/갱신 시 본문: `14_pr_description_alpha_candidate.md` 사용
 2. merge 전 최신 자동검증 실행:
    - `cd games/godot-relic-survivor && ./tools/qa/headless-alpha-gate.sh`
-   - (포함 시나리오: `boss_pattern`, `elite_loop`)
+   - (포함 시나리오: `boss_pattern`, `elite_loop`, `relic_loop`)
 3. 필요 시 leak 추적:
    - `./tools/qa/trace-objectdb-leak.sh`
 4. 수동 QA 직전 준비 체크:

@@ -35,7 +35,7 @@ func _refresh() -> void:
 		var cooldown_left: float = _player.get_dash_cooldown_left()
 		dash_text = "READY" if cooldown_left <= 0.01 else "%.2fs" % cooldown_left
 
-	var text := "HP: %d / %d\nLV: %d\nEXP: %d / %d\nTIME: %.1f\nKILLS: %d\nENEMIES: %d\nSHOTS: %d\nDASH: %s\nPRESSURE: %s (%.2f)" % [
+	var text := "HP: %d / %d\nLV: %d\nEXP: %d / %d\nTIME: %.1f\nKILLS: %d\nENEMIES: %d\nSHOTS: %d\nDASH: %s\nPRESSURE: %s (%.2f)\nRELICS: %d" % [
 		_state.hp,
 		_state.max_hp,
 		_state.level,
@@ -47,11 +47,26 @@ func _refresh() -> void:
 		projectiles,
 		dash_text,
 		String(_state.pressure_band).to_upper(),
-		float(_state.pressure_hint)
+		float(_state.pressure_hint),
+		int(_state.relic_obtained_count)
 	]
 
 	if _state.is_paused and not _state.is_game_over:
 		text += "\nLEVEL UP 선택 중 (1/2/3)"
+
+	if int(_state.relic_obtained_count) > 0:
+		if String(_state.relic_last_title) != "":
+			text += "\n📿 LAST RELIC: %s" % String(_state.relic_last_title)
+		var preview: Array[String] = []
+		for i in range(_state.relic_order.size() - 1, -1, -1):
+			if preview.size() >= 3:
+				break
+			var id: String = String(_state.relic_order[i])
+			var title: String = String(_state.relic_titles.get(id, id))
+			var stack: int = int(_state.relic_stacks.get(id, 0))
+			preview.append("%s x%d" % [title, stack])
+		if not preview.is_empty():
+			text += "\nSET: " + " | ".join(preview)
 
 	if _miniboss_director:
 		if _miniboss_director.has_method("is_warning_active") and _miniboss_director.is_warning_active():

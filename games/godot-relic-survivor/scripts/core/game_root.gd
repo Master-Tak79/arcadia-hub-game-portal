@@ -10,6 +10,7 @@ const SpawnDirector := preload("res://scripts/systems/spawn_director.gd")
 const AutoAttackSystem := preload("res://scripts/systems/auto_attack_system.gd")
 const CombatSystem := preload("res://scripts/systems/combat_system.gd")
 const UpgradeSystem := preload("res://scripts/systems/upgrade_system.gd")
+const RelicSystem := preload("res://scripts/systems/relic_system.gd")
 const MiniBossDirector := preload("res://scripts/systems/miniboss_director.gd")
 const QaRuntime := preload("res://scripts/systems/qa_runtime.gd")
 const BossRewardRuntime := preload("res://scripts/systems/boss_reward_runtime.gd")
@@ -34,6 +35,7 @@ var _spawn_director: Node
 var _auto_attack_system: Node
 var _combat_system: Node
 var _upgrade_system: Node
+var _relic_system: Node
 var _miniboss_director: Node
 
 var _qa_runtime: RefCounted
@@ -102,6 +104,10 @@ func _ready() -> void:
 
 	_event_banner = EventBanner.new()
 	add_child(_event_banner)
+
+	_relic_system = RelicSystem.new()
+	add_child(_relic_system)
+	_relic_system.setup(_balance, _state, _signal_bus, _event_banner, bool(_runtime_options.relic_test))
 
 	_sfx_slots = SfxSlots.new()
 	add_child(_sfx_slots)
@@ -211,6 +217,8 @@ func _start_round() -> void:
 		_auto_attack_system.reset_runtime()
 	if _combat_system and _combat_system.has_method("reset_runtime"):
 		_combat_system.reset_runtime()
+	if _relic_system and _relic_system.has_method("reset_runtime"):
+		_relic_system.reset_runtime()
 	if _miniboss_director and _miniboss_director.has_method("reset_runtime"):
 		_miniboss_director.reset_runtime()
 	if _level_up_panel and _level_up_panel.has_method("hide_panel"):

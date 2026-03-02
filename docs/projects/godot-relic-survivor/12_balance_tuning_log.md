@@ -233,3 +233,24 @@
 ### 기대 효과
 - 중반(약 3~10분) 난이도 브릿지 강화
 - 기본 grunt/dasher만 반복되는 패턴 피로도 완화
+
+## 2026-03-02 (Relic System 01)
+
+### 변경 요약
+- 유물 12종 데이터 추가 (`scripts/data/relics.gd`)
+  - 공격4 / 기동3 / 생존3 / 혼합2
+- 런타임 유물 획득 루프 추가 (`scripts/systems/relic_system.gd`)
+  - 일반 모드: `RELIC_FIRST_TIME` 이후 주기 획득
+  - 테스트 모드: `--relic-test` 빠른 주기 획득
+- 유물 가중치 보정
+  - 체력/압박도 기반으로 role(attack/mobility/survival/hybrid) 가중치 조정
+
+### 자동 검증 결과
+- `headless-alpha-gate.sh` PASS (`relic_loop` 포함)
+  - `RELIC_GRANTED:*` 최소 2회 검증 통과
+- `pre-manual-qa-check.sh` PASS
+- `trace-objectdb-leak.sh` PASS
+
+### 기대 효과
+- 런별 빌드 분기 확대로 리플레이 동기 강화
+- auto-levelup/압박도 시스템과의 시너지로 중반 이후 전략성 향상
