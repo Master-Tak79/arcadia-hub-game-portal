@@ -216,7 +216,7 @@
 
 ### Step 14 결과 기록
 - Step: Feedback/Runtime Polish Fast Follow
-- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 구현 커밋: `ef23837` (mission streak + texture cache + impact FX polish + docs sync)
 - 자동검증 결과: headless gate PASS (`.qa/headless/20260303-125502`), pre-manual PASS, leak trace PASS
 - 리스크/이슈: 미션 스트릭 보너스에 따른 체감 난이도 하락 여부 수동 QA 필요
 - 다음 Step 진행 승인: 리팩토링 R2(game_root 분리) 또는 애니메이션 2차 폴리싱 대기
