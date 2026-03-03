@@ -230,7 +230,7 @@
 
 ### Step 15 결과 기록
 - Step: Core Runtime Refactor Pack 01
-- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 구현 커밋: `1366b5c` (pressure/advisor 분리 + gate/freeze 대응 + docs sync)
 - 자동검증 결과: headless gate PASS (`.qa/headless/20260303-130909`), pre-manual PASS, leak trace PASS, balance-freeze PASS
 - 리스크/이슈: 리팩토링 후 인터페이스 경계(`has_method`) 추가 축소는 후속 R3에서 진행 필요
 - 다음 Step 진행 승인: R3(interface 정리) 또는 애니메이션 2차 폴리싱 대기
