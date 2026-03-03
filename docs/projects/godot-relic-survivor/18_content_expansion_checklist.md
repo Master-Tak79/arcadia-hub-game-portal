@@ -127,6 +127,12 @@
 - [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
 - [x] 문서/릴리즈/저널 동기화 반영
 
+## Step 17 — Interface Boundary Cleanup Pack 02
+- [x] `hud.gd`, `boss_reward_runtime.gd` 내부 `has_method` 가드 제거(0건)
+- [x] 보스 경고/페이즈/텔레그래프 HUD 및 연출 호출 경계 단순화
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+- [x] 문서/릴리즈/저널 동기화 반영
+
 ---
 
 ## 결과 기록 템플릿

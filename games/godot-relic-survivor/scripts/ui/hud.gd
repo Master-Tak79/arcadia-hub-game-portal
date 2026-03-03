@@ -31,7 +31,7 @@ func _refresh() -> void:
 	var enemies: int = _enemy_container.get_child_count() if _enemy_container else 0
 	var projectiles: int = _projectile_container.get_child_count() if _projectile_container else 0
 	var dash_text: String = "-"
-	if _player and _player.has_method("get_dash_cooldown_left"):
+	if _player:
 		var cooldown_left: float = _player.get_dash_cooldown_left()
 		dash_text = "READY" if cooldown_left <= 0.01 else "%.2fs" % cooldown_left
 
@@ -111,42 +111,29 @@ func _refresh() -> void:
 		]
 
 	if _miniboss_director:
-		if _miniboss_director.has_method("is_warning_active") and _miniboss_director.is_warning_active():
-			var remain: float = 0.0
-			if _miniboss_director.has_method("get_warning_remaining"):
-				remain = _miniboss_director.get_warning_remaining()
+		if _miniboss_director.is_warning_active():
+			var remain: float = float(_miniboss_director.get_warning_remaining())
 			text += "\n⚠ MINIBOSS INCOMING: %.1fs" % remain
-		elif _miniboss_director.has_method("is_boss_alive") and _miniboss_director.is_boss_alive():
-			var phase: int = 1
-			if _miniboss_director.has_method("get_boss_phase"):
-				phase = int(_miniboss_director.get_boss_phase())
+		elif _miniboss_director.is_boss_alive():
+			var phase: int = int(_miniboss_director.get_boss_phase())
 			text += "\n🔥 MINIBOSS ACTIVE · PHASE %d" % phase
-			if _miniboss_director.has_method("is_boss_phase_transitioning") and _miniboss_director.is_boss_phase_transitioning():
-				var shift_left: float = 0.0
-				if _miniboss_director.has_method("get_boss_phase_transition_remaining"):
-					shift_left = float(_miniboss_director.get_boss_phase_transition_remaining())
+			if _miniboss_director.is_boss_phase_transitioning():
+				var shift_left: float = float(_miniboss_director.get_boss_phase_transition_remaining())
 				text += "\n🔻 PHASE SHIFT: %.2fs" % shift_left
-			if _miniboss_director.has_method("get_boss_spawn_grace_remaining"):
-				var grace: float = float(_miniboss_director.get_boss_spawn_grace_remaining())
-				if grace > 0.0:
-					text += "\n🛡 BOSS SAFE WINDOW: %.1fs" % grace
-			if _miniboss_director.has_method("is_boss_dash_telegraphing") and _miniboss_director.is_boss_dash_telegraphing():
-				var dash_remain: float = 0.0
-				if _miniboss_director.has_method("get_boss_dash_telegraph_remaining"):
-					dash_remain = float(_miniboss_director.get_boss_dash_telegraph_remaining())
+			var grace: float = float(_miniboss_director.get_boss_spawn_grace_remaining())
+			if grace > 0.0:
+				text += "\n🛡 BOSS SAFE WINDOW: %.1fs" % grace
+			if _miniboss_director.is_boss_dash_telegraphing():
+				var dash_remain: float = float(_miniboss_director.get_boss_dash_telegraph_remaining())
 				text += "\n⚡ DASH TELEGRAPH: %.2fs" % dash_remain
-			if _miniboss_director.has_method("is_boss_summon_telegraphing") and _miniboss_director.is_boss_summon_telegraphing():
-				var summon_remain: float = 0.0
-				if _miniboss_director.has_method("get_boss_summon_telegraph_remaining"):
-					summon_remain = float(_miniboss_director.get_boss_summon_telegraph_remaining())
-				var summon_pattern: String = ""
-				if _miniboss_director.has_method("get_boss_pending_summon_pattern"):
-					summon_pattern = String(_miniboss_director.get_boss_pending_summon_pattern())
+			if _miniboss_director.is_boss_summon_telegraphing():
+				var summon_remain: float = float(_miniboss_director.get_boss_summon_telegraph_remaining())
+				var summon_pattern: String = String(_miniboss_director.get_boss_pending_summon_pattern())
 				var pattern_label: String = "RING"
 				if summon_pattern == "wall":
 					pattern_label = "WALL"
 				text += "\n🌀 SUMMON %s: %.2fs" % [pattern_label, summon_remain]
-		elif _miniboss_director.has_method("was_boss_defeated") and _miniboss_director.was_boss_defeated():
+		elif _miniboss_director.was_boss_defeated():
 			text += "\n✅ MINIBOSS DEFEATED"
 
 	if _state.is_game_over:

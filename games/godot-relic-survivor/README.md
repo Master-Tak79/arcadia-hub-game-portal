@@ -1,10 +1,10 @@
-# Godot Relic Survivor (v0.1.23-dev)
+# Godot Relic Survivor (v0.1.24-dev)
 
 탑다운 로그라이크 생존 액션 신규 프로젝트입니다.
 현재 코어 전투 루프(이동/대시/자동공격/적 4종+보스 스폰/피격/재시작),
 레벨업 3지선다 + 업그레이드 16종(복합 효과 포함), 유물 12종 시스템까지 반영된 상태입니다.
 
-## 최근 개선 (v0.1.23-dev)
+## 최근 개선 (v0.1.24-dev)
 - Elite Pack 01 추가
   - `Elite Grunt`: 탱키 + 버스트 돌진
   - `Elite Dasher`: 연속 돌진 체인 패턴
@@ -70,6 +70,10 @@
 - Step 16 Interface Boundary Cleanup Pack 01
   - `game_root.gd` 내부 `has_method` 가드 제거(0건) 및 오케스트레이션 경계 정리
   - 직접 관리 객체 호출 경로를 명시화해 런타임 동적 분기 복잡도 축소
+  - 전체 headless/누수/프리즈 게이트 재통과 확인
+- Step 17 Interface Boundary Cleanup Pack 02
+  - `hud.gd`, `boss_reward_runtime.gd`의 `has_method` 분기 제거(직접 제어 객체 기준)
+  - 보스 경고/페이즈/텔레그래프 HUD 표기 및 보스 연출 런타임 호출 경계 단순화
   - 전체 headless/누수/프리즈 게이트 재통과 확인
 - 레벨업 선택지 가독성/시너지 개선
   - 역할 태그(공격/기동/생존/혼합) + 효과 요약 + 상황별 추천 문구 노출

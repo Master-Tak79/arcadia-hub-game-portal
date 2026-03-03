@@ -68,81 +68,63 @@ func _process_miniboss_state_transitions() -> void:
 	if _miniboss_director == null:
 		return
 
-	var warning_active: bool = false
-	if _miniboss_director.has_method("is_warning_active"):
-		warning_active = bool(_miniboss_director.is_warning_active())
-
-	var boss_alive: bool = false
-	if _miniboss_director.has_method("is_boss_alive"):
-		boss_alive = bool(_miniboss_director.is_boss_alive())
-
-	var boss_phase: int = 0
-	if _miniboss_director.has_method("get_boss_phase"):
-		boss_phase = int(_miniboss_director.get_boss_phase())
-	var phase_transition: bool = false
-	if _miniboss_director.has_method("is_boss_phase_transitioning"):
-		phase_transition = bool(_miniboss_director.is_boss_phase_transitioning())
-
-	var dash_telegraph: bool = false
-	if _miniboss_director.has_method("is_boss_dash_telegraphing"):
-		dash_telegraph = bool(_miniboss_director.is_boss_dash_telegraphing())
-
-	var summon_telegraph: bool = false
-	if _miniboss_director.has_method("is_boss_summon_telegraphing"):
-		summon_telegraph = bool(_miniboss_director.is_boss_summon_telegraphing())
+	var warning_active: bool = bool(_miniboss_director.is_warning_active())
+	var boss_alive: bool = bool(_miniboss_director.is_boss_alive())
+	var boss_phase: int = int(_miniboss_director.get_boss_phase())
+	var phase_transition: bool = bool(_miniboss_director.is_boss_phase_transitioning())
+	var dash_telegraph: bool = bool(_miniboss_director.is_boss_dash_telegraphing())
+	var summon_telegraph: bool = bool(_miniboss_director.is_boss_summon_telegraphing())
 
 	if warning_active and not _last_warning_active:
 		if _event_banner:
 			_event_banner.show_message("⚠ WARNING: MINIBOSS APPROACHING", 1.6, Color("#7C2D12"))
-		if _camera_fx and _camera_fx.has_method("play_warning_pulse"):
+		if _camera_fx:
 			_camera_fx.play_warning_pulse()
 		_pending_warning_sfx = float(_balance.SFX_BOSS_WARNING_DELAY)
 
 	if boss_alive and not _last_boss_alive:
 		if _event_banner:
 			_event_banner.show_message("⚠ MINIBOSS HAS ENTERED THE ARENA\n초기 1초는 접촉 피해 없음", 1.9, Color("#7C2D12"))
-		if _camera_fx and _camera_fx.has_method("play_boss_spawn_impact"):
+		if _camera_fx:
 			_camera_fx.play_boss_spawn_impact()
 		_pending_spawn_sfx = float(_balance.SFX_BOSS_SPAWN_DELAY)
 
 	if phase_transition and not _last_phase_transition and boss_alive:
 		if _event_banner and _last_boss_phase < 2:
 			_event_banner.show_message("⚠ PHASE SHIFT — 패턴 전환 중", 1.05, Color("#7F1D1D"))
-		if _camera_fx and _camera_fx.has_method("play_warning_pulse"):
+		if _camera_fx:
 			_camera_fx.play_warning_pulse()
 
 	if boss_phase >= 2 and _last_boss_phase < 2 and boss_alive:
 		if _event_banner:
 			_event_banner.show_message("🔥 PHASE 2: OVERDRIVE", 1.3, Color("#991B1B"))
-		if _camera_fx and _camera_fx.has_method("play_boss_spawn_impact"):
+		if _camera_fx:
 			_camera_fx.play_boss_spawn_impact()
-		if _sfx_slots and _sfx_slots.has_method("play_boss_spawn"):
+		if _sfx_slots:
 			_sfx_slots.play_boss_spawn()
 
 	if dash_telegraph and not _last_dash_telegraph and boss_alive:
 		if _event_banner:
 			_event_banner.show_message("⚠ DASH CHARGE — 잠시 옆으로 이탈하세요", 0.72, Color("#7F1D1D"))
-		if _camera_fx and _camera_fx.has_method("play_warning_pulse"):
+		if _camera_fx:
 			_camera_fx.play_warning_pulse()
-		if _dash_telegraph_sfx_cd <= 0.0 and _sfx_slots and _sfx_slots.has_method("play_boss_warning"):
+		if _dash_telegraph_sfx_cd <= 0.0 and _sfx_slots:
 			_sfx_slots.play_boss_warning()
 			_dash_telegraph_sfx_cd = 0.48
 
 	if summon_telegraph and not _last_summon_telegraph and boss_alive:
-		var pattern: String = ""
-		if _miniboss_director.has_method("get_boss_pending_summon_pattern"):
-			pattern = String(_miniboss_director.get_boss_pending_summon_pattern())
+		var pattern: String = String(_miniboss_director.get_boss_pending_summon_pattern())
 		if _event_banner:
 			if pattern == "wall":
 				_event_banner.show_message("⚠ SUMMON CAST — 전방 차단열 전개", 0.9, Color("#14532D"))
 			else:
 				_event_banner.show_message("⚠ SUMMON CAST — 소환 링 전개", 0.9, Color("#0F4C5C"))
-		if _camera_fx and _camera_fx.has_method("play_warning_pulse"):
+		if _camera_fx:
 			_camera_fx.play_warning_pulse()
 		if _summon_telegraph_sfx_cd <= 0.0 and _sfx_slots:
-			if pattern == "wall" and _sfx_slots.has_method("play_boss_spawn"):
+			if pattern == "wall":
 				_sfx_slots.play_boss_spawn()
-			elif _sfx_slots.has_method("play_boss_warning"):
+			else:
 				_sfx_slots.play_boss_warning()
 			_summon_telegraph_sfx_cd = 0.62
 
@@ -170,7 +152,7 @@ func _apply_boss_clear_reward() -> void:
 	_signal_bus.emit_signal("exp_changed", _state.exp, _state.exp_to_next)
 	print("BOSS_CLEAR_REWARD_APPLIED")
 
-	if _camera_fx and _camera_fx.has_method("play_boss_defeat_impact"):
+	if _camera_fx:
 		_camera_fx.play_boss_defeat_impact()
 	_pending_defeat_sfx = float(_balance.SFX_BOSS_DEFEAT_DELAY)
 
@@ -182,21 +164,21 @@ func _process_pending_sfx(delta: float) -> void:
 		_pending_warning_sfx -= delta
 		if _pending_warning_sfx <= 0.0:
 			_pending_warning_sfx = -1.0
-			if _sfx_slots and _sfx_slots.has_method("play_boss_warning"):
+			if _sfx_slots:
 				_sfx_slots.play_boss_warning()
 
 	if _pending_spawn_sfx >= 0.0:
 		_pending_spawn_sfx -= delta
 		if _pending_spawn_sfx <= 0.0:
 			_pending_spawn_sfx = -1.0
-			if _sfx_slots and _sfx_slots.has_method("play_boss_spawn"):
+			if _sfx_slots:
 				_sfx_slots.play_boss_spawn()
 
 	if _pending_defeat_sfx >= 0.0:
 		_pending_defeat_sfx -= delta
 		if _pending_defeat_sfx <= 0.0:
 			_pending_defeat_sfx = -1.0
-			if _sfx_slots and _sfx_slots.has_method("play_boss_defeat"):
+			if _sfx_slots:
 				_sfx_slots.play_boss_defeat()
 
 func _update_slowmo(delta: float) -> void:

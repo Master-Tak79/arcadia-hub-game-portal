@@ -100,6 +100,10 @@
   - [x] `game_root.gd` 내부 `has_method` 경계 정리(0건)
   - [x] 직접 관리 객체 호출 경로 명시화
   - [x] headless/leak/freeze/checkpoint 재검증
+- [x] **Step 17 — Interface Boundary Cleanup Pack 02**
+  - [x] `hud.gd`, `boss_reward_runtime.gd` 내부 `has_method` 경계 정리(0건)
+  - [x] 보스 관련 HUD/연출 호출 경로 단순화
+  - [x] headless/leak/freeze/checkpoint 재검증
 
 ## 코드 구조 계획
 - `scripts/core/`: 게임 루프/상태/시그널/모드
@@ -125,7 +129,8 @@
 - Step 14 Feedback/Runtime Polish Fast Follow: **0.5 ~ 1.0일**
 - Step 15 Core Runtime Refactor Pack 01: **0.5 ~ 1.0일**
 - Step 16 Interface Boundary Cleanup Pack 01: **0.25 ~ 0.75일**
-- 총합(문서/QA 포함): **14.25 ~ 23.75일**
+- Step 17 Interface Boundary Cleanup Pack 02: **0.25 ~ 0.75일**
+- 총합(문서/QA 포함): **14.5 ~ 24.5일**
 
 ## 검증 계획
 - 자동:

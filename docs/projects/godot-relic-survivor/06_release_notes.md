@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.23-dev
+- version: v0.1.24-dev
 - date: 2026-03-03
 
 ## Added
@@ -122,6 +122,10 @@
 - Interface Boundary Cleanup Pack 01
   - `game_root.gd` 내부 `has_method` 가드 제거(0건) 및 직접 제어 객체 호출 경계 명시화
   - 불필요한 동적 분기 축소로 런타임 경로 단순화
+- Interface Boundary Cleanup Pack 02
+  - `hud.gd`, `boss_reward_runtime.gd` 내 `has_method` 가드 제거(직접 제어 객체 기준)
+  - 보스 경고/페이즈/텔레그래프 UI 표기 및 연출 호출 경로 단순화
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시
   - 선택 후 예상 지표(예상 DPS/생존 지표, 간이 추정) 프리뷰 표시

@@ -185,6 +185,15 @@
   - headless gate + leak trace + balance freeze 재통과
 - 상태: 🟡 구현/자동검증 완료 (수동 체감 QA 대기)
 
+## M20 — Interface Boundary Cleanup Pack 02 (v0.1.24-dev)
+- 목표: HUD/Boss runtime 동적 인터페이스 분기 축소
+- 콘텐츠:
+  - `hud.gd`의 미니보스 상태 조회 경계 단순화
+  - `boss_reward_runtime.gd`의 보스 연출/SFX 호출 경계 단순화
+- 완료 기준:
+  - headless gate + leak trace + balance freeze 재통과
+- 상태: 🟡 구현/자동검증 완료 (수동 체감 QA 대기)
+
 ## 백로그 (중기)
 - 캐릭터 전용 무기/액티브 스킬 트리 고도화 구현
 - VFX/애니메이션 2차 폴리싱

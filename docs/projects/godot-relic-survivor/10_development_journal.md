@@ -446,3 +446,12 @@
 
 ### 검증
 - headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과
+
+## 2026-03-03 (Step 17 — Interface Boundary Cleanup Pack 02)
+
+### 변경
+- HUD/Boss runtime의 동적 인터페이스 분기(`has_method`) 제거
+- 보스 상태 표기/연출 호출 경계 단순화
+
+### 검증
+- headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과

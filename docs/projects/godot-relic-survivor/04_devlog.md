@@ -1191,3 +1191,11 @@
 - 회귀 검증:
   - headless gate PASS: `.qa/headless/20260303-131905`
   - pre-manual/checkpoint/leak/freeze PASS
+
+## 2026-03-03 13:35 KST
+### Step 17 — Interface Boundary Cleanup Pack 02
+- `hud.gd` 내 미니보스 조회 `has_method` 경계 제거
+- `boss_reward_runtime.gd` 내 보스 연출/SFX `has_method` 경계 제거
+- 회귀 검증
+  - headless gate PASS: `.qa/headless/20260303-133108`
+  - pre-manual/checkpoint/leak/freeze PASS
