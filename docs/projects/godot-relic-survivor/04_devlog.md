@@ -1183,3 +1183,11 @@
 - QA 재검증
   - headless gate PASS: `.qa/headless/20260303-130909`
   - pre-manual/checkpoint/leak trace PASS
+
+## 2026-03-03 13:22 KST
+### Step 16 — Interface Boundary Cleanup Pack 01
+- `game_root.gd` 내 `has_method` 분기 제거(0건)
+- 직접 제어 객체 호출 경계를 명시화해 오케스트레이션 가독성 개선
+- 회귀 검증:
+  - headless gate PASS: `.qa/headless/20260303-131905`
+  - pre-manual/checkpoint/leak/freeze PASS

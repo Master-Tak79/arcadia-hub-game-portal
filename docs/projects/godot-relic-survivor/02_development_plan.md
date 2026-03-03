@@ -96,6 +96,10 @@
   - [x] `levelup_advisor.gd`(auto-levelup 선택) 분리
   - [x] `game_root.gd` 위임 구조 적용
   - [x] QA 스크립트(`balance-freeze-check.sh`) 리팩토링 구조 대응
+- [x] **Step 16 — Interface Boundary Cleanup Pack 01**
+  - [x] `game_root.gd` 내부 `has_method` 경계 정리(0건)
+  - [x] 직접 관리 객체 호출 경로 명시화
+  - [x] headless/leak/freeze/checkpoint 재검증
 
 ## 코드 구조 계획
 - `scripts/core/`: 게임 루프/상태/시그널/모드
@@ -120,7 +124,8 @@
 - Step 13 Quality+Feature Upgrade Pack 01: **1.0 ~ 1.5일**
 - Step 14 Feedback/Runtime Polish Fast Follow: **0.5 ~ 1.0일**
 - Step 15 Core Runtime Refactor Pack 01: **0.5 ~ 1.0일**
-- 총합(문서/QA 포함): **14.0 ~ 23.0일**
+- Step 16 Interface Boundary Cleanup Pack 01: **0.25 ~ 0.75일**
+- 총합(문서/QA 포함): **14.25 ~ 23.75일**
 
 ## 검증 계획
 - 자동:

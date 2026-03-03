@@ -121,6 +121,12 @@
 - [x] `balance-freeze-check.sh` 신규 구조 대응
 - [x] 자동검증 재통과 + 문서 동기화 반영
 
+## Step 16 — Interface Boundary Cleanup Pack 01
+- [x] `game_root.gd` 내부 `has_method` 가드 제거(0건)
+- [x] 직접 제어 객체 호출 경계 명시화
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+- [x] 문서/릴리즈/저널 동기화 반영
+
 ---
 
 ## 결과 기록 템플릿
@@ -234,3 +240,10 @@
 - 자동검증 결과: headless gate PASS (`.qa/headless/20260303-130909`), pre-manual PASS, leak trace PASS, balance-freeze PASS
 - 리스크/이슈: 리팩토링 후 인터페이스 경계(`has_method`) 추가 축소는 후속 R3에서 진행 필요
 - 다음 Step 진행 승인: R3(interface 정리) 또는 애니메이션 2차 폴리싱 대기
+
+### Step 16 결과 기록
+- Step: Interface Boundary Cleanup Pack 01
+- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260303-131905`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: `game_root` 외 영역(HUD/Boss runtime)의 `has_method` 정리는 후속 단계에서 점진 적용 필요
+- 다음 Step 진행 승인: R4(HUD/Boss interface 정리) 또는 애니메이션 2차 폴리싱 대기

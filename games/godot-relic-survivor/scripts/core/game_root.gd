@@ -42,31 +42,31 @@ var _balance: RefCounted
 var _input_actions: RefCounted
 var _runtime_options: RefCounted
 
-var _spawn_director: Node
-var _auto_attack_system: Node
-var _combat_system: Node
-var _upgrade_system: Node
-var _relic_system: Node
-var _miniboss_director: Node
+var _spawn_director
+var _auto_attack_system
+var _combat_system
+var _upgrade_system
+var _relic_system
+var _miniboss_director
 
-var _stage_event_system: RefCounted
+var _stage_event_system
 
-var _qa_runtime: RefCounted
-var _boss_reward_runtime: RefCounted
-var _meta_progression: RefCounted
-var _tree_progression: RefCounted
-var _mission_system: RefCounted
-var _pressure_runtime: RefCounted
-var _levelup_advisor: RefCounted
-var _character_system: RefCounted
-var _weapon_system: RefCounted
-var _active_skill_system: Node
+var _qa_runtime
+var _boss_reward_runtime
+var _meta_progression
+var _tree_progression
+var _mission_system
+var _pressure_runtime
+var _levelup_advisor
+var _character_system
+var _weapon_system
+var _active_skill_system
 
-var _level_up_panel: CanvasLayer
-var _tree_panel: CanvasLayer
-var _event_banner: CanvasLayer
-var _stage_event_overlay: Node2D
-var _sfx_slots: Node
+var _level_up_panel
+var _tree_panel
+var _event_banner
+var _stage_event_overlay
+var _sfx_slots
 
 var _current_level_choices: Array = []
 var _current_tree_options: Array = []
@@ -90,10 +90,8 @@ func _ready() -> void:
 	_spawn_director = SpawnDirector.new()
 	add_child(_spawn_director)
 	_spawn_director.setup(_balance, _state, _player, _enemy_container)
-	if _spawn_director.has_method("set_elite_test_mode"):
-		_spawn_director.set_elite_test_mode(bool(_runtime_options.elite_test))
-	if _spawn_director.has_method("set_elite_variant_test_mode"):
-		_spawn_director.set_elite_variant_test_mode(bool(_runtime_options.elite_variant_test))
+	_spawn_director.set_elite_test_mode(bool(_runtime_options.elite_test))
+	_spawn_director.set_elite_variant_test_mode(bool(_runtime_options.elite_variant_test))
 
 	_auto_attack_system = AutoAttackSystem.new()
 	add_child(_auto_attack_system)
@@ -119,15 +117,11 @@ func _ready() -> void:
 		bool(_runtime_options.boss_pattern_test)
 	)
 	_hud.set_miniboss_director(_miniboss_director)
-	if _spawn_director and _spawn_director.has_method("set_miniboss_director"):
-		_spawn_director.set_miniboss_director(_miniboss_director)
+	_spawn_director.set_miniboss_director(_miniboss_director)
 
 	_level_up_panel = LevelUpPanel.new()
 	add_child(_level_up_panel)
-	if _level_up_panel.has_method("set_context"):
-		_level_up_panel.set_context(_state, _balance)
-	elif _level_up_panel.has_method("set_state"):
-		_level_up_panel.set_state(_state)
+	_level_up_panel.set_context(_state, _balance)
 	_level_up_panel.choice_selected.connect(_on_level_up_choice_selected)
 
 	_tree_panel = TreePanel.new()
@@ -141,8 +135,7 @@ func _ready() -> void:
 	_stage_event_overlay = StageEventOverlay.new()
 	add_child(_stage_event_overlay)
 	move_child(_stage_event_overlay, 1)
-	if _stage_event_overlay.has_method("setup"):
-		_stage_event_overlay.setup(_balance, _state)
+	_stage_event_overlay.setup(_balance, _state)
 
 	_relic_system = RelicSystem.new()
 	add_child(_relic_system)
@@ -153,8 +146,7 @@ func _ready() -> void:
 
 	_sfx_slots = SfxSlots.new()
 	add_child(_sfx_slots)
-	if _sfx_slots and _sfx_slots.has_method("apply_preset"):
-		_sfx_slots.apply_preset(String(_runtime_options.sfx_preset))
+	_sfx_slots.apply_preset(String(_runtime_options.sfx_preset))
 
 	_qa_runtime = QaRuntime.new()
 	_qa_runtime.setup(_runtime_options, _balance, _state, _player)
@@ -239,10 +231,8 @@ func _process(delta: float) -> void:
 		return
 
 	_state.elapsed += delta
-	if _stage_event_system and _stage_event_system.has_method("process"):
-		_stage_event_system.process(delta)
-	if _mission_system and _mission_system.has_method("process"):
-		_mission_system.process(delta)
+	_stage_event_system.process(delta)
+	_mission_system.process(delta)
 	if _state.is_game_over:
 		return
 	_update_pressure_hint()
@@ -258,11 +248,8 @@ func _track_game_over_edge() -> void:
 	if _state.is_game_over and not _last_game_over:
 		_last_game_over = true
 		_qa_runtime.on_game_over_entered()
-		if _meta_progression and _meta_progression.has_method("on_run_finished"):
-			var boss_defeated: bool = false
-			if _miniboss_director and _miniboss_director.has_method("was_boss_defeated"):
-				boss_defeated = bool(_miniboss_director.was_boss_defeated())
-			_meta_progression.on_run_finished(int(_state.kills), boss_defeated)
+		var boss_defeated: bool = bool(_miniboss_director.was_boss_defeated())
+		_meta_progression.on_run_finished(int(_state.kills), boss_defeated)
 	elif not _state.is_game_over:
 		_last_game_over = false
 
@@ -290,17 +277,13 @@ func _open_tree_menu() -> void:
 		return
 	if _level_up_panel and _level_up_panel.visible:
 		return
-	if _tree_progression == null or not _tree_progression.has_method("get_tree_ui_options"):
-		return
 
 	_current_tree_options = _tree_progression.get_tree_ui_options(3)
-	if _tree_panel and _tree_panel.has_method("show_options"):
-		_tree_panel.show_options(String(_state.character_title), int(_state.meta_shards), _current_tree_options)
+	_tree_panel.show_options(String(_state.character_title), int(_state.meta_shards), _current_tree_options)
 
 	_tree_menu_open = true
 	_state.is_paused = true
-	if _player and _player.has_method("set_enabled"):
-		_player.set_enabled(false)
+	_player.set_enabled(false)
 	print("TREE_PANEL_OPEN")
 
 func _close_tree_menu() -> void:
@@ -308,19 +291,14 @@ func _close_tree_menu() -> void:
 		return
 	_tree_menu_open = false
 	_current_tree_options = []
-	if _tree_panel and _tree_panel.has_method("hide_panel"):
-		_tree_panel.hide_panel()
+	_tree_panel.hide_panel()
 	if not _state.is_game_over:
 		_state.is_paused = false
-		if _player and _player.has_method("set_enabled"):
-			_player.set_enabled(true)
+		_player.set_enabled(true)
 	print("TREE_PANEL_CLOSED")
 
 func _on_tree_option_selected(option_index: int) -> void:
 	if option_index < 0 or option_index >= _current_tree_options.size():
-		return
-	if _tree_progression == null or not _tree_progression.has_method("try_unlock_node"):
-		_close_tree_menu()
 		return
 
 	var node: Dictionary = _current_tree_options[option_index]
@@ -337,22 +315,16 @@ func _clamp_player_inside_arena() -> void:
 	_player.position.y = clamp(_player.position.y, 0.0, float(_balance.ARENA_SIZE.y))
 
 func _update_pressure_hint() -> void:
-	if _pressure_runtime and _pressure_runtime.has_method("update_pressure_hint"):
-		_pressure_runtime.update_pressure_hint()
+	_pressure_runtime.update_pressure_hint()
 
 func _start_round() -> void:
 	_state.reset()
 	_runtime_options.apply_round_boost_if_needed(_state)
-	if _character_system and _character_system.has_method("apply_round_start_profile"):
-		_character_system.apply_round_start_profile()
-	if _weapon_system and _weapon_system.has_method("apply_round_start_profile"):
-		_weapon_system.apply_round_start_profile()
-	if _meta_progression and _meta_progression.has_method("apply_round_start_modifiers"):
-		_meta_progression.apply_round_start_modifiers()
-	if _tree_progression and _tree_progression.has_method("apply_round_start_modifiers"):
-		_tree_progression.apply_round_start_modifiers()
-	if _active_skill_system and _active_skill_system.has_method("reset_round"):
-		_active_skill_system.reset_round()
+	_character_system.apply_round_start_profile()
+	_weapon_system.apply_round_start_profile()
+	_meta_progression.apply_round_start_modifiers()
+	_tree_progression.apply_round_start_modifiers()
+	_active_skill_system.reset_round()
 
 	_current_level_choices = []
 	_current_tree_options = []
@@ -365,26 +337,16 @@ func _start_round() -> void:
 	_player.set_enabled(true)
 
 	_clear_container(_projectile_container)
-	if _spawn_director and _spawn_director.has_method("reset_runtime"):
-		_spawn_director.reset_runtime()
-	if _auto_attack_system and _auto_attack_system.has_method("reset_runtime"):
-		_auto_attack_system.reset_runtime()
-	if _combat_system and _combat_system.has_method("reset_runtime"):
-		_combat_system.reset_runtime()
-	if _relic_system and _relic_system.has_method("reset_runtime"):
-		_relic_system.reset_runtime()
-	if _stage_event_system and _stage_event_system.has_method("reset_runtime"):
-		_stage_event_system.reset_runtime()
-	if _mission_system and _mission_system.has_method("reset_runtime"):
-		_mission_system.reset_runtime()
-	if _miniboss_director and _miniboss_director.has_method("reset_runtime"):
-		_miniboss_director.reset_runtime()
-	if _level_up_panel and _level_up_panel.has_method("hide_panel"):
-		_level_up_panel.hide_panel()
-	if _tree_panel and _tree_panel.has_method("hide_panel"):
-		_tree_panel.hide_panel()
-	if _event_banner:
-		_event_banner.visible = false
+	_spawn_director.reset_runtime()
+	_auto_attack_system.reset_runtime()
+	_combat_system.reset_runtime()
+	_relic_system.reset_runtime()
+	_stage_event_system.reset_runtime()
+	_mission_system.reset_runtime()
+	_miniboss_director.reset_runtime()
+	_level_up_panel.hide_panel()
+	_tree_panel.hide_panel()
+	_event_banner.visible = false
 
 	_update_pressure_hint()
 	_qa_runtime.reset_round()
@@ -428,9 +390,7 @@ func _on_level_up_choice_selected(choice_index: int) -> void:
 	_level_up_panel.hide_panel()
 
 func _pick_auto_levelup_index(choices: Array) -> int:
-	if _levelup_advisor and _levelup_advisor.has_method("pick_best_choice_index"):
-		return int(_levelup_advisor.pick_best_choice_index(choices))
-	return 0
+	return int(_levelup_advisor.pick_best_choice_index(choices))
 
 func _clear_container(container: Node2D) -> void:
 	for node in container.get_children():

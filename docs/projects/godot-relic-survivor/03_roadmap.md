@@ -176,6 +176,15 @@
   - balance freeze check PASS
 - 상태: 🟡 구현/자동검증 완료 (수동 체감 QA 대기)
 
+## M19 — Interface Boundary Cleanup Pack 01 (v0.1.23-dev)
+- 목표: game_root 동적 인터페이스 분기 축소 및 경계 단순화
+- 콘텐츠:
+  - `game_root.gd` 내 `has_method` 가드 제거(직접 제어 객체 기준)
+  - 호출 경로 명시화 및 오케스트레이션 가독성 개선
+- 완료 기준:
+  - headless gate + leak trace + balance freeze 재통과
+- 상태: 🟡 구현/자동검증 완료 (수동 체감 QA 대기)
+
 ## 백로그 (중기)
 - 캐릭터 전용 무기/액티브 스킬 트리 고도화 구현
 - VFX/애니메이션 2차 폴리싱

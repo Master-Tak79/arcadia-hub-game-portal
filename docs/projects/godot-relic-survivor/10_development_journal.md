@@ -437,3 +437,12 @@
 
 ### 검증
 - headless gate / readiness / checkpoint / leak trace / balance-freeze 통과
+
+## 2026-03-03 (Step 16 — Interface Boundary Cleanup Pack 01)
+
+### 변경
+- game_root 내부 `has_method` 가드 제거 및 호출 경계 정리
+- 런타임 동적 분기 축소(직접 제어 객체 기준)
+
+### 검증
+- headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과

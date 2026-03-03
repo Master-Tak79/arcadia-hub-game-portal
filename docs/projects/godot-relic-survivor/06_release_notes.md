@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.22-dev
+- version: v0.1.23-dev
 - date: 2026-03-03
 
 ## Added
@@ -119,6 +119,9 @@
   - `levelup_advisor.gd` 추가: auto-levelup 점수화 로직 분리
   - `game_root.gd` 오케스트레이션 단순화(pressure/advisor 위임)
   - `balance-freeze-check.sh`가 신규 구조(`pressure_runtime.gd`)를 인식하도록 보강
+- Interface Boundary Cleanup Pack 01
+  - `game_root.gd` 내부 `has_method` 가드 제거(0건) 및 직접 제어 객체 호출 경계 명시화
+  - 불필요한 동적 분기 축소로 런타임 경로 단순화
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시
   - 선택 후 예상 지표(예상 DPS/생존 지표, 간이 추정) 프리뷰 표시
