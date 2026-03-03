@@ -214,6 +214,7 @@ assert_log_contains "$FEEL_LOG" "PROJECTILE_TRAIL_ON"
 assert_log_contains "$MISSION_LOG" "MISSION_TEST_ON"
 assert_log_contains "$MISSION_LOG" "MISSION_ASSIGNED:"
 assert_log_contains "$MISSION_LOG" "MISSION_COMPLETED:"
+assert_log_contains "$MISSION_LOG" "MISSION_STREAK:"
 
 assert_log_contains "$ELITE_VARIANT_LOG" "ELITE_VARIANT_TEST_ON"
 assert_log_contains "$ELITE_VARIANT_LOG" "ELITE_VARIANT:elite_grunt:juggernaut"

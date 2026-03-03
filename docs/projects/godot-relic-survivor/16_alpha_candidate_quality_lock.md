@@ -109,6 +109,9 @@
 - 2026-03-03: 사용자 연속 승인("응")에 따른 콘텐츠 확장 Step 14 Fast Follow 반영.
   - `texture_runtime.gd` 전역 캐시 도입 + `impact_fx` 연출 폴리싱
   - 미션 스트릭 보너스(`MISSION_STREAK:*`) 및 HUD 표시 반영
+- 2026-03-03: 사용자 연속 승인("응")에 따른 콘텐츠 확장 Step 15 반영.
+  - `game_root.gd` 책임 일부를 `pressure_runtime.gd`, `levelup_advisor.gd`로 분리
+  - `balance-freeze-check.sh`가 신규 구조를 인식하도록 보강
 - 처리 원칙:
   - 자동 회귀 검증 통과 필수
   - 설계/릴리즈/개발일지 즉시 동기화

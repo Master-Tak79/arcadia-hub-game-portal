@@ -1173,3 +1173,13 @@
   - `pre-manual-qa-check.sh` PASS
   - `checkpoint-report.sh` PASS (`.qa/reports/checkpoint-20260303-125722.md`)
   - `trace-objectdb-leak.sh` PASS (`.qa/leak-trace/20260303-125722/leak-summary.txt`)
+
+## 2026-03-03 13:13 KST
+### Step 15 — Core Runtime Refactor Pack 01
+- `game_root.gd` 책임 일부 분리:
+  - `systems/pressure_runtime.gd` (압박도 계산)
+  - `systems/levelup_advisor.gd` (auto-levelup 선택 점수화)
+- `tools/qa/balance-freeze-check.sh`를 신규 구조 대응으로 보강
+- QA 재검증
+  - headless gate PASS: `.qa/headless/20260303-130909`
+  - pre-manual/checkpoint/leak trace PASS

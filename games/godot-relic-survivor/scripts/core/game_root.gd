@@ -21,6 +21,8 @@ const WeaponSystem := preload("res://scripts/systems/weapon_system.gd")
 const ActiveSkillSystem := preload("res://scripts/systems/active_skill_system.gd")
 const TreeProgression := preload("res://scripts/systems/tree_progression.gd")
 const MissionSystem := preload("res://scripts/systems/mission_system.gd")
+const PressureRuntime := preload("res://scripts/systems/pressure_runtime.gd")
+const LevelupAdvisor := preload("res://scripts/systems/levelup_advisor.gd")
 
 const LevelUpPanel := preload("res://scripts/ui/level_up_panel.gd")
 const TreePanel := preload("res://scripts/ui/tree_panel.gd")
@@ -54,6 +56,8 @@ var _boss_reward_runtime: RefCounted
 var _meta_progression: RefCounted
 var _tree_progression: RefCounted
 var _mission_system: RefCounted
+var _pressure_runtime: RefCounted
+var _levelup_advisor: RefCounted
 var _character_system: RefCounted
 var _weapon_system: RefCounted
 var _active_skill_system: Node
@@ -183,6 +187,12 @@ func _ready() -> void:
 
 	_mission_system = MissionSystem.new()
 	_mission_system.setup(_state, _event_banner, bool(_runtime_options.mission_test))
+
+	_levelup_advisor = LevelupAdvisor.new()
+	_levelup_advisor.setup(_state)
+
+	_pressure_runtime = PressureRuntime.new()
+	_pressure_runtime.setup(_balance, _state, _spawn_director, _miniboss_director)
 
 	_start_round()
 	_runtime_options.print_enabled_flags()
@@ -327,32 +337,8 @@ func _clamp_player_inside_arena() -> void:
 	_player.position.y = clamp(_player.position.y, 0.0, float(_balance.ARENA_SIZE.y))
 
 func _update_pressure_hint() -> void:
-	var active_count: int = 0
-	if _spawn_director and _spawn_director.has_method("get_active_enemy_count"):
-		active_count = int(_spawn_director.get_active_enemy_count())
-
-	var soft_cap: float = max(1.0, float(_balance.ACTIVE_ENEMY_SOFT_CAP))
-	var hard_cap: float = max(soft_cap + 1.0, float(_balance.ACTIVE_ENEMY_HARD_CAP))
-
-	var pressure: float = 0.0
-	if float(active_count) <= soft_cap:
-		pressure = float(active_count) / soft_cap
-	else:
-		pressure = 1.0 + ((float(active_count) - soft_cap) / max(1.0, hard_cap - soft_cap))
-
-	if _miniboss_director and _miniboss_director.has_method("is_warning_active") and bool(_miniboss_director.is_warning_active()):
-		pressure += 0.18
-	if _miniboss_director and _miniboss_director.has_method("is_boss_alive") and bool(_miniboss_director.is_boss_alive()):
-		pressure += 0.34
-
-	pressure = clampf(pressure, 0.0, 2.0)
-	_state.pressure_hint = pressure
-	if pressure < 0.50:
-		_state.pressure_band = "low"
-	elif pressure < 0.95:
-		_state.pressure_band = "mid"
-	else:
-		_state.pressure_band = "high"
+	if _pressure_runtime and _pressure_runtime.has_method("update_pressure_hint"):
+		_pressure_runtime.update_pressure_hint()
 
 func _start_round() -> void:
 	_state.reset()
@@ -442,64 +428,9 @@ func _on_level_up_choice_selected(choice_index: int) -> void:
 	_level_up_panel.hide_panel()
 
 func _pick_auto_levelup_index(choices: Array) -> int:
-	var best_idx: int = 0
-	var best_score: int = -9999
-	for i in range(choices.size()):
-		var choice: Dictionary = choices[i]
-		var score: int = _score_choice_for_autopilot(choice)
-		if score > best_score:
-			best_score = score
-			best_idx = i
-	return best_idx
-
-func _score_choice_for_autopilot(choice: Dictionary) -> int:
-	var priorities := {
-		"extra_projectiles": 100,
-		"projectile_damage_bonus": 95,
-		"attack_interval_reduction": 92,
-		"projectile_speed_bonus": 80,
-		"attack_range_bonus": 72,
-		"max_hp_plus_heal": 68,
-		"instant_heal": 62,
-		"player_speed_bonus": 42,
-		"dash_cooldown_reduction": 38,
-		"player_invuln_bonus": 36,
-		"projectile_radius_bonus": 28,
-		"projectile_lifetime_bonus": 26
-	}
-
-	var effects: Array = []
-	if choice.has("effects"):
-		effects = Array(choice.get("effects", []))
-	else:
-		effects = [{"key": String(choice.get("effect_key", "")), "value": choice.get("effect_value", 0)}]
-
-	var score: int = 0
-	var hp_ratio: float = float(_state.hp) / max(1.0, float(_state.max_hp))
-	var pressure: float = float(_state.pressure_hint)
-
-	for raw_effect in effects:
-		var effect: Dictionary = raw_effect
-		var key: String = String(effect.get("key", ""))
-		score += int(priorities.get(key, 0))
-
-		if hp_ratio <= 0.42 and (key == "instant_heal" or key == "max_hp_plus_heal" or key == "player_invuln_bonus"):
-			score += 32
-		if pressure >= 0.95 and (key == "player_speed_bonus" or key == "dash_cooldown_reduction" or key == "player_invuln_bonus"):
-			score += 18
-		if pressure >= 0.95 and (key == "extra_projectiles" or key == "attack_interval_reduction"):
-			score -= 8
-
-	if effects.size() >= 2:
-		score += 12
-
-	var id: String = String(choice.get("id", ""))
-	var current_stack: int = int(_state.get_upgrade_stack(id))
-	var max_stacks: int = max(1, int(choice.get("max_stacks", 1)))
-	if current_stack >= max_stacks - 1:
-		score -= 10
-
-	return score
+	if _levelup_advisor and _levelup_advisor.has_method("pick_best_choice_index"):
+		return int(_levelup_advisor.pick_best_choice_index(choices))
+	return 0
 
 func _clear_container(container: Node2D) -> void:
 	for node in container.get_children():

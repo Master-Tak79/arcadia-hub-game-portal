@@ -4,6 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 BALANCE_FILE="$ROOT_DIR/scripts/data/balance.gd"
 GAME_ROOT_FILE="$ROOT_DIR/scripts/core/game_root.gd"
+PRESSURE_RUNTIME_FILE="$ROOT_DIR/scripts/systems/pressure_runtime.gd"
 
 fail() {
   echo "[FAIL] $1" >&2
@@ -26,6 +27,17 @@ assert_line() {
   fi
 }
 
+assert_line_any() {
+  local text="$1"
+  shift
+  for file in "$@"; do
+    if [[ -f "$file" ]] && grep -Fq "$text" "$file"; then
+      return 0
+    fi
+  done
+  fail "Missing line in expected files: $text"
+}
+
 echo "== Balance freeze check =="
 echo "balance file: $BALANCE_FILE"
 
@@ -36,7 +48,7 @@ assert_const "MINIBOSS_SUMMON_WINDUP" "0.62"
 assert_const "MINIBOSS_SUMMON_WALL_CHANCE" "0.40"
 
 # Pressure threshold freeze set
-assert_line $'if pressure < 0.50:' "$GAME_ROOT_FILE"
-assert_line $'elif pressure < 0.95:' "$GAME_ROOT_FILE"
+assert_line_any $'if pressure < 0.50:' "$GAME_ROOT_FILE" "$PRESSURE_RUNTIME_FILE"
+assert_line_any $'elif pressure < 0.95:' "$GAME_ROOT_FILE" "$PRESSURE_RUNTIME_FILE"
 
 echo "✅ Balance freeze check passed"

@@ -426,3 +426,14 @@
 
 ### 검증
 - headless gate / readiness / checkpoint / leak trace 통과
+
+## 2026-03-03 (Step 15 — Core Runtime Refactor Pack 01)
+
+### 변경
+- 압박도 계산 로직을 `pressure_runtime.gd`로 이관
+- auto-levelup 선택 점수화를 `levelup_advisor.gd`로 이관
+- game_root는 오케스트레이션 중심으로 정리
+- balance-freeze-check가 신규 구조를 확인하도록 업데이트
+
+### 검증
+- headless gate / readiness / checkpoint / leak trace / balance-freeze 통과

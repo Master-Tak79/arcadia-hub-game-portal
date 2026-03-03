@@ -165,6 +165,17 @@
   - 미션 루프에서 스트릭 토큰(`MISSION_STREAK:*`) 확인
 - 상태: 🟡 구현/자동검증 완료 (수동 체감 QA 대기)
 
+## M18 — Core Runtime Refactor Pack 01 (v0.1.22-dev)
+- 목표: `game_root` 책임 분리로 유지보수성과 회귀 안전성 개선
+- 콘텐츠:
+  - `pressure_runtime.gd`로 압박도 계산 로직 이관
+  - `levelup_advisor.gd`로 auto-levelup 점수화 로직 이관
+  - `balance-freeze-check.sh`가 신규 구조를 검사하도록 확장
+- 완료 기준:
+  - headless gate + leak trace 재통과
+  - balance freeze check PASS
+- 상태: 🟡 구현/자동검증 완료 (수동 체감 QA 대기)
+
 ## 백로그 (중기)
 - 캐릭터 전용 무기/액티브 스킬 트리 고도화 구현
 - VFX/애니메이션 2차 폴리싱

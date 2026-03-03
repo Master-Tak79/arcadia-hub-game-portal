@@ -114,6 +114,13 @@
 - [x] `impact_fx` 연출 폴리싱(링+스포크)
 - [x] 자동검증 재통과 + 문서 동기화 반영
 
+## Step 15 — Core Runtime Refactor Pack 01
+- [x] `pressure_runtime.gd`(압박도 계산) 분리
+- [x] `levelup_advisor.gd`(auto-levelup 점수화) 분리
+- [x] `game_root.gd` 위임 구조 적용
+- [x] `balance-freeze-check.sh` 신규 구조 대응
+- [x] 자동검증 재통과 + 문서 동기화 반영
+
 ---
 
 ## 결과 기록 템플릿
@@ -220,3 +227,10 @@
 - 자동검증 결과: headless gate PASS (`.qa/headless/20260303-125502`), pre-manual PASS, leak trace PASS
 - 리스크/이슈: 미션 스트릭 보너스에 따른 체감 난이도 하락 여부 수동 QA 필요
 - 다음 Step 진행 승인: 리팩토링 R2(game_root 분리) 또는 애니메이션 2차 폴리싱 대기
+
+### Step 15 결과 기록
+- Step: Core Runtime Refactor Pack 01
+- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260303-130909`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: 리팩토링 후 인터페이스 경계(`has_method`) 추가 축소는 후속 R3에서 진행 필요
+- 다음 Step 진행 승인: R3(interface 정리) 또는 애니메이션 2차 폴리싱 대기

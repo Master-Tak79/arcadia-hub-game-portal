@@ -91,6 +91,11 @@
   - [x] 미션 스트릭 보너스/리셋 + HUD 스트릭 표시 추가
   - [x] `impact_fx` 연출 폴리싱(링/스포크)
   - [x] 게이트/누수/체크포인트 재검증 + 문서 동기화
+- [x] **Step 15 — Core Runtime Refactor Pack 01**
+  - [x] `pressure_runtime.gd`(압박도 계산) 분리
+  - [x] `levelup_advisor.gd`(auto-levelup 선택) 분리
+  - [x] `game_root.gd` 위임 구조 적용
+  - [x] QA 스크립트(`balance-freeze-check.sh`) 리팩토링 구조 대응
 
 ## 코드 구조 계획
 - `scripts/core/`: 게임 루프/상태/시그널/모드
@@ -114,7 +119,8 @@
 - Step 12 Visual Upgrade Pack 01: **0.5 ~ 1.0일**
 - Step 13 Quality+Feature Upgrade Pack 01: **1.0 ~ 1.5일**
 - Step 14 Feedback/Runtime Polish Fast Follow: **0.5 ~ 1.0일**
-- 총합(문서/QA 포함): **13.5 ~ 22.0일**
+- Step 15 Core Runtime Refactor Pack 01: **0.5 ~ 1.0일**
+- 총합(문서/QA 포함): **14.0 ~ 23.0일**
 
 ## 검증 계획
 - 자동:
