@@ -48,7 +48,16 @@ func _refresh() -> void:
 	var unlocks: Dictionary = Dictionary(_state.tree_unlocks)
 	var ranger_nodes: int = Array(unlocks.get("ranger_tree", [])).size()
 	var warden_nodes: int = Array(unlocks.get("warden_tree", [])).size()
-	var text := "HP: %d / %d\nLV: %d\nEXP: %d / %d\nTIME: %.1f\nKILLS: %d\nENEMIES: %d\nSHOTS: %d\nDASH: %s\nCHAR: %s\nWEAPON: %s\nSKILL: %s\nPRESSURE: %s (%.2f)\nRELICS: %d\nMETA: SHARDS %d · RUNS %d · V/C/F %d/%d/%d\nTREE: R %d · W %d" % [
+	var mission_text: String = "-"
+	if bool(_state.mission_active):
+		mission_text = "%s %d/%d (%.0fs)" % [
+			String(_state.mission_title),
+			int(_state.mission_progress),
+			int(_state.mission_target),
+			float(_state.mission_time_left)
+		]
+
+	var text := "HP: %d / %d\nLV: %d\nEXP: %d / %d\nTIME: %.1f\nKILLS: %d\nENEMIES: %d\nSHOTS: %d\nDASH: %s\nCHAR: %s\nWEAPON: %s\nSKILL: %s\nMISSION: %s\nPRESSURE: %s (%.2f)\nRELICS: %d\nMETA: SHARDS %d · RUNS %d · V/C/F %d/%d/%d\nTREE: R %d · W %d" % [
 		_state.hp,
 		_state.max_hp,
 		_state.level,
@@ -62,6 +71,7 @@ func _refresh() -> void:
 		String(_state.character_title),
 		String(_state.weapon_title),
 		skill_text,
+		mission_text,
 		String(_state.pressure_band).to_upper(),
 		float(_state.pressure_hint),
 		int(_state.relic_obtained_count),
@@ -75,7 +85,7 @@ func _refresh() -> void:
 	]
 
 	if _state.is_paused and not _state.is_game_over:
-		text += "\nLEVEL UP 선택 중 (1/2/3)"
+		text += "\nPAUSED (1/2/3 선택, T 트리 메뉴)"
 
 	if int(_state.relic_obtained_count) > 0:
 		if String(_state.relic_last_title) != "":

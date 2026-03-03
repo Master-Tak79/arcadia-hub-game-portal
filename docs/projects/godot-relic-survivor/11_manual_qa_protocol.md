@@ -30,6 +30,7 @@ cd /home/tak/.openclaw/workspace-coder/games/godot-relic-survivor
   - WEAPON 상태(HUD 무기 계열) 가독성
   - TREE 해금 후 다음 라운드 반영 체감(정상 적용 여부)
   - TREE 패널(`T`) 열기/선택/닫기 UX 확인
+  - 미션 할당/완료 보상 체감(MISSION)
   - 중반 웨이브 과도 압박 여부
 
 ### Run C — 보스 페이즈 중심 (10분)
@@ -39,6 +40,7 @@ cd /home/tak/.openclaw/workspace-coder/games/godot-relic-survivor
   - Phase2 전환 텔레그래프 인지성(`PHASE SHIFT` 배너/HUD)
   - Phase2 전환 안전구간(무피해 윈도우) 공정성
   - Phase2 진입 후 패턴 템포 상승 체감(대시/소환)
+  - 엘리트 변형 패턴 체감(Grunt/Dasher variant) 확인
   - 보스 처치 보상 체감(+EXP/+HP)
 
 ## FPS 실측(수동)

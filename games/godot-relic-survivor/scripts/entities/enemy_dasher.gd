@@ -1,8 +1,10 @@
 extends Node2D
 
-const DASHER_TEXTURE := preload("res://assets/sprites/kenney/enemies/dasher.png")
+const DASHER_TEXTURE_PATH := "res://assets/sprites/kenney/enemies/dasher.png"
+const TextureRuntime := preload("res://scripts/core/texture_runtime.gd")
 
 var target: Node2D
+var _dasher_texture: Texture2D
 var speed: float = 90.0
 var hp: int = 3
 var hit_radius: float = 15.0
@@ -16,6 +18,9 @@ var dash_duration: float = 0.28
 var _dash_cooldown_left: float = 1.2
 var _dash_time_left: float = 0.0
 var _dash_direction: Vector2 = Vector2.RIGHT
+
+func _ready() -> void:
+	_dasher_texture = TextureRuntime.load_texture(DASHER_TEXTURE_PATH)
 
 func setup(target_node: Node2D, base_speed: float, base_hp: int, base_hit_radius: float, base_dash_speed: float, base_dash_interval: float, base_dash_duration: float) -> void:
 	target = target_node
@@ -79,11 +84,11 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	if DASHER_TEXTURE:
-		var tex_size: Vector2 = DASHER_TEXTURE.get_size()
+	if _dasher_texture:
+		var tex_size: Vector2 = _dasher_texture.get_size()
 		var scale: float = (hit_radius * 2.6) / max(1.0, max(tex_size.x, tex_size.y))
 		var draw_size: Vector2 = tex_size * scale
-		draw_texture_rect(DASHER_TEXTURE, Rect2(-draw_size * 0.5, draw_size), false, Color.WHITE)
+		draw_texture_rect(_dasher_texture, Rect2(-draw_size * 0.5, draw_size), false, Color.WHITE)
 	else:
 		draw_circle(Vector2.ZERO, hit_radius - 1.0, Color("#8B5CF6"))
 	draw_arc(Vector2.ZERO, hit_radius + 2.0, 0.0, TAU, 20, Color("#C4B5FD"), 2.0)

@@ -73,6 +73,18 @@ run_case event_loop \
   "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 2400 -- \
   --event-test --auto-levelup --qa-autopilot --sfx-preset=quiet
 
+run_case feel_loop \
+  "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 1800 -- \
+  --feel-test --auto-levelup --qa-autopilot --sfx-preset=quiet
+
+run_case mission_loop \
+  "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 2400 -- \
+  --mission-test --elite-test --auto-levelup --qa-autopilot --sfx-preset=quiet
+
+run_case elite_variant_loop \
+  "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 2400 -- \
+  --elite-test --elite-variant-test --auto-levelup --qa-autopilot --sfx-preset=quiet
+
 run_case character_ranger \
   "$GODOTW" --headless --path . --fixed-fps 60 --quit-after 1800 -- \
   --character=ranger --auto-levelup --qa-autopilot --sfx-preset=quiet
@@ -132,6 +144,9 @@ BOSS_PHASE2_LOG="$RUN_DIR/boss_phase2.log"
 ELITE_LOG="$RUN_DIR/elite_loop.log"
 RELIC_LOG="$RUN_DIR/relic_loop.log"
 EVENT_LOG="$RUN_DIR/event_loop.log"
+FEEL_LOG="$RUN_DIR/feel_loop.log"
+MISSION_LOG="$RUN_DIR/mission_loop.log"
+ELITE_VARIANT_LOG="$RUN_DIR/elite_variant_loop.log"
 CHAR_RANGER_LOG="$RUN_DIR/character_ranger.log"
 CHAR_WARDEN_LOG="$RUN_DIR/character_warden.log"
 ACTIVE_RANGER_LOG="$RUN_DIR/active_ranger.log"
@@ -191,6 +206,21 @@ assert_log_contains "$EVENT_LOG" "EVENT_START:fog"
 assert_log_contains "$EVENT_LOG" "EVENT_START:slow_zone"
 assert_log_contains "$EVENT_LOG" "EVENT_START:shock_zone"
 
+assert_log_contains "$FEEL_LOG" "FEEL_TEST_ON"
+assert_log_contains "$FEEL_LOG" "HIT_FX_ON"
+assert_log_contains "$FEEL_LOG" "KILL_FX_ON"
+assert_log_contains "$FEEL_LOG" "PROJECTILE_TRAIL_ON"
+
+assert_log_contains "$MISSION_LOG" "MISSION_TEST_ON"
+assert_log_contains "$MISSION_LOG" "MISSION_ASSIGNED:"
+assert_log_contains "$MISSION_LOG" "MISSION_COMPLETED:"
+
+assert_log_contains "$ELITE_VARIANT_LOG" "ELITE_VARIANT_TEST_ON"
+assert_log_contains "$ELITE_VARIANT_LOG" "ELITE_VARIANT:elite_grunt:juggernaut"
+assert_log_contains "$ELITE_VARIANT_LOG" "ELITE_VARIANT:elite_grunt:berserk"
+assert_log_contains "$ELITE_VARIANT_LOG" "ELITE_VARIANT:elite_dasher:phantom"
+assert_log_contains "$ELITE_VARIANT_LOG" "ELITE_VARIANT:elite_dasher:bulwark"
+
 assert_log_contains "$CHAR_RANGER_LOG" "CHARACTER_OVERRIDE:ranger"
 assert_log_contains "$CHAR_RANGER_LOG" "CHARACTER_SELECTED:ranger"
 assert_log_contains "$CHAR_WARDEN_LOG" "CHARACTER_OVERRIDE:warden"
@@ -233,7 +263,7 @@ assert_log_contains "$RESTART_LOG" "QA_FORCE_DEATH"
 assert_log_contains "$RESTART_LOG" "QA_AUTO_RESTART_TRIGGERED"
 assert_log_contains "$LONG_LOG" "RELIC_SURVIVOR_BOOT_OK"
 
-for log in "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$BOSS_PHASE2_LOG" "$ELITE_LOG" "$RELIC_LOG" "$EVENT_LOG" "$CHAR_RANGER_LOG" "$CHAR_WARDEN_LOG" "$ACTIVE_RANGER_LOG" "$ACTIVE_WARDEN_LOG" "$TREE_RANGER_LOG" "$TREE_WARDEN_LOG" "$TREE_UI_LOG" "$WEAPON_PIERCE_LOG" "$WEAPON_DOT_LOG" "$WEAPON_AOE_LOG" "$META_LOG" "$RESTART_LOG" "$LONG_LOG"; do
+for log in "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$BOSS_PHASE2_LOG" "$ELITE_LOG" "$RELIC_LOG" "$EVENT_LOG" "$FEEL_LOG" "$MISSION_LOG" "$ELITE_VARIANT_LOG" "$CHAR_RANGER_LOG" "$CHAR_WARDEN_LOG" "$ACTIVE_RANGER_LOG" "$ACTIVE_WARDEN_LOG" "$TREE_RANGER_LOG" "$TREE_WARDEN_LOG" "$TREE_UI_LOG" "$WEAPON_PIERCE_LOG" "$WEAPON_DOT_LOG" "$WEAPON_AOE_LOG" "$META_LOG" "$RESTART_LOG" "$LONG_LOG"; do
   assert_log_not_contains "$log" "SCRIPT ERROR"
   assert_log_not_contains "$log" "ERROR:"
   assert_log_not_contains "$log" "CRASH"
@@ -244,7 +274,7 @@ WARN_SUMMARY="$RUN_DIR/warnings-summary.txt"
   echo "# Warning summary"
   echo "run: $STAMP"
   echo
-  grep -HnE "WARNING:|Leaked instance:|Orphan StringName" "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$BOSS_PHASE2_LOG" "$ELITE_LOG" "$RELIC_LOG" "$EVENT_LOG" "$CHAR_RANGER_LOG" "$CHAR_WARDEN_LOG" "$ACTIVE_RANGER_LOG" "$ACTIVE_WARDEN_LOG" "$TREE_RANGER_LOG" "$TREE_WARDEN_LOG" "$TREE_UI_LOG" "$WEAPON_PIERCE_LOG" "$WEAPON_DOT_LOG" "$WEAPON_AOE_LOG" "$META_LOG" "$RESTART_LOG" "$LONG_LOG" || true
+  grep -HnE "WARNING:|Leaked instance:|Orphan StringName" "$SMOKE_LOG" "$BOSS_LOG" "$BOSS_PATTERN_LOG" "$BOSS_PHASE2_LOG" "$ELITE_LOG" "$RELIC_LOG" "$EVENT_LOG" "$FEEL_LOG" "$MISSION_LOG" "$ELITE_VARIANT_LOG" "$CHAR_RANGER_LOG" "$CHAR_WARDEN_LOG" "$ACTIVE_RANGER_LOG" "$ACTIVE_WARDEN_LOG" "$TREE_RANGER_LOG" "$TREE_WARDEN_LOG" "$TREE_UI_LOG" "$WEAPON_PIERCE_LOG" "$WEAPON_DOT_LOG" "$WEAPON_AOE_LOG" "$META_LOG" "$RESTART_LOG" "$LONG_LOG" || true
 } > "$WARN_SUMMARY"
 
 WARN_COUNT=$(grep -c "WARNING:" "$WARN_SUMMARY" || true)
@@ -261,6 +291,9 @@ cat <<EOF
 - elite loop:    PASS
 - relic loop:    PASS (grants=$RELIC_COUNT)
 - event loop:    PASS
+- feel loop:     PASS
+- mission loop:  PASS
+- elite variant: PASS
 - character loop: PASS (ranger/warden)
 - active loop:   PASS (ranger/warden)
 - tree loop:     PASS (ranger/warden)

@@ -1,8 +1,10 @@
 extends Node2D
 
-const ELITE_DASHER_TEXTURE := preload("res://assets/sprites/kenney/enemies/elite_dasher.png")
+const ELITE_DASHER_TEXTURE_PATH := "res://assets/sprites/kenney/enemies/elite_dasher.png"
+const TextureRuntime := preload("res://scripts/core/texture_runtime.gd")
 
 var target: Node2D
+var _elite_dasher_texture: Texture2D
 var speed: float = 98.0
 var hp: int = 8
 var hit_radius: float = 18.0
@@ -20,6 +22,10 @@ var _dash_time_left: float = 0.0
 var _dash_gap_left: float = 0.0
 var _dash_chain_left: int = 0
 var _dash_direction: Vector2 = Vector2.RIGHT
+var _variant_id: String = "standard"
+
+func _ready() -> void:
+	_elite_dasher_texture = TextureRuntime.load_texture(ELITE_DASHER_TEXTURE_PATH)
 
 func setup(
 	target_node: Node2D,
@@ -72,6 +78,27 @@ func get_contact_damage() -> int:
 func get_enemy_kind() -> String:
 	return "elite_dasher"
 
+func get_variant_id() -> String:
+	return _variant_id
+
+func configure_variant(variant_id: String) -> void:
+	_variant_id = String(variant_id)
+	match _variant_id:
+		"phantom":
+			dash_interval *= 0.72
+			dash_duration *= 0.86
+			dash_chain_count += 1
+			print("ELITE_VARIANT:elite_dasher:phantom")
+		"bulwark":
+			hp += 2
+			speed *= 0.9
+			dash_speed *= 0.92
+			dash_chain_gap *= 0.85
+			print("ELITE_VARIANT:elite_dasher:bulwark")
+		_:
+			_variant_id = "standard"
+	queue_redraw()
+
 func is_dashing() -> bool:
 	return _dash_time_left > 0.0
 
@@ -115,11 +142,11 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	if ELITE_DASHER_TEXTURE:
-		var tex_size: Vector2 = ELITE_DASHER_TEXTURE.get_size()
+	if _elite_dasher_texture:
+		var tex_size: Vector2 = _elite_dasher_texture.get_size()
 		var scale: float = (hit_radius * 2.8) / max(1.0, max(tex_size.x, tex_size.y))
 		var draw_size: Vector2 = tex_size * scale
-		draw_texture_rect(ELITE_DASHER_TEXTURE, Rect2(-draw_size * 0.5, draw_size), false, Color(0.96, 0.96, 1.0))
+		draw_texture_rect(_elite_dasher_texture, Rect2(-draw_size * 0.5, draw_size), false, Color(0.96, 0.96, 1.0))
 	else:
 		draw_circle(Vector2.ZERO, hit_radius - 1.5, Color("#6D28D9"))
 	draw_arc(Vector2.ZERO, hit_radius + 2.0, 0.0, TAU, 24, Color("#C4B5FD"), 2.2)
@@ -129,3 +156,8 @@ func _draw() -> void:
 		draw_line(Vector2.ZERO, _dash_direction * (hit_radius + 16.0), Color("#EDE9FE"), 3.2)
 	elif _dash_gap_left > 0.0:
 		draw_arc(Vector2.ZERO, hit_radius + 7.0, 0.0, TAU, 24, Color("#A78BFA"), 2.2)
+
+	if _variant_id == "phantom":
+		draw_arc(Vector2.ZERO, hit_radius + 10.0, 0.0, TAU, 24, Color("#67E8F9"), 1.9)
+	elif _variant_id == "bulwark":
+		draw_arc(Vector2.ZERO, hit_radius + 10.0, 0.0, TAU, 24, Color("#FCD34D"), 1.9)

@@ -8,7 +8,7 @@
 
 ### 1) 코어 루프
 - 이동/대시/자동공격/레벨업/보스/재시작 루프 구조
-- QA 런타임 옵션(`--auto-levelup`, `--qa-*`, `--boss-test`, `--boss-pattern-test`, `--boss-phase2-test`, `--elite-test`, `--relic-test`, `--event-test`, `--meta-test`, `--character=<id>`, `--character-test`, `--weapon=<id>`, `--tree-test`, `--tree-ui-test`) 인터페이스
+- QA 런타임 옵션(`--auto-levelup`, `--qa-*`, `--boss-test`, `--boss-pattern-test`, `--boss-phase2-test`, `--elite-test`, `--relic-test`, `--event-test`, `--meta-test`, `--character=<id>`, `--character-test`, `--weapon=<id>`, `--tree-test`, `--tree-ui-test`, `--feel-test`, `--mission-test`, `--elite-variant-test`) 인터페이스
 
 ### 2) 전투/웨이브 곡선
 - `balance.gd` 6차 튜닝값
@@ -103,6 +103,9 @@
 - 2026-03-03: 사용자 연속 승인("응")에 따른 콘텐츠 확장 Step 12 반영.
   - Visual Upgrade Pack 01(CC0 에셋 통합) 구현
   - 플레이어/적/투사체/배경 스프라이트 렌더링 경로 반영 + 자산 출처/라이선스 등록
+- 2026-03-03: 사용자 연속 승인("응")에 따른 콘텐츠 확장 Step 13 반영.
+  - Quality+Feature Upgrade Pack 01(히트/킬 VFX + 미션 시스템 + 엘리트 변형) 구현
+  - `--feel-test`, `--mission-test`, `--elite-variant-test` 런타임 옵션 + 대응 게이트 케이스 편입
 - 처리 원칙:
   - 자동 회귀 검증 통과 필수
   - 설계/릴리즈/개발일지 즉시 동기화

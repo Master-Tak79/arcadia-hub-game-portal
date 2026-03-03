@@ -400,3 +400,18 @@
 ### 상태
 - Step 12 완료
 - 다음 착수: 그래픽 2차 폴리싱(VFX/애니메이션/UI 테마)
+
+## 2026-03-03 (Step 13 Complete — Quality+Feature Upgrade Pack 01)
+
+### 반영
+- 히트/킬 VFX + 투사체 트레일 반영
+- 웨이브 미션 시스템 추가
+- 엘리트 변형 패턴(각 2종) 추가
+- `feel_loop`, `mission_loop`, `elite_variant_loop` 자동검증 편입
+
+### 검증
+- headless gate(신규 루프 포함), readiness, checkpoint, leak trace 통과
+
+### 상태
+- Step 13 완료
+- 다음 착수: VFX/애니메이션 2차 폴리싱

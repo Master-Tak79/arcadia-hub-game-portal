@@ -12,6 +12,9 @@ var meta_test: bool = false
 var character_test: bool = false
 var tree_test: bool = false
 var tree_ui_test: bool = false
+var feel_test: bool = false
+var mission_test: bool = false
+var elite_variant_test: bool = false
 var character_id: String = "default"
 var weapon_id: String = "default"
 
@@ -67,6 +70,12 @@ func parse_user_args(args: Array) -> void:
 			tree_ui_test = true
 			if character_id == "default":
 				character_id = "ranger"
+		elif arg == "--feel-test" or arg == "feel-test":
+			feel_test = true
+		elif arg == "--mission-test" or arg == "mission-test":
+			mission_test = true
+		elif arg == "--elite-variant-test" or arg == "elite-variant-test":
+			elite_variant_test = true
 		elif String(arg).begins_with("--character="):
 			character_id = _sanitize_character_id(String(arg).get_slice("=", 1))
 		elif String(arg).begins_with("character="):
@@ -124,6 +133,12 @@ func print_enabled_flags() -> void:
 		print("TREE_TEST_ON")
 	if tree_ui_test:
 		print("TREE_UI_TEST_ON")
+	if feel_test:
+		print("FEEL_TEST_ON")
+	if mission_test:
+		print("MISSION_TEST_ON")
+	if elite_variant_test:
+		print("ELITE_VARIANT_TEST_ON")
 	if character_id != "default":
 		print("CHARACTER_OVERRIDE:%s" % character_id)
 	if weapon_id != "default":

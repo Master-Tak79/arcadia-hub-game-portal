@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.19-dev
+- version: v0.1.20-dev
 - date: 2026-03-03
 
 ## Added
@@ -105,6 +105,10 @@
   - CC0 에셋(Kenney Space Shooter Redux) 적용: 플레이어/적/투사체/배경 스프라이트 교체
   - 렌더링 품질 1차 업그레이드(가독성 유지 + 실루엣 다양화)
   - 자산 출처/라이선스 등록(`09_asset_register.md`, `docs/assets/kenney_space_shooter_redux_LICENSE.txt`)
+- Quality+Feature Upgrade Pack 01
+  - 전투 피드백 강화: `impact_fx`(히트/킬 링) + `projectile trail`
+  - 웨이브 미션 시스템 추가(할당/진행/완료 보상)
+  - 엘리트 변형 패턴 추가(Grunt: juggernaut/berserk, Dasher: phantom/bulwark)
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시
   - 선택 후 예상 지표(예상 DPS/생존 지표, 간이 추정) 프리뷰 표시
@@ -119,7 +123,7 @@
 - 전투 판정 확장(적별 접촉 피해/EXP 보상)
 - 전투 판정 성능 준비(`combat_system.gd`)
   - 셀 기반 공간 인덱스 도입(충돌 후보 추출)
-- QA 런타임 옵션 확장(`--qa-autopilot`, `--qa-force-damage`, `--qa-auto-restart`, `--boss-pattern-test`, `--boss-phase2-test`, `--elite-test`, `--relic-test`, `--event-test`, `--meta-test`, `--character=<id>`, `--character-test`, `--weapon=<id>`, `--tree-test`, `--tree-ui-test`)
+- QA 런타임 옵션 확장(`--qa-autopilot`, `--qa-force-damage`, `--qa-auto-restart`, `--boss-pattern-test`, `--boss-phase2-test`, `--elite-test`, `--relic-test`, `--event-test`, `--meta-test`, `--character=<id>`, `--character-test`, `--weapon=<id>`, `--tree-test`, `--tree-ui-test`, `--feel-test`, `--mission-test`, `--elite-variant-test`)
 - `game_root` 책임 분리 리팩터링
   - `core/runtime_options.gd`
   - `systems/qa_runtime.gd`
@@ -217,13 +221,22 @@
 - 트리 UI 루프 QA:
   - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --character=ranger --tree-ui-test --auto-levelup --qa-autopilot`
   - `TREE_PANEL_OPEN`, `TREE_UI_UNLOCK_CONFIRMED:*` 확인
+- 감성(피드백) 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --feel-test --auto-levelup --qa-autopilot`
+  - `HIT_FX_ON`, `KILL_FX_ON`, `PROJECTILE_TRAIL_ON` 확인
+- 미션 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 2400 -- --mission-test --elite-test --auto-levelup --qa-autopilot`
+  - `MISSION_ASSIGNED:*`, `MISSION_COMPLETED:*` 확인
+- 엘리트 변형 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 2400 -- --elite-test --elite-variant-test --auto-levelup --qa-autopilot`
+  - `ELITE_VARIANT:*` 확인
 - 재시작 루프 QA:
   - `godotw --headless --fixed-fps 60 --quit-after 3000 -- --qa-force-damage --qa-auto-restart --qa-autopilot --auto-levelup`
   - `QA_FORCE_DEATH`, `QA_AUTO_RESTART_TRIGGERED` 반복 확인
 - `mcporter call godot-local.godot_run_headless` 실행 통과
 - 원클릭 게이트 검증(2026-03-03):
   - `./tools/qa/headless-alpha-gate.sh` PASS
-  - 산출 로그: `.qa/headless/<timestamp>/{smoke,boss_loop,boss_pattern,boss_phase2,elite_loop,relic_loop,event_loop,character_ranger,character_warden,active_ranger,active_warden,tree_ranger,tree_warden,tree_ui,weapon_pierce,weapon_dot,weapon_aoe,meta_loop,restart_loop,long_sim}.log`
+  - 산출 로그: `.qa/headless/<timestamp>/{smoke,boss_loop,boss_pattern,boss_phase2,elite_loop,relic_loop,event_loop,feel_loop,mission_loop,elite_variant_loop,character_ranger,character_warden,active_ranger,active_warden,tree_ranger,tree_warden,tree_ui,weapon_pierce,weapon_dot,weapon_aoe,meta_loop,restart_loop,long_sim}.log`
   - boss_pattern 다양성: RING/WALL 최소 1회 체크 PASS
   - 경고 요약: `warnings=0`, `leak_lines=0`
 - 누수 심화 추적(2026-03-03):

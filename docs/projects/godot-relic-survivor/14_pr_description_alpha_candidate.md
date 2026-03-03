@@ -32,6 +32,7 @@
 - Character/Weapon Tree Runtime 01 추가(트리 데이터/적용기 + tree_loop 검증)
 - Tree UI/UX Pack 01 추가(트리 패널/수동 해금 UX + tree_ui 검증)
 - Visual Upgrade Pack 01 추가(CC0 에셋 기반 스프라이트/배경 교체 + 라이선스 등록)
+- Quality+Feature Upgrade Pack 01 추가(VFX/트레일 + 미션 시스템 + 엘리트 변형 패턴)
 - 레벨업 선택지 가독성 강화(역할 태그/효과 요약/추천 문구/예상 지표)
 - 압박도 기반 추천 보정(웨이브/보스 압박 신호를 가중치에 반영)
 - auto-levelup 선택 로직의 multi-effect 반영 + 스폰 안전 반경/전투 후보 인덱스 적용
@@ -71,7 +72,7 @@ cd games/godot-relic-survivor
 ./tools/qa/headless-alpha-gate.sh
 ```
 검증 항목:
-- smoke / boss_loop / boss_pattern / boss_phase2 / elite_loop / relic_loop / event_loop / character_ranger / character_warden / active_ranger / active_warden / tree_ranger / tree_warden / tree_ui / weapon_pierce / weapon_dot / weapon_aoe / meta_loop / restart_loop / long_sim
+- smoke / boss_loop / boss_pattern / boss_phase2 / elite_loop / relic_loop / event_loop / feel_loop / mission_loop / elite_variant_loop / character_ranger / character_warden / active_ranger / active_warden / tree_ranger / tree_warden / tree_ui / weapon_pierce / weapon_dot / weapon_aoe / meta_loop / restart_loop / long_sim
 - 필수 토큰:
   - `RELIC_SURVIVOR_BOOT_OK`
   - `MINIBOSS_WARNING_ON`
@@ -104,6 +105,12 @@ cd games/godot-relic-survivor
   - `TREE_APPLIED:*`
   - `TREE_PANEL_OPEN`
   - `TREE_UI_UNLOCK_CONFIRMED:*`
+  - `HIT_FX_ON`
+  - `KILL_FX_ON`
+  - `PROJECTILE_TRAIL_ON`
+  - `MISSION_ASSIGNED:*`
+  - `MISSION_COMPLETED:*`
+  - `ELITE_VARIANT:*`
   - `META_PROFILE_LOADED`
   - `META_RUN_REWARD`
   - `QA_FORCE_DEATH`

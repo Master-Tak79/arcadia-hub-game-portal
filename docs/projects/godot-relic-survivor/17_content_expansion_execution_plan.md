@@ -16,6 +16,7 @@
 10. Character/Weapon Tree Runtime 01
 11. Tree UI/UX Pack 01
 12. Visual Upgrade Pack 01
+13. Quality+Feature Upgrade Pack 01
 
 ---
 
@@ -275,6 +276,29 @@
 
 ### 공수
 - 0.5 ~ 1.0일
+
+---
+
+## Step 13 — Quality+Feature Upgrade Pack 01
+- 상태: ✅ 구현/자동검증 완료 (수동 체감 QA 대기)
+
+### 범위
+- 전투 피드백: 히트/킬 VFX + 투사체 트레일
+- 진행 시스템: 웨이브 미션(처치/엘리트/대시 목표)
+- 변형 적: Elite Grunt/Dasher 변형 패턴 2종씩
+- QA 루프: `feel_loop`, `mission_loop`, `elite_variant_loop`
+
+### 완료 기준
+- `HIT_FX_ON`, `KILL_FX_ON`, `PROJECTILE_TRAIL_ON` 확인
+- `MISSION_ASSIGNED:*`, `MISSION_COMPLETED:*` 확인
+- `ELITE_VARIANT:*` 변형 토큰 확인
+
+### 리스크
+- 미션 목표와 난이도 곡선 간 불일치 가능
+- 변형 패턴 빈도 과다 시 체감 피로도 증가
+
+### 공수
+- 1.0 ~ 1.5일
 
 ---
 

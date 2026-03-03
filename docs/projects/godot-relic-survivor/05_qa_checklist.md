@@ -27,6 +27,9 @@
 - [ ] 트리 해금/다음 라운드 반영 체감 확인 (수동 QA 시 확인)
 - [ ] 트리 패널 UX(T 열기/선택/닫기) 사용성 확인 (수동 QA 시 확인)
 - [ ] 스프라이트 가독성(플레이어/적/투사체/배경) 확인 (수동 QA 시 확인)
+- [ ] 히트/킬 VFX + 투사체 트레일 체감 확인 (수동 QA 시 확인)
+- [ ] 미션 진행/완료 보상 체감 확인 (수동 QA 시 확인)
+- [ ] 엘리트 변형 패턴 체감(juggernaut/berserk/phantom/bulwark) 확인 (수동 QA 시 확인)
 - [ ] PRESSURE 표시(low/mid/high)와 실제 체감 압박 일치 여부 확인 (수동 QA 시 확인)
 - [ ] 사망 원인/상황(death recap) 문구 가독성 확인 (수동 QA 시 확인)
 - [x] 보스 경고/등장 루프 정상 (`--boss-test --auto-levelup` 검증)
@@ -44,6 +47,9 @@
 - [x] active_loop 검증 통과 (`ACTIVE_SKILL_USED:ranger_burst`, `ACTIVE_SKILL_USED:warden_bulwark`)
 - [x] tree_loop 검증 통과 (`TREE_PROFILE_LOADED`, `TREE_NODE_UNLOCKED:*`, `TREE_APPLIED:*`)
 - [x] tree_ui_loop 검증 통과 (`TREE_PANEL_OPEN`, `TREE_UI_UNLOCK_CONFIRMED:*`)
+- [x] feel_loop 검증 통과 (`HIT_FX_ON`, `KILL_FX_ON`, `PROJECTILE_TRAIL_ON`)
+- [x] mission_loop 검증 통과 (`MISSION_ASSIGNED:*`, `MISSION_COMPLETED:*`)
+- [x] elite_variant_loop 검증 통과 (`ELITE_VARIANT:*`)
 - [x] 보스 처치 루프 정상 (`MINIBOSS_DEFEATED` 로그 확인)
 
 ## 성능

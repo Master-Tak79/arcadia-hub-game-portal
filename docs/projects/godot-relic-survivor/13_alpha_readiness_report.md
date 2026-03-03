@@ -18,7 +18,7 @@
   - 10분 fixed-fps 장시간 시뮬레이션 통과
   - 보스 경고/등장/대시텔레그래프(콤보 포함)/소환텔레그래프/처치/보상 로그 검증 통과
   - 재시작 루프 반복 검증 통과
-  - 원클릭 게이트(`tools/qa/headless-alpha-gate.sh`) 통과 (`boss_pattern`, `boss_phase2`, `elite_loop`, `relic_loop`, `event_loop`, `character_ranger`, `character_warden`, `active_ranger`, `active_warden`, `tree_ranger`, `tree_warden`, `tree_ui`, `weapon_pierce`, `weapon_dot`, `weapon_aoe`, `meta_loop` 포함)
+  - 원클릭 게이트(`tools/qa/headless-alpha-gate.sh`) 통과 (`boss_pattern`, `boss_phase2`, `elite_loop`, `relic_loop`, `event_loop`, `feel_loop`, `mission_loop`, `elite_variant_loop`, `character_ranger`, `character_warden`, `active_ranger`, `active_warden`, `tree_ranger`, `tree_warden`, `tree_ui`, `weapon_pierce`, `weapon_dot`, `weapon_aoe`, `meta_loop` 포함)
   - boss_pattern 다양성 체크(RING/WALL 최소 1회) 통과
   - boss_phase2 체크(`MINIBOSS_PHASE2_TRANSITION`, `MINIBOSS_PHASE2_ACTIVE`) 통과
   - elite loop 체크(Elite Grunt/Elite Dasher 최소 1회) 통과
@@ -29,6 +29,9 @@
   - active loop 체크(`ACTIVE_SKILL_USED:ranger_burst`, `ACTIVE_SKILL_USED:warden_bulwark`) 통과
   - tree loop 체크(`TREE_PROFILE_LOADED`, `TREE_NODE_UNLOCKED:*`, `TREE_APPLIED:*`) 통과
   - tree_ui loop 체크(`TREE_PANEL_OPEN`, `TREE_UI_UNLOCK_CONFIRMED:*`) 통과
+  - feel loop 체크(`HIT_FX_ON`, `KILL_FX_ON`, `PROJECTILE_TRAIL_ON`) 통과
+  - mission loop 체크(`MISSION_ASSIGNED:*`, `MISSION_COMPLETED:*`) 통과
+  - elite_variant loop 체크(`ELITE_VARIANT:*`) 통과
   - meta loop 체크(`META_PROFILE_LOADED`, `META_RUN_REWARD`) 통과
   - warning/leak summary 기준 `warnings=0`, `leak_lines=0`
   - balance freeze check(`tools/qa/balance-freeze-check.sh`) 통과

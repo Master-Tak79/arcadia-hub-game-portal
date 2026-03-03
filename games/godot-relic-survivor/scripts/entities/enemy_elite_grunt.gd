@@ -1,8 +1,10 @@
 extends Node2D
 
-const ELITE_GRUNT_TEXTURE := preload("res://assets/sprites/kenney/enemies/elite_grunt.png")
+const ELITE_GRUNT_TEXTURE_PATH := "res://assets/sprites/kenney/enemies/elite_grunt.png"
+const TextureRuntime := preload("res://scripts/core/texture_runtime.gd")
 
 var target: Node2D
+var _elite_grunt_texture: Texture2D
 var speed: float = 136.0
 var hp: int = 6
 var hit_radius: float = 17.0
@@ -15,6 +17,10 @@ var burst_duration: float = 0.24
 
 var _burst_cooldown_left: float = 0.0
 var _burst_time_left: float = 0.0
+var _variant_id: String = "standard"
+
+func _ready() -> void:
+	_elite_grunt_texture = TextureRuntime.load_texture(ELITE_GRUNT_TEXTURE_PATH)
 
 func setup(
 	target_node: Node2D,
@@ -62,6 +68,29 @@ func get_contact_damage() -> int:
 func get_enemy_kind() -> String:
 	return "elite_grunt"
 
+func get_variant_id() -> String:
+	return _variant_id
+
+func configure_variant(variant_id: String) -> void:
+	_variant_id = String(variant_id)
+	match _variant_id:
+		"juggernaut":
+			hp += 3
+			speed *= 0.86
+			burst_speed_mult *= 0.94
+			contact_damage += 1
+			print("ELITE_VARIANT:elite_grunt:juggernaut")
+		"berserk":
+			hp = max(1, hp - 1)
+			speed *= 1.18
+			burst_interval *= 0.78
+			burst_speed_mult *= 1.12
+			print("ELITE_VARIANT:elite_grunt:berserk")
+		_:
+			_variant_id = "standard"
+
+	queue_redraw()
+
 func is_bursting() -> bool:
 	return _burst_time_left > 0.0
 
@@ -92,11 +121,11 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	if ELITE_GRUNT_TEXTURE:
-		var tex_size: Vector2 = ELITE_GRUNT_TEXTURE.get_size()
+	if _elite_grunt_texture:
+		var tex_size: Vector2 = _elite_grunt_texture.get_size()
 		var scale: float = (hit_radius * 2.7) / max(1.0, max(tex_size.x, tex_size.y))
 		var draw_size: Vector2 = tex_size * scale
-		draw_texture_rect(ELITE_GRUNT_TEXTURE, Rect2(-draw_size * 0.5, draw_size), false, Color(1.0, 0.96, 0.96))
+		draw_texture_rect(_elite_grunt_texture, Rect2(-draw_size * 0.5, draw_size), false, Color(1.0, 0.96, 0.96))
 	else:
 		draw_circle(Vector2.ZERO, hit_radius - 1.5, Color("#B91C1C"))
 	draw_arc(Vector2.ZERO, hit_radius + 2.0, 0.0, TAU, 24, Color("#FCA5A5"), 2.2)
@@ -104,3 +133,8 @@ func _draw() -> void:
 	if _burst_time_left > 0.0:
 		draw_arc(Vector2.ZERO, hit_radius + 7.5, 0.0, TAU, 30, Color("#FDE68A"), 2.4)
 		draw_line(Vector2.ZERO, Vector2.RIGHT.rotated(rotation) * (hit_radius + 12.0), Color("#FDBA74"), 3.0)
+
+	if _variant_id == "juggernaut":
+		draw_arc(Vector2.ZERO, hit_radius + 10.5, 0.0, TAU, 22, Color("#FBBF24"), 2.0)
+	elif _variant_id == "berserk":
+		draw_arc(Vector2.ZERO, hit_radius + 10.5, 0.0, TAU, 22, Color("#FB7185"), 2.0)

@@ -441,3 +441,22 @@
 ### 기대 효과
 - 가독성 유지 상태에서 시각 완성도 1차 상향
 - 이후 VFX/애니메이션 고도화 기반 확보
+
+## 2026-03-03 (Quality+Feature Upgrade Pack 01)
+
+### 변경 요약
+- 전투 피드백 연출 강화(히트/킬 FX, 투사체 트레일)
+- 미션 시스템 추가
+  - clear_wave / elite_hunt 중심 목표
+  - 완료 시 EXP 보상 + 소량 회복
+- 엘리트 변형 패턴 추가
+  - elite_grunt: juggernaut / berserk
+  - elite_dasher: phantom / bulwark
+
+### 자동 검증 결과
+- `headless-alpha-gate.sh` PASS (`feel_loop`, `mission_loop`, `elite_variant_loop` 포함)
+- `pre-manual-qa-check.sh` PASS
+- `trace-objectdb-leak.sh` PASS
+
+### 기대 효과
+- 전투 피드백 명확성 및 플레이 변주 증가

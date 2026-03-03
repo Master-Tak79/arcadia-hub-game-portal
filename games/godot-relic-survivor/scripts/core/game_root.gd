@@ -20,6 +20,7 @@ const CharacterSystem := preload("res://scripts/systems/character_system.gd")
 const WeaponSystem := preload("res://scripts/systems/weapon_system.gd")
 const ActiveSkillSystem := preload("res://scripts/systems/active_skill_system.gd")
 const TreeProgression := preload("res://scripts/systems/tree_progression.gd")
+const MissionSystem := preload("res://scripts/systems/mission_system.gd")
 
 const LevelUpPanel := preload("res://scripts/ui/level_up_panel.gd")
 const TreePanel := preload("res://scripts/ui/tree_panel.gd")
@@ -52,6 +53,7 @@ var _qa_runtime: RefCounted
 var _boss_reward_runtime: RefCounted
 var _meta_progression: RefCounted
 var _tree_progression: RefCounted
+var _mission_system: RefCounted
 var _character_system: RefCounted
 var _weapon_system: RefCounted
 var _active_skill_system: Node
@@ -86,6 +88,8 @@ func _ready() -> void:
 	_spawn_director.setup(_balance, _state, _player, _enemy_container)
 	if _spawn_director.has_method("set_elite_test_mode"):
 		_spawn_director.set_elite_test_mode(bool(_runtime_options.elite_test))
+	if _spawn_director.has_method("set_elite_variant_test_mode"):
+		_spawn_director.set_elite_variant_test_mode(bool(_runtime_options.elite_variant_test))
 
 	_auto_attack_system = AutoAttackSystem.new()
 	add_child(_auto_attack_system)
@@ -177,6 +181,9 @@ func _ready() -> void:
 		bool(_runtime_options.tree_ui_test)
 	)
 
+	_mission_system = MissionSystem.new()
+	_mission_system.setup(_state, _event_banner, bool(_runtime_options.mission_test))
+
 	_start_round()
 	_runtime_options.print_enabled_flags()
 	print("RELIC_SURVIVOR_BOOT_OK")
@@ -224,6 +231,8 @@ func _process(delta: float) -> void:
 	_state.elapsed += delta
 	if _stage_event_system and _stage_event_system.has_method("process"):
 		_stage_event_system.process(delta)
+	if _mission_system and _mission_system.has_method("process"):
+		_mission_system.process(delta)
 	if _state.is_game_over:
 		return
 	_update_pressure_hint()
@@ -380,6 +389,8 @@ func _start_round() -> void:
 		_relic_system.reset_runtime()
 	if _stage_event_system and _stage_event_system.has_method("reset_runtime"):
 		_stage_event_system.reset_runtime()
+	if _mission_system and _mission_system.has_method("reset_runtime"):
+		_mission_system.reset_runtime()
 	if _miniboss_director and _miniboss_director.has_method("reset_runtime"):
 		_miniboss_director.reset_runtime()
 	if _level_up_panel and _level_up_panel.has_method("hide_panel"):

@@ -14,7 +14,10 @@ var _miniboss_director: Node
 var _elapsed: float = 0.0
 var _next_spawn_in: float = 1.0
 var _elite_test_mode: bool = false
+var _elite_variant_test_mode: bool = false
 var _elite_cycle_index: int = 0
+var _elite_grunt_variant_cycle_index: int = 0
+var _elite_dasher_variant_cycle_index: int = 0
 
 func setup(balance: RefCounted, state: RefCounted, player: Node2D, enemy_container: Node2D) -> void:
 	_balance = balance
@@ -31,10 +34,15 @@ func set_miniboss_director(director: Node) -> void:
 func set_elite_test_mode(enabled: bool) -> void:
 	_elite_test_mode = enabled
 
+func set_elite_variant_test_mode(enabled: bool) -> void:
+	_elite_variant_test_mode = enabled
+
 func reset_runtime() -> void:
 	_elapsed = 0.0
 	_next_spawn_in = float(_balance.SPAWN_INTERVAL_BASE)
 	_elite_cycle_index = 0
+	_elite_grunt_variant_cycle_index = 0
+	_elite_dasher_variant_cycle_index = 0
 	if _enemy_container:
 		for enemy in _enemy_container.get_children():
 			enemy.queue_free()
@@ -145,6 +153,8 @@ func _make_elite_grunt() -> Node2D:
 		float(_balance.ELITE_GRUNT_BURST_INTERVAL),
 		float(_balance.ELITE_GRUNT_BURST_DURATION)
 	)
+	if enemy.has_method("configure_variant"):
+		enemy.configure_variant(_roll_elite_variant("elite_grunt"))
 	return enemy
 
 func _make_elite_dasher() -> Node2D:
@@ -163,6 +173,8 @@ func _make_elite_dasher() -> Node2D:
 		float(_balance.ELITE_DASHER_DASH_CHAIN_GAP),
 		int(_balance.ELITE_DASHER_DASH_CHAIN_COUNT)
 	)
+	if enemy.has_method("configure_variant"):
+		enemy.configure_variant(_roll_elite_variant("elite_dasher"))
 	return enemy
 
 func _roll_elite_kind() -> String:
@@ -199,6 +211,21 @@ func _roll_elite_kind() -> String:
 	if roll < grunt_chance:
 		return "elite_grunt"
 	return "elite_dasher"
+
+func _roll_elite_variant(kind: String) -> String:
+	if _elite_variant_test_mode:
+		if kind == "elite_grunt":
+			var grunt_idx: int = _elite_grunt_variant_cycle_index % 2
+			_elite_grunt_variant_cycle_index += 1
+			return "juggernaut" if grunt_idx == 0 else "berserk"
+		var dasher_idx: int = _elite_dasher_variant_cycle_index % 2
+		_elite_dasher_variant_cycle_index += 1
+		return "phantom" if dasher_idx == 0 else "bulwark"
+
+	var roll: float = randf()
+	if kind == "elite_grunt":
+		return "juggernaut" if roll < 0.5 else "berserk"
+	return "phantom" if roll < 0.5 else "bulwark"
 
 func _get_phase_spawn_interval() -> float:
 	var ramp: float = float(_balance.SPAWN_INTERVAL_BASE) - _elapsed * float(_balance.SPAWN_RAMP_PER_SEC)

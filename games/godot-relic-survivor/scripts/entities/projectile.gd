@@ -1,9 +1,13 @@
 extends Node2D
 
-const PROJECTILE_DEFAULT_TEXTURE := preload("res://assets/sprites/kenney/projectiles/default.png")
-const PROJECTILE_PIERCE_TEXTURE := preload("res://assets/sprites/kenney/projectiles/pierce.png")
-const PROJECTILE_DOT_TEXTURE := preload("res://assets/sprites/kenney/projectiles/dot.png")
-const PROJECTILE_AOE_TEXTURE := preload("res://assets/sprites/kenney/projectiles/aoe.png")
+const PROJECTILE_DEFAULT_TEXTURE_PATH := "res://assets/sprites/kenney/projectiles/default.png"
+const PROJECTILE_PIERCE_TEXTURE_PATH := "res://assets/sprites/kenney/projectiles/pierce.png"
+const PROJECTILE_DOT_TEXTURE_PATH := "res://assets/sprites/kenney/projectiles/dot.png"
+const PROJECTILE_AOE_TEXTURE_PATH := "res://assets/sprites/kenney/projectiles/aoe.png"
+const TextureRuntime := preload("res://scripts/core/texture_runtime.gd")
+
+static var _printed_trail_token: bool = false
+static var _texture_cache: Dictionary = {}
 
 var direction: Vector2 = Vector2.RIGHT
 var speed: float = 720.0
@@ -22,6 +26,7 @@ var hit_registry: Dictionary = {}
 var _fill_color: Color = Color("#FCD34D")
 var _stroke_color: Color = Color("#F59E0B")
 var _texture: Texture2D
+var _trail_world: Array = []
 
 func setup(
 	start_position: Vector2,
@@ -51,21 +56,39 @@ func setup(
 	_stroke_color = _fill_color.lightened(0.18)
 
 	var weapon_id: String = String(weapon_profile.get("id", "default"))
+	var texture_path: String = PROJECTILE_DEFAULT_TEXTURE_PATH
 	match weapon_id:
 		"pierce":
-			_texture = PROJECTILE_PIERCE_TEXTURE
+			texture_path = PROJECTILE_PIERCE_TEXTURE_PATH
 		"dot":
-			_texture = PROJECTILE_DOT_TEXTURE
+			texture_path = PROJECTILE_DOT_TEXTURE_PATH
 		"aoe":
-			_texture = PROJECTILE_AOE_TEXTURE
+			texture_path = PROJECTILE_AOE_TEXTURE_PATH
 		_:
-			_texture = PROJECTILE_DEFAULT_TEXTURE
+			texture_path = PROJECTILE_DEFAULT_TEXTURE_PATH
+	_texture = _get_cached_texture(texture_path)
+
+	_trail_world = [position]
+	if not _printed_trail_token:
+		print("PROJECTILE_TRAIL_ON")
+		_printed_trail_token = true
 
 	rotation = direction.angle() + PI * 0.5
 	queue_redraw()
 
+func _get_cached_texture(path: String) -> Texture2D:
+	if _texture_cache.has(path):
+		return _texture_cache[path] as Texture2D
+	var tex: Texture2D = TextureRuntime.load_texture(path)
+	_texture_cache[path] = tex
+	return tex
+
 func _process(delta: float) -> void:
 	position += direction * speed * delta
+	_trail_world.append(position)
+	if _trail_world.size() > 7:
+		_trail_world.pop_front()
+
 	lifetime -= delta
 	if lifetime <= 0.0:
 		queue_free()
@@ -73,6 +96,13 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
+	if _trail_world.size() >= 2:
+		for i in range(1, _trail_world.size()):
+			var from_local: Vector2 = Vector2(_trail_world[i - 1]) - position
+			var to_local: Vector2 = Vector2(_trail_world[i]) - position
+			var alpha: float = float(i) / float(_trail_world.size())
+			draw_line(from_local, to_local, Color(_fill_color.r, _fill_color.g, _fill_color.b, 0.28 * alpha), max(1.0, radius * 0.35))
+
 	if _texture:
 		var tex_size: Vector2 = _texture.get_size()
 		var draw_height: float = max(14.0, radius * 6.0)

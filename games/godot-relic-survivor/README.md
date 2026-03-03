@@ -1,10 +1,10 @@
-# Godot Relic Survivor (v0.1.19-dev)
+# Godot Relic Survivor (v0.1.20-dev)
 
 탑다운 로그라이크 생존 액션 신규 프로젝트입니다.
 현재 코어 전투 루프(이동/대시/자동공격/적 4종+보스 스폰/피격/재시작),
 레벨업 3지선다 + 업그레이드 16종(복합 효과 포함), 유물 12종 시스템까지 반영된 상태입니다.
 
-## 최근 개선 (v0.1.19-dev)
+## 최근 개선 (v0.1.20-dev)
 - Elite Pack 01 추가
   - `Elite Grunt`: 탱키 + 버스트 돌진
   - `Elite Dasher`: 연속 돌진 체인 패턴
@@ -55,6 +55,10 @@
   - CC0(Kenney Space Shooter Redux) 에셋 적용(플레이어/적/투사체/배경)
   - 도형 렌더링 중심에서 스프라이트 렌더링 중심으로 1차 전환
   - 라이선스/출처 등록(`09_asset_register.md`, `docs/assets/kenney_space_shooter_redux_LICENSE.txt`)
+- Quality+Feature Upgrade Pack 01
+  - 전투 피드백 강화: 히트/킬 VFX + 투사체 트레일
+  - 웨이브 미션 시스템: 목표 할당/진행/완료 보상
+  - 엘리트 변형 패턴: Grunt(juggernaut/berserk), Dasher(phantom/bulwark)
 - 레벨업 선택지 가독성/시너지 개선
   - 역할 태그(공격/기동/생존/혼합) + 효과 요약 + 상황별 추천 문구 노출
   - 선택지별 예상 지표(예상 DPS/생존 지표, 간이 추정) 표시
@@ -120,6 +124,15 @@
 
 # 트리 UI 테스트 모드(패널 열기/해금 UX)
 ../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 1800 -- --character=ranger --tree-ui-test --auto-levelup --qa-autopilot
+
+# 감성(피드백) 테스트 모드(VFX/트레일)
+../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 1800 -- --feel-test --auto-levelup --qa-autopilot
+
+# 미션 테스트 모드
+../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 2400 -- --mission-test --elite-test --auto-levelup --qa-autopilot
+
+# 엘리트 변형 테스트 모드
+../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 2400 -- --elite-test --elite-variant-test --auto-levelup --qa-autopilot
 
 # 무기 계열 테스트 모드(관통/도트/광역)
 ../../scripts/godotw --headless --path . --fixed-fps 60 --quit-after 1800 -- --weapon=pierce --auto-levelup --qa-autopilot

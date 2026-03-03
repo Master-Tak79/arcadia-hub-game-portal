@@ -1,5 +1,6 @@
 extends Node
 
+const ImpactFx := preload("res://scripts/entities/impact_fx.gd")
 const CELL_SIZE: float = 96.0
 
 var _balance: RefCounted
@@ -14,6 +15,8 @@ var _dot_effects: Dictionary = {}
 var _printed_weapon_pierce: bool = false
 var _printed_weapon_dot: bool = false
 var _printed_weapon_aoe: bool = false
+var _printed_hit_fx: bool = false
+var _printed_kill_fx: bool = false
 
 func setup(balance: RefCounted, state: RefCounted, player: Node2D, enemy_container: Node2D, projectile_container: Node2D) -> void:
 	_balance = balance
@@ -29,6 +32,8 @@ func reset_runtime() -> void:
 	_printed_weapon_pierce = false
 	_printed_weapon_dot = false
 	_printed_weapon_aoe = false
+	_printed_hit_fx = false
+	_printed_kill_fx = false
 
 func _process(delta: float) -> void:
 	if _state == null or _state.is_game_over or _state.is_paused:
@@ -49,6 +54,10 @@ func _process_projectile_hits(enemy_index: Dictionary) -> void:
 		if not (projectile is Node2D):
 			continue
 		if not projectile.has_method("get"):
+			continue
+		if projectile.get("radius") == null or projectile.get("damage") == null:
+			continue
+		if projectile.get("hit_registry") == null:
 			continue
 
 		var projectile_radius: float = float(projectile.radius)
@@ -72,8 +81,10 @@ func _process_projectile_hits(enemy_index: Dictionary) -> void:
 				projectile.hit_registry = hit_registry
 
 				var direct_damage: int = int(projectile.damage)
+				_spawn_hit_fx(enemy.position)
 				var primary_killed: bool = _apply_damage_to_enemy(enemy, direct_damage)
 				if primary_killed:
+					_spawn_kill_fx(enemy.position)
 					_register_enemy_kill(enemy)
 
 				if int(projectile.dot_damage) > 0 and float(projectile.dot_duration) > 0.0 and float(projectile.dot_tick) > 0.0:
@@ -106,10 +117,36 @@ func _apply_damage_to_enemy(enemy: Node2D, damage: int) -> bool:
 
 func _register_enemy_kill(enemy: Node2D) -> void:
 	_state.kills += 1
+	if enemy and enemy.has_method("get_enemy_kind"):
+		var kind: String = String(enemy.get_enemy_kind())
+		if kind.begins_with("elite"):
+			_state.elite_kills += 1
 	var exp_reward: int = int(_balance.EXP_PER_KILL)
 	if enemy.has_method("get_exp_reward"):
 		exp_reward = int(enemy.get_exp_reward())
 	_state.gain_exp(exp_reward)
+
+func _spawn_hit_fx(world_pos: Vector2) -> void:
+	if _enemy_container == null:
+		return
+	var fx := Node2D.new()
+	fx.set_script(ImpactFx)
+	fx.setup(world_pos, Color("#67E8F9"), 11.0, 2.0, 0.12)
+	_enemy_container.add_child(fx)
+	if not _printed_hit_fx:
+		print("HIT_FX_ON")
+		_printed_hit_fx = true
+
+func _spawn_kill_fx(world_pos: Vector2) -> void:
+	if _enemy_container == null:
+		return
+	var fx := Node2D.new()
+	fx.set_script(ImpactFx)
+	fx.setup(world_pos, Color("#FCA5A5"), 17.0, 2.6, 0.22)
+	_enemy_container.add_child(fx)
+	if not _printed_kill_fx:
+		print("KILL_FX_ON")
+		_printed_kill_fx = true
 
 func _apply_dot_effect(enemy: Node2D, damage: int, duration: float, tick_interval: float) -> void:
 	var enemy_id: int = int(enemy.get_instance_id())
@@ -137,8 +174,10 @@ func _apply_aoe_damage(enemy_index: Dictionary, center: Vector2, primary_enemy: 
 		var enemy_radius: float = float(enemy.get_hit_radius())
 		if center.distance_to(enemy.position) > aoe_radius + enemy_radius:
 			continue
+		_spawn_hit_fx(enemy.position)
 		var killed: bool = _apply_damage_to_enemy(enemy, aoe_damage)
 		if killed:
+			_spawn_kill_fx(enemy.position)
 			_register_enemy_kill(enemy)
 		hit_count += 1
 	return hit_count
@@ -167,8 +206,10 @@ func _process_dot_effects(delta: float) -> void:
 
 		if tick_left <= 0.0:
 			tick_left += tick_interval
+			_spawn_hit_fx(enemy.position)
 			var killed: bool = _apply_damage_to_enemy(enemy, dot_damage)
 			if killed:
+				_spawn_kill_fx(enemy.position)
 				_register_enemy_kill(enemy)
 				remove_ids.append(enemy_id)
 				if not _printed_weapon_dot:

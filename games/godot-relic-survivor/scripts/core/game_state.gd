@@ -9,6 +9,17 @@ var exp_to_next: int = 12
 
 var elapsed: float = 0.0
 var kills: int = 0
+var elite_kills: int = 0
+var dash_uses: int = 0
+
+var mission_id: String = ""
+var mission_title: String = ""
+var mission_progress: int = 0
+var mission_target: int = 0
+var mission_reward_exp: int = 0
+var mission_active: bool = false
+var mission_time_left: float = 0.0
+var mission_completed_count: int = 0
 
 var pressure_hint: float = 0.0
 var pressure_band: String = "low"
@@ -83,6 +94,16 @@ func reset() -> void:
 
 	elapsed = 0.0
 	kills = 0
+	elite_kills = 0
+	dash_uses = 0
+	mission_id = ""
+	mission_title = ""
+	mission_progress = 0
+	mission_target = 0
+	mission_reward_exp = 0
+	mission_active = false
+	mission_time_left = 0.0
+	mission_completed_count = 0
 	pressure_hint = 0.0
 	pressure_band = "low"
 	death_reason = ""

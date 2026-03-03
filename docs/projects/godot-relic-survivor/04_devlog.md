@@ -1139,3 +1139,25 @@
 - `./tools/qa/pre-manual-qa-check.sh` PASS
 - `./tools/qa/checkpoint-report.sh` PASS
 - `./tools/qa/trace-objectdb-leak.sh` PASS
+
+## 2026-03-03 12:28 KST
+### Step 13 — Quality+Feature Upgrade Pack 01 구현 완료
+- 전투 피드백 강화
+  - `entities/impact_fx.gd` 추가(히트/킬 링 FX)
+  - `projectile.gd` 트레일 렌더링 추가
+  - 토큰: `HIT_FX_ON`, `KILL_FX_ON`, `PROJECTILE_TRAIL_ON`
+- 기능 확장
+  - `systems/mission_system.gd` 추가(미션 할당/진행/완료 보상)
+  - `spawn_director.gd` 엘리트 변형 테스트/순환 로직 추가
+  - 엘리트 변형: Grunt(juggernaut/berserk), Dasher(phantom/bulwark)
+- 안정화
+  - `scripts/core/texture_runtime.gd` 도입(헤드리스 PNG 런타임 로드)
+  - 기존 스프라이트 경로를 `TextureRuntime.load_texture()`로 치환
+- QA 확장
+  - 게이트에 `feel_loop`, `mission_loop`, `elite_variant_loop` 추가
+
+### 검증
+- `./tools/qa/headless-alpha-gate.sh` PASS
+- `./tools/qa/pre-manual-qa-check.sh` PASS
+- `./tools/qa/checkpoint-report.sh` PASS
+- `./tools/qa/trace-objectdb-leak.sh` PASS

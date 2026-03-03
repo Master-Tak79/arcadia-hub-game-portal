@@ -1,13 +1,18 @@
 extends Node2D
 
-const GRUNT_TEXTURE := preload("res://assets/sprites/kenney/enemies/grunt.png")
+const GRUNT_TEXTURE_PATH := "res://assets/sprites/kenney/enemies/grunt.png"
+const TextureRuntime := preload("res://scripts/core/texture_runtime.gd")
 
 var target: Node2D
+var _grunt_texture: Texture2D
 var speed: float = 130.0
 var hp: int = 2
 var hit_radius: float = 14.0
 var exp_reward: int = 3
 var contact_damage: int = 1
+
+func _ready() -> void:
+	_grunt_texture = TextureRuntime.load_texture(GRUNT_TEXTURE_PATH)
 
 func setup(target_node: Node2D, base_speed: float, base_hp: int, base_hit_radius: float) -> void:
 	target = target_node
@@ -45,11 +50,11 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	if GRUNT_TEXTURE:
-		var tex_size: Vector2 = GRUNT_TEXTURE.get_size()
+	if _grunt_texture:
+		var tex_size: Vector2 = _grunt_texture.get_size()
 		var scale: float = (hit_radius * 2.5) / max(1.0, max(tex_size.x, tex_size.y))
 		var draw_size: Vector2 = tex_size * scale
-		draw_texture_rect(GRUNT_TEXTURE, Rect2(-draw_size * 0.5, draw_size), false, Color.WHITE)
+		draw_texture_rect(_grunt_texture, Rect2(-draw_size * 0.5, draw_size), false, Color.WHITE)
 	else:
 		draw_circle(Vector2.ZERO, hit_radius - 1.0, Color("#EF4444"))
 

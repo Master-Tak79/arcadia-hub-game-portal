@@ -1,8 +1,10 @@
 extends Node2D
 
-const PLAYER_TEXTURE := preload("res://assets/sprites/kenney/player/player_main.png")
+const PLAYER_TEXTURE_PATH := "res://assets/sprites/kenney/player/player_main.png"
+const TextureRuntime := preload("res://scripts/core/texture_runtime.gd")
 
 var _state: RefCounted
+var _player_texture: Texture2D
 
 var _base_move_speed: float = 340.0
 var _base_dash_multiplier: float = 2.0
@@ -12,6 +14,9 @@ var _base_dash_cooldown: float = 1.0
 var _dash_time_left: float = 0.0
 var _dash_cooldown_left: float = 0.0
 var _enabled: bool = true
+
+func _ready() -> void:
+	_player_texture = TextureRuntime.load_texture(PLAYER_TEXTURE_PATH)
 
 func setup(balance: RefCounted, state: RefCounted) -> void:
 	_state = state
@@ -58,6 +63,8 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("dash") and _dash_cooldown_left <= 0.0:
 		_dash_time_left = dash_duration
 		_dash_cooldown_left = dash_cooldown
+		if _state:
+			_state.dash_uses += 1
 
 	var speed: float = move_speed
 	if _dash_time_left > 0.0:
@@ -68,11 +75,11 @@ func _process(delta: float) -> void:
 
 func _draw() -> void:
 	var color := Color("#FFFFFF") if _enabled else Color("#94A3B8")
-	if PLAYER_TEXTURE:
-		var tex_size: Vector2 = PLAYER_TEXTURE.get_size()
+	if _player_texture:
+		var tex_size: Vector2 = _player_texture.get_size()
 		var scale: float = 30.0 / max(1.0, max(tex_size.x, tex_size.y))
 		var draw_size: Vector2 = tex_size * scale
-		draw_texture_rect(PLAYER_TEXTURE, Rect2(-draw_size * 0.5, draw_size), false, color)
+		draw_texture_rect(_player_texture, Rect2(-draw_size * 0.5, draw_size), false, color)
 	else:
 		draw_circle(Vector2.ZERO, 14.0, Color("#22D3EE") if _enabled else Color("#64748B"))
 

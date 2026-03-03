@@ -100,6 +100,13 @@
 - [x] 자산 출처/라이선스 등록(`09_asset_register.md`)
 - [x] 문서/릴리즈/저널 동기화 반영
 
+## Step 13 — Quality+Feature Upgrade Pack 01
+- [x] 히트/킬 VFX + 투사체 트레일 강화
+- [x] 웨이브 미션 시스템 구현(할당/진행/완료)
+- [x] 엘리트 변형 패턴(Grunt/Dasher 각 2종) 구현
+- [x] `feel_loop`, `mission_loop`, `elite_variant_loop` 게이트 및 토큰 검증 반영
+- [x] 문서/릴리즈/저널 동기화 반영
+
 ---
 
 ## 결과 기록 템플릿
@@ -192,3 +199,10 @@
 - 자동검증 결과: headless gate PASS (asset 반영 상태), pre-manual PASS, leak trace PASS
 - 리스크/이슈: 애니메이션/VFX 미반영으로 동적 완성도는 후속 단계 필요
 - 다음 Step 진행 승인: 그래픽 2차 폴리싱(UI/VFX/애니메이션) 단계 대기
+
+### Step 13 결과 기록
+- Step: Quality+Feature Upgrade Pack 01
+- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 자동검증 결과: headless gate PASS (`feel_loop`, `mission_loop`, `elite_variant_loop` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: 미션 목표 난도와 엘리트 변형 빈도의 체감 밸런스 수동 QA 필요
+- 다음 Step 진행 승인: VFX/애니메이션 2차 폴리싱 단계 대기
