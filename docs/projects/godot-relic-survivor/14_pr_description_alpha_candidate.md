@@ -139,6 +139,7 @@ cd games/godot-relic-survivor
 - 체크포인트 핸드오프 리포트 자동 생성
 
 ## Key Commits (recent, head branch)
+- `a8d43ce` VFX/Animation Polish Pack 01(impact_fx/event_banner/level_up_panel 강화 + QA 재검증)
 - `e69f9a2` Interface Boundary Cleanup Pack 02(hud/boss runtime has_method 경계 정리 + QA 재검증)
 - `a683183` Interface Boundary Cleanup Pack 01(game_root has_method 경계 정리 + QA 재검증)
 - `1366b5c` Core Runtime Refactor Pack 01(game_root pressure/advisor 분리 + QA freeze 구조 대응)
