@@ -514,3 +514,12 @@
 
 ### 검증
 - headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과
+
+## 2026-03-04 (Step 21-A — Title/Menu Framework Pack 01)
+
+### 변경
+- 부트 타이틀 메뉴 및 인게임 ESC 메뉴 흐름 구축
+- 자동 QA/헤드리스 실행에서는 메뉴 자동 스킵
+
+### 검증
+- headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과

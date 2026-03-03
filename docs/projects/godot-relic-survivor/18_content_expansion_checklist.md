@@ -160,6 +160,13 @@
 - [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
 - [x] 문서/릴리즈/저널 동기화 반영
 
+## Step 21-A — Title/Menu Framework Pack 01
+- [x] 부트 타이틀 메뉴(START/QUIT) 구현
+- [x] 인게임 ESC 메뉴(RESUME/RESTART/QUIT) 구현
+- [x] QA/헤드리스 자동 스킵 분기 구현
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+- [x] 문서/릴리즈/저널 동기화 반영
+
 ---
 
 ## 결과 기록 템플릿
@@ -327,3 +334,10 @@
 - 자동검증 결과: headless gate PASS (`.qa/headless/20260304-071742`), pre-manual PASS, leak trace PASS, balance-freeze PASS
 - 리스크/이슈: 카메라 임팩트 강도는 플레이어 민감도별 옵션화 검토 필요
 - 다음 Step 진행 승인: 타이틀/메뉴 구현(백로그) 또는 Step21(콘텐츠 확장) 대기
+
+### Step 21-A 결과 기록
+- Step: Title/Menu Framework Pack 01
+- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260304-072941`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: 옵션 메뉴는 추후 구현(현재 플레이스홀더)
+- 다음 Step 진행 승인: Step21-B(옵션/설정 메뉴) 또는 Step22(콘텐츠 확장) 대기

@@ -1257,3 +1257,12 @@
 - QA 재검증
   - headless gate PASS: `.qa/headless/20260304-071742`
   - pre-manual/checkpoint/leak/freeze PASS
+
+## 2026-03-04 07:42 KST
+### Step 21-A — Title/Menu Framework Pack 01
+- `ui/title_menu.gd` 신규(START/RESUME/RESTART/QUIT)
+- `scenes/Main.tscn`에 TitleMenu 레이어 추가
+- `game_root.gd`에 부트 타이틀/ESC 메뉴 오케스트레이션 + QA/헤드리스 자동 스킵 분기 추가
+- QA 재검증
+  - headless gate PASS: `.qa/headless/20260304-072941`
+  - pre-manual/checkpoint/leak/freeze PASS

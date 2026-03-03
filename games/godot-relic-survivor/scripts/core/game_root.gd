@@ -27,6 +27,7 @@ const LevelupAdvisor := preload("res://scripts/systems/levelup_advisor.gd")
 const LevelUpPanel := preload("res://scripts/ui/level_up_panel.gd")
 const TreePanel := preload("res://scripts/ui/tree_panel.gd")
 const UpgradeHistoryPanel := preload("res://scripts/ui/upgrade_history_panel.gd")
+const TitleMenu := preload("res://scripts/ui/title_menu.gd")
 const EventBanner := preload("res://scripts/ui/event_banner.gd")
 const StageEventOverlay := preload("res://scripts/ui/stage_event_overlay.gd")
 const SfxSlots := preload("res://scripts/audio/sfx_slots.gd")
@@ -36,6 +37,7 @@ const SfxSlots := preload("res://scripts/audio/sfx_slots.gd")
 @onready var _projectile_container: Node2D = $ProjectileContainer
 @onready var _camera_fx: Camera2D = $GameCamera
 @onready var _hud: CanvasLayer = $HUD
+@onready var _title_menu: CanvasLayer = $TitleMenu
 
 var _state: RefCounted
 var _signal_bus: RefCounted
@@ -74,6 +76,8 @@ var _current_level_choices: Array = []
 var _current_tree_options: Array = []
 var _tree_menu_open: bool = false
 var _history_menu_open: bool = false
+var _title_menu_open: bool = false
+var _title_menu_boot_mode: bool = false
 var _tree_ui_test_done: bool = false
 var _last_game_over: bool = false
 
@@ -136,6 +140,12 @@ func _ready() -> void:
 	add_child(_upgrade_history_panel)
 	_upgrade_history_panel.close_requested.connect(_close_upgrade_history_menu)
 
+	if _title_menu and _title_menu.has_signal("start_requested"):
+		_title_menu.start_requested.connect(_on_title_start_requested)
+		_title_menu.resume_requested.connect(_on_title_resume_requested)
+		_title_menu.restart_requested.connect(_on_title_restart_requested)
+		_title_menu.quit_requested.connect(_on_title_quit_requested)
+
 	_event_banner = EventBanner.new()
 	add_child(_event_banner)
 
@@ -196,10 +206,15 @@ func _ready() -> void:
 	_start_round()
 	_runtime_options.print_enabled_flags()
 	print("RELIC_SURVIVOR_BOOT_OK")
+	if _should_show_title_menu_on_boot():
+		_open_title_menu(true)
 
 func _process(delta: float) -> void:
 	_boss_reward_runtime.process(delta)
 	_track_game_over_edge()
+
+	if _title_menu_open:
+		return
 
 	if _state.is_game_over:
 		if Input.is_action_just_pressed("upgrade_history"):
@@ -233,6 +248,10 @@ func _process(delta: float) -> void:
 			_close_upgrade_history_menu()
 		elif not _tree_menu_open and not (_level_up_panel and _level_up_panel.visible):
 			_open_upgrade_history_menu()
+		return
+
+	if Input.is_action_just_pressed("ui_cancel") and not _tree_menu_open and not _history_menu_open and not (_level_up_panel and _level_up_panel.visible):
+		_open_title_menu(false)
 		return
 
 	if Input.is_action_just_pressed("tree_menu") and not _state.is_paused and not _tree_menu_open:
@@ -302,6 +321,8 @@ func _open_tree_menu() -> void:
 		return
 	if _history_menu_open:
 		return
+	if _title_menu_open:
+		return
 	if _level_up_panel and _level_up_panel.visible:
 		return
 
@@ -357,6 +378,8 @@ func _start_round() -> void:
 	_current_tree_options = []
 	_tree_menu_open = false
 	_history_menu_open = false
+	_title_menu_open = false
+	_title_menu_boot_mode = false
 	_tree_ui_test_done = false
 	_last_game_over = false
 
@@ -376,6 +399,8 @@ func _start_round() -> void:
 	_tree_panel.hide_panel()
 	if _upgrade_history_panel:
 		_upgrade_history_panel.hide_panel()
+	if _title_menu:
+		_title_menu.hide_menu()
 	_event_banner.visible = false
 
 	_update_pressure_hint()
@@ -422,8 +447,78 @@ func _on_level_up_choice_selected(choice_index: int) -> void:
 		_player.set_enabled(true)
 	_level_up_panel.hide_panel()
 
+
+func _should_show_title_menu_on_boot() -> bool:
+	if DisplayServer.get_name() == "headless":
+		return false
+	if bool(_runtime_options.auto_levelup):
+		return false
+	if bool(_runtime_options.qa_autopilot):
+		return false
+	if bool(_runtime_options.qa_force_damage):
+		return false
+	if bool(_runtime_options.boss_test) or bool(_runtime_options.boss_pattern_test) or bool(_runtime_options.boss_phase2_test):
+		return false
+	if bool(_runtime_options.elite_test) or bool(_runtime_options.relic_test) or bool(_runtime_options.event_test):
+		return false
+	if bool(_runtime_options.meta_test) or bool(_runtime_options.character_test) or bool(_runtime_options.tree_test) or bool(_runtime_options.tree_ui_test):
+		return false
+	return true
+
+func _open_title_menu(boot_mode: bool) -> void:
+	if _title_menu_open:
+		return
+	if _tree_menu_open:
+		_close_tree_menu()
+	if _history_menu_open:
+		_close_upgrade_history_menu()
+	if _level_up_panel and _level_up_panel.visible:
+		_level_up_panel.hide_panel()
+
+	_title_menu_open = true
+	_title_menu_boot_mode = boot_mode
+	if _title_menu:
+		if boot_mode and _title_menu.has_method("show_boot_menu"):
+			_title_menu.show_boot_menu()
+		elif _title_menu.has_method("show_pause_menu"):
+			_title_menu.show_pause_menu()
+
+	_state.is_paused = true
+	_player.set_enabled(false)
+	print("TITLE_MENU_OPEN")
+
+func _close_title_menu(resume_play: bool) -> void:
+	if not _title_menu_open:
+		return
+	_title_menu_open = false
+	_title_menu_boot_mode = false
+	if _title_menu and _title_menu.has_method("hide_menu"):
+		_title_menu.hide_menu()
+	if resume_play and not _state.is_game_over and not _tree_menu_open and not _history_menu_open and not (_level_up_panel and _level_up_panel.visible):
+		_state.is_paused = false
+		_player.set_enabled(true)
+	print("TITLE_MENU_CLOSED")
+
+func _on_title_start_requested() -> void:
+	_close_title_menu(false)
+	_restart_round()
+	print("TITLE_MENU_START")
+
+func _on_title_resume_requested() -> void:
+	_close_title_menu(true)
+
+func _on_title_restart_requested() -> void:
+	_close_title_menu(false)
+	_restart_round()
+	print("TITLE_MENU_RESTART")
+
+func _on_title_quit_requested() -> void:
+	get_tree().quit()
+
 func _open_upgrade_history_menu() -> void:
 	if _history_menu_open:
+		return
+	if _title_menu_open:
 		return
 	if _tree_menu_open:
 		return

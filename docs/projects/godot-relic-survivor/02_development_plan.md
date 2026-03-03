@@ -145,7 +145,8 @@
 - Step 19 UI/Graphics Overhaul Pack 01: **0.75 ~ 1.5일**
 - Step 20-B Level Design / Fun Curve Pack 01: **0.75 ~ 1.5일**
 - Step 20-C Combat Feel Polish Pack 01: **0.5 ~ 1.0일**
-- 총합(문서/QA 포함): **17.0 ~ 29.5일**
+- Step 21-A Title/Menu Framework Pack 01: **0.5 ~ 1.0일**
+- 총합(문서/QA 포함): **17.5 ~ 30.5일**
 
 ## 검증 계획
 - 자동:
