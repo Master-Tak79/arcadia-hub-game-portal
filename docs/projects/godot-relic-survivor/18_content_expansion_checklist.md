@@ -253,3 +253,10 @@
 - 자동검증 결과: headless gate PASS (`.qa/headless/20260303-131905`), pre-manual PASS, leak trace PASS, balance-freeze PASS
 - 리스크/이슈: `game_root` 외 영역(HUD/Boss runtime)의 `has_method` 정리는 후속 단계에서 점진 적용 필요
 - 다음 Step 진행 승인: R4(HUD/Boss interface 정리) 또는 애니메이션 2차 폴리싱 대기
+
+### Step 17 결과 기록
+- Step: Interface Boundary Cleanup Pack 02
+- 구현 커밋: `e69f9a2` (hud/boss runtime has_method 경계 정리 + docs sync)
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260303-133108`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: `miniboss_director` 내부 boss_ref 인터페이스 정리는 후속 단계에서 점진 적용 필요
+- 다음 Step 진행 승인: Step18(VFX/애니메이션 2차 폴리싱) 또는 Step19(트리 고도화) 대기
