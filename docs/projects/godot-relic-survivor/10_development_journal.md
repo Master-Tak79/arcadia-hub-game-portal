@@ -415,3 +415,14 @@
 ### 상태
 - Step 13 완료
 - 다음 착수: VFX/애니메이션 2차 폴리싱
+
+## 2026-03-03 (Step 14 Fast Follow — Feedback/Runtime Polish)
+
+### 변경
+- TextureRuntime 글로벌 캐시 도입
+- 미션 스트릭 보너스/리셋 로직 추가
+- HUD 미션 스트릭 표시 추가
+- impact FX 연출 강화(스포크 추가)
+
+### 검증
+- headless gate / readiness / checkpoint / leak trace 통과

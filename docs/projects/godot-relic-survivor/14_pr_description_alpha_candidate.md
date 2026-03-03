@@ -110,6 +110,7 @@ cd games/godot-relic-survivor
   - `PROJECTILE_TRAIL_ON`
   - `MISSION_ASSIGNED:*`
   - `MISSION_COMPLETED:*`
+  - `MISSION_STREAK:*`
   - `ELITE_VARIANT:*`
   - `META_PROFILE_LOADED`
   - `META_RUN_REWARD`

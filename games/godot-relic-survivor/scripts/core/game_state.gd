@@ -20,6 +20,8 @@ var mission_reward_exp: int = 0
 var mission_active: bool = false
 var mission_time_left: float = 0.0
 var mission_completed_count: int = 0
+var mission_streak: int = 0
+var mission_best_streak: int = 0
 
 var pressure_hint: float = 0.0
 var pressure_band: String = "low"
@@ -104,6 +106,8 @@ func reset() -> void:
 	mission_active = false
 	mission_time_left = 0.0
 	mission_completed_count = 0
+	mission_streak = 0
+	mission_best_streak = 0
 	pressure_hint = 0.0
 	pressure_band = "low"
 	death_reason = ""

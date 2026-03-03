@@ -1161,3 +1161,15 @@
 - `./tools/qa/pre-manual-qa-check.sh` PASS
 - `./tools/qa/checkpoint-report.sh` PASS
 - `./tools/qa/trace-objectdb-leak.sh` PASS
+
+## 2026-03-03 13:00 KST
+### Step 14 Fast Follow — Feedback/Runtime Polish
+- `texture_runtime.gd` 전역 캐시 추가로 텍스처 재로드 비용 완화
+- 미션 스트릭 보너스 도입(`MISSION_STREAK:*`, `MISSION_STREAK_RESET`)
+- HUD에 `MISSION STREAK`/`BEST` 표시 추가
+- `impact_fx.gd` 링+스포크 연출 강화(타격 가독성 개선)
+- QA 재검증:
+  - `headless-alpha-gate.sh` PASS (`.qa/headless/20260303-125502`)
+  - `pre-manual-qa-check.sh` PASS
+  - `checkpoint-report.sh` PASS (`.qa/reports/checkpoint-20260303-125722.md`)
+  - `trace-objectdb-leak.sh` PASS (`.qa/leak-trace/20260303-125722/leak-summary.txt`)

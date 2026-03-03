@@ -106,6 +106,9 @@
 - 2026-03-03: 사용자 연속 승인("응")에 따른 콘텐츠 확장 Step 13 반영.
   - Quality+Feature Upgrade Pack 01(히트/킬 VFX + 미션 시스템 + 엘리트 변형) 구현
   - `--feel-test`, `--mission-test`, `--elite-variant-test` 런타임 옵션 + 대응 게이트 케이스 편입
+- 2026-03-03: 사용자 연속 승인("응")에 따른 콘텐츠 확장 Step 14 Fast Follow 반영.
+  - `texture_runtime.gd` 전역 캐시 도입 + `impact_fx` 연출 폴리싱
+  - 미션 스트릭 보너스(`MISSION_STREAK:*`) 및 HUD 표시 반영
 - 처리 원칙:
   - 자동 회귀 검증 통과 필수
   - 설계/릴리즈/개발일지 즉시 동기화

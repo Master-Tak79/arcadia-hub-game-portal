@@ -57,7 +57,7 @@ func _refresh() -> void:
 			float(_state.mission_time_left)
 		]
 
-	var text := "HP: %d / %d\nLV: %d\nEXP: %d / %d\nTIME: %.1f\nKILLS: %d\nENEMIES: %d\nSHOTS: %d\nDASH: %s\nCHAR: %s\nWEAPON: %s\nSKILL: %s\nMISSION: %s\nPRESSURE: %s (%.2f)\nRELICS: %d\nMETA: SHARDS %d · RUNS %d · V/C/F %d/%d/%d\nTREE: R %d · W %d" % [
+	var text := "HP: %d / %d\nLV: %d\nEXP: %d / %d\nTIME: %.1f\nKILLS: %d\nENEMIES: %d\nSHOTS: %d\nDASH: %s\nCHAR: %s\nWEAPON: %s\nSKILL: %s\nMISSION: %s\nMISSION STREAK: %d (BEST %d)\nPRESSURE: %s (%.2f)\nRELICS: %d\nMETA: SHARDS %d · RUNS %d · V/C/F %d/%d/%d\nTREE: R %d · W %d" % [
 		_state.hp,
 		_state.max_hp,
 		_state.level,
@@ -72,6 +72,8 @@ func _refresh() -> void:
 		String(_state.weapon_title),
 		skill_text,
 		mission_text,
+		int(_state.mission_streak),
+		int(_state.mission_best_streak),
 		String(_state.pressure_band).to_upper(),
 		float(_state.pressure_hint),
 		int(_state.relic_obtained_count),

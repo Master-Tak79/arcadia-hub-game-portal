@@ -86,6 +86,11 @@
   - [x] 웨이브 미션 시스템(할당/진행/완료 보상) 추가
   - [x] 엘리트 변형 패턴 2종씩(Grunt/Dasher) 추가
   - [x] `feel_loop`, `mission_loop`, `elite_variant_loop` 게이트 확장
+- [x] **Step 14 — Feedback/Runtime Polish Fast Follow**
+  - [x] `texture_runtime.gd` 텍스처 전역 캐시 도입
+  - [x] 미션 스트릭 보너스/리셋 + HUD 스트릭 표시 추가
+  - [x] `impact_fx` 연출 폴리싱(링/스포크)
+  - [x] 게이트/누수/체크포인트 재검증 + 문서 동기화
 
 ## 코드 구조 계획
 - `scripts/core/`: 게임 루프/상태/시그널/모드
@@ -108,7 +113,8 @@
 - Step 11 Tree UI/UX Pack 01: **0.5 ~ 1.0일**
 - Step 12 Visual Upgrade Pack 01: **0.5 ~ 1.0일**
 - Step 13 Quality+Feature Upgrade Pack 01: **1.0 ~ 1.5일**
-- 총합(문서/QA 포함): **13.0 ~ 21.0일**
+- Step 14 Feedback/Runtime Polish Fast Follow: **0.5 ~ 1.0일**
+- 총합(문서/QA 포함): **13.5 ~ 22.0일**
 
 ## 검증 계획
 - 자동:

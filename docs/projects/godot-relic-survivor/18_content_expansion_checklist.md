@@ -107,6 +107,13 @@
 - [x] `feel_loop`, `mission_loop`, `elite_variant_loop` 게이트 및 토큰 검증 반영
 - [x] 문서/릴리즈/저널 동기화 반영
 
+## Step 14 — Feedback/Runtime Polish Fast Follow
+- [x] `texture_runtime.gd` 전역 캐시 도입
+- [x] 미션 스트릭 보너스/리셋 로직 반영
+- [x] HUD 미션 스트릭 상태 표시 반영
+- [x] `impact_fx` 연출 폴리싱(링+스포크)
+- [x] 자동검증 재통과 + 문서 동기화 반영
+
 ---
 
 ## 결과 기록 템플릿
@@ -206,3 +213,10 @@
 - 자동검증 결과: headless gate PASS (`feel_loop`, `mission_loop`, `elite_variant_loop` 포함), pre-manual PASS, leak trace PASS
 - 리스크/이슈: 미션 목표 난도와 엘리트 변형 빈도의 체감 밸런스 수동 QA 필요
 - 다음 Step 진행 승인: VFX/애니메이션 2차 폴리싱 단계 대기
+
+### Step 14 결과 기록
+- Step: Feedback/Runtime Polish Fast Follow
+- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260303-125502`), pre-manual PASS, leak trace PASS
+- 리스크/이슈: 미션 스트릭 보너스에 따른 체감 난이도 하락 여부 수동 QA 필요
+- 다음 Step 진행 승인: 리팩토링 R2(game_root 분리) 또는 애니메이션 2차 폴리싱 대기

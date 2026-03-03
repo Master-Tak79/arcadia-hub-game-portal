@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.20-dev
+- version: v0.1.21-dev
 - date: 2026-03-03
 
 ## Added
@@ -109,6 +109,11 @@
   - 전투 피드백 강화: `impact_fx`(히트/킬 링) + `projectile trail`
   - 웨이브 미션 시스템 추가(할당/진행/완료 보상)
   - 엘리트 변형 패턴 추가(Grunt: juggernaut/berserk, Dasher: phantom/bulwark)
+- Feedback/Runtime Polish Fast Follow
+  - `texture_runtime.gd` 전역 캐시 도입(엔티티/투사체 텍스처 재사용)
+  - 미션 스트릭 보너스(`MISSION_STREAK:*`) + 실패 시 리셋(`MISSION_STREAK_RESET`) 추가
+  - HUD `MISSION STREAK` 상태 표시 추가
+  - `impact_fx` 링/스포크 연출 강화로 타격 가독성 개선
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시
   - 선택 후 예상 지표(예상 DPS/생존 지표, 간이 추정) 프리뷰 표시
@@ -226,7 +231,7 @@
   - `HIT_FX_ON`, `KILL_FX_ON`, `PROJECTILE_TRAIL_ON` 확인
 - 미션 루프 QA:
   - `godotw --headless --fixed-fps 60 --quit-after 2400 -- --mission-test --elite-test --auto-levelup --qa-autopilot`
-  - `MISSION_ASSIGNED:*`, `MISSION_COMPLETED:*` 확인
+  - `MISSION_ASSIGNED:*`, `MISSION_COMPLETED:*`, `MISSION_STREAK:*` 확인
 - 엘리트 변형 루프 QA:
   - `godotw --headless --fixed-fps 60 --quit-after 2400 -- --elite-test --elite-variant-test --auto-levelup --qa-autopilot`
   - `ELITE_VARIANT:*` 확인

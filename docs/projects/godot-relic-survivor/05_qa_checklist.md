@@ -48,7 +48,7 @@
 - [x] tree_loop 검증 통과 (`TREE_PROFILE_LOADED`, `TREE_NODE_UNLOCKED:*`, `TREE_APPLIED:*`)
 - [x] tree_ui_loop 검증 통과 (`TREE_PANEL_OPEN`, `TREE_UI_UNLOCK_CONFIRMED:*`)
 - [x] feel_loop 검증 통과 (`HIT_FX_ON`, `KILL_FX_ON`, `PROJECTILE_TRAIL_ON`)
-- [x] mission_loop 검증 통과 (`MISSION_ASSIGNED:*`, `MISSION_COMPLETED:*`)
+- [x] mission_loop 검증 통과 (`MISSION_ASSIGNED:*`, `MISSION_COMPLETED:*`, `MISSION_STREAK:*`)
 - [x] elite_variant_loop 검증 통과 (`ELITE_VARIANT:*`)
 - [x] 보스 처치 루프 정상 (`MINIBOSS_DEFEATED` 로그 확인)
 

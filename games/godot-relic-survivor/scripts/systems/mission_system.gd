@@ -31,6 +31,8 @@ func reset_runtime() -> void:
 		_state.mission_reward_exp = 0
 		_state.mission_active = false
 		_state.mission_time_left = 0.0
+		_state.mission_streak = 0
+		_state.mission_best_streak = 0
 
 func process(delta: float) -> void:
 	if _state == null or _state.is_game_over or _state.is_paused:
@@ -51,6 +53,9 @@ func process(delta: float) -> void:
 
 	if _state.mission_time_left <= 0.0:
 		print("MISSION_FAILED:%s" % _state.mission_id)
+		if int(_state.mission_streak) > 0:
+			print("MISSION_STREAK_RESET")
+		_state.mission_streak = 0
 		_state.mission_active = false
 		_state.mission_id = ""
 		_state.mission_title = ""
@@ -109,11 +114,22 @@ func _update_progress() -> void:
 
 func _complete_mission() -> void:
 	print("MISSION_COMPLETED:%s" % _state.mission_id)
-	_state.gain_exp(int(_state.mission_reward_exp))
+	_state.mission_streak = int(_state.mission_streak) + 1
+	_state.mission_best_streak = max(int(_state.mission_best_streak), int(_state.mission_streak))
+
+	var streak_bonus: int = min(8, max(0, int(_state.mission_streak) - 1) * 2)
+	var total_reward: int = int(_state.mission_reward_exp) + streak_bonus
+	if streak_bonus > 0:
+		print("MISSION_STREAK:%d:+%d" % [int(_state.mission_streak), streak_bonus])
+
+	_state.gain_exp(total_reward)
 	_state.hp = min(_state.max_hp, _state.hp + 1)
 	_state.mission_completed_count += 1
 	if _event_banner:
-		_event_banner.show_message("✅ MISSION CLEAR +%d EXP" % _state.mission_reward_exp, 0.95, Color("#065F46"))
+		if streak_bonus > 0:
+			_event_banner.show_message("✅ MISSION x%d +%d EXP" % [int(_state.mission_streak), total_reward], 0.95, Color("#065F46"))
+		else:
+			_event_banner.show_message("✅ MISSION CLEAR +%d EXP" % total_reward, 0.95, Color("#065F46"))
 
 	_state.mission_active = false
 	_state.mission_id = ""

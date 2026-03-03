@@ -30,7 +30,7 @@
   - tree loop 체크(`TREE_PROFILE_LOADED`, `TREE_NODE_UNLOCKED:*`, `TREE_APPLIED:*`) 통과
   - tree_ui loop 체크(`TREE_PANEL_OPEN`, `TREE_UI_UNLOCK_CONFIRMED:*`) 통과
   - feel loop 체크(`HIT_FX_ON`, `KILL_FX_ON`, `PROJECTILE_TRAIL_ON`) 통과
-  - mission loop 체크(`MISSION_ASSIGNED:*`, `MISSION_COMPLETED:*`) 통과
+  - mission loop 체크(`MISSION_ASSIGNED:*`, `MISSION_COMPLETED:*`, `MISSION_STREAK:*`) 통과
   - elite_variant loop 체크(`ELITE_VARIANT:*`) 통과
   - meta loop 체크(`META_PROFILE_LOADED`, `META_RUN_REWARD`) 통과
   - warning/leak summary 기준 `warnings=0`, `leak_lines=0`
