@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.26-dev
+- version: v0.1.27-dev
 - date: 2026-03-03
 
 ## Added
@@ -139,6 +139,11 @@
   - 레벨업 카드 마우스 hover/좌클릭 선택 지원(기존 숫자키 선택 유지)
   - `upgrade_history_panel.gd` 추가 및 `H` 키 히스토리 토글 지원
   - `game_state`에 선택 카드 히스토리(`levelup_history`) 누적 저장
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- UI/Graphics Overhaul Pack 01
+  - `hud.gd` 패널형 HUD 재설계(전투/미션/보스/메타/유물 분리)
+  - `arena_background.gd` 연출 강화(스타 레이어 + 센터 글로우 + 엣지 비네트)
+  - `project.godot` 1920x1080 기본 창/스트레치 설정 유지
   - 회귀 검증: headless/leak/freeze/checkpoint 재통과
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시

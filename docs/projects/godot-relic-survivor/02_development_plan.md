@@ -110,6 +110,11 @@
   - [x] `level_up_panel.gd` 등장 이징/알파 애니메이션 추가
   - [x] 레벨업 카드 마우스 선택 + `H` 히스토리 패널 Fast Follow 적용
   - [x] headless/leak/freeze/checkpoint 재검증
+- [x] **Step 19 — UI/Graphics Overhaul Pack 01**
+  - [x] HUD 패널형 재설계(전투/미션/보스/메타/유물 분리)
+  - [x] 배경 연출 업그레이드(스타 레이어/비네트/센터 글로우)
+  - [x] 수동 UX 체크 항목(마우스/히스토리/HUD 가독성) 문서 갱신
+  - [x] headless/leak/freeze/checkpoint 재검증
 
 ## 코드 구조 계획
 - `scripts/core/`: 게임 루프/상태/시그널/모드
@@ -137,7 +142,8 @@
 - Step 16 Interface Boundary Cleanup Pack 01: **0.25 ~ 0.75일**
 - Step 17 Interface Boundary Cleanup Pack 02: **0.25 ~ 0.75일**
 - Step 18 VFX/Animation Polish Pack 01: **0.5 ~ 1.0일**
-- 총합(문서/QA 포함): **15.0 ~ 25.5일**
+- Step 19 UI/Graphics Overhaul Pack 01: **0.75 ~ 1.5일**
+- 총합(문서/QA 포함): **15.75 ~ 27.0일**
 
 ## 검증 계획
 - 자동:

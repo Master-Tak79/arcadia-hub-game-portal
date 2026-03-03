@@ -485,3 +485,13 @@
 
 ### 검증
 - headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과
+
+## 2026-03-03 (Step 19 — UI/Graphics Overhaul Pack 01)
+
+### 변경
+- HUD를 텍스트 덤프형에서 패널형 정보 계층 구조로 전환
+- 배경 레이어링/비네트/글로우로 전투 집중도 향상
+- 수동 QA 프로토콜에 마우스 카드 선택 + H 히스토리 확인 항목 추가
+
+### 검증
+- headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과

@@ -7,7 +7,7 @@
 ## 실행 준비
 
 ```bash
-cd /home/tak/.openclaw/workspace-coder/games/godot-relic-survivor
+cd /mnt/c/TAK_Projects/Game/godot-relic-survivor/games/godot-relic-survivor
 ../../scripts/godotw --path .
 ```
 
@@ -25,9 +25,12 @@ cd /home/tak/.openclaw/workspace-coder/games/godot-relic-survivor
 ### Run B — 성장/웨이브 중심 (0~10분)
 - 체크:
   - 레벨업 3지선다 체감
+  - 레벨업 카드 마우스 hover/좌클릭 선택 반응
+  - `H` 히스토리 패널 열기/닫기/기록 가독성
   - 업그레이드 선택 의미(딜/생존/기동)
   - META 상태(HUD 샤드/특성 랭크) 가독성
   - WEAPON 상태(HUD 무기 계열) 가독성
+  - HUD 패널형 정보 계층(전투/미션/보스/메타) 가독성
   - TREE 해금 후 다음 라운드 반영 체감(정상 적용 여부)
   - TREE 패널(`T`) 열기/선택/닫기 UX 확인
   - 미션 할당/완료 보상 체감(MISSION)

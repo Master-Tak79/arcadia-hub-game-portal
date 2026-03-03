@@ -213,6 +213,16 @@
   - headless gate + leak trace + balance freeze 재통과
 - 상태: 🟡 구현/자동검증 완료 (수동 체감 QA 대기)
 
+## M23 — UI/Graphics Overhaul Pack 01 (v0.1.27-dev)
+- 목표: 전투 가독성과 UI 체감 품질을 상용 수준으로 1차 상향
+- 콘텐츠:
+  - HUD 패널형 재구성(핵심 지표 계층화)
+  - 배경 연출 강화(스타 레이어/비네트/센터 글로우)
+  - 레벨업 카드 클릭/H 히스토리 UX를 운영 체크리스트에 통합
+- 완료 기준:
+  - headless gate + leak trace + balance freeze 재통과
+- 상태: 🟡 구현/자동검증 완료 (수동 체감 QA 대기)
+
 ## 백로그 (중기)
 - 캐릭터 전용 무기/액티브 스킬 트리 고도화 구현
 

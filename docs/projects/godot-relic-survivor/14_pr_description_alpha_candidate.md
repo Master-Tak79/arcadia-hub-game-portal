@@ -39,6 +39,7 @@
 - VFX/Animation Polish Pack 01 추가(`impact_fx`/`event_banner`/`level_up_panel` 미세 애니메이션 강화)
 - LevelUp Card UI Fast Follow 추가(카드형 3선택 레이아웃 + 역할 컬러/요약/추천 노트)
 - UX Input/History Fast Follow 추가(마우스 카드 선택 + H 히스토리 패널)
+- UI/Graphics Overhaul Pack 01 추가(HUD 패널형 재설계 + 배경 연출 강화)
 - 레벨업 선택지 가독성 강화(역할 태그/효과 요약/추천 문구/예상 지표)
 - 압박도 기반 추천 보정(웨이브/보스 압박 신호를 가중치에 반영)
 - auto-levelup 선택 로직의 multi-effect 반영 + 스폰 안전 반경/전투 후보 인덱스 적용

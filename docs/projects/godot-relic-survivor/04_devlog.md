@@ -1230,3 +1230,12 @@
 - QA 재검증
   - headless gate PASS: `.qa/headless/20260303-221713`
   - pre-manual/checkpoint/leak/freeze PASS
+
+## 2026-03-03 23:08 KST
+### Step 19 — UI/Graphics Overhaul Pack 01
+- `ui/hud.gd` 패널형 HUD로 전면 재구성(HP/EXP/미션/보스/메타/유물)
+- `ui/arena_background.gd` 스타 레이어/센터글로우/엣지 비네트 추가
+- `11_manual_qa_protocol.md`, `13_alpha_readiness_report.md`, `15_merge_handover_checklist.md` UX 체크 항목 보강
+- QA 재검증
+  - headless gate PASS: `.qa/headless/20260303-230009`
+  - pre-manual/checkpoint/leak/freeze PASS
