@@ -202,7 +202,7 @@
 
 ### Step 13 결과 기록
 - Step: Quality+Feature Upgrade Pack 01
-- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 구현 커밋: `a385afc` (VFX/미션/엘리트 변형 + 게이트 확장 + 문서 동기화)
 - 자동검증 결과: headless gate PASS (`feel_loop`, `mission_loop`, `elite_variant_loop` 포함), pre-manual PASS, leak trace PASS
 - 리스크/이슈: 미션 목표 난도와 엘리트 변형 빈도의 체감 밸런스 수동 QA 필요
 - 다음 Step 진행 승인: VFX/애니메이션 2차 폴리싱 단계 대기
