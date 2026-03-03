@@ -135,6 +135,7 @@ cd games/godot-relic-survivor
 - 체크포인트 핸드오프 리포트 자동 생성
 
 ## Key Commits (recent, head branch)
+- `ef23837` Feedback/Runtime Polish Fast Follow(미션 스트릭 + 텍스처 캐시 + impact FX) + 문서 동기화
 - `a385afc` Quality+Feature Upgrade Pack 01(VFX/미션/엘리트 변형) + 문서 동기화
 - `e3d3d2e` Visual Upgrade Pack 01(CC0 에셋 통합) + 문서 동기화
 - `238263e` Tree UI/UX Pack 01 + tree_ui 게이트 + 문서 동기화
