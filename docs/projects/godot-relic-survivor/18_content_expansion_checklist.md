@@ -337,7 +337,7 @@
 
 ### Step 21-A 결과 기록
 - Step: Title/Menu Framework Pack 01
-- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 구현 커밋: `639ea2f` (부트 타이틀 + ESC 메뉴 프레임워크 + docs sync)
 - 자동검증 결과: headless gate PASS (`.qa/headless/20260304-072941`), pre-manual PASS, leak trace PASS, balance-freeze PASS
 - 리스크/이슈: 옵션 메뉴는 추후 구현(현재 플레이스홀더)
 - 다음 Step 진행 승인: Step21-B(옵션/설정 메뉴) 또는 Step22(콘텐츠 확장) 대기
