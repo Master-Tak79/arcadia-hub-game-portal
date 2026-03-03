@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.25-dev
+- version: v0.1.26-dev
 - date: 2026-03-03
 
 ## Added
@@ -134,6 +134,11 @@
 - UI Readability Fast Follow
   - `level_up_panel.gd` 카드형 3선택 레이아웃 전환(역할 컬러/요약/추천 노트/간이 지표)
   - 카드 등장 스태거 애니메이션으로 시선 유도 강화
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- UX Input/History Fast Follow
+  - 레벨업 카드 마우스 hover/좌클릭 선택 지원(기존 숫자키 선택 유지)
+  - `upgrade_history_panel.gd` 추가 및 `H` 키 히스토리 토글 지원
+  - `game_state`에 선택 카드 히스토리(`levelup_history`) 누적 저장
   - 회귀 검증: headless/leak/freeze/checkpoint 재통과
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시

@@ -26,6 +26,7 @@ const LevelupAdvisor := preload("res://scripts/systems/levelup_advisor.gd")
 
 const LevelUpPanel := preload("res://scripts/ui/level_up_panel.gd")
 const TreePanel := preload("res://scripts/ui/tree_panel.gd")
+const UpgradeHistoryPanel := preload("res://scripts/ui/upgrade_history_panel.gd")
 const EventBanner := preload("res://scripts/ui/event_banner.gd")
 const StageEventOverlay := preload("res://scripts/ui/stage_event_overlay.gd")
 const SfxSlots := preload("res://scripts/audio/sfx_slots.gd")
@@ -64,6 +65,7 @@ var _active_skill_system
 
 var _level_up_panel
 var _tree_panel
+var _upgrade_history_panel
 var _event_banner
 var _stage_event_overlay
 var _sfx_slots
@@ -71,6 +73,7 @@ var _sfx_slots
 var _current_level_choices: Array = []
 var _current_tree_options: Array = []
 var _tree_menu_open: bool = false
+var _history_menu_open: bool = false
 var _tree_ui_test_done: bool = false
 var _last_game_over: bool = false
 
@@ -128,6 +131,10 @@ func _ready() -> void:
 	add_child(_tree_panel)
 	_tree_panel.option_selected.connect(_on_tree_option_selected)
 	_tree_panel.close_requested.connect(_close_tree_menu)
+
+	_upgrade_history_panel = UpgradeHistoryPanel.new()
+	add_child(_upgrade_history_panel)
+	_upgrade_history_panel.close_requested.connect(_close_upgrade_history_menu)
 
 	_event_banner = EventBanner.new()
 	add_child(_event_banner)
@@ -195,6 +202,12 @@ func _process(delta: float) -> void:
 	_track_game_over_edge()
 
 	if _state.is_game_over:
+		if Input.is_action_just_pressed("upgrade_history"):
+			if _history_menu_open:
+				_close_upgrade_history_menu()
+			else:
+				_open_upgrade_history_menu()
+			return
 		if Input.is_action_just_pressed("tree_menu"):
 			if _tree_menu_open:
 				_close_tree_menu()
@@ -204,6 +217,8 @@ func _process(delta: float) -> void:
 		if _tree_menu_open:
 			_process_tree_menu_pause()
 			return
+		if _history_menu_open:
+			return
 		if bool(_runtime_options.qa_auto_restart):
 			if _qa_runtime.process_game_over(delta):
 				_restart_round()
@@ -211,6 +226,13 @@ func _process(delta: float) -> void:
 			return
 		if Input.is_action_just_pressed("restart"):
 			_restart_round()
+		return
+
+	if Input.is_action_just_pressed("upgrade_history"):
+		if _history_menu_open:
+			_close_upgrade_history_menu()
+		elif not _tree_menu_open and not (_level_up_panel and _level_up_panel.visible):
+			_open_upgrade_history_menu()
 		return
 
 	if Input.is_action_just_pressed("tree_menu") and not _state.is_paused and not _tree_menu_open:
@@ -224,6 +246,9 @@ func _process(delta: float) -> void:
 
 	if _tree_menu_open:
 		_process_tree_menu_pause()
+		return
+
+	if _history_menu_open:
 		return
 
 	if _state.is_paused:
@@ -275,6 +300,8 @@ func _process_tree_menu_pause() -> void:
 func _open_tree_menu() -> void:
 	if _tree_menu_open:
 		return
+	if _history_menu_open:
+		return
 	if _level_up_panel and _level_up_panel.visible:
 		return
 
@@ -292,7 +319,7 @@ func _close_tree_menu() -> void:
 	_tree_menu_open = false
 	_current_tree_options = []
 	_tree_panel.hide_panel()
-	if not _state.is_game_over:
+	if not _state.is_game_over and not _history_menu_open:
 		_state.is_paused = false
 		_player.set_enabled(true)
 	print("TREE_PANEL_CLOSED")
@@ -329,6 +356,7 @@ func _start_round() -> void:
 	_current_level_choices = []
 	_current_tree_options = []
 	_tree_menu_open = false
+	_history_menu_open = false
 	_tree_ui_test_done = false
 	_last_game_over = false
 
@@ -346,6 +374,8 @@ func _start_round() -> void:
 	_miniboss_director.reset_runtime()
 	_level_up_panel.hide_panel()
 	_tree_panel.hide_panel()
+	if _upgrade_history_panel:
+		_upgrade_history_panel.hide_panel()
 	_event_banner.visible = false
 
 	_update_pressure_hint()
@@ -366,6 +396,8 @@ func _open_level_up_panel() -> void:
 		choice["current_stack"] = _state.get_upgrade_stack(id)
 		_current_level_choices[i] = choice
 
+	if _history_menu_open:
+		_close_upgrade_history_menu()
 	_state.is_paused = true
 	_player.set_enabled(false)
 	_signal_bus.emit_signal("level_up_opened", _state.level)
@@ -377,6 +409,7 @@ func _on_level_up_choice_selected(choice_index: int) -> void:
 
 	var picked: Dictionary = _current_level_choices[choice_index]
 	var result: Dictionary = _upgrade_system.apply_upgrade(picked)
+	_record_levelup_choice(picked, result)
 
 	_signal_bus.emit_signal("upgrade_applied", String(result.get("id", "")), int(result.get("stack", 1)))
 	_signal_bus.emit_signal("level_up_closed", _state.level)
@@ -388,6 +421,115 @@ func _on_level_up_choice_selected(choice_index: int) -> void:
 	if not _state.is_game_over:
 		_player.set_enabled(true)
 	_level_up_panel.hide_panel()
+
+func _open_upgrade_history_menu() -> void:
+	if _history_menu_open:
+		return
+	if _tree_menu_open:
+		return
+	if _level_up_panel and _level_up_panel.visible:
+		return
+	if _upgrade_history_panel:
+		_upgrade_history_panel.show_entries(Array(_state.levelup_history))
+	_history_menu_open = true
+	_state.is_paused = true
+	_player.set_enabled(false)
+	print("UPGRADE_HISTORY_OPEN")
+
+func _close_upgrade_history_menu() -> void:
+	if not _history_menu_open:
+		return
+	_history_menu_open = false
+	if _upgrade_history_panel:
+		_upgrade_history_panel.hide_panel()
+	if not _state.is_game_over and not _tree_menu_open and not (_level_up_panel and _level_up_panel.visible):
+		_state.is_paused = false
+		_player.set_enabled(true)
+	print("UPGRADE_HISTORY_CLOSED")
+
+func _record_levelup_choice(choice: Dictionary, result: Dictionary) -> void:
+	var entry := {
+		"level": int(_state.level),
+		"title": String(result.get("title", choice.get("title", "Unknown"))),
+		"role": _resolve_upgrade_role(choice),
+		"effects": _extract_choice_effect_lines(choice),
+		"time_sec": snappedf(float(_state.elapsed), 0.1)
+	}
+	_state.levelup_history.append(entry)
+	while _state.levelup_history.size() > 48:
+		_state.levelup_history.remove_at(0)
+	if _history_menu_open and _upgrade_history_panel:
+		_upgrade_history_panel.show_entries(Array(_state.levelup_history))
+
+func _resolve_upgrade_role(choice: Dictionary) -> String:
+	var seen_roles: Dictionary = {}
+	for raw_effect in _extract_choice_effects(choice):
+		var effect: Dictionary = raw_effect
+		var key: String = String(effect.get("key", ""))
+		seen_roles[_effect_role(key)] = true
+	if seen_roles.size() >= 2:
+		return "hybrid"
+	if seen_roles.has("offense"):
+		return "offense"
+	if seen_roles.has("mobility"):
+		return "mobility"
+	if seen_roles.has("survival"):
+		return "survival"
+	return "utility"
+
+func _effect_role(effect_key: String) -> String:
+	match effect_key:
+		"attack_interval_reduction", "projectile_damage_bonus", "projectile_speed_bonus", "projectile_radius_bonus", "projectile_lifetime_bonus", "attack_range_bonus", "extra_projectiles":
+			return "offense"
+		"player_speed_bonus", "dash_cooldown_reduction":
+			return "mobility"
+		"player_invuln_bonus", "max_hp_plus_heal", "instant_heal":
+			return "survival"
+		_:
+			return "utility"
+
+func _extract_choice_effects(choice: Dictionary) -> Array:
+	if choice.has("effects"):
+		return Array(choice.get("effects", []))
+	return [{"key": String(choice.get("effect_key", "")), "value": choice.get("effect_value", 0)}]
+
+func _extract_choice_effect_lines(choice: Dictionary) -> Array:
+	var lines: Array = []
+	for raw_effect in _extract_choice_effects(choice):
+		lines.append(_format_effect_brief(raw_effect))
+	return lines
+
+func _format_effect_brief(raw_effect: Variant) -> String:
+	var effect: Dictionary = raw_effect
+	var key: String = String(effect.get("key", ""))
+	var value: Variant = effect.get("value", 0)
+	match key:
+		"attack_interval_reduction":
+			return "공격주기 -%d%%" % int(round(float(value) * 100.0))
+		"projectile_damage_bonus":
+			return "피해 +%d" % int(value)
+		"projectile_speed_bonus":
+			return "탄속 +%d" % int(round(float(value)))
+		"projectile_radius_bonus":
+			return "반경 +%.1f" % float(value)
+		"projectile_lifetime_bonus":
+			return "수명 +%.2fs" % float(value)
+		"attack_range_bonus":
+			return "사거리 +%d" % int(round(float(value)))
+		"extra_projectiles":
+			return "추가탄 +%d" % int(value)
+		"player_speed_bonus":
+			return "이속 +%d" % int(round(float(value)))
+		"dash_cooldown_reduction":
+			return "대시쿨 -%d%%" % int(round(float(value) * 100.0))
+		"player_invuln_bonus":
+			return "무적 +%.2fs" % float(value)
+		"max_hp_plus_heal":
+			return "최대HP+%d/회복+%d" % [int(value), int(value)]
+		"instant_heal":
+			return "즉시회복 +%d" % int(value)
+		_:
+			return "%s %+s" % [key, str(value)]
 
 func _pick_auto_levelup_index(choices: Array) -> int:
 	return int(_levelup_advisor.pick_best_choice_index(choices))

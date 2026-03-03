@@ -204,6 +204,15 @@
   - headless gate + leak trace + balance freeze 재통과
 - 상태: 🟡 구현/자동검증 완료 (수동 체감 QA 대기)
 
+## M22 — UX Input/History Fast Follow (v0.1.26-dev)
+- 목표: 레벨업 선택 UX 조작감과 복기 가능성 강화
+- 콘텐츠:
+  - 레벨업 카드 hover/마우스 클릭 선택 지원
+  - `H` 키 업그레이드 히스토리 패널 제공
+- 완료 기준:
+  - headless gate + leak trace + balance freeze 재통과
+- 상태: 🟡 구현/자동검증 완료 (수동 체감 QA 대기)
+
 ## 백로그 (중기)
 - 캐릭터 전용 무기/액티브 스킬 트리 고도화 구현
 

@@ -475,3 +475,13 @@
 
 ### 검증
 - headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과
+
+## 2026-03-03 (Step 18 Fast Follow — UX Input/History)
+
+### 변경
+- 레벨업 카드 마우스 상호작용(hover/좌클릭) 지원
+- 업그레이드 선택 히스토리 패널(H 키) 추가
+- 선택 카드 히스토리 상태 저장 및 표시 연동
+
+### 검증
+- headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과

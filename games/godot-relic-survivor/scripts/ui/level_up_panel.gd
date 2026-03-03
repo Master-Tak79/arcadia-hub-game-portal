@@ -16,6 +16,8 @@ var _open_anim_time: float = 0.0
 var _open_anim_duration: float = 0.20
 var _panel_base_top: float = 92.0
 var _panel_base_bottom: float = 628.0
+var _hover_card_index: int = -1
+var _mouse_left_prev: bool = false
 
 func set_state(state: RefCounted) -> void:
 	_state = state
@@ -39,6 +41,8 @@ func hide_panel() -> void:
 	visible = false
 	_choices = []
 	_open_anim_time = 0.0
+	_hover_card_index = -1
+	_mouse_left_prev = false
 	_apply_open_visual(1.0)
 
 func _process(delta: float) -> void:
@@ -46,6 +50,9 @@ func _process(delta: float) -> void:
 		return
 
 	_update_open_animation(delta)
+	_update_hovered_card()
+	if _handle_mouse_click_selection():
+		return
 
 	if Input.is_action_just_pressed("levelup_1"):
 		emit_signal("choice_selected", 0)
@@ -203,8 +210,36 @@ func _apply_open_visual(ratio: float) -> void:
 		var local_ease: float = 1.0 - pow(1.0 - local_ratio, 3.0)
 		var base_y: float = float(card_info.get("base_y", 114.0))
 		card.position.y = base_y + lerpf(22.0, 0.0, local_ease)
-		card.scale = Vector2.ONE * lerpf(0.96, 1.0, local_ease)
+		var target_scale: float = lerpf(0.96, 1.0, local_ease)
+		if i == _hover_card_index and i < _choices.size():
+			target_scale *= 1.03
+		card.scale = Vector2.ONE * target_scale
 		card.self_modulate = Color(1, 1, 1, 0.12 + 0.88 * local_ease)
+		var role: String = String(card_info.get("role", "utility"))
+		_apply_card_style(card_info, role, i == _hover_card_index and i < _choices.size())
+
+func _update_hovered_card() -> void:
+	_hover_card_index = -1
+	var mouse_pos: Vector2 = get_viewport().get_mouse_position()
+	for i in range(_option_cards.size()):
+		if i >= _choices.size():
+			continue
+		var card_info: Dictionary = _option_cards[i]
+		var card: Panel = card_info.get("root")
+		if card == null:
+			continue
+		if card.get_global_rect().has_point(mouse_pos):
+			_hover_card_index = i
+			break
+
+func _handle_mouse_click_selection() -> bool:
+	var mouse_left_now: bool = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+	var just_pressed: bool = mouse_left_now and not _mouse_left_prev
+	_mouse_left_prev = mouse_left_now
+	if just_pressed and _hover_card_index >= 0 and _hover_card_index < _choices.size():
+		emit_signal("choice_selected", _hover_card_index)
+		return true
+	return false
 
 func _update_texts(level: int) -> void:
 	var hp_line := ""
@@ -223,7 +258,8 @@ func _update_texts(level: int) -> void:
 		_fill_choice_card(card_info, i + 1, choice)
 
 func _fill_empty_card(card_info: Dictionary, idx: int) -> void:
-	_apply_card_style(card_info, "utility")
+	card_info["role"] = "utility"
+	_apply_card_style(card_info, "utility", false)
 	(card_info.get("key") as Label).text = "%d) 선택지 없음" % (idx + 1)
 	(card_info.get("title") as Label).text = "-"
 	(card_info.get("effects") as Label).text = ""
@@ -244,7 +280,8 @@ func _fill_choice_card(card_info: Dictionary, index: int, choice: Dictionary) ->
 	var max_stack: int = max(1, int(choice.get("max_stacks", 1)))
 	var stack_next: int = min(max_stack, stack_now + 1)
 
-	_apply_card_style(card_info, role)
+	card_info["role"] = role
+	_apply_card_style(card_info, role, index - 1 == _hover_card_index)
 	(card_info.get("key") as Label).text = "%d) %s %s" % [index, role_tag, role_name]
 	(card_info.get("title") as Label).text = title
 	(card_info.get("effects") as Label).text = _build_effect_summary(choice)
@@ -264,7 +301,7 @@ func _build_effect_summary(choice: Dictionary) -> String:
 		lines.append("• 외 %d개 효과" % int(effects.size() - 3))
 	return "\n".join(lines)
 
-func _apply_card_style(card_info: Dictionary, role: String) -> void:
+func _apply_card_style(card_info: Dictionary, role: String, highlighted: bool = false) -> void:
 	var card: Panel = card_info.get("root")
 	if card == null:
 		return
@@ -273,10 +310,11 @@ func _apply_card_style(card_info: Dictionary, role: String) -> void:
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(palette.get("bg", Color("#111827")))
 	style.border_color = Color(palette.get("border", Color(1, 1, 1, 0.25)))
-	style.border_width_left = 2
-	style.border_width_top = 2
-	style.border_width_right = 2
-	style.border_width_bottom = 2
+	var border_w: int = 4 if highlighted else 2
+	style.border_width_left = border_w
+	style.border_width_top = border_w
+	style.border_width_right = border_w
+	style.border_width_bottom = border_w
 	style.corner_radius_top_left = 10
 	style.corner_radius_top_right = 10
 	style.corner_radius_bottom_left = 10
@@ -295,7 +333,7 @@ func _apply_card_style(card_info: Dictionary, role: String) -> void:
 	var muted_color: Color = Color(palette.get("muted", Color("#CBD5E1")))
 
 	if key_label:
-		key_label.self_modulate = key_color
+		key_label.self_modulate = key_color.lightened(0.15) if highlighted else key_color
 	if title_label:
 		title_label.self_modulate = text_color
 	if effects_label:

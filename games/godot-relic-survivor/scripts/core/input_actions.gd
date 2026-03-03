@@ -12,6 +12,7 @@ func ensure_default_bindings() -> void:
 	_ensure_action("levelup_1", [KEY_1, KEY_KP_1])
 	_ensure_action("levelup_2", [KEY_2, KEY_KP_2])
 	_ensure_action("levelup_3", [KEY_3, KEY_KP_3])
+	_ensure_action("upgrade_history", [KEY_H])
 
 func _ensure_action(action: StringName, keys: Array) -> void:
 	if not InputMap.has_action(action):

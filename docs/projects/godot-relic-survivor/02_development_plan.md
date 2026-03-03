@@ -108,6 +108,7 @@
   - [x] `impact_fx.gd` 2차 연출 보강(이중 링/오비탈/스포크)
   - [x] `event_banner.gd` 진입 모션(슬라이드+페이드) 추가
   - [x] `level_up_panel.gd` 등장 이징/알파 애니메이션 추가
+  - [x] 레벨업 카드 마우스 선택 + `H` 히스토리 패널 Fast Follow 적용
   - [x] headless/leak/freeze/checkpoint 재검증
 
 ## 코드 구조 계획

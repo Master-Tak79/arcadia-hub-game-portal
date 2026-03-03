@@ -1220,3 +1220,13 @@
 - QA 재검증
   - headless gate PASS: `.qa/headless/20260303-205144`
   - pre-manual/checkpoint/leak/freeze PASS
+
+## 2026-03-03 22:20 KST
+### Step 18 Fast Follow — UX Input/History
+- `level_up_panel.gd` 카드 hover/마우스 클릭 선택 지원
+- `ui/upgrade_history_panel.gd` 신규 추가 (`H` 토글)
+- `game_state.gd`에 `levelup_history` 누적 저장 추가
+- `game_root.gd` 히스토리 패널 오픈/클로즈 및 선택 기록 연동
+- QA 재검증
+  - headless gate PASS: `.qa/headless/20260303-221713`
+  - pre-manual/checkpoint/leak/freeze PASS
