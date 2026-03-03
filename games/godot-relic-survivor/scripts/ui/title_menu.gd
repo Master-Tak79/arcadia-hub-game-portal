@@ -3,6 +3,7 @@ extends CanvasLayer
 signal start_requested
 signal resume_requested
 signal restart_requested
+signal options_requested
 signal quit_requested
 
 var _bg: ColorRect
@@ -134,7 +135,7 @@ func _on_primary_pressed() -> void:
 
 func _on_secondary_pressed() -> void:
 	if _boot_mode:
-		_status.text = "옵션 메뉴는 다음 단계에서 구현됩니다"
+		emit_signal("options_requested")
 	else:
 		emit_signal("restart_requested")
 

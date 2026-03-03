@@ -28,6 +28,7 @@ const LevelUpPanel := preload("res://scripts/ui/level_up_panel.gd")
 const TreePanel := preload("res://scripts/ui/tree_panel.gd")
 const UpgradeHistoryPanel := preload("res://scripts/ui/upgrade_history_panel.gd")
 const TitleMenu := preload("res://scripts/ui/title_menu.gd")
+const OptionsMenu := preload("res://scripts/ui/options_menu.gd")
 const EventBanner := preload("res://scripts/ui/event_banner.gd")
 const StageEventOverlay := preload("res://scripts/ui/stage_event_overlay.gd")
 const SfxSlots := preload("res://scripts/audio/sfx_slots.gd")
@@ -38,6 +39,7 @@ const SfxSlots := preload("res://scripts/audio/sfx_slots.gd")
 @onready var _camera_fx: Camera2D = $GameCamera
 @onready var _hud: CanvasLayer = $HUD
 @onready var _title_menu: CanvasLayer = $TitleMenu
+@onready var _options_menu: CanvasLayer = $OptionsMenu
 
 var _state: RefCounted
 var _signal_bus: RefCounted
@@ -78,6 +80,12 @@ var _tree_menu_open: bool = false
 var _history_menu_open: bool = false
 var _title_menu_open: bool = false
 var _title_menu_boot_mode: bool = false
+var _options_menu_open: bool = false
+
+var _setting_sfx_preset: String = "default"
+var _setting_impact_scale: float = 1.0
+var _setting_window_mode: String = "windowed"
+const _SETTINGS_PATH := "user://settings.cfg"
 var _tree_ui_test_done: bool = false
 var _last_game_over: bool = false
 
@@ -144,7 +152,14 @@ func _ready() -> void:
 		_title_menu.start_requested.connect(_on_title_start_requested)
 		_title_menu.resume_requested.connect(_on_title_resume_requested)
 		_title_menu.restart_requested.connect(_on_title_restart_requested)
+		_title_menu.options_requested.connect(_on_title_options_requested)
 		_title_menu.quit_requested.connect(_on_title_quit_requested)
+
+	if _options_menu and _options_menu.has_signal("close_requested"):
+		_options_menu.close_requested.connect(_on_options_close_requested)
+		_options_menu.sfx_preset_changed.connect(_on_options_sfx_preset_changed)
+		_options_menu.impact_scale_changed.connect(_on_options_impact_scale_changed)
+		_options_menu.window_mode_changed.connect(_on_options_window_mode_changed)
 
 	_event_banner = EventBanner.new()
 	add_child(_event_banner)
@@ -164,6 +179,7 @@ func _ready() -> void:
 	_sfx_slots = SfxSlots.new()
 	add_child(_sfx_slots)
 	_sfx_slots.apply_preset(String(_runtime_options.sfx_preset))
+	_init_runtime_settings()
 
 	_qa_runtime = QaRuntime.new()
 	_qa_runtime.setup(_runtime_options, _balance, _state, _player)
@@ -214,6 +230,8 @@ func _process(delta: float) -> void:
 	_track_game_over_edge()
 
 	if _title_menu_open:
+		return
+	if _options_menu_open:
 		return
 
 	if _state.is_game_over:
@@ -380,6 +398,7 @@ func _start_round() -> void:
 	_history_menu_open = false
 	_title_menu_open = false
 	_title_menu_boot_mode = false
+	_options_menu_open = false
 	_tree_ui_test_done = false
 	_last_game_over = false
 
@@ -401,6 +420,8 @@ func _start_round() -> void:
 		_upgrade_history_panel.hide_panel()
 	if _title_menu:
 		_title_menu.hide_menu()
+	if _options_menu and _options_menu.has_method("hide_menu"):
+		_options_menu.hide_menu()
 	_event_banner.visible = false
 
 	_update_pressure_hint()
@@ -472,6 +493,8 @@ func _open_title_menu(boot_mode: bool) -> void:
 		_close_tree_menu()
 	if _history_menu_open:
 		_close_upgrade_history_menu()
+	if _options_menu_open:
+		_close_options_menu(false)
 	if _level_up_panel and _level_up_panel.visible:
 		_level_up_panel.hide_panel()
 
@@ -494,6 +517,9 @@ func _close_title_menu(resume_play: bool) -> void:
 	_title_menu_boot_mode = false
 	if _title_menu and _title_menu.has_method("hide_menu"):
 		_title_menu.hide_menu()
+	if _options_menu and _options_menu.has_method("hide_menu"):
+		_options_menu.hide_menu()
+	_options_menu_open = false
 	if resume_play and not _state.is_game_over and not _tree_menu_open and not _history_menu_open and not (_level_up_panel and _level_up_panel.visible):
 		_state.is_paused = false
 		_player.set_enabled(true)
@@ -512,6 +538,108 @@ func _on_title_restart_requested() -> void:
 	_restart_round()
 	print("TITLE_MENU_RESTART")
 
+
+func _on_title_options_requested() -> void:
+	if _options_menu_open:
+		return
+	_open_options_menu()
+
+func _on_options_close_requested() -> void:
+	_close_options_menu(true)
+
+func _on_options_sfx_preset_changed(preset: String) -> void:
+	_setting_sfx_preset = preset
+	if _sfx_slots:
+		_sfx_slots.apply_preset(_setting_sfx_preset)
+	_save_runtime_settings()
+
+func _on_options_impact_scale_changed(scale: float) -> void:
+	_setting_impact_scale = clampf(scale, 0.0, 1.6)
+	if _camera_fx and _camera_fx.has_method("set_impact_scale"):
+		_camera_fx.set_impact_scale(_setting_impact_scale)
+	_save_runtime_settings()
+
+func _on_options_window_mode_changed(mode: String) -> void:
+	_setting_window_mode = mode
+	_apply_window_mode(_setting_window_mode)
+	_save_runtime_settings()
+
+func _open_options_menu() -> void:
+	if _options_menu_open:
+		return
+	_options_menu_open = true
+	if _title_menu and _title_menu.has_method("hide_menu"):
+		_title_menu.hide_menu()
+	if _options_menu and _options_menu.has_method("show_menu"):
+		_options_menu.show_menu(_setting_sfx_preset, _setting_impact_scale, _setting_window_mode)
+	print("OPTIONS_MENU_OPEN")
+
+func _close_options_menu(show_title_menu: bool) -> void:
+	if not _options_menu_open:
+		return
+	_options_menu_open = false
+	if _options_menu and _options_menu.has_method("hide_menu"):
+		_options_menu.hide_menu()
+	if show_title_menu and _title_menu_open and _title_menu:
+		if _title_menu_boot_mode and _title_menu.has_method("show_boot_menu"):
+			_title_menu.show_boot_menu()
+		elif _title_menu.has_method("show_pause_menu"):
+			_title_menu.show_pause_menu()
+	print("OPTIONS_MENU_CLOSED")
+
+func _init_runtime_settings() -> void:
+	_setting_sfx_preset = String(_runtime_options.sfx_preset)
+	_setting_impact_scale = 1.0
+	_setting_window_mode = "fullscreen" if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN else "windowed"
+
+	if _allow_runtime_settings_load():
+		_load_runtime_settings()
+
+	if _sfx_slots:
+		_sfx_slots.apply_preset(_setting_sfx_preset)
+	if _camera_fx and _camera_fx.has_method("set_impact_scale"):
+		_camera_fx.set_impact_scale(_setting_impact_scale)
+	_apply_window_mode(_setting_window_mode)
+
+func _allow_runtime_settings_load() -> bool:
+	if DisplayServer.get_name() == "headless":
+		return false
+	if bool(_runtime_options.qa_autopilot) or bool(_runtime_options.auto_levelup):
+		return false
+	if bool(_runtime_options.qa_force_damage) or bool(_runtime_options.qa_auto_restart):
+		return false
+	if bool(_runtime_options.boss_test) or bool(_runtime_options.boss_pattern_test) or bool(_runtime_options.boss_phase2_test):
+		return false
+	if bool(_runtime_options.elite_test) or bool(_runtime_options.relic_test) or bool(_runtime_options.event_test):
+		return false
+	if bool(_runtime_options.meta_test) or bool(_runtime_options.character_test) or bool(_runtime_options.tree_test) or bool(_runtime_options.tree_ui_test):
+		return false
+	return true
+
+func _load_runtime_settings() -> void:
+	var cfg := ConfigFile.new()
+	if cfg.load(_SETTINGS_PATH) != OK:
+		return
+	_setting_sfx_preset = String(cfg.get_value("options", "sfx_preset", _setting_sfx_preset))
+	_setting_impact_scale = float(cfg.get_value("options", "impact_scale", _setting_impact_scale))
+	_setting_window_mode = String(cfg.get_value("options", "window_mode", _setting_window_mode))
+
+func _save_runtime_settings() -> void:
+	if not _allow_runtime_settings_load():
+		return
+	var cfg := ConfigFile.new()
+	cfg.set_value("options", "sfx_preset", _setting_sfx_preset)
+	cfg.set_value("options", "impact_scale", _setting_impact_scale)
+	cfg.set_value("options", "window_mode", _setting_window_mode)
+	cfg.save(_SETTINGS_PATH)
+
+func _apply_window_mode(mode: String) -> void:
+	if DisplayServer.get_name() == "headless":
+		return
+	if mode == "fullscreen":
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 func _on_title_quit_requested() -> void:
 	get_tree().quit()
 

@@ -8,6 +8,7 @@ var _base_zoom: Vector2 = Vector2.ONE
 var _pulse_time_left: float = 0.0
 var _pulse_strength: float = 0.0
 var _pulse_falloff: float = 0.36
+var _impact_scale: float = 1.0
 
 func _ready() -> void:
 	make_current()
@@ -42,13 +43,15 @@ func _process(delta: float) -> void:
 	_update_pulse(delta)
 
 func _start_shake(duration: float, strength: float, falloff: float) -> void:
+	var scaled_strength: float = strength * _impact_scale
 	_shake_time_left = max(_shake_time_left, duration)
-	_shake_strength = max(_shake_strength, strength)
+	_shake_strength = max(_shake_strength, scaled_strength)
 	_shake_falloff = max(0.08, falloff)
 
 func _start_pulse(duration: float, strength: float, falloff: float) -> void:
+	var scaled_strength: float = strength * _impact_scale
 	_pulse_time_left = max(_pulse_time_left, duration)
-	_pulse_strength = max(_pulse_strength, strength)
+	_pulse_strength = max(_pulse_strength, scaled_strength)
 	_pulse_falloff = max(0.08, falloff)
 
 func _update_shake(delta: float) -> void:
@@ -78,3 +81,9 @@ func _update_pulse(delta: float) -> void:
 	if _pulse_time_left <= 0.0:
 		zoom = _base_zoom
 		_pulse_strength = 0.0
+
+func set_impact_scale(scale: float) -> void:
+	_impact_scale = clampf(scale, 0.0, 1.6)
+
+func get_impact_scale() -> float:
+	return _impact_scale

@@ -34,6 +34,7 @@
   - pacing 토큰 체크(`SPAWN_PACE_STAGE:*`, `SPAWN_BREATHER_ON`) 통과
   - combat feel 체크(camera impact) 회귀 없음
   - title/menu framework 회귀 없음
+  - options/settings framework 회귀 없음
   - elite_variant loop 체크(`ELITE_VARIANT:*`) 통과
   - meta loop 체크(`META_PROFILE_LOADED`, `META_RUN_REWARD`) 통과
   - warning/leak summary 기준 `warnings=0`, `leak_lines=0`
@@ -70,3 +71,9 @@
 3. 체크리스트/릴리즈노트 최종 갱신
 4. `16_alpha_candidate_quality_lock.md` unlock 조건 확인
 5. `v0.1.0-alpha` 확정 태깅
+
+## D. 메뉴/옵션 프레임워크
+- 상태: **통과**
+- 근거:
+  - title/menu framework + options/settings framework 회귀 없음
+  - 자동검증에서 headless/leak/freeze/checkpoint 재통과

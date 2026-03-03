@@ -252,8 +252,19 @@
   - headless gate + leak trace + balance freeze 재통과
 - 상태: 🟡 구현/자동검증 완료 (GUI 수동 QA 대기)
 
+## M27 — Options/Settings Pack 01 (v0.1.31-dev)
+- 목표: 제품형 메뉴의 최소 설정 루프 구축
+- 콘텐츠:
+  - SFX 프리셋(default/quiet/hype)
+  - 카메라 임팩트 강도(OFF/LOW/NORMAL/HIGH)
+  - 창 모드(windowed/fullscreen)
+  - 설정 저장/복원(`user://settings.cfg`)
+- 완료 기준:
+  - headless gate + leak trace + balance freeze 재통과
+- 상태: 🟡 구현/자동검증 완료 (GUI 수동 QA 대기)
+
 ## 백로그 (중기)
-- 메인 메뉴 옵션/설정(오디오/화면/조작) 확장 구현
+- 메인 메뉴 옵션/설정 확장 2차(조작/고급 그래픽/접근성) 구현
 - 캐릭터 전용 무기/액티브 스킬 트리 고도화 구현
 
 ## 리스크 추적

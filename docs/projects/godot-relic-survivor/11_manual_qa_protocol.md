@@ -65,3 +65,11 @@ cd /mnt/c/TAK_Projects/Game/godot-relic-survivor/games/godot-relic-survivor
 - 문제점 Top 3
 - 조정한 밸런스 값
 - 재검증 결과
+
+## 4) 메뉴/옵션 확인 (추가)
+- 부트 타이틀 메뉴에서 `OPTIONS` 진입 가능 여부 확인
+- OPTIONS에서 아래 항목 변경 즉시 반영 확인
+  - SFX preset (`default/quiet/hype`)
+  - camera impact (`off/low/normal/high`)
+  - window mode (`windowed/fullscreen`)
+- 게임 종료 후 재실행 시 설정 복원(`user://settings.cfg`) 확인

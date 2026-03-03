@@ -523,3 +523,13 @@
 
 ### 검증
 - headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과
+
+## 2026-03-04 (Step 21-B — Options/Settings Pack 01)
+
+### 변경
+- 타이틀 메뉴에서 OPTIONS 패널 진입 및 설정 변경 구현
+- 설정 저장/복원(`user://settings.cfg`) 구현
+- 카메라 임팩트 강도 설정과 전투 카메라 피드백 연동
+
+### 검증
+- headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과

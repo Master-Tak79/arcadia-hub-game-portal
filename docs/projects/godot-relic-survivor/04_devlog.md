@@ -1266,3 +1266,13 @@
 - QA 재검증
   - headless gate PASS: `.qa/headless/20260304-072941`
   - pre-manual/checkpoint/leak/freeze PASS
+
+## 2026-03-04 07:56 KST
+### Step 21-B — Options/Settings Pack 01
+- `ui/options_menu.gd` 신규(SFX 프리셋/카메라 임팩트/창 모드)
+- `title_menu.gd` OPTIONS 버튼 연동
+- `game_root.gd`에 설정 저장/복원(`user://settings.cfg`) 및 적용 로직 추가
+- `camera_fx.gd` 임팩트 강도 설정 연동
+- QA 재검증
+  - headless gate PASS: `.qa/headless/20260304-073816`
+  - pre-manual/checkpoint/leak/freeze PASS

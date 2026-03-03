@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.30-dev
+- version: v0.1.31-dev
 - date: 2026-03-03
 
 ## Added
@@ -158,6 +158,11 @@
   - `title_menu.gd` 신규(START/RESUME/RESTART/QUIT 흐름)
   - `game_root.gd`에 부트 타이틀 메뉴/ESC 인게임 메뉴 오케스트레이션 추가
   - 헤드리스/QA 실행 시 메뉴 자동 스킵(`_should_show_title_menu_on_boot`)
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- Options/Settings Pack 01
+  - `options_menu.gd` 신규(SFX/카메라 임팩트/창 모드)
+  - `game_root.gd` 설정 저장/복원(`user://settings.cfg`) 및 메뉴 연동
+  - `camera_fx.gd` 임팩트 강도 설정 API 연동
   - 회귀 검증: headless/leak/freeze/checkpoint 재통과
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시

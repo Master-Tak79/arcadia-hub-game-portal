@@ -167,6 +167,13 @@
 - [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
 - [x] 문서/릴리즈/저널 동기화 반영
 
+## Step 21-B — Options/Settings Pack 01
+- [x] OPTIONS 메뉴(SFX/카메라 임팩트/창 모드) 구현
+- [x] 설정 저장/복원(`user://settings.cfg`) 구현
+- [x] 타이틀 메뉴 OPTIONS 버튼 연동
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+- [x] 문서/릴리즈/저널 동기화 반영
+
 ---
 
 ## 결과 기록 템플릿
@@ -341,3 +348,10 @@
 - 자동검증 결과: headless gate PASS (`.qa/headless/20260304-072941`), pre-manual PASS, leak trace PASS, balance-freeze PASS
 - 리스크/이슈: 옵션 메뉴는 추후 구현(현재 플레이스홀더)
 - 다음 Step 진행 승인: Step21-B(옵션/설정 메뉴) 또는 Step22(콘텐츠 확장) 대기
+
+### Step 21-B 결과 기록
+- Step: Options/Settings Pack 01
+- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260304-073816`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: 옵션 메뉴 레이아웃(해상도별) 미세 조정 필요
+- 다음 Step 진행 승인: Step22(옵션 확장/콘텐츠 확장) 대기
