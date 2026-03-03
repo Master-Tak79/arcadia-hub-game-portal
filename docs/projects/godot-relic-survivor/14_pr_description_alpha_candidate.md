@@ -36,6 +36,7 @@
 - Core Runtime Refactor Pack 01 추가(`pressure_runtime`/`levelup_advisor` 분리 + QA freeze check 구조 대응)
 - Interface Boundary Cleanup Pack 01 추가(`game_root` has_method 경계 정리)
 - Interface Boundary Cleanup Pack 02 추가(`hud`/`boss_reward_runtime` has_method 경계 정리)
+- VFX/Animation Polish Pack 01 추가(`impact_fx`/`event_banner`/`level_up_panel` 미세 애니메이션 강화)
 - 레벨업 선택지 가독성 강화(역할 태그/효과 요약/추천 문구/예상 지표)
 - 압박도 기반 추천 보정(웨이브/보스 압박 신호를 가중치에 반영)
 - auto-levelup 선택 로직의 multi-effect 반영 + 스폰 안전 반경/전투 후보 인덱스 적용

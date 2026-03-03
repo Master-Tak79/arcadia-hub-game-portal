@@ -118,6 +118,9 @@
 - 2026-03-03: 사용자 연속 승인("차례대로 깊이 생각해서 진행")에 따른 콘텐츠 확장 Step 17 반영.
   - `hud.gd`, `boss_reward_runtime.gd` 내부 `has_method` 분기 제거(직접 제어 객체 기준)
   - 전체 자동 검증 루프(headless/leak/freeze) 재통과 확인
+- 2026-03-03: 사용자 연속 승인("응 진행해")에 따른 콘텐츠 확장 Step 18 반영.
+  - `impact_fx`, `event_banner`, `level_up_panel` VFX/애니메이션 2차 폴리싱 적용
+  - 전체 자동 검증 루프(headless/leak/freeze) 재통과 확인
 - 처리 원칙:
   - 자동 회귀 검증 통과 필수
   - 설계/릴리즈/개발일지 즉시 동기화

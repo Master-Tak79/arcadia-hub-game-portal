@@ -25,20 +25,31 @@ func _process(delta: float) -> void:
 func _draw() -> void:
 	var t: float = 1.0 - (_life / max(0.001, _duration))
 	var alpha: float = clampf(1.0 - t, 0.0, 1.0)
-	var r: float = _radius * (0.65 + t * 1.1)
+	var r: float = _radius * (0.62 + t * 1.22)
 
-	# soft glow core
-	draw_circle(Vector2.ZERO, r * 0.28, Color(_color.r, _color.g, _color.b, alpha * 0.32))
-	draw_circle(Vector2.ZERO, max(1.0, r * 0.14), Color(_color.r, _color.g, _color.b, alpha * 0.62))
+	# layered glow core
+	draw_circle(Vector2.ZERO, r * 0.34, Color(_color.r, _color.g, _color.b, alpha * 0.22))
+	draw_circle(Vector2.ZERO, r * 0.20, Color(_color.r, _color.g, _color.b, alpha * 0.42))
+	draw_circle(Vector2.ZERO, max(1.0, r * 0.11), Color(_color.r, _color.g, _color.b, alpha * 0.74))
 
-	# expanding ring
-	draw_arc(Vector2.ZERO, r, 0.0, TAU, 28, Color(_color.r, _color.g, _color.b, alpha), _line_width)
+	# primary expanding ring
+	draw_arc(Vector2.ZERO, r, 0.0, TAU, 34, Color(_color.r, _color.g, _color.b, alpha), _line_width)
 
-	# burst spokes for stronger hit readability
-	var spoke_count: int = 6
-	var spoke_len: float = r * (0.32 + 0.18 * t)
+	# secondary delayed ring for trailing sensation
+	var r2: float = r * (0.72 + 0.18 * t)
+	draw_arc(Vector2.ZERO, r2, 0.0, TAU, 26, Color(_color.r, _color.g, _color.b, alpha * 0.48), max(1.0, _line_width * 0.68))
+
+	# burst spokes
+	var spoke_count: int = 7
+	var spoke_len: float = r * (0.30 + 0.24 * t)
 	for i in range(spoke_count):
-		var ang: float = (TAU / float(spoke_count)) * float(i) + (t * 0.45)
-		var from: Vector2 = Vector2.RIGHT.rotated(ang) * (r * 0.72)
-		var to: Vector2 = Vector2.RIGHT.rotated(ang) * (r * 0.72 + spoke_len)
-		draw_line(from, to, Color(_color.r, _color.g, _color.b, alpha * 0.72), max(1.0, _line_width * 0.78))
+		var ang: float = (TAU / float(spoke_count)) * float(i) + (t * 0.55)
+		var from: Vector2 = Vector2.RIGHT.rotated(ang) * (r * 0.66)
+		var to: Vector2 = Vector2.RIGHT.rotated(ang) * (r * 0.66 + spoke_len)
+		draw_line(from, to, Color(_color.r, _color.g, _color.b, alpha * 0.68), max(1.0, _line_width * 0.76))
+
+	# subtle orbital fragments to avoid static ring feeling
+	for i in range(3):
+		var frag_ang: float = t * 4.4 + float(i) * (TAU / 3.0)
+		var frag_pos: Vector2 = Vector2.RIGHT.rotated(frag_ang) * (r * (0.52 + 0.08 * i))
+		draw_circle(frag_pos, max(1.0, _line_width * 0.46), Color(_color.r, _color.g, _color.b, alpha * 0.52))

@@ -455,3 +455,13 @@
 
 ### 검증
 - headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과
+
+## 2026-03-03 (Step 18 — VFX/Animation Polish Pack 01)
+
+### 변경
+- impact FX 2차 폴리싱(레이어/파편/스포크)
+- 이벤트 배너 진입 애니메이션(슬라이드 + 페이드)
+- 레벨업 패널 등장 애니메이션(오프셋 + 이징)
+
+### 검증
+- headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과

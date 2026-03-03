@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.24-dev
+- version: v0.1.25-dev
 - date: 2026-03-03
 
 ## Added
@@ -125,6 +125,11 @@
 - Interface Boundary Cleanup Pack 02
   - `hud.gd`, `boss_reward_runtime.gd` 내 `has_method` 가드 제거(직접 제어 객체 기준)
   - 보스 경고/페이즈/텔레그래프 UI 표기 및 연출 호출 경로 단순화
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- VFX/Animation Polish Pack 01
+  - `impact_fx.gd` 이중 링/오비탈 파편/스포크 보강으로 타격/처치 피드백 강화
+  - `event_banner.gd` 슬라이드-인 + 페이드 진입 애니메이션 추가
+  - `level_up_panel.gd` 등장 오프셋/알파 이징 추가(패널 가독성 향상)
   - 회귀 검증: headless/leak/freeze/checkpoint 재통과
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시

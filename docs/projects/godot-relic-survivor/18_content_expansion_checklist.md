@@ -133,6 +133,13 @@
 - [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
 - [x] 문서/릴리즈/저널 동기화 반영
 
+## Step 18 — VFX/Animation Polish Pack 01
+- [x] `impact_fx.gd` 2차 연출 보강(이중 링/오비탈/스포크)
+- [x] `event_banner.gd` 슬라이드-인/페이드 진입 모션 추가
+- [x] `level_up_panel.gd` 등장 이징/알파 애니메이션 추가
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+- [x] 문서/릴리즈/저널 동기화 반영
+
 ---
 
 ## 결과 기록 템플릿
@@ -260,3 +267,10 @@
 - 자동검증 결과: headless gate PASS (`.qa/headless/20260303-133108`), pre-manual PASS, leak trace PASS, balance-freeze PASS
 - 리스크/이슈: `miniboss_director` 내부 boss_ref 인터페이스 정리는 후속 단계에서 점진 적용 필요
 - 다음 Step 진행 승인: Step18(VFX/애니메이션 2차 폴리싱) 또는 Step19(트리 고도화) 대기
+
+### Step 18 결과 기록
+- Step: VFX/Animation Polish Pack 01
+- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260303-201449`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: UI/이펙트 미세 애니메이션 체감 평가는 GUI 수동 QA로 최종 확인 필요
+- 다음 Step 진행 승인: Step19(트리 고도화) 또는 Step20(알파 확정 수동 QA) 대기

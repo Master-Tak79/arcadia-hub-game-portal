@@ -194,9 +194,18 @@
   - headless gate + leak trace + balance freeze 재통과
 - 상태: 🟡 구현/자동검증 완료 (수동 체감 QA 대기)
 
+## M21 — VFX/Animation Polish Pack 01 (v0.1.25-dev)
+- 목표: 전투/패널 피드백의 미세 애니메이션 품질 강화
+- 콘텐츠:
+  - `impact_fx.gd` 이중 링/오비탈 파편/스포크 보강
+  - `event_banner.gd` 슬라이드-인 + 페이드 진입 모션
+  - `level_up_panel.gd` 등장 이징/알파 애니메이션
+- 완료 기준:
+  - headless gate + leak trace + balance freeze 재통과
+- 상태: 🟡 구현/자동검증 완료 (수동 체감 QA 대기)
+
 ## 백로그 (중기)
 - 캐릭터 전용 무기/액티브 스킬 트리 고도화 구현
-- VFX/애니메이션 2차 폴리싱
 
 ## 리스크 추적
 - 신규 콘텐츠 누적으로 인한 성능 저하

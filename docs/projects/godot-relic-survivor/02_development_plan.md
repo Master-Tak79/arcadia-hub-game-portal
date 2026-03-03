@@ -104,6 +104,11 @@
   - [x] `hud.gd`, `boss_reward_runtime.gd` 내부 `has_method` 경계 정리(0건)
   - [x] 보스 관련 HUD/연출 호출 경로 단순화
   - [x] headless/leak/freeze/checkpoint 재검증
+- [x] **Step 18 — VFX/Animation Polish Pack 01**
+  - [x] `impact_fx.gd` 2차 연출 보강(이중 링/오비탈/스포크)
+  - [x] `event_banner.gd` 진입 모션(슬라이드+페이드) 추가
+  - [x] `level_up_panel.gd` 등장 이징/알파 애니메이션 추가
+  - [x] headless/leak/freeze/checkpoint 재검증
 
 ## 코드 구조 계획
 - `scripts/core/`: 게임 루프/상태/시그널/모드
@@ -130,7 +135,8 @@
 - Step 15 Core Runtime Refactor Pack 01: **0.5 ~ 1.0일**
 - Step 16 Interface Boundary Cleanup Pack 01: **0.25 ~ 0.75일**
 - Step 17 Interface Boundary Cleanup Pack 02: **0.25 ~ 0.75일**
-- 총합(문서/QA 포함): **14.5 ~ 24.5일**
+- Step 18 VFX/Animation Polish Pack 01: **0.5 ~ 1.0일**
+- 총합(문서/QA 포함): **15.0 ~ 25.5일**
 
 ## 검증 계획
 - 자동:

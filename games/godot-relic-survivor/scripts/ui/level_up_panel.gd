@@ -12,6 +12,11 @@ var _hint: Label
 var _option_labels: Array = []
 var _choices: Array = []
 
+var _open_anim_time: float = 0.0
+var _open_anim_duration: float = 0.16
+var _panel_base_top: float = 92.0
+var _panel_base_bottom: float = 628.0
+
 func set_state(state: RefCounted) -> void:
 	_state = state
 
@@ -26,15 +31,21 @@ func _ready() -> void:
 func show_choices(choices: Array, level: int) -> void:
 	_choices = choices
 	visible = true
+	_open_anim_time = 0.0
+	_apply_open_visual(0.0)
 	_update_texts(level)
 
 func hide_panel() -> void:
 	visible = false
 	_choices = []
+	_open_anim_time = 0.0
+	_apply_open_visual(1.0)
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if not visible:
 		return
+
+	_update_open_animation(delta)
 
 	if Input.is_action_just_pressed("levelup_1"):
 		emit_signal("choice_selected", 0)
@@ -52,9 +63,9 @@ func _build_ui() -> void:
 
 	_panel = Panel.new()
 	_panel.offset_left = 160
-	_panel.offset_top = 92
+	_panel.offset_top = _panel_base_top
 	_panel.offset_right = 1120
-	_panel.offset_bottom = 628
+	_panel.offset_bottom = _panel_base_bottom
 	add_child(_panel)
 
 	_title = Label.new()
@@ -78,9 +89,46 @@ func _build_ui() -> void:
 		_panel.add_child(option)
 		_option_labels.append(option)
 
+
+func _update_open_animation(delta: float) -> void:
+	if _open_anim_duration <= 0.0:
+		_apply_open_visual(1.0)
+		return
+
+	if _open_anim_time >= _open_anim_duration:
+		return
+
+	_open_anim_time = min(_open_anim_duration, _open_anim_time + delta)
+	var t: float = clampf(_open_anim_time / _open_anim_duration, 0.0, 1.0)
+	var eased: float = 1.0 - pow(1.0 - t, 3.0)
+	_apply_open_visual(eased)
+
+func _apply_open_visual(ratio: float) -> void:
+	var r: float = clampf(ratio, 0.0, 1.0)
+	if _bg:
+		var c := _bg.color
+		c.a = 0.60 * (0.25 + 0.75 * r)
+		_bg.color = c
+
+	if _panel:
+		var y_offset: float = lerpf(22.0, 0.0, r)
+		_panel.offset_top = _panel_base_top + y_offset
+		_panel.offset_bottom = _panel_base_bottom + y_offset
+		_panel.self_modulate = Color(1, 1, 1, 0.2 + 0.8 * r)
+
+	if _title:
+		_title.self_modulate = Color(1, 1, 1, 0.2 + 0.8 * r)
+	if _hint:
+		_hint.self_modulate = Color(1, 1, 1, 0.16 + 0.84 * r)
+	for label in _option_labels:
+		if label:
+			var c: Color = label.self_modulate
+			c.a = 0.2 + 0.8 * r
+			label.self_modulate = c
+
 func _update_texts(level: int) -> void:
 	var hp_line := ""
-	if _state != null and _state.has_method("get"):
+	if _state != null:
 		var hp: int = int(_state.hp)
 		var max_hp: int = max(1, int(_state.max_hp))
 		hp_line = " · 현재 체력 %d/%d" % [hp, max_hp]

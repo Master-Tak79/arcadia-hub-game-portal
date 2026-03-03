@@ -1199,3 +1199,15 @@
 - 회귀 검증
   - headless gate PASS: `.qa/headless/20260303-133108`
   - pre-manual/checkpoint/leak/freeze PASS
+
+## 2026-03-03 20:19 KST
+### Step 18 — VFX/Animation Polish Pack 01
+- `entities/impact_fx.gd`
+  - 타격 이펙트 2차 보강(이중 링 + 오비탈 파편 + 스포크 강화)
+- `ui/event_banner.gd`
+  - 슬라이드-인 + 페이드 진입 애니메이션 추가
+- `ui/level_up_panel.gd`
+  - 패널 등장 이징/알파 애니메이션 추가
+- QA 재검증
+  - headless gate PASS: `.qa/headless/20260303-201449`
+  - pre-manual/checkpoint/leak/freeze PASS
