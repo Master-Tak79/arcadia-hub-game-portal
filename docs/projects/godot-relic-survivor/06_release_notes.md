@@ -131,6 +131,10 @@
   - `event_banner.gd` 슬라이드-인 + 페이드 진입 애니메이션 추가
   - `level_up_panel.gd` 등장 오프셋/알파 이징 추가(패널 가독성 향상)
   - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- UI Readability Fast Follow
+  - `level_up_panel.gd` 카드형 3선택 레이아웃 전환(역할 컬러/요약/추천 노트/간이 지표)
+  - 카드 등장 스태거 애니메이션으로 시선 유도 강화
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시
   - 선택 후 예상 지표(예상 DPS/생존 지표, 간이 추정) 프리뷰 표시

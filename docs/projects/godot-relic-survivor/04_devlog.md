@@ -1211,3 +1211,12 @@
 - QA 재검증
   - headless gate PASS: `.qa/headless/20260303-201449`
   - pre-manual/checkpoint/leak/freeze PASS
+
+## 2026-03-03 20:58 KST
+### Step 18 Fast Follow — LevelUp Card UI Polish
+- `ui/level_up_panel.gd` 카드형 3선택 레이아웃 전환
+- 역할별 컬러 카드/효과 요약/간이지표/추천 노트 구성 적용
+- 카드 스태거 등장 애니메이션 추가
+- QA 재검증
+  - headless gate PASS: `.qa/headless/20260303-205144`
+  - pre-manual/checkpoint/leak/freeze PASS

@@ -465,3 +465,13 @@
 
 ### 검증
 - headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과
+
+## 2026-03-03 (Step 18 Fast Follow — LevelUp Card UI Polish)
+
+### 변경
+- 레벨업 UI를 텍스트 블록형에서 카드형 3선택으로 리디자인
+- 역할별 컬러/요약 텍스트/추천 노트로 정보 구조 단순화
+- 카드 등장 스태거 애니메이션 추가
+
+### 검증
+- headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과
