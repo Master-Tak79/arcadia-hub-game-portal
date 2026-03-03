@@ -310,7 +310,7 @@
 
 ### Step 20-B 결과 기록
 - Step: Level Design / Fun Curve Pack 01
-- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 구현 커밋: `acd0535` (스폰 페이싱 + Recover 미션 완화 + docs sync)
 - 자동검증 결과: headless gate PASS (`.qa/headless/20260304-070221`), pre-manual PASS, leak trace PASS, balance-freeze PASS
 - 리스크/이슈: 페이싱 체감은 실제 플레이 스타일(공격적/회피형)별 수동 QA 추가 필요
 - 다음 Step 진행 승인: Step20-C(타격감/카메라/사운드 강화) 또는 Step21(콘텐츠 확장) 대기
