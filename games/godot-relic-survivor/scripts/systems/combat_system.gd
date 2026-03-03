@@ -8,8 +8,12 @@ var _state: RefCounted
 var _player: Node2D
 var _enemy_container: Node2D
 var _projectile_container: Node2D
+var _camera_fx: Node
 
 var _player_damage_cooldown_left: float = 0.0
+var _camera_hit_cooldown_left: float = 0.0
+var _camera_kill_cooldown_left: float = 0.0
+var _camera_player_hit_cooldown_left: float = 0.0
 var _dot_effects: Dictionary = {}
 
 var _printed_weapon_pierce: bool = false
@@ -18,16 +22,20 @@ var _printed_weapon_aoe: bool = false
 var _printed_hit_fx: bool = false
 var _printed_kill_fx: bool = false
 
-func setup(balance: RefCounted, state: RefCounted, player: Node2D, enemy_container: Node2D, projectile_container: Node2D) -> void:
+func setup(balance: RefCounted, state: RefCounted, player: Node2D, enemy_container: Node2D, projectile_container: Node2D, camera_fx: Node = null) -> void:
 	_balance = balance
 	_state = state
 	_player = player
 	_enemy_container = enemy_container
 	_projectile_container = projectile_container
+	_camera_fx = camera_fx
 	reset_runtime()
 
 func reset_runtime() -> void:
 	_player_damage_cooldown_left = 0.0
+	_camera_hit_cooldown_left = 0.0
+	_camera_kill_cooldown_left = 0.0
+	_camera_player_hit_cooldown_left = 0.0
 	_dot_effects = {}
 	_printed_weapon_pierce = false
 	_printed_weapon_dot = false
@@ -43,6 +51,12 @@ func _process(delta: float) -> void:
 
 	if _player_damage_cooldown_left > 0.0:
 		_player_damage_cooldown_left -= delta
+	if _camera_hit_cooldown_left > 0.0:
+		_camera_hit_cooldown_left -= delta
+	if _camera_kill_cooldown_left > 0.0:
+		_camera_kill_cooldown_left -= delta
+	if _camera_player_hit_cooldown_left > 0.0:
+		_camera_player_hit_cooldown_left -= delta
 
 	var enemy_index: Dictionary = _build_enemy_spatial_index()
 	_process_projectile_hits(enemy_index)
@@ -133,6 +147,7 @@ func _spawn_hit_fx(world_pos: Vector2) -> void:
 	fx.set_script(ImpactFx)
 	fx.setup(world_pos, Color("#67E8F9"), 11.0, 2.0, 0.12)
 	_enemy_container.add_child(fx)
+	_trigger_hit_camera_impact()
 	if not _printed_hit_fx:
 		print("HIT_FX_ON")
 		_printed_hit_fx = true
@@ -144,9 +159,38 @@ func _spawn_kill_fx(world_pos: Vector2) -> void:
 	fx.set_script(ImpactFx)
 	fx.setup(world_pos, Color("#FCA5A5"), 17.0, 2.6, 0.22)
 	_enemy_container.add_child(fx)
+	_trigger_kill_camera_impact()
 	if not _printed_kill_fx:
 		print("KILL_FX_ON")
 		_printed_kill_fx = true
+
+
+func _trigger_hit_camera_impact() -> void:
+	if _camera_fx == null:
+		return
+	if _camera_hit_cooldown_left > 0.0:
+		return
+	_camera_hit_cooldown_left = 0.045
+	if _camera_fx.has_method("play_combat_hit_light"):
+		_camera_fx.play_combat_hit_light()
+
+func _trigger_kill_camera_impact() -> void:
+	if _camera_fx == null:
+		return
+	if _camera_kill_cooldown_left > 0.0:
+		return
+	_camera_kill_cooldown_left = 0.10
+	if _camera_fx.has_method("play_combat_hit_heavy"):
+		_camera_fx.play_combat_hit_heavy()
+
+func _trigger_player_hit_camera_impact() -> void:
+	if _camera_fx == null:
+		return
+	if _camera_player_hit_cooldown_left > 0.0:
+		return
+	_camera_player_hit_cooldown_left = 0.14
+	if _camera_fx.has_method("play_player_damage_impact"):
+		_camera_fx.play_player_damage_impact()
 
 func _apply_dot_effect(enemy: Node2D, damage: int, duration: float, tick_interval: float) -> void:
 	var enemy_id: int = int(enemy.get_instance_id())

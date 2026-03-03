@@ -17,6 +17,7 @@
 - [ ] GUI FPS 실측 완료
 - [ ] 마우스 카드 선택/H 히스토리 패널 수동 확인
 - [ ] 웨이브 완급/Recover 미션 체감 수동 확인
+- [ ] 카메라 임팩트 강도 수동 확인
 
 ## Merge decision
 - [x] `v0.1.0-alpha-candidate`로 merge 준비 완료

@@ -500,3 +500,12 @@
 
 ### 회귀 결과
 - headless/누수/freeze 기준 회귀 없음
+
+## 2026-03-04 (Step 20-C Combat Feel)
+
+### 변경 요약
+- 수치 밸런스 대변경 없이 카메라 임팩트 레이어 강화
+- light/heavy/player-hit 구분으로 피드백 계층화
+
+### 회귀 결과
+- headless/누수/freeze 기준 회귀 없음

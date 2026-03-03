@@ -41,6 +41,7 @@
 - UX Input/History Fast Follow 추가(마우스 카드 선택 + H 히스토리 패널)
 - UI/Graphics Overhaul Pack 01 추가(HUD 패널형 재설계 + 배경 연출 강화)
 - Level Design / Fun Curve Pack 01 추가(스폰 페이싱 + Recover 미션 완화)
+- Combat Feel Polish Pack 01 추가(전투 카메라 임팩트 연동)
 - 레벨업 선택지 가독성 강화(역할 태그/효과 요약/추천 문구/예상 지표)
 - 압박도 기반 추천 보정(웨이브/보스 압박 신호를 가중치에 반영)
 - auto-levelup 선택 로직의 multi-effect 반영 + 스폰 안전 반경/전투 후보 인덱스 적용

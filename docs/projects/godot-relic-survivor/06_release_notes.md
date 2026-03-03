@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.28-dev
+- version: v0.1.29-dev
 - date: 2026-03-03
 
 ## Added
@@ -149,6 +149,10 @@
   - `spawn_director.gd` 페이싱 스테이지 + breather 윈도우(`SPAWN_PACE_STAGE:*`, `SPAWN_BREATHER_ON`) 도입
   - 스폰 엣지 반복 억제로 전투 방향성 다양화
   - `mission_system.gd` 동적 미션 풀/Recover 난이도 완화(`MISSION_DIFFICULTY_RELAX`) 추가
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- Combat Feel Polish Pack 01
+  - `camera_fx.gd`에 전투 카메라 임팩트 API(light/heavy/player-hit) 추가
+  - `combat_system.gd` 히트/킬/피격 시 카메라 임팩트 연동(쿨다운 제어)
   - 회귀 검증: headless/leak/freeze/checkpoint 재통과
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시

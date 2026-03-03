@@ -154,6 +154,12 @@
 - [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
 - [x] 문서/릴리즈/저널 동기화 반영
 
+## Step 20-C — Combat Feel Polish Pack 01
+- [x] 카메라 임팩트 API(light/heavy/player-hit) 추가
+- [x] 히트/킬/피격 카메라 연동(쿨다운 제어)
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+- [x] 문서/릴리즈/저널 동기화 반영
+
 ---
 
 ## 결과 기록 템플릿
@@ -314,3 +320,10 @@
 - 자동검증 결과: headless gate PASS (`.qa/headless/20260304-070221`), pre-manual PASS, leak trace PASS, balance-freeze PASS
 - 리스크/이슈: 페이싱 체감은 실제 플레이 스타일(공격적/회피형)별 수동 QA 추가 필요
 - 다음 Step 진행 승인: Step20-C(타격감/카메라/사운드 강화) 또는 Step21(콘텐츠 확장) 대기
+
+### Step 20-C 결과 기록
+- Step: Combat Feel Polish Pack 01
+- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260304-071742`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: 카메라 임팩트 강도는 플레이어 민감도별 옵션화 검토 필요
+- 다음 Step 진행 승인: 타이틀/메뉴 구현(백로그) 또는 Step21(콘텐츠 확장) 대기

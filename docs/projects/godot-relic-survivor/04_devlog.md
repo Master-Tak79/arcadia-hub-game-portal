@@ -1248,3 +1248,12 @@
 - QA 재검증
   - headless gate PASS: `.qa/headless/20260304-070221`
   - pre-manual/checkpoint/leak/freeze PASS
+
+## 2026-03-04 07:24 KST
+### Step 20-C — Combat Feel Polish Pack 01
+- `ui/camera_fx.gd` 전투 카메라 임팩트 API(light/heavy/player-hit) 추가
+- `systems/combat_system.gd` 히트/킬/피격 카메라 임팩트 연동 + 과도 흔들림 방지 쿨다운
+- `game_root.gd` combat_system setup에 camera_fx 연결
+- QA 재검증
+  - headless gate PASS: `.qa/headless/20260304-071742`
+  - pre-manual/checkpoint/leak/freeze PASS

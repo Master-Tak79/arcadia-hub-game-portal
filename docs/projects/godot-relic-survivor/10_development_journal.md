@@ -505,3 +505,12 @@
 
 ### 검증
 - headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과
+
+## 2026-03-04 (Step 20-C — Combat Feel Polish Pack 01)
+
+### 변경
+- 히트/킬/피격 순간의 카메라 반응을 분리해 타격감 강화
+- 카메라 임팩트 쿨다운으로 과도 흔들림 억제
+
+### 검증
+- headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과

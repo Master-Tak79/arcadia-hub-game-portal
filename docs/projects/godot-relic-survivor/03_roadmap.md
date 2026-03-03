@@ -233,7 +233,17 @@
   - headless gate + leak trace + balance freeze 재통과
 - 상태: 🟡 구현/자동검증 완료 (수동 체감 QA 대기)
 
+## M25 — Combat Feel Polish Pack 01 (v0.1.29-dev)
+- 목표: 타격/피격 순간 체감을 강화해 전투 만족도 상향
+- 콘텐츠:
+  - 카메라 임팩트 API(light/heavy/player-hit)
+  - 히트/킬/피격 카메라 연동 및 쿨다운 제어
+- 완료 기준:
+  - headless gate + leak trace + balance freeze 재통과
+- 상태: 🟡 구현/자동검증 완료 (수동 체감 QA 대기)
+
 ## 백로그 (중기)
+- 타이틀 화면 + 메인 메뉴(옵션/설정/시작 흐름) 구현
 - 캐릭터 전용 무기/액티브 스킬 트리 고도화 구현
 
 ## 리스크 추적

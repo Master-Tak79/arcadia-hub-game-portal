@@ -102,7 +102,7 @@ func _ready() -> void:
 
 	_combat_system = CombatSystem.new()
 	add_child(_combat_system)
-	_combat_system.setup(_balance, _state, _player, _enemy_container, _projectile_container)
+	_combat_system.setup(_balance, _state, _player, _enemy_container, _projectile_container, _camera_fx)
 
 	_upgrade_system = UpgradeSystem.new()
 	add_child(_upgrade_system)

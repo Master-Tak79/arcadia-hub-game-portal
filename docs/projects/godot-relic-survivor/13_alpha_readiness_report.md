@@ -32,6 +32,7 @@
   - feel loop 체크(`HIT_FX_ON`, `KILL_FX_ON`, `PROJECTILE_TRAIL_ON`) 통과
   - mission loop 체크(`MISSION_ASSIGNED:*`, `MISSION_COMPLETED:*`, `MISSION_STREAK:*`, `MISSION_DIFFICULTY_RELAX`) 통과
   - pacing 토큰 체크(`SPAWN_PACE_STAGE:*`, `SPAWN_BREATHER_ON`) 통과
+  - combat feel 체크(camera impact) 회귀 없음
   - elite_variant loop 체크(`ELITE_VARIANT:*`) 통과
   - meta loop 체크(`META_PROFILE_LOADED`, `META_RUN_REWARD`) 통과
   - warning/leak summary 기준 `warnings=0`, `leak_lines=0`
