@@ -9,6 +9,7 @@ var _mission_index: int = 0
 var _baseline_kills: int = 0
 var _baseline_elite_kills: int = 0
 var _baseline_dash_uses: int = 0
+var _consecutive_failures: int = 0
 
 func setup(state: RefCounted, event_banner: CanvasLayer, mission_test: bool = false) -> void:
 	_state = state
@@ -19,6 +20,7 @@ func setup(state: RefCounted, event_banner: CanvasLayer, mission_test: bool = fa
 func reset_runtime() -> void:
 	_next_assign_in = 3.0 if _mission_test else 8.0
 	_mission_index = 0
+	_consecutive_failures = 0
 	_baseline_kills = int(_state.kills) if _state else 0
 	_baseline_elite_kills = int(_state.elite_kills) if _state else 0
 	_baseline_dash_uses = int(_state.dash_uses) if _state else 0
@@ -56,6 +58,9 @@ func process(delta: float) -> void:
 		if int(_state.mission_streak) > 0:
 			print("MISSION_STREAK_RESET")
 		_state.mission_streak = 0
+		_consecutive_failures = min(3, _consecutive_failures + 1)
+		if _consecutive_failures >= 2:
+			print("MISSION_DIFFICULTY_RELAX")
 		_state.mission_active = false
 		_state.mission_id = ""
 		_state.mission_title = ""
@@ -95,11 +100,94 @@ func _get_mission_pool() -> Array:
 			{"id": "clear_wave", "title": "Kill 6 enemies", "target": 6, "reward_exp": 9, "duration": 20.0},
 			{"id": "elite_hunt", "title": "Defeat 1 elite", "target": 1, "reward_exp": 12, "duration": 24.0}
 		]
-	return [
-		{"id": "clear_wave", "title": "Kill 18 enemies", "target": 18, "reward_exp": 11, "duration": 38.0},
-		{"id": "elite_hunt", "title": "Defeat 2 elites", "target": 2, "reward_exp": 16, "duration": 46.0},
-		{"id": "dash_drill", "title": "Use dash 6 times", "target": 6, "reward_exp": 10, "duration": 34.0}
-	]
+
+	var elapsed: float = float(_state.elapsed) if _state else 0.0
+	var pressure: float = float(_state.pressure_hint) if _state else 0.0
+
+	var clear_target: int = 16
+	var clear_reward: int = 11
+	var clear_duration: float = 36.0
+
+	var elite_target: int = 1
+	var elite_reward: int = 14
+	var elite_duration: float = 40.0
+
+	var dash_target: int = 4
+	var dash_reward: int = 9
+	var dash_duration: float = 30.0
+
+	if elapsed >= 140.0:
+		clear_target = 20
+		clear_reward = 13
+		clear_duration = 42.0
+		elite_target = 2
+		elite_reward = 17
+		elite_duration = 46.0
+		dash_target = 5
+		dash_reward = 11
+		dash_duration = 34.0
+
+	if elapsed >= 300.0:
+		clear_target = 24
+		clear_reward = 15
+		clear_duration = 48.0
+		elite_target = 2
+		elite_reward = 19
+		elite_duration = 52.0
+		dash_target = 6
+		dash_reward = 12
+		dash_duration = 38.0
+
+	if pressure >= 0.95:
+		clear_duration += 6.0
+		elite_duration += 8.0
+		dash_duration += 6.0
+		clear_reward += 1
+		elite_reward += 2
+		dash_reward += 1
+
+	var clear_wave := {
+		"id": "clear_wave",
+		"title": "Kill %d enemies" % clear_target,
+		"target": clear_target,
+		"reward_exp": clear_reward,
+		"duration": clear_duration
+	}
+	var elite_hunt := {
+		"id": "elite_hunt",
+		"title": "Defeat %d elites" % elite_target,
+		"target": elite_target,
+		"reward_exp": elite_reward,
+		"duration": elite_duration
+	}
+	var dash_drill := {
+		"id": "dash_drill",
+		"title": "Use dash %d times" % dash_target,
+		"target": dash_target,
+		"reward_exp": dash_reward,
+		"duration": dash_duration
+	}
+
+	if _consecutive_failures >= 2:
+		return [
+			_relax_mission(clear_wave),
+			_relax_mission(dash_drill),
+			_relax_mission(clear_wave)
+		]
+
+	if elapsed < 100.0:
+		return [clear_wave, dash_drill, clear_wave]
+	if elapsed < 240.0:
+		return [clear_wave, elite_hunt, dash_drill, clear_wave]
+	return [clear_wave, elite_hunt, clear_wave, dash_drill, elite_hunt]
+
+func _relax_mission(mission: Dictionary) -> Dictionary:
+	var relaxed: Dictionary = mission.duplicate(true)
+	relaxed["target"] = max(1, int(round(float(mission.get("target", 1)) * 0.75)))
+	relaxed["duration"] = float(mission.get("duration", 20.0)) * 1.20
+	relaxed["reward_exp"] = max(6, int(round(float(mission.get("reward_exp", 8)) * 0.9)))
+	relaxed["title"] = "(Recover) %s" % String(mission.get("title", "Mission"))
+	return relaxed
 
 func _update_progress() -> void:
 	match _state.mission_id:
@@ -114,6 +202,7 @@ func _update_progress() -> void:
 
 func _complete_mission() -> void:
 	print("MISSION_COMPLETED:%s" % _state.mission_id)
+	_consecutive_failures = 0
 	_state.mission_streak = int(_state.mission_streak) + 1
 	_state.mission_best_streak = max(int(_state.mission_best_streak), int(_state.mission_streak))
 

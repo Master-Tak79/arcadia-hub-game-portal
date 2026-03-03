@@ -143,7 +143,8 @@
 - Step 17 Interface Boundary Cleanup Pack 02: **0.25 ~ 0.75일**
 - Step 18 VFX/Animation Polish Pack 01: **0.5 ~ 1.0일**
 - Step 19 UI/Graphics Overhaul Pack 01: **0.75 ~ 1.5일**
-- 총합(문서/QA 포함): **15.75 ~ 27.0일**
+- Step 20-B Level Design / Fun Curve Pack 01: **0.75 ~ 1.5일**
+- 총합(문서/QA 포함): **16.5 ~ 28.5일**
 
 ## 검증 계획
 - 자동:

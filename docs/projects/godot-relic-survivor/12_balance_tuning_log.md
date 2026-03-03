@@ -490,3 +490,13 @@
 
 ### 리스크 메모
 - 해상도/모니터 비율별 폰트/패널 밀도는 수동 QA에서 미세 조정 예정
+
+## 2026-03-04 (Step 20-B Level Design/Fun Curve)
+
+### 튜닝 포인트
+- 스폰 완급: early 안정 → mid 상승 → surge 압박 → climax 고밀도
+- 주기적 breather 윈도우로 과도 압박 완화
+- 미션 실패 누적 시 Recover 난이도 완화로 런 복구성 확보
+
+### 회귀 결과
+- headless/누수/freeze 기준 회귀 없음

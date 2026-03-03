@@ -495,3 +495,13 @@
 
 ### 검증
 - headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과
+
+## 2026-03-04 (Step 20-B — Level Design / Fun Curve Pack 01)
+
+### 변경
+- 웨이브 스폰 페이싱을 단계별(early/mid/surge/climax)로 재설계
+- 브리더 윈도우를 도입해 압박 완급을 명확화
+- 미션 실패 누적 시 Recover 난이도 완화로 복구성 강화
+
+### 검증
+- headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과

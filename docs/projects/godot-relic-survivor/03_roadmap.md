@@ -223,6 +223,16 @@
   - headless gate + leak trace + balance freeze 재통과
 - 상태: 🟡 구현/자동검증 완료 (수동 체감 QA 대기)
 
+## M24 — Level Design / Fun Curve Pack 01 (v0.1.28-dev)
+- 목표: 웨이브 완급과 미션 복구성을 강화해 장기 플레이 재미 상향
+- 콘텐츠:
+  - 스폰 페이싱 스테이지(early/mid/surge/climax) + breather 윈도우
+  - 스폰 방향 분산(동일 엣지 반복 억제)
+  - 동적 미션 풀/연속 실패 완화(Recover 미션)
+- 완료 기준:
+  - headless gate + leak trace + balance freeze 재통과
+- 상태: 🟡 구현/자동검증 완료 (수동 체감 QA 대기)
+
 ## 백로그 (중기)
 - 캐릭터 전용 무기/액티브 스킬 트리 고도화 구현
 

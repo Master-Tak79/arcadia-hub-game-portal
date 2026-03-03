@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.27-dev
+- version: v0.1.28-dev
 - date: 2026-03-03
 
 ## Added
@@ -144,6 +144,11 @@
   - `hud.gd` 패널형 HUD 재설계(전투/미션/보스/메타/유물 분리)
   - `arena_background.gd` 연출 강화(스타 레이어 + 센터 글로우 + 엣지 비네트)
   - `project.godot` 1920x1080 기본 창/스트레치 설정 유지
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- Level Design / Fun Curve Pack 01
+  - `spawn_director.gd` 페이싱 스테이지 + breather 윈도우(`SPAWN_PACE_STAGE:*`, `SPAWN_BREATHER_ON`) 도입
+  - 스폰 엣지 반복 억제로 전투 방향성 다양화
+  - `mission_system.gd` 동적 미션 풀/Recover 난이도 완화(`MISSION_DIFFICULTY_RELAX`) 추가
   - 회귀 검증: headless/leak/freeze/checkpoint 재통과
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시

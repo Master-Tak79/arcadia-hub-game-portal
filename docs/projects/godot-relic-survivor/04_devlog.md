@@ -1239,3 +1239,12 @@
 - QA 재검증
   - headless gate PASS: `.qa/headless/20260303-230009`
   - pre-manual/checkpoint/leak/freeze PASS
+
+## 2026-03-04 07:10 KST
+### Step 20-B — Level Design / Fun Curve Pack 01
+- `spawn_director.gd`에 페이싱 스테이지(`early/mid/surge/climax`) 및 주기적 breather 윈도우 도입
+- 스폰 엣지 반복 억제 로직 추가(동일 방향 몰림 완화)
+- `mission_system.gd` 동적 미션 풀 + 연속 실패 Recover 난이도 완화(`MISSION_DIFFICULTY_RELAX`) 도입
+- QA 재검증
+  - headless gate PASS: `.qa/headless/20260304-070221`
+  - pre-manual/checkpoint/leak/freeze PASS

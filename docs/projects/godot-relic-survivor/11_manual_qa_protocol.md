@@ -34,6 +34,8 @@ cd /mnt/c/TAK_Projects/Game/godot-relic-survivor/games/godot-relic-survivor
   - TREE 해금 후 다음 라운드 반영 체감(정상 적용 여부)
   - TREE 패널(`T`) 열기/선택/닫기 UX 확인
   - 미션 할당/완료 보상 체감(MISSION)
+  - 웨이브 완급(초반→중반→후반) 변화 체감
+  - 연속 미션 실패 시 Recover 미션 완화 체감
   - 중반 웨이브 과도 압박 여부
 
 ### Run C — 보스 페이즈 중심 (10분)
