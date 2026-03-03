@@ -337,7 +337,7 @@
 
 ### Step 20-C 결과 기록
 - Step: Combat Feel Polish Pack 01
-- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 구현 커밋: `220f972` (전투 카메라 임팩트 연동 + docs sync)
 - 자동검증 결과: headless gate PASS (`.qa/headless/20260304-071742`), pre-manual PASS, leak trace PASS, balance-freeze PASS
 - 리스크/이슈: 카메라 임팩트 강도는 플레이어 민감도별 옵션화 검토 필요
 - 다음 Step 진행 승인: 타이틀/메뉴 구현(백로그) 또는 Step21(콘텐츠 확장) 대기
@@ -351,7 +351,7 @@
 
 ### Step 21-B 결과 기록
 - Step: Options/Settings Pack 01
-- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 구현 커밋: `2323bc2` (options/settings 메뉴 + 설정 저장/복원 + docs sync)
 - 자동검증 결과: headless gate PASS (`.qa/headless/20260304-073816`), pre-manual PASS, leak trace PASS, balance-freeze PASS
 - 리스크/이슈: 옵션 메뉴 레이아웃(해상도별) 미세 조정 필요
 - 다음 Step 진행 승인: Step22(옵션 확장/콘텐츠 확장) 대기

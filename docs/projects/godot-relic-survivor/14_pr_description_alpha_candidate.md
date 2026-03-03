@@ -146,6 +146,7 @@ cd games/godot-relic-survivor
 - 체크포인트 핸드오프 리포트 자동 생성
 
 ## Key Commits (recent, head branch)
+- `2323bc2` Options/Settings Pack 01(옵션 메뉴 + 설정 저장/복원 + QA 재검증)
 - `639ea2f` Title/Menu Framework Pack 01(부트 타이틀 + ESC 메뉴 프레임워크 + QA 재검증)
 - `220f972` Combat Feel Polish Pack 01(전투 카메라 임팩트 연동 + QA 재검증)
 - `acd0535` Level Design/Fun Curve Pack 01(스폰 페이싱 + Recover 미션 완화 + QA 재검증)
