@@ -243,7 +243,7 @@
 
 ### Step 16 결과 기록
 - Step: Interface Boundary Cleanup Pack 01
-- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 구현 커밋: `a683183` (game_root has_method 경계 정리 + docs sync)
 - 자동검증 결과: headless gate PASS (`.qa/headless/20260303-131905`), pre-manual PASS, leak trace PASS, balance-freeze PASS
 - 리스크/이슈: `game_root` 외 영역(HUD/Boss runtime)의 `has_method` 정리는 후속 단계에서 점진 적용 필요
 - 다음 Step 진행 승인: R4(HUD/Boss interface 정리) 또는 애니메이션 2차 폴리싱 대기
