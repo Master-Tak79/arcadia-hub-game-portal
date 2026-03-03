@@ -178,7 +178,7 @@
 
 ### Step 2 결과 기록
 - Step: Relic System 01 (12종)
-- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 구현 커밋: `220f972` (전투 카메라 임팩트 연동 + docs sync)
 - 자동검증 결과: headless gate PASS (`relic_loop` 포함), pre-manual PASS, leak trace PASS
 - 리스크/이슈: long_sim 로그량 증가(유물/엘리트 토큰 다수 출력), 추후 로그 레벨 옵션 검토 필요
 - 다음 Step 진행 승인: 대기 중
