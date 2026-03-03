@@ -141,6 +141,7 @@ cd games/godot-relic-survivor
 - 체크포인트 핸드오프 리포트 자동 생성
 
 ## Key Commits (recent, head branch)
+- `a954e3e` UX Input/History Fast Follow(마우스 카드 선택 + H 히스토리 패널 + QA 재검증)
 - `435f965` LevelUp Card UI Fast Follow(카드형 3선택 UI + QA 재검증)
 - `a8d43ce` VFX/Animation Polish Pack 01(impact_fx/event_banner/level_up_panel 강화 + QA 재검증)
 - `e69f9a2` Interface Boundary Cleanup Pack 02(hud/boss runtime has_method 경계 정리 + QA 재검증)
