@@ -529,3 +529,13 @@
 
 ### 회귀 결과
 - headless/누수/freeze 기준 회귀 없음
+
+## 2026-03-05 (Step 25-A Quality/Fairness Polish)
+
+### 변경 요약
+- 보스 경고/활성 중 이벤트 시작 defer로 스파이크 완화
+- summon recovery 피드백 강화로 회피 타이밍 가시성 개선
+- 세트 시너지 HUD 정보 강화
+
+### 회귀 결과
+- headless/누수/freeze 기준 회귀 없음

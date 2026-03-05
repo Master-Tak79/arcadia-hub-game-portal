@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.36-dev
+- version: v0.1.37-dev
 - date: 2026-03-03
 
 ## Added
@@ -345,3 +345,9 @@
   - `tools/qa/manual-qa-runbook.sh` 추가
   - `tools/qa/manual-fps-summary.sh` 추가
   - `manual-qa/2026-03-05/run_sheet.md` 템플릿 추가
+
+- Quality/Fairness Polish Pack 01
+  - 보스 구간 이벤트 defer(`EVENT_DEFER_BOSS`)로 난이도 스파이크 완화
+  - summon recovery 배너/카메라 피드백 강화
+  - HUD 유물 역할 카운트/활성 세트 표시 추가
+  - 회귀 검증: headless/pre-manual/checkpoint/leak/freeze 재통과

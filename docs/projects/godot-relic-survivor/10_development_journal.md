@@ -620,3 +620,13 @@
 ### 상태
 - 이번에도 TITLE_MENU_OPEN 상태 유지, 플레이 토큰 미검출
 - Run A/B/C 본실행 재시도 필요
+
+## 2026-03-05 (Step 25-A — Quality/Fairness Polish Pack 01)
+
+### 변경
+- 보스 구간 이벤트 과부하 완화를 위해 defer 로직 추가
+- summon recovery 피드백(배너/카메라) 강화
+- HUD에 세트 시너지 진행도/활성 상태 노출
+
+### 검증
+- headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과

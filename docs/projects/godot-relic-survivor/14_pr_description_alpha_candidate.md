@@ -50,6 +50,7 @@
 - Step 23-HF1 GUI 부트 경로 안정화(런타임 옵션 키 참조 수정)
 - FPS Probe/Manual QA Assist Pack 01(`--fps-probe` + FPS 로그 보조)
 - Manual QA Ops Pack 01(runbook/summary/run-sheet 추가)
+- Quality/Fairness Polish Pack 01(EVENT_DEFER_BOSS + recovery feedback + HUD set visibility)
 - 레벨업 선택지 가독성 강화(역할 태그/효과 요약/추천 문구/예상 지표)
 - 압박도 기반 추천 보정(웨이브/보스 압박 신호를 가중치에 반영)
 - auto-levelup 선택 로직의 multi-effect 반영 + 스폰 안전 반경/전투 후보 인덱스 적용

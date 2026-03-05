@@ -8,6 +8,7 @@ var _signal_bus: RefCounted
 var _player: Node2D
 var _event_banner: CanvasLayer
 var _overlay: Node2D
+var _miniboss_director: Node
 
 var _defs: Array = []
 var _next_event_at: float = 0.0
@@ -47,7 +48,12 @@ func setup(
 	_overlay = overlay
 	_test_mode = test_mode
 	_defs = EventData.new().build_event_defs(_balance)
+	_miniboss_director = null
 	reset_runtime()
+
+
+func set_miniboss_director(director: Node) -> void:
+	_miniboss_director = director
 
 func reset_runtime() -> void:
 	_event_count = 0
@@ -112,6 +118,11 @@ func process(delta: float) -> void:
 			_phase = "idle"
 
 func _start_next_event() -> void:
+	if _should_defer_event_for_boss():
+		_next_event_at = float(_state.elapsed) + 6.0
+		print("EVENT_DEFER_BOSS")
+		return
+
 	_active_def = _pick_event_def()
 	_active_id = String(_active_def.get("id", ""))
 	_active_label = String(_active_def.get("title", _active_id))
@@ -250,6 +261,17 @@ func _sync_state_and_overlay() -> void:
 			"zone_radius": _zone_radius,
 		})
 
+func _should_defer_event_for_boss() -> bool:
+	if _test_mode:
+		return false
+	if _miniboss_director == null:
+		return false
+	if _miniboss_director.has_method("is_warning_active") and bool(_miniboss_director.is_warning_active()):
+		return true
+	if _miniboss_director.has_method("is_boss_alive") and bool(_miniboss_director.is_boss_alive()):
+		return true
+	return false
+
 func _pick_event_def() -> Dictionary:
 	if _defs.is_empty():
 		return {}
@@ -301,6 +323,10 @@ func _effective_event_weight(def: Dictionary) -> float:
 		elif id == "fog" or id == "slow_zone":
 			weight *= 1.12
 
+	var boss_active: bool = false
+	if _miniboss_director and _miniboss_director.has_method("is_boss_alive"):
+		boss_active = bool(_miniboss_director.is_boss_alive())
+
 	# high pressure / low hp safety shaping
 	if pressure >= 0.98 or hp_ratio <= 0.35:
 		if id == "shock_zone":
@@ -308,6 +334,12 @@ func _effective_event_weight(def: Dictionary) -> float:
 		elif id == "fog":
 			weight *= 1.18
 		elif id == "slow_zone":
+			weight *= 1.08
+
+	if boss_active:
+		if id == "shock_zone":
+			weight *= 0.42
+		elif id == "fog":
 			weight *= 1.08
 
 	# late phase raises shock relevance back

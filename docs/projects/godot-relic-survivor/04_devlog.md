@@ -1357,3 +1357,15 @@
 - FPS 요약: avg 6.3 / min 1.0 / max 8.0 / samples 2550
 - 관찰: `TITLE_MENU_START`/플레이 루프 토큰 미검출
 - 판정: 수동 QA 본실행 여전히 미완료
+
+## 2026-03-05 21:51 KST
+### Step 25-A — Quality/Fairness Polish Pack 01
+- `stage_event_system.gd`: 보스 경고/활성 구간 이벤트 defer(`EVENT_DEFER_BOSS`)
+- `boss_reward_runtime.gd`: summon recovery window 배너/카메라 피드백 강화
+- `hud.gd`: 유물 역할 카운트 + 활성 세트 표시 추가
+- `game_root.gd`: stage_event_system에 miniboss director 연결
+- QA 재검증
+  - headless gate PASS: `.qa/headless/20260305-214726`
+  - checkpoint PASS: `.qa/reports/checkpoint-20260305-214930.md`
+  - leak trace PASS: `.qa/leak-trace/20260305-214930/leak-summary.txt`
+  - balance freeze PASS

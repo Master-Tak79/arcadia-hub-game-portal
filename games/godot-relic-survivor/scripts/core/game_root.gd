@@ -182,6 +182,7 @@ func _ready() -> void:
 
 	_stage_event_system = StageEventSystem.new()
 	_stage_event_system.setup(_balance, _state, _signal_bus, _player, _event_banner, _stage_event_overlay, bool(_runtime_options.event_test))
+	_stage_event_system.set_miniboss_director(_miniboss_director)
 
 	_sfx_slots = SfxSlots.new()
 	add_child(_sfx_slots)

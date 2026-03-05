@@ -210,6 +210,12 @@
 - [x] run sheet 템플릿 추가(`manual-qa/2026-03-05/run_sheet.md`)
 - [x] 수동 QA 운영 문서 동기화
 
+## Step 25-A — Quality/Fairness Polish Pack 01
+- [x] 보스 구간 이벤트 defer(`EVENT_DEFER_BOSS`) 추가
+- [x] summon recovery 배너/카메라 피드백 강화
+- [x] HUD 세트 진행도/활성 세트 표시 강화
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+
 ---
 
 ## 결과 기록 템플릿

@@ -14,6 +14,7 @@ var _last_boss_phase: int = 0
 var _last_phase_transition: bool = false
 var _last_dash_telegraph: bool = false
 var _last_summon_telegraph: bool = false
+var _last_summon_recovery: bool = false
 var _boss_reward_applied: bool = false
 var _slowmo_time_left: float = 0.0
 
@@ -48,6 +49,7 @@ func reset_round() -> void:
 	_last_phase_transition = false
 	_last_dash_telegraph = false
 	_last_summon_telegraph = false
+	_last_summon_recovery = false
 	_boss_reward_applied = false
 	_slowmo_time_left = 0.0
 	_pending_warning_sfx = -1.0
@@ -74,6 +76,9 @@ func _process_miniboss_state_transitions() -> void:
 	var phase_transition: bool = bool(_miniboss_director.is_boss_phase_transitioning())
 	var dash_telegraph: bool = bool(_miniboss_director.is_boss_dash_telegraphing())
 	var summon_telegraph: bool = bool(_miniboss_director.is_boss_summon_telegraphing())
+	var summon_recovery: bool = false
+	if _miniboss_director.has_method("is_boss_summon_recovering"):
+		summon_recovery = bool(_miniboss_director.is_boss_summon_recovering())
 
 	if warning_active and not _last_warning_active:
 		if _event_banner:
@@ -122,7 +127,10 @@ func _process_miniboss_state_transitions() -> void:
 			else:
 				_event_banner.show_message("⚠ SUMMON CAST — 소환 링 전개", 0.9, Color("#0F4C5C"))
 		if _camera_fx:
-			_camera_fx.play_warning_pulse()
+			if pattern == "cross":
+				_camera_fx.play_boss_spawn_impact()
+			else:
+				_camera_fx.play_warning_pulse()
 		if _summon_telegraph_sfx_cd <= 0.0 and _sfx_slots:
 			if pattern == "wall":
 				_sfx_slots.play_boss_spawn()
@@ -131,6 +139,12 @@ func _process_miniboss_state_transitions() -> void:
 			else:
 				_sfx_slots.play_boss_warning()
 			_summon_telegraph_sfx_cd = 0.62
+
+	if summon_recovery and not _last_summon_recovery and boss_alive:
+		if _event_banner:
+			_event_banner.show_message("🛡 SUMMON RECOVERY WINDOW", 0.52, Color("#0EA5E9"))
+		if _camera_fx:
+			_camera_fx.play_warning_pulse()
 
 	if not boss_alive and _last_boss_alive and not _boss_reward_applied:
 		_apply_boss_clear_reward()
@@ -141,6 +155,7 @@ func _process_miniboss_state_transitions() -> void:
 	_last_phase_transition = phase_transition
 	_last_dash_telegraph = dash_telegraph
 	_last_summon_telegraph = summon_telegraph
+	_last_summon_recovery = summon_recovery
 
 func _apply_boss_clear_reward() -> void:
 	_boss_reward_applied = true

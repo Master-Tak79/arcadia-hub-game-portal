@@ -132,6 +132,11 @@
   - [x] 수동 QA runbook 스크립트 추가
   - [x] FPS summary 스크립트 추가
   - [x] run sheet 템플릿 추가
+- [x] **Step 25-A — Quality/Fairness Polish Pack 01**
+  - [x] 보스 구간 이벤트 defer 로직 추가(과부하 완화)
+  - [x] summon recovery 피드백(배너/카메라) 강화
+  - [x] HUD 유물 세트 진행도/활성 표시 강화
+  - [x] headless/leak/freeze/checkpoint 재검증
 
 ## 코드 구조 계획
 - `scripts/core/`: 게임 루프/상태/시그널/모드
@@ -170,7 +175,8 @@
 - Step 24-A QA/Automation Guard Pack 01: **0.25 ~ 0.5일**
 - Step 24-B FPS Probe/Manual QA Assist Pack 01: **0.25 ~ 0.5일**
 - Step 24-C Manual QA Ops Pack 01: **0.25 ~ 0.5일**
-- 총합(문서/QA 포함): **20.25 ~ 36.0일**
+- Step 25-A Quality/Fairness Polish Pack 01: **0.5 ~ 1.0일**
+- 총합(문서/QA 포함): **20.75 ~ 37.0일**
 
 ## 검증 계획
 - 자동:

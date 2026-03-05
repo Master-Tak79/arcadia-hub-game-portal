@@ -309,6 +309,28 @@ func _refresh_relic_panel() -> void:
 	if not preview.is_empty():
 		lines.append("SET: " + " | ".join(preview))
 
+	var role_counts: Dictionary = Dictionary(_state.relic_role_counts)
+	if not role_counts.is_empty():
+		lines.append("ROLE A/M/S/H: %d/%d/%d/%d" % [
+			int(role_counts.get("attack", 0)),
+			int(role_counts.get("mobility", 0)),
+			int(role_counts.get("survival", 0)),
+			int(role_counts.get("hybrid", 0)),
+		])
+
+	var set_flags: Dictionary = Dictionary(_state.relic_set_flags)
+	var active_sets: Array[String] = []
+	if bool(set_flags.get("attack_triad", false)):
+		active_sets.append("ATK")
+	if bool(set_flags.get("mobility_triad", false)):
+		active_sets.append("MOB")
+	if bool(set_flags.get("survival_triad", false)):
+		active_sets.append("SURV")
+	if bool(set_flags.get("hybrid_duo", false)):
+		active_sets.append("HYB")
+	if not active_sets.is_empty():
+		lines.append("ACTIVE SETS: " + ", ".join(active_sets))
+
 	if String(_state.active_event_id) != "":
 		lines.append("EVENT: %s (%s %.1fs)" % [
 			String(_state.active_event_label),
