@@ -72,6 +72,8 @@ cd /mnt/c/TAK_Projects/Game/godot-relic-survivor/games/godot-relic-survivor
   - `runC-boss-recovery-window.png`
   - `options-persistence.png`
 
+- 최근 수집 세션: `.qa/manual/20260305-201519/fps-probe.log` (menu idle, 플레이 구간 미포함)
+
 ## Alpha 확정 게이트
 아래 조건 충족 시 `v0.1.0-alpha` 확정 태깅:
 1. 수동 QA 3회 완료

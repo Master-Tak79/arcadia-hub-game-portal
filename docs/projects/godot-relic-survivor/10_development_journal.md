@@ -598,3 +598,14 @@
 ### 변경
 - 수동 QA 실행/기록 보조 스크립트 및 run sheet 템플릿 추가
 - 수동 QA 핸드오프 문서와 실행 절차 통합
+
+## 2026-03-05 (Manual QA session note)
+
+### 관측
+- runbook + fps-probe 세션 1회 실행
+- 로그: `.qa/manual/20260305-201519/fps-probe.log`
+- FPS 요약: avg 6.2 / min 1.0 / max 9.0
+
+### 상태
+- TITLE_MENU_OPEN 상태 유지로 플레이 루프(Run A/B/C) 데이터는 수집되지 않음
+- 수동 QA 본실행 재수행 필요

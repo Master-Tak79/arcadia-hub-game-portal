@@ -1343,3 +1343,10 @@
 - `tools/qa/manual-fps-summary.sh` 추가
 - `manual-qa/2026-03-05/run_sheet.md` 템플릿 추가
 - 운영 문서/체크리스트/PR 본문 동기화
+
+## 2026-03-05 20:33 KST
+### Manual QA Session 기록 (menu idle probe)
+- 수동 QA runbook 세션: `.qa/manual/20260305-201519/fps-probe.log`
+- FPS 요약: avg 6.2 / min 1.0 / max 9.0 / samples 6392
+- 관찰: `TITLE_MENU_OPEN` 상태 유지, Run A/B/C 플레이 토큰 미검출
+- 판정: 수동 QA 본실행은 미완료(재실행 필요)

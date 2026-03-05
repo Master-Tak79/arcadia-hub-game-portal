@@ -15,8 +15,9 @@
 - [x] PR 오픈 완료: https://github.com/Master-Tak79/arcadia-hub-game-portal/pull/74
 - [x] 수동 QA 핸드오프 패킷 정리 (`21_alpha_manual_qa_handoff_packet.md`)
 - [ ] 수동 QA 3회 완료
-- [ ] GUI FPS 실측 완료
+- [ ] GUI FPS 실측 완료 (플레이 구간 기준, menu idle 제외)
 - [x] FPS probe 기반 FPS 측정 절차 확인
+- [ ] menu idle probe 1회 완료(평균 6.2), 플레이 구간 재실측 필요
 - [ ] 마우스 카드 선택/H 히스토리 패널 수동 확인
 - [ ] 웨이브 완급/Recover 미션 체감 수동 확인
 - [ ] 카메라 임팩트 강도 수동 확인
