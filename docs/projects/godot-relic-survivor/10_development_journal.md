@@ -592,3 +592,9 @@
 
 ### 검증
 - headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과
+
+## 2026-03-05 (Step 24-C — Manual QA Ops Pack 01)
+
+### 변경
+- 수동 QA 실행/기록 보조 스크립트 및 run sheet 템플릿 추가
+- 수동 QA 핸드오프 문서와 실행 절차 통합

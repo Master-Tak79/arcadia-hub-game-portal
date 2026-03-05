@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.35-dev
+- version: v0.1.36-dev
 - date: 2026-03-03
 
 ## Added
@@ -340,3 +340,8 @@
   - `FPS_PROBE_SAMPLE:cur/avg/min/max` 로그 출력
   - 수동 QA 문서/핸드오프 패킷에 실행 절차 반영
   - 회귀 검증: headless/pre-manual/checkpoint/leak/freeze 재통과
+
+- Manual QA Ops Pack 01
+  - `tools/qa/manual-qa-runbook.sh` 추가
+  - `tools/qa/manual-fps-summary.sh` 추가
+  - `manual-qa/2026-03-05/run_sheet.md` 템플릿 추가

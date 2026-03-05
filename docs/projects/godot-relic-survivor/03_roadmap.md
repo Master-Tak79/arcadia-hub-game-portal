@@ -313,6 +313,16 @@
   - GUI quick probe + headless/leak/freeze/checkpoint 재통과
 - 상태: 🟡 완료
 
+## M33 — Manual QA Ops Pack 01 (v0.1.36-dev)
+- 목표: 수동 QA 실행/기록 절차를 운영 스크립트로 표준화
+- 콘텐츠:
+  - `manual-qa-runbook.sh`
+  - `manual-fps-summary.sh`
+  - `manual-qa/2026-03-05/run_sheet.md`
+- 완료 기준:
+  - 스크립트 구문 체크 + 문서 반영
+- 상태: 🟡 완료
+
 ## 백로그 (중기)
 - 메인 메뉴 옵션/설정 확장 2차(조작/고급 그래픽/접근성) 구현
 - 캐릭터 전용 무기/액티브 스킬 트리 고도화 구현

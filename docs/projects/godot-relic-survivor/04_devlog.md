@@ -1336,3 +1336,10 @@
   - checkpoint PASS: `.qa/reports/checkpoint-20260305-200754.md`
   - leak trace PASS: `.qa/leak-trace/20260305-200754/leak-summary.txt`
   - balance freeze PASS
+
+## 2026-03-05 20:16 KST
+### Step 24-C — Manual QA Ops Pack 01
+- `tools/qa/manual-qa-runbook.sh` 추가
+- `tools/qa/manual-fps-summary.sh` 추가
+- `manual-qa/2026-03-05/run_sheet.md` 템플릿 추가
+- 운영 문서/체크리스트/PR 본문 동기화

@@ -205,6 +205,11 @@
 - [x] 수동 QA 프로토콜/핸드오프 문서에 probe 절차 반영
 - [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
 
+## Step 24-C — Manual QA Ops Pack 01
+- [x] `manual-qa-runbook.sh`/`manual-fps-summary.sh` 추가
+- [x] run sheet 템플릿 추가(`manual-qa/2026-03-05/run_sheet.md`)
+- [x] 수동 QA 운영 문서 동기화
+
 ---
 
 ## 결과 기록 템플릿

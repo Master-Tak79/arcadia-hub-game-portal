@@ -28,6 +28,9 @@ cd /mnt/c/TAK_Projects/Game/godot-relic-survivor/games/godot-relic-survivor
 ../../scripts/godotw --path .
 # FPS 측정 보조
 ../../scripts/godotw --path . -- --fps-probe
+# 또는 runbook 사용
+./tools/qa/manual-qa-runbook.sh --fps-probe
+./tools/qa/manual-fps-summary.sh .qa/manual/<timestamp>/fps-probe.log
 ```
 
 ## 수동 QA 실행 순서 (필수)

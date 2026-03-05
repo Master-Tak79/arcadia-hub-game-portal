@@ -128,6 +128,10 @@
   - [x] `--fps-probe` 런타임 옵션 + `FPS_PROBE_SAMPLE:*` 로그 추가
   - [x] 수동 QA 문서에 FPS probe 실행 절차 반영
   - [x] headless/leak/freeze/checkpoint 재검증
+- [x] **Step 24-C — Manual QA Ops Pack 01**
+  - [x] 수동 QA runbook 스크립트 추가
+  - [x] FPS summary 스크립트 추가
+  - [x] run sheet 템플릿 추가
 
 ## 코드 구조 계획
 - `scripts/core/`: 게임 루프/상태/시그널/모드
@@ -165,7 +169,8 @@
 - Step 23 Alpha Manual QA Handoff Packet: **0.25 ~ 0.5일**
 - Step 24-A QA/Automation Guard Pack 01: **0.25 ~ 0.5일**
 - Step 24-B FPS Probe/Manual QA Assist Pack 01: **0.25 ~ 0.5일**
-- 총합(문서/QA 포함): **20.0 ~ 35.5일**
+- Step 24-C Manual QA Ops Pack 01: **0.25 ~ 0.5일**
+- 총합(문서/QA 포함): **20.25 ~ 36.0일**
 
 ## 검증 계획
 - 자동:
