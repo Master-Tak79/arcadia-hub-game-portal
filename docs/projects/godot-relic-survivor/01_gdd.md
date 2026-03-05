@@ -1,0 +1,71 @@
+# 01_gdd — Godot Relic Survivor
+
+## 게임 개요
+- 컨셉: 붕괴한 유적지에서 파도를 버티며 유물 빌드를 완성하는 생존 액션
+- 타겟: 로그라이크 반복 플레이 선호층
+- 세션 길이: 10~20분
+
+## 시스템 설계
+- 조작: 이동(WASD/방향키), 대시(Shift), 일시정지(Esc)
+- 승패: HP 0 시 게임오버
+- 난이도 곡선: 시간 기반 적 스폰률/강화, 10분 미니보스
+- 점수: 생존 시간 + 처치수 + 보스 보너스
+
+## 콘텐츠 설계
+
+### 적 타입
+- Grunt: 추적형 기본 적
+- Dasher: 준비 후 돌진형
+- Elite Grunt: 버스트 돌진형 중간 정예
+- Elite Dasher: 연속 돌진형 중간 정예
+- MiniBoss: 고체력 + 패턴 공격
+
+### 차기 확장(순차)
+1. Elite Pack 01
+   - Elite Grunt: 탱키 + 짧은 돌진(근접 압박)
+   - Elite Dasher: 2연속 돌진 후 긴 회복 구간
+2. Relic System 01 (12종)
+   - 공격/기동/생존/혼합 계열 유물
+   - 런 중 획득, 중복 시 스택 또는 변환 보상
+3. Stage Event Pack 01 (3종)
+   - 안개, 감속지대, 전류지대
+4. Boss Phase 2
+   - HP 구간 기반 패턴 전환 + 전환 연출
+5. Meta Growth 01
+   - 런 종료 보상(Shards) + 영구 특성 3종(vitality/celerity/focus)
+   - 런 시작 시 영구 보정 자동 적용 + 저장 프로파일(user://)
+6. Character Pack 01
+   - Ranger(기동/연사형), Warden(탱커형)
+   - 런타임 선택(`--character=<id>`) + HUD `CHAR` 노출
+7. Weapon Archetype Pack 01
+   - pierce/dot/aoe 계열 추가
+   - 런타임 선택(`--weapon=<id>`) + HUD `WEAPON` 노출
+8. Character/Weapon Tree Runtime 01
+   - 트리 해금/저장(`tree_unlocks`, `tree_last_spent`) + 다음 라운드 적용
+   - `--tree-test` + `tree_ranger`/`tree_warden` QA 경로
+8. Active Skill Pack 01
+   - Ranger/Warden 전용 액티브 스킬
+   - 입력(`Q`) + HUD `SKILL` + character-test 자동검증
+
+### 업그레이드/제안 로직
+- 업그레이드(현재 16종): 공격/투사체/기동/회복/방어 + 복합 시너지
+- 제안 로직: 가중치 기반 랜덤 + 압박도/체력/과중첩 보정
+- 자동 QA 선택 로직: multi-effect 반영 점수화
+
+## UX/UI
+- HUD: HP, 레벨, EXP, 타이머, 처치수, PRESSURE 상태, 보스 상태
+- 피드백: 피격 플래시, 레벨업 연출, 보스 경고 배너, 사망 원인 리포트
+- 사운드: 공격/피격/레벨업/보스 경고/패턴별 텔레그래프
+
+## 밸런스 파라미터
+- `spawn_curve`, `enemy_stats`, `upgrade_values`, `relic_values`, `event_rules`를 데이터 파일 분리 관리
+- 프리즈 기준: `balance-freeze-check.sh`로 수동 QA 전 핵심 수치 검증
+
+## 기술 제약
+- 플랫폼: PC 우선
+- 목표 성능: 60 FPS, 300개 적 동시 처리 시 급락 최소화
+- 준비된 최적화: 충돌 후보 셀 인덱스 기반 탐색
+
+## 오픈 이슈
+- 실수동 QA 기준 패턴 공정성(보스/엘리트/이벤트) 재검증
+- 유물 12종 설계 시 OP 조합 상한 규칙 확정

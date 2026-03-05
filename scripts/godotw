@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CANDIDATES=(
+  "${GODOT_BIN:-}"
+  "/mnt/d/OpenClaw_Downloads/Godot/latest-win64/Godot_v4.6.1-stable_win64_console.exe"
+  "/mnt/d/OpenClaw_Downloads/Godot/latest-win64/Godot_v4.6.1-stable_win64.exe"
+  "/mnt/d/OpenClaw_Downloads/Godot/4.6.1-stable/Godot_v4.6.1-stable_win64_console.exe"
+  "/mnt/d/OpenClaw_Downloads/Godot/4.6.1-stable/Godot_v4.6.1-stable_win64.exe"
+)
+
+for bin in "${CANDIDATES[@]}"; do
+  if [[ -n "$bin" && -x "$bin" ]]; then
+    exec "$bin" "$@"
+  fi
+done
+
+echo "[godotw] Godot executable not found. Set GODOT_BIN or install at /mnt/d/OpenClaw_Downloads/Godot/..." >&2
+exit 127

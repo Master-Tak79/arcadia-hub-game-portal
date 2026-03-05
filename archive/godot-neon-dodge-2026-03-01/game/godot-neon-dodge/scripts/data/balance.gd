@@ -1,0 +1,15 @@
+extends RefCounted
+
+const ARENA_SIZE := Vector2(1280, 720)
+
+const PLAYER_SPEED := 340.0
+const DASH_MULTIPLIER := 2.2
+const DASH_DURATION := 0.12
+const DASH_COOLDOWN := 1.0
+const PLAYER_INVULN_AFTER_HIT := 0.45
+
+const ENEMY_SPEED_BASE := 135.0
+const ENEMY_HIT_RADIUS := 22.0
+const SPAWN_INTERVAL_BASE := 1.0
+const SPAWN_INTERVAL_MIN := 0.33
+const SPAWN_RAMP_PER_SEC := 0.018

@@ -1,0 +1,365 @@
+# 06_release_notes — Godot Relic Survivor
+
+## Version
+- version: v0.1.39-dev
+- date: 2026-03-03
+
+## Added
+- 신규 프로젝트 문서 세트(청사진/GDD/개발계획/로드맵/개발일지/QA/릴리즈노트)
+- 추가 운영 문서 세트
+  - `07_dev_guidelines.md`
+  - `08_update_guidelines.md`
+  - `09_asset_register.md`
+  - `10_development_journal.md`
+  - `11_manual_qa_protocol.md`
+  - `12_balance_tuning_log.md`
+  - `13_alpha_readiness_report.md`
+  - `14_pr_description_alpha_candidate.md`
+  - `15_merge_handover_checklist.md`
+  - `16_alpha_candidate_quality_lock.md`
+  - `17_content_expansion_execution_plan.md`
+  - `18_content_expansion_checklist.md`
+- 기존 `Godot Neon Dodge` 아카이브 전환
+- 코어 전투 시스템 1차
+  - 자동공격(`auto_attack_system.gd`)
+  - 발사체 엔티티(`projectile.gd`)
+  - 전투 판정(`combat_system.gd`)
+  - 적 2종(`enemy_grunt.gd`, `enemy_dasher.gd`)
+- 스폰 디렉터 고도화(주기 램프 + 대셔 확률 램프)
+- EXP/레벨업 시스템 1차
+  - 업그레이드 데이터 16종(`data/upgrades.gd`, 복합 효과 포함)
+  - 업그레이드 적용기(`systems/upgrade_system.gd`, multi-effect 지원)
+  - 레벨업 선택 패널(`ui/level_up_panel.gd`, 1/2/3 입력)
+- 미니 보스 시스템 1차
+  - 미니보스 엔티티(`entities/enemy_miniboss.gd`)
+  - 보스 디렉터(`systems/miniboss_director.gd`)
+  - 10분 페이즈 경고/등장/처치 루프 + HUD 경고 표기
+- 보스 처치 UX 1차
+  - 이벤트 배너(`ui/event_banner.gd`)
+  - 보스 처치 보상(`+EXP`, `+HP`) 적용
+  - 짧은 슬로우모션 연출 적용
+- 헤드리스 Alpha Gate 원클릭 스크립트 추가
+  - `games/godot-relic-survivor/tools/qa/headless-alpha-gate.sh`
+  - 스모크/보스루프/재시작루프/장시간 시뮬레이션 순차 실행 + 로그 토큰 검증
+- 누수/경고 심화 추적 스크립트 추가
+  - `games/godot-relic-survivor/tools/qa/trace-objectdb-leak.sh`
+  - verbose 장시간 실행 후 `Leaked instance`/`WARNING` 요약 산출
+- 수동 QA 직전 준비상태 점검 스크립트 추가
+  - `games/godot-relic-survivor/tools/qa/pre-manual-qa-check.sh`
+  - 문서/도구/최근 게이트 로그 상태를 한 번에 검증
+- 체크포인트 리포트 스크립트 추가
+  - `games/godot-relic-survivor/tools/qa/checkpoint-report.sh`
+  - 최신 게이트/누수 추적 결과를 핸드오프용 markdown으로 산출
+- 밸런스 프리즈 검증 스크립트 추가
+  - `games/godot-relic-survivor/tools/qa/balance-freeze-check.sh`
+  - 수동 QA 전 핵심 상수(보스 패턴/압박 임계) 고정값 검증
+
+## Changed
+- `docs/projects/_index.md` 상태 갱신(archived + in-progress)
+- HUD 정보 확장(ENEMIES/SHOTS/EXP/MAX_HP/DASH + PRESSURE + 보스 경고/활성/격파 상태 + death recap)
+- Elite Pack 01 추가
+  - `enemy_elite_grunt.gd` / `enemy_elite_dasher.gd`
+  - 일반 웨이브 엘리트 스폰 확률/구간 로직 추가(`spawn_director.gd`)
+- Relic System 01 추가
+  - 유물 데이터 12종(`data/relics.gd`) 추가
+  - 유물 획득/적용 시스템(`systems/relic_system.gd`) 추가
+  - HUD/배너 유물 요약 출력(`ui/hud.gd`, `ui/event_banner.gd` 연동)
+- Stage Event Pack 01 추가
+  - 이벤트 데이터(`data/events.gd`) 및 런타임 시스템(`systems/stage_event_system.gd`) 추가
+  - 이벤트 오버레이(`ui/stage_event_overlay.gd`)로 텔레그래프/지대 가시화
+  - 이벤트 타입: `fog`, `slow_zone`, `shock_zone`
+- 미니보스 텔레그래프 가시성 강화
+  - 대시 예고(windup) 시각화/로그/HUD 상태 추가
+  - 보스 등장 직후 안전구간(`MINIBOSS_SPAWN_GRACE`) 및 근거리 즉시대시 제한(`MINIBOSS_DASH_MIN_DISTANCE`) 적용
+  - 콤보 대시 패턴(`MINIBOSS_COMBO_DASH_CHANCE`, `MINIBOSS_COMBO_DASH_GAP`) 도입
+  - 비대시형 소환 패턴(`WALL`) + 소환 텔레그래프(`MINIBOSS_SUMMON_*`) 도입
+- Boss Phase 2 업그레이드
+  - HP 구간 기반 전환(`MINIBOSS_PHASE2_HP_RATIO`) 및 전환 안전구간(`MINIBOSS_PHASE2_TRANSITION`) 추가
+  - 페이즈2에서 대시/소환 템포 강화(속도/간격/콤보/벽소환 확률 보정)
+  - HUD에 `PHASE`/`PHASE SHIFT` 상태 노출 및 전환 이벤트 배너 추가
+- Meta Growth 01 추가
+  - 런 종료 보상(Shards) + 영구 특성 3종(vitality/celerity/focus) 구현
+  - 저장 프로파일 `user://meta_profile.json` 로드/세이브 + 자동 특성 해금(초기형)
+  - HUD에 `META` 상태(샤드/런 수/영구특성 랭크) 노출
+- Character Pack 01 추가
+  - 캐릭터 2종(`ranger`, `warden`) 특성 프로파일 데이터 추가
+  - 런 시작 시 캐릭터 특성 자동 적용 + HUD `CHAR` 상태 노출
+  - 캐릭터 루프 QA(`character_ranger`, `character_warden`) 추가
+- Weapon Archetype Pack 01 추가
+  - 무기 계열 3종(`pierce`, `dot`, `aoe`) 프로파일 데이터 추가
+  - 런 시작 시 무기 계열 자동 적용 + HUD `WEAPON` 상태 노출
+  - 무기 루프 QA(`weapon_pierce`, `weapon_dot`, `weapon_aoe`) 추가
+- Active Skill Pack 01 추가
+  - Ranger/Warden 전용 액티브 스킬(`Windstep Burst`, `Bulwark Pulse`) 추가
+  - 입력 액션 `active_skill`(Q) + HUD `SKILL` 상태 노출
+  - 액티브 루프 QA(`active_ranger`, `active_warden`) 추가
+- Character/Weapon Tree Runtime 01 추가
+  - 트리 데이터(`data/character_trees.gd`) + 적용기(`systems/tree_progression.gd`) 추가
+  - 트리 정책 반영: `meta_shards` 공유 / 티어 비용(T1~T3=1/2/3) / 다음 라운드 적용
+  - `meta_profile.json` 확장(`tree_unlocks`, `tree_last_spent`) 및 HUD `TREE` 상태 노출
+  - 트리 루프 QA(`tree_ranger`, `tree_warden`) 추가
+- Tree UI/UX Pack 01 추가
+  - 트리 메뉴 패널(`ui/tree_panel.gd`) 추가, `T`로 열기/닫기 + `1/2/3` 해금 입력 지원
+  - `tree_ui` QA 루프 및 `TREE_PANEL_OPEN`, `TREE_UI_UNLOCK_CONFIRMED:*` 검증 토큰 추가
+- Visual Upgrade Pack 01 (Asset Integration)
+  - CC0 에셋(Kenney Space Shooter Redux) 적용: 플레이어/적/투사체/배경 스프라이트 교체
+  - 렌더링 품질 1차 업그레이드(가독성 유지 + 실루엣 다양화)
+  - 자산 출처/라이선스 등록(`09_asset_register.md`, `docs/assets/kenney_space_shooter_redux_LICENSE.txt`)
+- Quality+Feature Upgrade Pack 01
+  - 전투 피드백 강화: `impact_fx`(히트/킬 링) + `projectile trail`
+  - 웨이브 미션 시스템 추가(할당/진행/완료 보상)
+  - 엘리트 변형 패턴 추가(Grunt: juggernaut/berserk, Dasher: phantom/bulwark)
+- Feedback/Runtime Polish Fast Follow
+  - `texture_runtime.gd` 전역 캐시 도입(엔티티/투사체 텍스처 재사용)
+  - 미션 스트릭 보너스(`MISSION_STREAK:*`) + 실패 시 리셋(`MISSION_STREAK_RESET`) 추가
+  - HUD `MISSION STREAK` 상태 표시 추가
+  - `impact_fx` 링/스포크 연출 강화로 타격 가독성 개선
+- Core Runtime Refactor Pack 01
+  - `pressure_runtime.gd` 추가: 압박도 계산 책임 분리
+  - `levelup_advisor.gd` 추가: auto-levelup 점수화 로직 분리
+  - `game_root.gd` 오케스트레이션 단순화(pressure/advisor 위임)
+  - `balance-freeze-check.sh`가 신규 구조(`pressure_runtime.gd`)를 인식하도록 보강
+- Interface Boundary Cleanup Pack 01
+  - `game_root.gd` 내부 `has_method` 가드 제거(0건) 및 직접 제어 객체 호출 경계 명시화
+  - 불필요한 동적 분기 축소로 런타임 경로 단순화
+- Interface Boundary Cleanup Pack 02
+  - `hud.gd`, `boss_reward_runtime.gd` 내 `has_method` 가드 제거(직접 제어 객체 기준)
+  - 보스 경고/페이즈/텔레그래프 UI 표기 및 연출 호출 경로 단순화
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- VFX/Animation Polish Pack 01
+  - `impact_fx.gd` 이중 링/오비탈 파편/스포크 보강으로 타격/처치 피드백 강화
+  - `event_banner.gd` 슬라이드-인 + 페이드 진입 애니메이션 추가
+  - `level_up_panel.gd` 등장 오프셋/알파 이징 추가(패널 가독성 향상)
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- UI Readability Fast Follow
+  - `level_up_panel.gd` 카드형 3선택 레이아웃 전환(역할 컬러/요약/추천 노트/간이 지표)
+  - 카드 등장 스태거 애니메이션으로 시선 유도 강화
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- UX Input/History Fast Follow
+  - 레벨업 카드 마우스 hover/좌클릭 선택 지원(기존 숫자키 선택 유지)
+  - `upgrade_history_panel.gd` 추가 및 `H` 키 히스토리 토글 지원
+  - `game_state`에 선택 카드 히스토리(`levelup_history`) 누적 저장
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- UI/Graphics Overhaul Pack 01
+  - `hud.gd` 패널형 HUD 재설계(전투/미션/보스/메타/유물 분리)
+  - `arena_background.gd` 연출 강화(스타 레이어 + 센터 글로우 + 엣지 비네트)
+  - `project.godot` 1920x1080 기본 창/스트레치 설정 유지
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- Level Design / Fun Curve Pack 01
+  - `spawn_director.gd` 페이싱 스테이지 + breather 윈도우(`SPAWN_PACE_STAGE:*`, `SPAWN_BREATHER_ON`) 도입
+  - 스폰 엣지 반복 억제로 전투 방향성 다양화
+  - `mission_system.gd` 동적 미션 풀/Recover 난이도 완화(`MISSION_DIFFICULTY_RELAX`) 추가
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- Combat Feel Polish Pack 01
+  - `camera_fx.gd`에 전투 카메라 임팩트 API(light/heavy/player-hit) 추가
+  - `combat_system.gd` 히트/킬/피격 시 카메라 임팩트 연동(쿨다운 제어)
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- Title/Menu Framework Pack 01
+  - `title_menu.gd` 신규(START/RESUME/RESTART/QUIT 흐름)
+  - `game_root.gd`에 부트 타이틀 메뉴/ESC 인게임 메뉴 오케스트레이션 추가
+  - 헤드리스/QA 실행 시 메뉴 자동 스킵(`_should_show_title_menu_on_boot`)
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- Options/Settings Pack 01
+  - `options_menu.gd` 신규(SFX/카메라 임팩트/창 모드)
+  - `game_root.gd` 설정 저장/복원(`user://settings.cfg`) 및 메뉴 연동
+  - `camera_fx.gd` 임팩트 강도 설정 API 연동
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- Content/Fun Expansion Pack 01
+  - 보스 소환 CROSS 패턴 추가(`MINIBOSS_SUMMON_PATTERN_CROSS`)
+  - 이벤트 선택 가중치 동적화(반복 완화/압박·체력 기반 안정성 보정)
+  - 유물 세트 보너스(`RELIC_SET_BONUS:*`) 도입
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- Boss Rhythm/Fairness Pack 02
+  - 보스 소환 패턴 반복 억제(직전 패턴 repeat penalty)
+  - 소환 후 recovery window 도입
+  - CROSS 텔레그래프 시각 강화
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- Manual QA Handoff Packet 정리
+  - `21_alpha_manual_qa_handoff_packet.md` 추가
+  - Step22-A/22-B 이후 수동 QA 실행용 증적/체크포인트/스크린샷 규격 고정
+- 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
+  - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시
+  - 선택 후 예상 지표(예상 DPS/생존 지표, 간이 추정) 프리뷰 표시
+- 업그레이드 제안 시너지 튜닝(`systems/upgrade_system.gd`)
+  - 체력/레벨/과중첩(attack speed, multi-shot, mobility) 기반 동적 가중치 반영
+  - 실시간 압박도(low/mid/high) 신호를 반영한 가중치 보정 추가
+- QA auto-levelup 선택 로직 보강(`game_root.gd`)
+  - multi-effect 선택지 점수화 및 체력/압박 상황 반영
+- 씬/UI 구조 확장(ProjectileContainer + EventBanner + StageEventOverlay 추가)
+- 입력 액션 확장(level-up 선택 `1/2/3`)
+- 게임 상태 구조 확장(EXP/업그레이드 스택/유물 스택/이벤트 상태/런타임 모디파이어)
+- 전투 판정 확장(적별 접촉 피해/EXP 보상)
+- 전투 판정 성능 준비(`combat_system.gd`)
+  - 셀 기반 공간 인덱스 도입(충돌 후보 추출)
+- QA 런타임 옵션 확장(`--qa-autopilot`, `--qa-force-damage`, `--qa-auto-restart`, `--boss-pattern-test`, `--boss-phase2-test`, `--elite-test`, `--relic-test`, `--event-test`, `--meta-test`, `--character=<id>`, `--character-test`, `--weapon=<id>`, `--tree-test`, `--tree-ui-test`, `--feel-test`, `--mission-test`, `--elite-variant-test`)
+- `game_root` 책임 분리 리팩터링
+  - `core/runtime_options.gd`
+  - `systems/qa_runtime.gd`
+  - `systems/boss_reward_runtime.gd`
+- 난이도 2차 튜닝(적 속도/대시 빈도/스폰 곡선/보스 압박)
+- 난이도 3차 미세 튜닝(페이즈 기반 스폰 간격/Dasher 확률 보정)
+- 일반 웨이브 스폰 안전 반경 추가(`SPAWN_PLAYER_SAFE_RADIUS`, `SPAWN_SAFE_ATTEMPTS`)
+- 스폰 안전장치 추가(`ACTIVE_ENEMY_SOFT_CAP`, `ACTIVE_ENEMY_HARD_CAP`)
+- 이벤트 배너 2차 폴리싱(배경/페이드/상황별 강조색)
+- 카메라 연출 추가(`camera_fx.gd`): 경고/등장/처치 임팩트
+- 보스 페이즈 스폰 가드레일(보스 활성 시 웨이브 압박 완화)
+- 난이도 4차/5차 미세 튜닝(보스 페이즈/보스 처치 직후 회복 구간)
+- 난이도 6차 미세 튜닝(후반 웨이브 곡선 잠금: ramp/backoff/late-phase shaping)
+- 사운드 슬롯 구조 추가(`audio/sfx_slots.gd`) 및 보스 이벤트 훅 연결
+- SFX 프리셋 옵션화(`--sfx-preset=default|quiet|hype`) + 이벤트 타이밍 딜레이 조정
+- 업그레이드 확장:
+  - 총 16종으로 확대(기존 12 + 복합 효과 4)
+  - `upgrade_system.gd` multi-effect 처리 지원
+  - 가중치 기반 제안 로직 도입(업그레이드 출현 빈도 제어)
+- 프로젝트 README 실행 가이드 갱신
+  - `./tools/qa/headless-alpha-gate.sh` 실행법 및 로그 경로 안내 추가
+  - `trace-objectdb-leak.sh`, `pre-manual-qa-check.sh`, `balance-freeze-check.sh` 실행법 추가
+- `scripts/audio/sfx_slots.gd` headless 안전모드 추가
+  - headless 환경에서 오디오 스트림 로딩/재생 비활성화(`SFX_HEADLESS_MODE_ON`)
+- 머지 패키지 문서 최신화
+  - `14_pr_description_alpha_candidate.md` 전면 갱신
+  - `15_merge_handover_checklist.md` 실무 체크리스트 정렬
+
+## Fixed
+- `spawn_director.gd` 타입 추론 경고 에러 처리(명시 타입 적용)
+- `game_root` 과대 책임 구조 1차 해소(모듈 분리)
+- 미니보스 등장 직후/대시 준비 단계의 억울한 접촉 피해 리스크 완화
+- 게임오버 시 사망 원인/상황(death recap) 기록 누락 보완
+
+## Verification
+- 문서/경로 구조 반영 확인
+- `godotw --headless` 스모크 실행 통과 (`RELIC_SURVIVOR_BOOT_OK`)
+- 10분 시뮬레이션:
+  - `godotw --headless --fixed-fps 60 --quit-after 36000 -- --auto-levelup` x3 통과
+  - 튜닝 후 `godotw --headless --fixed-fps 60 --quit-after 36000 -- --auto-levelup --qa-autopilot` x2 통과
+- 5분 회귀 시뮬레이션:
+  - `godotw --headless --fixed-fps 60 --quit-after 18000 -- --auto-levelup --qa-autopilot` 통과
+  - `godotw --headless --fixed-fps 60 --quit-after 18000 -- --auto-levelup --qa-autopilot --sfx-preset=quiet` 통과
+- SFX 슬롯 검증:
+  - `--boss-test --auto-levelup --qa-autopilot --sfx-preset=hype`에서 warning/spawn/defeat 훅 정상 트리거
+  - `--sfx-preset=quiet` 실행 정상
+  - `SFX_SLOT_UNASSIGNED` 미출력 확인
+- 보스 루프 QA 3회:
+  - `godotw --headless --fixed-fps 60 --quit-after 5400 -- --boss-test --auto-levelup --qa-autopilot` x3
+  - `MINIBOSS_WARNING_ON`
+  - `MINIBOSS_SPAWNED`
+  - `MINIBOSS_DASH_TELEGRAPH_ON`
+  - `MINIBOSS_DASH_START`
+  - `MINIBOSS_DEFEATED`
+  - `BOSS_CLEAR_REWARD_APPLIED`
+  로그 확인
+- 보스 패턴 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 5400 -- --boss-pattern-test --auto-levelup --qa-autopilot`
+  - `MINIBOSS_SUMMON_TELEGRAPH_ON`, `MINIBOSS_SUMMON_CAST`
+  - `MINIBOSS_DASH_TELEGRAPH_ON`, `MINIBOSS_DASH_START`
+  - 패턴 다양성: `MINIBOSS_SUMMON_PATTERN_RING`, `MINIBOSS_SUMMON_PATTERN_WALL` 최소 1회 이상 확인
+  로그 확인
+- 보스 페이즈2 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 4200 -- --boss-phase2-test --auto-levelup --qa-autopilot`
+  - `MINIBOSS_PHASE2_TRANSITION`, `MINIBOSS_PHASE2_ACTIVE` 확인
+- 엘리트 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 2400 -- --elite-test --auto-levelup --qa-autopilot`
+  - `ELITE_SPAWNED:elite_grunt`, `ELITE_SPAWNED:elite_dasher` 확인
+- 유물 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --relic-test --auto-levelup --qa-autopilot`
+  - `RELIC_GRANTED:*` 2회 이상 확인
+- 이벤트 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 2400 -- --event-test --auto-levelup --qa-autopilot`
+  - `EVENT_START:fog`, `EVENT_START:slow_zone`, `EVENT_START:shock_zone` 확인
+- 메타 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 2400 -- --meta-test --qa-force-damage --qa-auto-restart --auto-levelup`
+  - `META_PROFILE_LOADED`, `META_RUN_REWARD` 확인
+- 캐릭터 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --character=ranger --auto-levelup --qa-autopilot`
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --character=warden --auto-levelup --qa-autopilot`
+  - `CHARACTER_SELECTED:ranger`, `CHARACTER_SELECTED:warden` 확인
+- 액티브 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --character=ranger --character-test --auto-levelup --qa-autopilot`
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --character=warden --character-test --auto-levelup --qa-autopilot`
+  - `ACTIVE_SKILL_USED:ranger_burst`, `ACTIVE_SKILL_USED:warden_bulwark` 확인
+- 무기 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --weapon=pierce --auto-levelup --qa-autopilot`
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --weapon=dot --auto-levelup --qa-autopilot`
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --weapon=aoe --auto-levelup --qa-autopilot`
+  - `WEAPON_PIERCE_HIT`, `WEAPON_DOT_APPLIED`, `WEAPON_AOE_HIT` 확인
+- 트리 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --character=ranger --tree-test --auto-levelup --qa-autopilot`
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --character=warden --tree-test --auto-levelup --qa-autopilot`
+  - `TREE_PROFILE_LOADED`, `TREE_NODE_UNLOCKED:*`, `TREE_APPLIED:*` 확인
+- 트리 UI 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --character=ranger --tree-ui-test --auto-levelup --qa-autopilot`
+  - `TREE_PANEL_OPEN`, `TREE_UI_UNLOCK_CONFIRMED:*` 확인
+- 감성(피드백) 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 1800 -- --feel-test --auto-levelup --qa-autopilot`
+  - `HIT_FX_ON`, `KILL_FX_ON`, `PROJECTILE_TRAIL_ON` 확인
+- 미션 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 2400 -- --mission-test --elite-test --auto-levelup --qa-autopilot`
+  - `MISSION_ASSIGNED:*`, `MISSION_COMPLETED:*`, `MISSION_STREAK:*` 확인
+- 엘리트 변형 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 2400 -- --elite-test --elite-variant-test --auto-levelup --qa-autopilot`
+  - `ELITE_VARIANT:*` 확인
+- 재시작 루프 QA:
+  - `godotw --headless --fixed-fps 60 --quit-after 3000 -- --qa-force-damage --qa-auto-restart --qa-autopilot --auto-levelup`
+  - `QA_FORCE_DEATH`, `QA_AUTO_RESTART_TRIGGERED` 반복 확인
+- `mcporter call godot-local.godot_run_headless` 실행 통과
+- 원클릭 게이트 검증(2026-03-03):
+  - `./tools/qa/headless-alpha-gate.sh` PASS
+  - 산출 로그: `.qa/headless/<timestamp>/{smoke,boss_loop,boss_pattern,boss_phase2,elite_loop,relic_loop,event_loop,feel_loop,mission_loop,elite_variant_loop,character_ranger,character_warden,active_ranger,active_warden,tree_ranger,tree_warden,tree_ui,weapon_pierce,weapon_dot,weapon_aoe,meta_loop,restart_loop,long_sim}.log`
+  - boss_pattern 다양성: RING/WALL 최소 1회 체크 PASS
+  - 경고 요약: `warnings=0`, `leak_lines=0`
+- 누수 심화 추적(2026-03-03):
+  - `./tools/qa/trace-objectdb-leak.sh` 실행
+  - `leak-summary.txt` 기준 `Leaked instance` 미검출
+- 체크포인트 리포트(2026-03-03):
+  - `./tools/qa/checkpoint-report.sh` 실행
+  - `.qa/reports/checkpoint-<timestamp>.md` 생성 확인
+  - `.qa/reports/latest-checkpoint.md` 갱신 확인
+- 밸런스 프리즈 체크(2026-03-03):
+  - `./tools/qa/balance-freeze-check.sh` PASS
+
+## Known Issues
+- 현재 보스 SFX는 generated 자산(v2)이며, 향후 최종 음원 교체 여지
+- 후반 웨이브 밀도 미세조정(6차 폴리싱) 여지
+- 실수동 QA 3회(키 입력 기반 조작감/난이도 체감) 사용자 요청으로 보류
+- 실GUI 환경 FPS 실측 체크 보류(수동 QA 재개 시 동시 수행)
+- headless 오디오를 비활성화해 ObjectDB 누수 경고는 해소했으며, GUI 실측 시 오디오 경로 재확인 필요
+
+- Step 23-HF1 GUI Boot Path Hotfix
+  - `runtime_options` 키 참조 오류 수정(`boss_test` -> `boss_test_boost`)
+  - 비헤드리스 부팅 SCRIPT ERROR 제거
+  - 회귀 검증: headless gate + pre-manual + checkpoint 재통과
+
+- QA/Automation Guard Pack 01
+  - boss_pattern 검증에 CROSS 패턴 필수 체크 추가
+  - 자동화 모드 판별 로직 단일화(`is_automation_mode`)
+  - 보스 summon recovery HUD/텔레그래프 피드백 강화
+  - 회귀 검증: headless/pre-manual/checkpoint/leak/freeze 재통과
+
+- FPS Probe/Manual QA Assist Pack 01
+  - 런타임 옵션 `--fps-probe` 추가
+  - `FPS_PROBE_SAMPLE:cur/avg/min/max` 로그 출력
+  - 수동 QA 문서/핸드오프 패킷에 실행 절차 반영
+  - 회귀 검증: headless/pre-manual/checkpoint/leak/freeze 재통과
+
+- Manual QA Ops Pack 01
+  - `tools/qa/manual-qa-runbook.sh` 추가
+  - `tools/qa/manual-fps-summary.sh` 추가
+  - `manual-qa/2026-03-05/run_sheet.md` 템플릿 추가
+
+- Quality/Fairness Polish Pack 01
+  - 보스 구간 이벤트 defer(`EVENT_DEFER_BOSS`)로 난이도 스파이크 완화
+  - summon recovery 배너/카메라 피드백 강화
+  - HUD 유물 역할 카운트/활성 세트 표시 추가
+  - 회귀 검증: headless/pre-manual/checkpoint/leak/freeze 재통과
+
+- Combat Feel/SFX Mix Polish Pack 02
+  - 히트 cadence 기반 카메라 임팩트 리듬 튜닝
+  - 플레이어 피격 임팩트 강도 스케일링 강화
+  - 보스 SFX 믹스 레벨/강조 재조정
+  - 회귀 검증: headless/pre-manual/checkpoint/leak/freeze 재통과
+
+- Pattern Fairness/Manual QA Start Assist Pack 03
+  - 미니보스 combo dash 연속 패턴 soft-cap
+  - elite spawn 안전 보정(저체력/미션/이벤트)
+  - manual runbook Start 리마인더/상태 출력 추가
+  - 회귀 검증: headless/pre-manual/checkpoint/leak/freeze 재통과

@@ -1,0 +1,204 @@
+# 02_development_plan — Godot Relic Survivor
+
+## 목표
+- 단기: `v0.1.0-alpha` 확정(수동 QA + GUI FPS 실측)
+- 병행: 다음 콘텐츠 확장 라인(M4~M16) 사전 설계/작업 분해
+
+## 작업 분해(WBS)
+
+### A. 현재 알파 기준선(완료/대기)
+- [x] 프로젝트/문서 초기화
+- [x] 코어 루프(이동/자동공격/피격)
+- [x] 적 2종 + 스폰 디렉터
+- [x] EXP/레벨업 3지선다
+- [x] 업그레이드 확장(16종 + 복합 효과 적용기)
+- [x] 미니 보스 1종 (경고/등장/패턴/보상 연동)
+- [x] QA 자동화(게이트/누수추적/리드니스/프리즈 체크)
+- [ ] 수동 QA 3회
+- [ ] GUI FPS 실측
+
+### B. 콘텐츠 확장 1차(요청 반영, 순차 진행)
+- [x] **Step 1 — Elite Pack 01**
+  - [x] Elite Grunt 설계/구현
+  - [x] Elite Dasher 설계/구현
+  - [x] 스폰 확률/구간 테이블 반영
+  - [x] QA 시나리오/문서 업데이트
+- [x] **Step 2 — Relic System 01 (12종)**
+  - [x] 유물 데이터 구조/런타임 적용기 추가
+  - [x] 유물 획득 UX(표시/설명/상태) 추가
+  - [x] 유물-업그레이드 시너지 규칙 반영
+  - [x] QA/밸런스 로그 업데이트
+- [x] **Step 3 — Stage Event Pack 01 (3종)**
+  - [x] 안개/감속지대/전류지대 구현
+  - [x] 이벤트 텔레그래프 및 안전장치 적용
+  - [x] 이벤트별 실패 원인/피드백 정리
+  - [x] QA 시나리오 확장
+- [x] **Step 4 — Boss Phase 2 Upgrade**
+  - [x] 페이즈 전환 규칙(HP 구간 기반) 구현
+  - [x] 전환 연출/안전구간 반영
+  - [x] 페이즈2 패턴 2종 이상 반영
+  - [x] boss-pattern 게이트 확장
+  - [x] 수동 QA 런시트에 phase2 항목 추가
+  - [x] 릴리즈/체크리스트/저널 반영
+- [x] **Step 5 — Meta Growth 01**
+  - [x] 런 종료 보상(Shards) + 영구 특성 3종 구현
+  - [x] 저장 프로파일(user://meta_profile.json) 로드/세이브 연동
+  - [x] 런 시작 시 영구 보정 적용 + HUD META 상태 노출
+  - [x] `--meta-test` + `meta_loop` 게이트 확장
+  - [x] 릴리즈/체크리스트/저널 반영
+- [x] **Step 6 — Character Pack 01**
+  - [x] 캐릭터 2종(Ranger/Warden) 프로파일 구현
+  - [x] 런타임 선택(`--character=<id>`) 및 HUD CHAR 상태 노출
+  - [x] `character_ranger`, `character_warden` 게이트 확장
+  - [x] 릴리즈/체크리스트/저널 반영
+- [x] **Step 7 — Weapon Archetype Pack 01**
+  - [x] 무기 계열 3종(pierce/dot/aoe) 프로파일 구현
+  - [x] 런타임 선택(`--weapon=<id>`) 및 HUD WEAPON 상태 노출
+  - [x] `weapon_pierce`, `weapon_dot`, `weapon_aoe` 게이트 확장
+  - [x] 릴리즈/체크리스트/저널 반영
+- [x] **Step 8 — Active Skill Pack 01**
+  - [x] 캐릭터 전용 액티브 스킬 2종(Ranger/Warden) 구현
+  - [x] 입력 액션(`active_skill`, Q) 및 HUD SKILL 상태 노출
+  - [x] `active_ranger`, `active_warden` 게이트 확장
+  - [x] 릴리즈/체크리스트/저널 반영
+- [x] **Step 9 — Character/Weapon Tree Design 01**
+  - [x] Draft 01 설계 문서 작성(`19_character_weapon_tree_design.md`)
+  - [x] 트리 재화/해금 단가/적용 시점 정책 확정
+  - [x] 데이터 스키마(`character_trees.gd`) 상세 고정
+  - [x] `tree_*_loop` QA 토큰/시나리오 명세 고정
+- [x] **Step 10 — Character/Weapon Tree Runtime 01**
+  - [x] 트리 런타임(`tree_progression.gd`) 구현
+  - [x] 프로파일 연동(`tree_unlocks`, `tree_last_spent`) 및 HUD `TREE` 표시
+  - [x] `--tree-test`, `tree_ranger`, `tree_warden` 게이트 확장
+  - [x] 릴리즈/체크리스트/저널 반영
+- [x] **Step 11 — Tree UI/UX Pack 01**
+  - [x] 트리 패널(`tree_panel.gd`) UI/입력 흐름 구현
+  - [x] 수동 트리 해금 UX(`T`, `1/2/3`) 연결
+  - [x] `--tree-ui-test` + `tree_ui` 게이트 확장
+  - [x] 릴리즈/체크리스트/저널 반영
+- [x] **Step 12 — Visual Upgrade Pack 01**
+  - [x] CC0 에셋(플레이어/적/투사체/배경) 1차 적용
+  - [x] 스프라이트 렌더링 경로 + 폴백 경로 유지
+  - [x] 자산 출처/라이선스 등록(`09_asset_register.md`)
+  - [x] 릴리즈/체크리스트/저널 반영
+- [x] **Step 13 — Quality+Feature Upgrade Pack 01**
+  - [x] 히트/킬 VFX + 투사체 트레일 강화
+  - [x] 웨이브 미션 시스템(할당/진행/완료 보상) 추가
+  - [x] 엘리트 변형 패턴 2종씩(Grunt/Dasher) 추가
+  - [x] `feel_loop`, `mission_loop`, `elite_variant_loop` 게이트 확장
+- [x] **Step 14 — Feedback/Runtime Polish Fast Follow**
+  - [x] `texture_runtime.gd` 텍스처 전역 캐시 도입
+  - [x] 미션 스트릭 보너스/리셋 + HUD 스트릭 표시 추가
+  - [x] `impact_fx` 연출 폴리싱(링/스포크)
+  - [x] 게이트/누수/체크포인트 재검증 + 문서 동기화
+- [x] **Step 15 — Core Runtime Refactor Pack 01**
+  - [x] `pressure_runtime.gd`(압박도 계산) 분리
+  - [x] `levelup_advisor.gd`(auto-levelup 선택) 분리
+  - [x] `game_root.gd` 위임 구조 적용
+  - [x] QA 스크립트(`balance-freeze-check.sh`) 리팩토링 구조 대응
+- [x] **Step 16 — Interface Boundary Cleanup Pack 01**
+  - [x] `game_root.gd` 내부 `has_method` 경계 정리(0건)
+  - [x] 직접 관리 객체 호출 경로 명시화
+  - [x] headless/leak/freeze/checkpoint 재검증
+- [x] **Step 17 — Interface Boundary Cleanup Pack 02**
+  - [x] `hud.gd`, `boss_reward_runtime.gd` 내부 `has_method` 경계 정리(0건)
+  - [x] 보스 관련 HUD/연출 호출 경로 단순화
+  - [x] headless/leak/freeze/checkpoint 재검증
+- [x] **Step 18 — VFX/Animation Polish Pack 01**
+  - [x] `impact_fx.gd` 2차 연출 보강(이중 링/오비탈/스포크)
+  - [x] `event_banner.gd` 진입 모션(슬라이드+페이드) 추가
+  - [x] `level_up_panel.gd` 등장 이징/알파 애니메이션 추가
+  - [x] 레벨업 카드 마우스 선택 + `H` 히스토리 패널 Fast Follow 적용
+  - [x] headless/leak/freeze/checkpoint 재검증
+- [x] **Step 19 — UI/Graphics Overhaul Pack 01**
+  - [x] HUD 패널형 재설계(전투/미션/보스/메타/유물 분리)
+  - [x] 배경 연출 업그레이드(스타 레이어/비네트/센터 글로우)
+  - [x] 수동 UX 체크 항목(마우스/히스토리/HUD 가독성) 문서 갱신
+  - [x] headless/leak/freeze/checkpoint 재검증
+- [x] **Step 23 — Alpha Manual QA Handoff Packet**
+  - [x] 수동 QA 핸드오프 패킷 신규 작성(`21_alpha_manual_qa_handoff_packet.md`)
+  - [x] 최신 자동검증 증적/체크포인트 경로 고정
+  - [x] 수동 QA 기록 템플릿/스크린샷 규격 확정
+- [x] **Step 24-A — QA/Automation Guard Pack 01**
+  - [x] `boss_pattern` 게이트 CROSS 패턴 검증 추가
+  - [x] 자동화 모드 판별 로직 단일화(`runtime_options.is_automation_mode`)
+  - [x] 보스 summon recovery HUD/텔레그래프 피드백 강화
+  - [x] headless/leak/freeze/checkpoint 재검증
+- [x] **Step 24-B — FPS Probe/Manual QA Assist Pack 01**
+  - [x] `--fps-probe` 런타임 옵션 + `FPS_PROBE_SAMPLE:*` 로그 추가
+  - [x] 수동 QA 문서에 FPS probe 실행 절차 반영
+  - [x] headless/leak/freeze/checkpoint 재검증
+- [x] **Step 24-C — Manual QA Ops Pack 01**
+  - [x] 수동 QA runbook 스크립트 추가
+  - [x] FPS summary 스크립트 추가
+  - [x] run sheet 템플릿 추가
+- [x] **Step 25-A — Quality/Fairness Polish Pack 01**
+  - [x] 보스 구간 이벤트 defer 로직 추가(과부하 완화)
+  - [x] summon recovery 피드백(배너/카메라) 강화
+  - [x] HUD 유물 세트 진행도/활성 표시 강화
+  - [x] headless/leak/freeze/checkpoint 재검증
+- [x] **Step 25-B — Combat Feel/SFX Mix Polish Pack 02**
+  - [x] 히트 cadence 기반 카메라 임팩트 리듬 튜닝
+  - [x] 플레이어 피격 임팩트 스케일링 강화
+  - [x] 보스 SFX 믹스/강조 재조정
+  - [x] headless/leak/freeze/checkpoint 재검증
+- [x] **Step 25-C — Pattern Fairness/Manual QA Start Assist Pack 03**
+  - [x] 미니보스 combo dash 연속 패턴 soft-cap 적용
+  - [x] elite spawn 확률 안전 보정(저체력/dash_drill/shock_zone)
+  - [x] manual runbook Start 리마인더 + 상태 로그 추가
+  - [x] headless/leak/freeze/checkpoint 재검증
+
+## 코드 구조 계획
+- `scripts/core/`: 게임 루프/상태/시그널/모드
+- `scripts/entities/`: Player/Enemy/Projectile/Boss/Elite
+- `scripts/systems/`: Spawn/Combat/Upgrade/QA/Event/Relic
+- `scripts/ui/`: HUD/LevelUpPanel/EventBanner/GameOver/Recap
+- `scripts/data/`: 밸런스/업그레이드/유물/이벤트 테이블
+
+## 공수 추정(콘텐츠 확장)
+- Step 1 Elite Pack 01: **1.0 ~ 1.5일**
+- Step 2 Relic 12종: **2.0 ~ 3.0일**
+- Step 3 Stage Event 3종: **1.5 ~ 2.5일**
+- Step 4 Boss Phase 2: **1.0 ~ 2.0일**
+- Step 5 Meta Growth 01: **1.0 ~ 1.5일**
+- Step 6 Character Pack 01: **1.0 ~ 1.5일**
+- Step 7 Weapon Archetype Pack 01: **1.0 ~ 1.5일**
+- Step 8 Active Skill Pack 01: **1.0 ~ 1.5일**
+- Step 9 Character/Weapon Tree Design 01: **0.5 ~ 1.0일**
+- Step 10 Character/Weapon Tree Runtime 01: **1.0 ~ 1.5일**
+- Step 11 Tree UI/UX Pack 01: **0.5 ~ 1.0일**
+- Step 12 Visual Upgrade Pack 01: **0.5 ~ 1.0일**
+- Step 13 Quality+Feature Upgrade Pack 01: **1.0 ~ 1.5일**
+- Step 14 Feedback/Runtime Polish Fast Follow: **0.5 ~ 1.0일**
+- Step 15 Core Runtime Refactor Pack 01: **0.5 ~ 1.0일**
+- Step 16 Interface Boundary Cleanup Pack 01: **0.25 ~ 0.75일**
+- Step 17 Interface Boundary Cleanup Pack 02: **0.25 ~ 0.75일**
+- Step 18 VFX/Animation Polish Pack 01: **0.5 ~ 1.0일**
+- Step 19 UI/Graphics Overhaul Pack 01: **0.75 ~ 1.5일**
+- Step 20-B Level Design / Fun Curve Pack 01: **0.75 ~ 1.5일**
+- Step 20-C Combat Feel Polish Pack 01: **0.5 ~ 1.0일**
+- Step 21-A Title/Menu Framework Pack 01: **0.5 ~ 1.0일**
+- Step 21-B Options/Settings Pack 01: **0.5 ~ 1.0일**
+- Step 22-A Content/Fun Expansion Pack 01: **0.75 ~ 1.5일**
+- Step 22-B Boss Rhythm/Fairness Pack 02: **0.5 ~ 1.0일**
+- Step 23 Alpha Manual QA Handoff Packet: **0.25 ~ 0.5일**
+- Step 24-A QA/Automation Guard Pack 01: **0.25 ~ 0.5일**
+- Step 24-B FPS Probe/Manual QA Assist Pack 01: **0.25 ~ 0.5일**
+- Step 24-C Manual QA Ops Pack 01: **0.25 ~ 0.5일**
+- Step 25-A Quality/Fairness Polish Pack 01: **0.5 ~ 1.0일**
+- Step 25-B Combat Feel/SFX Mix Polish Pack 02: **0.5 ~ 1.0일**
+- Step 25-C Pattern Fairness/Manual QA Start Assist Pack 03: **0.25 ~ 0.75일**
+- 총합(문서/QA 포함): **21.5 ~ 38.75일**
+
+## 검증 계획
+- 자동:
+  - `headless-alpha-gate.sh`
+  - `trace-objectdb-leak.sh`
+  - `pre-manual-qa-check.sh`
+  - `balance-freeze-check.sh`
+- 수동:
+  - 패턴 가독성/억울사/피드백 체감 중심 3회 플레이
+
+## 보고 계획
+- 단계 완료 시 중간 보고(체크리스트 + 위험요인 + 다음 단계)
+- 주요 결정/변경 즉시 문서 및 메모 반영

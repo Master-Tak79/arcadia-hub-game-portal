@@ -1,0 +1,418 @@
+# 18_content_expansion_checklist
+
+## 공통 체크리스트 (각 Step 공통)
+- [ ] 구현 범위 코드 반영
+- [ ] 관련 데이터 테이블 업데이트
+- [ ] HUD/피드백/UI 가독성 점검
+- [ ] `headless-alpha-gate.sh` PASS
+- [ ] `trace-objectdb-leak.sh` PASS
+- [ ] `pre-manual-qa-check.sh` PASS
+- [ ] `checkpoint-report.sh` 생성/갱신 확인
+- [ ] 문서 동기화(04/05/06/10/12/13/README)
+- [ ] 커밋 메시지에 Step 번호/핵심 변경 명시
+
+---
+
+## Step 1 — Elite Pack 01
+- [x] Elite Grunt 구현
+- [x] Elite Dasher 구현
+- [x] 스폰 테이블 반영
+- [x] elite 구분 HUD/로그 반영
+- [x] 밸런스 로그 기록(12)
+- [x] 게이트에 elite_loop 추가 및 토큰 검증 반영
+
+## Step 2 — Relic System 01 (12종)
+- [x] 유물 데이터 구조 추가
+- [x] 유물 획득/적용 시스템 추가
+- [x] 유물 UI(획득/효과 요약) 추가
+- [x] 유물 12종 효과 구현
+- [x] OP 조합 완화 규칙 반영
+- [x] relic_loop QA 케이스 및 토큰 검증 반영
+
+## Step 3 — Stage Event Pack 01 (3종)
+- [x] 안개 이벤트
+- [x] 감속지대 이벤트
+- [x] 전류지대 이벤트
+- [x] 이벤트 텔레그래프/안전장치 반영
+- [x] death recap 이벤트 원인 구분 반영
+- [x] event_loop QA 케이스 및 토큰 검증 반영
+
+## Step 4 — Boss Phase 2 Upgrade
+- [x] 페이즈 전환 조건/상태 구현
+- [x] 전환 연출/안전구간 반영
+- [x] 페이즈2 패턴 2종 이상 반영
+- [x] boss-pattern 게이트 확장
+- [x] 수동 QA 런시트에 phase2 항목 추가
+
+## Step 5 — Meta Growth 01
+- [x] 런 종료 보상(Shards) 시스템 구현
+- [x] 영구 특성 3종(vitality/celerity/focus) 구현
+- [x] 저장 프로파일 로드/세이브(user://) 반영
+- [x] HUD META 상태 표시(샤드/런수/특성 랭크)
+- [x] `meta_loop` QA 케이스 및 토큰 검증 반영
+
+## Step 6 — Character Pack 01
+- [x] 캐릭터 2종(Ranger/Warden) 프로파일 구현
+- [x] 런타임 선택(`--character=<id>`) 인터페이스 추가
+- [x] HUD CHAR 상태 표시 반영
+- [x] `character_ranger`, `character_warden` QA 케이스 및 토큰 검증 반영
+- [x] 수동 QA 런시트에 캐릭터 체감 항목 반영
+
+## Step 7 — Weapon Archetype Pack 01
+- [x] 무기 계열 3종(pierce/dot/aoe) 프로파일 구현
+- [x] 런타임 선택(`--weapon=<id>`) 인터페이스 추가
+- [x] HUD WEAPON 상태 표시 반영
+- [x] `weapon_pierce`, `weapon_dot`, `weapon_aoe` QA 케이스 및 토큰 검증 반영
+- [x] 수동 QA 런시트에 무기 체감 항목 반영
+
+## Step 8 — Active Skill Pack 01
+- [x] 캐릭터 전용 액티브 스킬 2종(Ranger/Warden) 구현
+- [x] 입력 액션(`active_skill`) 및 HUD SKILL 상태 반영
+- [x] `active_ranger`, `active_warden` QA 케이스 및 토큰 검증 반영
+- [x] 수동 QA 런시트에 액티브 스킬 체감 항목 반영
+- [x] 캐릭터/무기/메타 동시 경로에서 회귀 없음 확인
+
+## Step 9 — Character/Weapon Tree Design 01
+- [x] 설계 문서 Draft 01 작성 (`19_character_weapon_tree_design.md`)
+- [x] 트리 재화 정책 확정(공유/분리)
+- [x] 트리 노드 해금 단가 규칙 확정
+- [x] 런 적용 시점(즉시/다음 라운드) 확정
+- [x] `tree_*_loop` QA 토큰 명세 확정
+
+## Step 10 — Character/Weapon Tree Runtime 01
+- [x] 트리 데이터(`character_trees.gd`) 구현
+- [x] 트리 런타임(`tree_progression.gd`) 구현
+- [x] 메타 프로파일 트리 필드(`tree_unlocks`, `tree_last_spent`) 연동
+- [x] `--tree-test` + `tree_ranger`, `tree_warden` QA 케이스 및 토큰 검증 반영
+- [x] HUD `TREE` 상태 표시 및 문서 동기화 반영
+
+## Step 11 — Tree UI/UX Pack 01
+- [x] 트리 패널(`tree_panel.gd`) UI 구현
+- [x] 수동 해금 입력(`T`, `1/2/3`) 흐름 구현
+- [x] `--tree-ui-test` + `tree_ui` QA 케이스 및 토큰 검증 반영
+- [x] 트리 패널/해금 피드백 UX 반영
+- [x] 문서/릴리즈/저널 동기화 반영
+
+## Step 12 — Visual Upgrade Pack 01
+- [x] CC0 에셋(플레이어/적/투사체/배경) 1차 적용
+- [x] 스프라이트 렌더링 경로 + 폴백 경로 유지
+- [x] 배경 텍스처 레이어 적용 및 가독성 유지 조정
+- [x] 자산 출처/라이선스 등록(`09_asset_register.md`)
+- [x] 문서/릴리즈/저널 동기화 반영
+
+## Step 13 — Quality+Feature Upgrade Pack 01
+- [x] 히트/킬 VFX + 투사체 트레일 강화
+- [x] 웨이브 미션 시스템 구현(할당/진행/완료)
+- [x] 엘리트 변형 패턴(Grunt/Dasher 각 2종) 구현
+- [x] `feel_loop`, `mission_loop`, `elite_variant_loop` 게이트 및 토큰 검증 반영
+- [x] 문서/릴리즈/저널 동기화 반영
+
+## Step 14 — Feedback/Runtime Polish Fast Follow
+- [x] `texture_runtime.gd` 전역 캐시 도입
+- [x] 미션 스트릭 보너스/리셋 로직 반영
+- [x] HUD 미션 스트릭 상태 표시 반영
+- [x] `impact_fx` 연출 폴리싱(링+스포크)
+- [x] 자동검증 재통과 + 문서 동기화 반영
+
+## Step 15 — Core Runtime Refactor Pack 01
+- [x] `pressure_runtime.gd`(압박도 계산) 분리
+- [x] `levelup_advisor.gd`(auto-levelup 점수화) 분리
+- [x] `game_root.gd` 위임 구조 적용
+- [x] `balance-freeze-check.sh` 신규 구조 대응
+- [x] 자동검증 재통과 + 문서 동기화 반영
+
+## Step 16 — Interface Boundary Cleanup Pack 01
+- [x] `game_root.gd` 내부 `has_method` 가드 제거(0건)
+- [x] 직접 제어 객체 호출 경계 명시화
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+- [x] 문서/릴리즈/저널 동기화 반영
+
+## Step 17 — Interface Boundary Cleanup Pack 02
+- [x] `hud.gd`, `boss_reward_runtime.gd` 내부 `has_method` 가드 제거(0건)
+- [x] 보스 경고/페이즈/텔레그래프 HUD 및 연출 호출 경계 단순화
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+- [x] 문서/릴리즈/저널 동기화 반영
+
+## Step 18 — VFX/Animation Polish Pack 01
+- [x] `impact_fx.gd` 2차 연출 보강(이중 링/오비탈/스포크)
+- [x] `event_banner.gd` 슬라이드-인/페이드 진입 모션 추가
+- [x] `level_up_panel.gd` 등장 이징/알파 애니메이션 추가
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+- [x] 문서/릴리즈/저널 동기화 반영
+
+## Step 19 — UI/Graphics Overhaul Pack 01
+- [x] HUD 패널형 재설계(전투/미션/보스/메타/유물 분리)
+- [x] 배경 연출 강화(스타레이어/비네트/센터글로우)
+- [x] 레벨업 카드 클릭/H 히스토리 UX를 수동 QA 프로토콜에 통합
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+- [x] 문서/릴리즈/저널 동기화 반영
+
+## Step 20-B — Level Design / Fun Curve Pack 01
+- [x] 스폰 페이싱 스테이지/브리더 윈도우 도입
+- [x] 스폰 방향 반복 억제(엣지 분산)
+- [x] 동적 미션 풀 + Recover 난이도 완화 도입
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+- [x] 문서/릴리즈/저널 동기화 반영
+
+## Step 20-C — Combat Feel Polish Pack 01
+- [x] 카메라 임팩트 API(light/heavy/player-hit) 추가
+- [x] 히트/킬/피격 카메라 연동(쿨다운 제어)
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+- [x] 문서/릴리즈/저널 동기화 반영
+
+## Step 21-A — Title/Menu Framework Pack 01
+- [x] 부트 타이틀 메뉴(START/QUIT) 구현
+- [x] 인게임 ESC 메뉴(RESUME/RESTART/QUIT) 구현
+- [x] QA/헤드리스 자동 스킵 분기 구현
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+- [x] 문서/릴리즈/저널 동기화 반영
+
+## Step 21-B — Options/Settings Pack 01
+- [x] OPTIONS 메뉴(SFX/카메라 임팩트/창 모드) 구현
+- [x] 설정 저장/복원(`user://settings.cfg`) 구현
+- [x] 타이틀 메뉴 OPTIONS 버튼 연동
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+- [x] 문서/릴리즈/저널 동기화 반영
+
+## Step 22-A — Content/Fun Expansion Pack 01
+- [x] 보스 CROSS 소환 패턴 추가
+- [x] 이벤트 반복 완화/안정성 기반 동적 가중치 도입
+- [x] 유물 세트 보너스 도입(attack/mobility/survival/hybrid)
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+- [x] 문서/릴리즈/저널 동기화 반영
+
+## Step 22-B — Boss Rhythm/Fairness Pack 02
+- [x] 보스 소환 패턴 repeat penalty 적용
+- [x] 보스 소환 후 recovery window 도입
+- [x] CROSS 텔레그래프 시각 강화
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+- [x] 문서/릴리즈/저널 동기화 반영
+
+## Step 23 — Alpha Manual QA Handoff Packet
+- [x] `21_alpha_manual_qa_handoff_packet.md` 작성
+- [x] 최신 자동검증 증적 경로 고정
+- [x] 수동 QA 기록 템플릿/스크린샷 규격 확정
+- [x] `pre-manual-qa-check.sh` / `checkpoint-report.sh` 최신 실행
+
+## Step 24-A — QA/Automation Guard Pack 01
+- [x] boss_pattern 게이트 CROSS 패턴 필수 검증 추가
+- [x] 자동화 모드 판별 로직 단일화
+- [x] summon recovery HUD/시각 피드백 강화
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+
+## Step 24-B — FPS Probe/Manual QA Assist Pack 01
+- [x] `--fps-probe` 런타임 옵션 + FPS 로그 샘플링 추가
+- [x] 수동 QA 프로토콜/핸드오프 문서에 probe 절차 반영
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+
+## Step 24-C — Manual QA Ops Pack 01
+- [x] `manual-qa-runbook.sh`/`manual-fps-summary.sh` 추가
+- [x] run sheet 템플릿 추가(`manual-qa/2026-03-05/run_sheet.md`)
+- [x] 수동 QA 운영 문서 동기화
+
+## Step 25-A — Quality/Fairness Polish Pack 01
+- [x] 보스 구간 이벤트 defer(`EVENT_DEFER_BOSS`) 추가
+- [x] summon recovery 배너/카메라 피드백 강화
+- [x] HUD 세트 진행도/활성 세트 표시 강화
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+
+## Step 25-B — Combat Feel/SFX Mix Polish Pack 02
+- [x] hit cadence 기반 카메라 임팩트 리듬 튜닝
+- [x] 플레이어 피격 임팩트 스케일링 강화
+- [x] 보스 SFX 믹스 레벨/강조 조정
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+
+## Step 25-C — Pattern Fairness/Manual QA Start Assist Pack 03
+- [x] 미니보스 combo dash 연속 패턴 soft-cap
+- [x] elite spawn 확률 안전 보정
+- [x] manual runbook Start 리마인더/상태 출력 추가
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+
+---
+
+## 결과 기록 템플릿
+- Step:
+- 구현 커밋:
+- 자동검증 결과:
+- 리스크/이슈:
+- 다음 Step 진행 승인:
+
+### Step 1 결과 기록
+- Step: Elite Pack 01
+- 구현 커밋: `338cece` (review pass 기반), `9303bf6`(docs plan), 이번 단계 코드/문서 일괄 커밋 예정
+- 자동검증 결과: headless gate PASS (`elite_loop` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: elite long_sim 로그량 증가(정보성), 추후 로그 압축 필요 가능
+- 다음 Step 진행 승인: 대기 중
+
+### Step 2 결과 기록
+- Step: Relic System 01 (12종)
+- 구현 커밋: `220f972` (전투 카메라 임팩트 연동 + docs sync)
+- 자동검증 결과: headless gate PASS (`relic_loop` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: long_sim 로그량 증가(유물/엘리트 토큰 다수 출력), 추후 로그 레벨 옵션 검토 필요
+- 다음 Step 진행 승인: 대기 중
+
+### Step 3 결과 기록
+- Step: Stage Event Pack 01 (3종)
+- 구현 커밋: `9a0db13` (CROSS 패턴 + 이벤트 가중치 + 유물 세트 보너스 + docs sync)
+- 자동검증 결과: headless gate PASS (`event_loop` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: long_sim에서 이벤트 로그량 증가(정보성)
+- 다음 Step 진행 승인: 대기 중
+
+### Step 4 결과 기록
+- Step: Boss Phase 2 Upgrade
+- 구현 커밋: `bc3cfc0` (boss phase2 + gate/docs sync)
+- 자동검증 결과: headless gate PASS (`boss_phase2` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: phase2 전환 직후 체감 난도 스파이크 수동 QA에서 추가 확인 필요
+- 다음 Step 진행 승인: 콘텐츠 확장 1차 완료
+
+### Step 5 결과 기록
+- Step: Meta Growth 01
+- 구현 커밋: `836b40a` (meta growth + meta_loop gate + docs sync)
+- 자동검증 결과: headless gate PASS (`meta_loop` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: 영구 보정 누적으로 장기 난이도 곡선 재점검 필요
+- 다음 Step 진행 승인: 콘텐츠 확장 2차 설계 대기
+
+### Step 6 결과 기록
+- Step: Character Pack 01
+- 구현 커밋: `46d2d8b` (character pack + character_loop gate + docs sync)
+- 자동검증 결과: headless gate PASS (`character_ranger`, `character_warden` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: 캐릭터+메타 누적 보정으로 장기 밸런스 재점검 필요
+- 다음 Step 진행 승인: 무기 계열 분화 설계 대기
+
+### Step 7 결과 기록
+- Step: Weapon Archetype Pack 01
+- 구현 커밋: `0576aa0` (weapon archetype pack + weapon_loop gate + docs sync)
+- 자동검증 결과: headless gate PASS (`weapon_pierce`, `weapon_dot`, `weapon_aoe` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: 캐릭터+메타+무기 조합별 난이도 편차 수동 QA에서 추가 확인 필요
+- 다음 Step 진행 승인: 캐릭터 전용 액티브 스킬/무기 트리 설계 대기
+
+### Step 8 결과 기록
+- Step: Active Skill Pack 01
+- 구현 커밋: `7072b7f` (active skill pack + active_loop gate + docs sync)
+- 자동검증 결과: headless gate PASS (`active_ranger`, `active_warden` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: 수동 입력(Q) 타이밍 체감은 사용자 수동 QA에서 추가 확인 필요
+- 다음 Step 진행 승인: 캐릭터/무기 트리 고도화 설계 대기
+
+### Step 9 진행 기록
+- Step: Character/Weapon Tree Design 01
+- 현재 상태: 설계 확정 완료
+- 핵심 산출물: `19_character_weapon_tree_design.md`
+- 확정 정책: `meta_shards` 공유 / 티어 단가(1,2,3) / 다음 라운드 적용
+- 다음 Step 진행 승인: 트리 구현 단계 진입
+
+### Step 10 결과 기록
+- Step: Character/Weapon Tree Runtime 01
+- 구현 커밋: `8ca4a88` (tree runtime + tree_loop gate + docs sync)
+- 자동검증 결과: headless gate PASS (`tree_ranger`, `tree_warden` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: 트리 누적 해금에 따른 장기 난이도 편차 수동 QA에서 추가 확인 필요
+- 다음 Step 진행 승인: 트리 UX 고도화/실해금 UI 단계 대기
+
+### Step 11 결과 기록
+- Step: Tree UI/UX Pack 01
+- 구현 커밋: `238263e` (tree UI panel + tree_ui gate + docs sync)
+- 자동검증 결과: headless gate PASS (`tree_ui` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: 트리 노드 증가 시 패널 선택지(3개) UX 확장 필요
+- 다음 Step 진행 승인: 트리 고도화(UI 스크롤/노드 상세) 단계 대기
+
+### Step 12 결과 기록
+- Step: Visual Upgrade Pack 01
+- 구현 커밋: `e3d3d2e` (CC0 asset integration + visual upgrade docs sync)
+- 자동검증 결과: headless gate PASS (asset 반영 상태), pre-manual PASS, leak trace PASS
+- 리스크/이슈: 애니메이션/VFX 미반영으로 동적 완성도는 후속 단계 필요
+- 다음 Step 진행 승인: 그래픽 2차 폴리싱(UI/VFX/애니메이션) 단계 대기
+
+### Step 13 결과 기록
+- Step: Quality+Feature Upgrade Pack 01
+- 구현 커밋: `a385afc` (VFX/미션/엘리트 변형 + 게이트 확장 + 문서 동기화)
+- 자동검증 결과: headless gate PASS (`feel_loop`, `mission_loop`, `elite_variant_loop` 포함), pre-manual PASS, leak trace PASS
+- 리스크/이슈: 미션 목표 난도와 엘리트 변형 빈도의 체감 밸런스 수동 QA 필요
+- 다음 Step 진행 승인: VFX/애니메이션 2차 폴리싱 단계 대기
+
+### Step 14 결과 기록
+- Step: Feedback/Runtime Polish Fast Follow
+- 구현 커밋: `ef23837` (mission streak + texture cache + impact FX polish + docs sync)
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260303-125502`), pre-manual PASS, leak trace PASS
+- 리스크/이슈: 미션 스트릭 보너스에 따른 체감 난이도 하락 여부 수동 QA 필요
+- 다음 Step 진행 승인: 리팩토링 R2(game_root 분리) 또는 애니메이션 2차 폴리싱 대기
+
+### Step 15 결과 기록
+- Step: Core Runtime Refactor Pack 01
+- 구현 커밋: `1366b5c` (pressure/advisor 분리 + gate/freeze 대응 + docs sync)
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260303-130909`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: 리팩토링 후 인터페이스 경계(`has_method`) 추가 축소는 후속 R3에서 진행 필요
+- 다음 Step 진행 승인: R3(interface 정리) 또는 애니메이션 2차 폴리싱 대기
+
+### Step 16 결과 기록
+- Step: Interface Boundary Cleanup Pack 01
+- 구현 커밋: `a683183` (game_root has_method 경계 정리 + docs sync)
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260303-131905`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: `game_root` 외 영역(HUD/Boss runtime)의 `has_method` 정리는 후속 단계에서 점진 적용 필요
+- 다음 Step 진행 승인: R4(HUD/Boss interface 정리) 또는 애니메이션 2차 폴리싱 대기
+
+### Step 17 결과 기록
+- Step: Interface Boundary Cleanup Pack 02
+- 구현 커밋: `e69f9a2` (hud/boss runtime has_method 경계 정리 + docs sync)
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260303-133108`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: `miniboss_director` 내부 boss_ref 인터페이스 정리는 후속 단계에서 점진 적용 필요
+- 다음 Step 진행 승인: Step18(VFX/애니메이션 2차 폴리싱) 또는 Step19(트리 고도화) 대기
+
+### Step 18 결과 기록
+- Step: VFX/Animation Polish Pack 01
+- 구현 커밋: `a8d43ce` (impact_fx/event_banner/level_up_panel polish + docs sync)
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260303-201449`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: UI/이펙트 미세 애니메이션 체감 평가는 GUI 수동 QA로 최종 확인 필요
+- 다음 Step 진행 승인: Step19(트리 고도화) 또는 Step20(알파 확정 수동 QA) 대기
+
+### Step 18 Fast Follow — LevelUp Card UI Polish
+- 구현 커밋: `435f965` (level_up_panel 카드형 UI 리디자인 + docs sync)
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260303-205144`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: 카드형 UI 최종 미감은 GUI 수동 QA(폰트/간격)로 미세 조정 필요
+- 다음 Step 진행 승인: Step19(트리 고도화) 또는 Step20(알파 확정 수동 QA) 대기
+
+### Step 18 Fast Follow — UX Input/History
+- 구현 커밋: `a954e3e` (마우스 카드 선택 + H 히스토리 패널 + docs sync)
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260303-221713`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: 히스토리 패널 줄바꿈/표시량은 GUI 해상도별 미세 조정 필요
+- 다음 Step 진행 승인: Step19(트리 고도화) 또는 Step20(알파 확정 수동 QA) 대기
+
+### Step 19 결과 기록
+- Step: UI/Graphics Overhaul Pack 01
+- 구현 커밋: `8c2c651` (HUD 패널 재설계 + 배경 연출 강화 + 문서 동기화)
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260303-230009`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: HUD 패널 밀도/폰트 스케일은 GUI 해상도별 수동 튜닝 필요
+- 다음 Step 진행 승인: Step20(알파 확정 수동 QA) 또는 콘텐츠 확장 Step19-B(그래픽 아트 고도화) 대기
+
+### Step 20-B 결과 기록
+- Step: Level Design / Fun Curve Pack 01
+- 구현 커밋: `acd0535` (스폰 페이싱 + Recover 미션 완화 + docs sync)
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260304-070221`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: 페이싱 체감은 실제 플레이 스타일(공격적/회피형)별 수동 QA 추가 필요
+- 다음 Step 진행 승인: Step20-C(타격감/카메라/사운드 강화) 또는 Step21(콘텐츠 확장) 대기
+
+### Step 20-C 결과 기록
+- Step: Combat Feel Polish Pack 01
+- 구현 커밋: `220f972` (전투 카메라 임팩트 연동 + docs sync)
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260304-071742`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: 카메라 임팩트 강도는 플레이어 민감도별 옵션화 검토 필요
+- 다음 Step 진행 승인: 타이틀/메뉴 구현(백로그) 또는 Step21(콘텐츠 확장) 대기
+
+### Step 21-A 결과 기록
+- Step: Title/Menu Framework Pack 01
+- 구현 커밋: `639ea2f` (부트 타이틀 + ESC 메뉴 프레임워크 + docs sync)
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260304-072941`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: 옵션 메뉴는 추후 구현(현재 플레이스홀더)
+- 다음 Step 진행 승인: Step21-B(옵션/설정 메뉴) 또는 Step22(콘텐츠 확장) 대기
+
+### Step 21-B 결과 기록
+- Step: Options/Settings Pack 01
+- 구현 커밋: `2323bc2` (options/settings 메뉴 + 설정 저장/복원 + docs sync)
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260304-073816`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: 옵션 메뉴 레이아웃(해상도별) 미세 조정 필요
+- 다음 Step 진행 승인: Step22(옵션 확장/콘텐츠 확장) 대기
+
+### Step 22-A 결과 기록
+- Step: Content/Fun Expansion Pack 01
+- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260305-171610`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: CROSS 패턴 난이도 체감은 GUI 수동 QA에서 추가 조정 필요
+- 다음 Step 진행 승인: Step22-B(패턴 2차/시너지 확장) 또는 Step23(알파 확정 QA) 대기
