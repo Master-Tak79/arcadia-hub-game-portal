@@ -27,6 +27,7 @@
 - 최대 FPS: 9.0
 - 샘플 수: 6392
 - 2차 세션(20260305-212529): avg 6.3 / min 1.0 / max 8.0 / samples 2550 (menu idle probe)
+- 3차 세션(20260305-223216): avg 6.2 / min 1.0 / max 10.0 / samples 15047 (menu idle probe)
 
 ## 종합
 - 알파 확정 가능 여부: NO (Run A/B/C 미완료)

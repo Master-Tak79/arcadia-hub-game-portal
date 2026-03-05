@@ -63,9 +63,10 @@
 ### E. GUI FPS 실측
 - 상태: **부분완료(보류)**
 - 근거/사유:
-  - FPS probe 메뉴 idle 측정 2회 완료
+  - FPS probe 메뉴 idle 측정 3회 완료
     - 1차: avg 6.2 / min 1.0 / max 9.0, samples 6392
     - 2차: avg 6.3 / min 1.0 / max 8.0, samples 2550
+    - 3차: avg 6.2 / min 1.0 / max 10.0, samples 15047
   - 단, Run A/B/C 플레이 구간 기준 실측은 아직 미완료
 
 ## 판정

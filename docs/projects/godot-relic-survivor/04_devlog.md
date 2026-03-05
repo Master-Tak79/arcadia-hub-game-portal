@@ -1391,3 +1391,10 @@
   - checkpoint PASS: `.qa/reports/checkpoint-20260305-222854.md`
   - leak trace PASS: `.qa/leak-trace/20260305-222854/leak-summary.txt`
   - balance freeze PASS
+
+## 2026-03-05 23:15 KST
+### Manual QA Session 재시도 기록 (menu idle probe 3차)
+- runbook 세션 3차: `.qa/manual/20260305-223216/fps-probe.log`
+- FPS 요약: avg 6.2 / min 1.0 / max 10.0 / samples 15047
+- 관찰: `MANUAL_QA_HINT` 반복 출력, `TITLE_MENU_START` 미검출
+- 판정: 수동 QA 본실행 여전히 미완료

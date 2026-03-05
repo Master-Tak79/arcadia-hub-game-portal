@@ -650,3 +650,14 @@
 
 ### 검증
 - headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과
+
+## 2026-03-05 (Manual QA session retry note #3)
+
+### 관측
+- runbook+fps-probe 3차 세션 실행
+- 로그: `.qa/manual/20260305-223216/fps-probe.log`
+- FPS 요약: avg 6.2 / min 1.0 / max 10.0
+
+### 상태
+- MANUAL_QA_HINT 반복으로 Start 미입력 상태 확인
+- 플레이 토큰 미검출로 Run A/B/C 본실행 재시도 필요
