@@ -1350,3 +1350,10 @@
 - FPS 요약: avg 6.2 / min 1.0 / max 9.0 / samples 6392
 - 관찰: `TITLE_MENU_OPEN` 상태 유지, Run A/B/C 플레이 토큰 미검출
 - 판정: 수동 QA 본실행은 미완료(재실행 필요)
+
+## 2026-03-05 21:32 KST
+### Manual QA Session 재시도 기록 (menu idle probe 2차)
+- runbook 세션 2차: `.qa/manual/20260305-212529/fps-probe.log`
+- FPS 요약: avg 6.3 / min 1.0 / max 8.0 / samples 2550
+- 관찰: `TITLE_MENU_START`/플레이 루프 토큰 미검출
+- 판정: 수동 QA 본실행 여전히 미완료

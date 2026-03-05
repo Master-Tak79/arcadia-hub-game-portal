@@ -22,11 +22,12 @@
 - 명령:
   - `tools/qa/manual-qa-runbook.sh --fps-probe`
   - `tools/qa/manual-fps-summary.sh <fps-probe.log>`
-- 평균 FPS: 6.2 (menu idle probe)
+- 평균 FPS: 6.2 (menu idle probe, 1차: 20260305-201519)
 - 최저 FPS: 1.0
 - 최대 FPS: 9.0
 - 샘플 수: 6392
+- 2차 세션(20260305-212529): avg 6.3 / min 1.0 / max 8.0 / samples 2550 (menu idle probe)
 
 ## 종합
 - 알파 확정 가능 여부: NO (Run A/B/C 미완료)
-- 보완 필요 항목:
+- 보완 필요 항목: TITLE_MENU_START 미검출 상태로 플레이 구간 로그 부재. Run A/B/C 재실행 필요

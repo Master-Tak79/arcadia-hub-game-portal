@@ -609,3 +609,14 @@
 ### 상태
 - TITLE_MENU_OPEN 상태 유지로 플레이 루프(Run A/B/C) 데이터는 수집되지 않음
 - 수동 QA 본실행 재수행 필요
+
+## 2026-03-05 (Manual QA session retry note)
+
+### 관측
+- runbook+fps-probe 2차 세션 실행
+- 로그: `.qa/manual/20260305-212529/fps-probe.log`
+- FPS 요약: avg 6.3 / min 1.0 / max 8.0
+
+### 상태
+- 이번에도 TITLE_MENU_OPEN 상태 유지, 플레이 토큰 미검출
+- Run A/B/C 본실행 재시도 필요
