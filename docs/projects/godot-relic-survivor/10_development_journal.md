@@ -573,3 +573,13 @@
 ### 검증
 - GUI quick smoke 통과
 - headless gate / pre-manual / checkpoint 통과
+
+## 2026-03-05 (Step 24-A — QA/Automation Guard Pack 01)
+
+### 변경
+- boss_pattern 자동게이트를 RING/WALL/CROSS 강제 검증으로 강화
+- 자동화 모드 판별 로직 단일화(`runtime_options.is_automation_mode`)
+- summon recovery HUD/텔레그래프 피드백 강화
+
+### 검증
+- headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과

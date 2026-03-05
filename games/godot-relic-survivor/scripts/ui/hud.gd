@@ -258,6 +258,8 @@ func _refresh_boss_panel() -> void:
 		if _miniboss_director.is_boss_summon_telegraphing():
 			var pat: String = String(_miniboss_director.get_boss_pending_summon_pattern()).to_upper()
 			lines.append("🌀 SUMMON %s %.2fs" % [pat, float(_miniboss_director.get_boss_summon_telegraph_remaining())])
+		elif _miniboss_director.is_boss_summon_recovering():
+			lines.append("🧊 SUMMON RECOVERY %.2fs" % float(_miniboss_director.get_boss_summon_recovery_remaining()))
 		_boss_label.self_modulate = Color("#FEE2E2")
 		_boss_label.text = "\n".join(lines)
 		return

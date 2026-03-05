@@ -472,17 +472,7 @@ func _on_level_up_choice_selected(choice_index: int) -> void:
 func _should_show_title_menu_on_boot() -> bool:
 	if DisplayServer.get_name() == "headless":
 		return false
-	if bool(_runtime_options.auto_levelup):
-		return false
-	if bool(_runtime_options.qa_autopilot):
-		return false
-	if bool(_runtime_options.qa_force_damage):
-		return false
-	if bool(_runtime_options.boss_test_boost) or bool(_runtime_options.boss_pattern_test) or bool(_runtime_options.boss_phase2_test):
-		return false
-	if bool(_runtime_options.elite_test) or bool(_runtime_options.relic_test) or bool(_runtime_options.event_test):
-		return false
-	if bool(_runtime_options.meta_test) or bool(_runtime_options.character_test) or bool(_runtime_options.tree_test) or bool(_runtime_options.tree_ui_test):
+	if bool(_runtime_options.is_automation_mode()):
 		return false
 	return true
 
@@ -604,15 +594,7 @@ func _init_runtime_settings() -> void:
 func _allow_runtime_settings_load() -> bool:
 	if DisplayServer.get_name() == "headless":
 		return false
-	if bool(_runtime_options.qa_autopilot) or bool(_runtime_options.auto_levelup):
-		return false
-	if bool(_runtime_options.qa_force_damage) or bool(_runtime_options.qa_auto_restart):
-		return false
-	if bool(_runtime_options.boss_test_boost) or bool(_runtime_options.boss_pattern_test) or bool(_runtime_options.boss_phase2_test):
-		return false
-	if bool(_runtime_options.elite_test) or bool(_runtime_options.relic_test) or bool(_runtime_options.event_test):
-		return false
-	if bool(_runtime_options.meta_test) or bool(_runtime_options.character_test) or bool(_runtime_options.tree_test) or bool(_runtime_options.tree_ui_test):
+	if bool(_runtime_options.is_automation_mode()):
 		return false
 	return true
 

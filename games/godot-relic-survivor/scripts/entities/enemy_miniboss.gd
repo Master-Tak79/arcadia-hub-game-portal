@@ -231,6 +231,12 @@ func is_summon_telegraphing() -> bool:
 func get_summon_telegraph_remaining() -> float:
 	return max(0.0, _summon_windup_left)
 
+func is_summon_recovering() -> bool:
+	return _summon_recovery_left > 0.0
+
+func get_summon_recovery_remaining() -> float:
+	return max(0.0, _summon_recovery_left)
+
 func get_pending_summon_pattern() -> String:
 	return _pending_summon_pattern
 
@@ -358,7 +364,8 @@ func _enter_phase2() -> void:
 
 func _start_summon_cast() -> void:
 	if _force_pattern_cycle:
-		_pending_summon_pattern = "ring" if (_pattern_cycle_index % 2) == 0 else "wall"
+		var cycle: Array[String] = ["ring", "wall", "cross"]
+		_pending_summon_pattern = cycle[_pattern_cycle_index % cycle.size()]
 		_pattern_cycle_index += 1
 		_summon_windup_left = summon_windup
 		print("MINIBOSS_SUMMON_TELEGRAPH_ON")
@@ -595,6 +602,11 @@ func _draw() -> void:
 			draw_line(-side_a, side_a, Color(0.55, 0.95, 1.0, 0.48), 4.8)
 		else:
 			draw_arc(Vector2.ZERO, _summon_radius + 14.0, 0.0, TAU, 48, Color(summon_color.r, summon_color.g, summon_color.b, 0.42), 2.6)
+
+	if _summon_recovery_left > 0.0:
+		var recovery_ratio: float = clampf(_summon_recovery_left / max(0.01, summon_recovery), 0.0, 1.0)
+		var recovery_alpha: float = 0.24 + (0.36 * recovery_ratio)
+		draw_arc(Vector2.ZERO, hit_radius + 26.0, 0.0, TAU, 48, Color(0.48, 0.94, 1.0, recovery_alpha), 3.2)
 
 	if _spawn_grace_left > 0.0:
 		var grace_ratio: float = clampf(_spawn_grace_left / max(0.01, spawn_grace), 0.0, 1.0)

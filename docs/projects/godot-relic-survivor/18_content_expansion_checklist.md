@@ -194,6 +194,12 @@
 - [x] 수동 QA 기록 템플릿/스크린샷 규격 확정
 - [x] `pre-manual-qa-check.sh` / `checkpoint-report.sh` 최신 실행
 
+## Step 24-A — QA/Automation Guard Pack 01
+- [x] boss_pattern 게이트 CROSS 패턴 필수 검증 추가
+- [x] 자동화 모드 판별 로직 단일화
+- [x] summon recovery HUD/시각 피드백 강화
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+
 ---
 
 ## 결과 기록 템플릿

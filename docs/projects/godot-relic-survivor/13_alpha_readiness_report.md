@@ -19,7 +19,7 @@
   - 보스 경고/등장/대시텔레그래프(콤보 포함)/소환텔레그래프/처치/보상 로그 검증 통과
   - 재시작 루프 반복 검증 통과
   - 원클릭 게이트(`tools/qa/headless-alpha-gate.sh`) 통과 (`boss_pattern`, `boss_phase2`, `elite_loop`, `relic_loop`, `event_loop`, `feel_loop`, `mission_loop`, `elite_variant_loop`, `character_ranger`, `character_warden`, `active_ranger`, `active_warden`, `tree_ranger`, `tree_warden`, `tree_ui`, `weapon_pierce`, `weapon_dot`, `weapon_aoe`, `meta_loop` 포함)
-  - boss_pattern 다양성 체크(RING/WALL 최소 1회) 통과
+  - boss_pattern 다양성 체크(RING/WALL/CROSS 최소 1회) 통과
   - boss_phase2 체크(`MINIBOSS_PHASE2_TRANSITION`, `MINIBOSS_PHASE2_ACTIVE`) 통과
   - elite loop 체크(Elite Grunt/Elite Dasher 최소 1회) 통과
   - relic loop 체크(RELIC_GRANTED 2회 이상) 통과
@@ -62,7 +62,7 @@
   - 수동 QA 재개 시 동시 진행 예정
 
 ## 판정
-- 현재 판정: **v0.1.0-alpha-candidate (자동검증 기준)**
+- 현재 판정: **v0.1.0-alpha-candidate (자동검증 기준, Step24-A 반영)**
 - 병합 권장안: alpha-candidate로 선머지 후 수동 QA 완료 시 alpha 확정 태깅
 - 상태 관리: `16_alpha_candidate_quality_lock.md` 기준으로 품질 잠금 적용
 - 최종 alpha 확정 조건:

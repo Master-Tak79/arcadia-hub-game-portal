@@ -23,6 +23,7 @@
 - [ ] 옵션 저장/복원 수동 확인
 - [ ] CROSS 패턴/세트 보너스 수동 확인
 - [ ] 소환 repeat penalty/recovery window 수동 확인
+- [x] CROSS 패턴 자동게이트 검증 확인(`headless-alpha-gate.sh`)
 
 ## Merge decision
 - [x] `v0.1.0-alpha-candidate`로 merge 준비 완료

@@ -10,6 +10,7 @@
 - [x] 체크포인트 리포트 생성 확인 (`./tools/qa/checkpoint-report.sh`)
 - [x] 밸런스 프리즈 검증 확인 (`./tools/qa/balance-freeze-check.sh`)
 - [x] 수동 QA 핸드오프 패킷 문서화 (`21_alpha_manual_qa_handoff_packet.md`)
+- [x] CROSS 패턴이 자동 게이트에서 필수 검증되는지 확인 (`headless-alpha-gate.sh`)
 
 ## 기능별
 - [ ] 이동/대시 조작 반응성 (수동 QA 보류)

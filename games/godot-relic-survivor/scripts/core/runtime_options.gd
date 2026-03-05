@@ -175,3 +175,17 @@ func _sanitize_weapon_id(raw: String) -> String:
 			return wid
 		_:
 			return "default"
+
+func is_automation_mode() -> bool:
+	if auto_levelup or qa_autopilot or qa_force_damage or qa_auto_restart:
+		return true
+	if boss_test_boost or boss_pattern_test or boss_phase2_test:
+		return true
+	if elite_test or relic_test or event_test or meta_test:
+		return true
+	if character_test or tree_test or tree_ui_test:
+		return true
+	if feel_test or mission_test or elite_variant_test:
+		return true
+	return false
+

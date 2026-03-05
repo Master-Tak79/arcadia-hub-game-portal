@@ -119,6 +119,11 @@
   - [x] 수동 QA 핸드오프 패킷 신규 작성(`21_alpha_manual_qa_handoff_packet.md`)
   - [x] 최신 자동검증 증적/체크포인트 경로 고정
   - [x] 수동 QA 기록 템플릿/스크린샷 규격 확정
+- [x] **Step 24-A — QA/Automation Guard Pack 01**
+  - [x] `boss_pattern` 게이트 CROSS 패턴 검증 추가
+  - [x] 자동화 모드 판별 로직 단일화(`runtime_options.is_automation_mode`)
+  - [x] 보스 summon recovery HUD/텔레그래프 피드백 강화
+  - [x] headless/leak/freeze/checkpoint 재검증
 
 ## 코드 구조 계획
 - `scripts/core/`: 게임 루프/상태/시그널/모드
@@ -154,7 +159,8 @@
 - Step 22-A Content/Fun Expansion Pack 01: **0.75 ~ 1.5일**
 - Step 22-B Boss Rhythm/Fairness Pack 02: **0.5 ~ 1.0일**
 - Step 23 Alpha Manual QA Handoff Packet: **0.25 ~ 0.5일**
-- 총합(문서/QA 포함): **19.5 ~ 34.5일**
+- Step 24-A QA/Automation Guard Pack 01: **0.25 ~ 0.5일**
+- 총합(문서/QA 포함): **19.75 ~ 35.0일**
 
 ## 검증 계획
 - 자동:

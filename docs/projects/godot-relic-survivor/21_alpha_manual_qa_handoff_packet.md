@@ -11,13 +11,13 @@
 
 ## 자동검증 최신 증적 (Step 22-B 이후)
 - Headless gate PASS:
-  - `.qa/headless/20260305-173649`
+  - `.qa/headless/20260305-194524`
   - `warnings=0`, `leak_lines=0`
-  - warning summary: `.qa/headless/20260305-173649/warnings-summary.txt`
+  - warning summary: `.qa/headless/20260305-194524/warnings-summary.txt`
 - Checkpoint report:
-  - `.qa/reports/checkpoint-20260305-174247.md`
+  - `.qa/reports/checkpoint-20260305-194731.md`
 - Leak trace summary:
-  - `.qa/leak-trace/20260305-173850/leak-summary.txt`
+  - `.qa/leak-trace/20260305-194731/leak-summary.txt`
 - Balance freeze:
   - `./tools/qa/balance-freeze-check.sh` PASS
 

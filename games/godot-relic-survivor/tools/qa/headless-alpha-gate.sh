@@ -177,12 +177,17 @@ assert_log_contains "$BOSS_PATTERN_LOG" "MINIBOSS_DASH_START"
 
 RING_COUNT=$(grep -c "MINIBOSS_SUMMON_PATTERN_RING" "$BOSS_PATTERN_LOG" || true)
 WALL_COUNT=$(grep -c "MINIBOSS_SUMMON_PATTERN_WALL" "$BOSS_PATTERN_LOG" || true)
+CROSS_COUNT=$(grep -c "MINIBOSS_SUMMON_PATTERN_CROSS" "$BOSS_PATTERN_LOG" || true)
 if [[ "$RING_COUNT" -lt 1 ]]; then
   echo "[FAIL] boss_pattern diversity check failed: RING pattern missing" >&2
   exit 1
 fi
 if [[ "$WALL_COUNT" -lt 1 ]]; then
   echo "[FAIL] boss_pattern diversity check failed: WALL pattern missing" >&2
+  exit 1
+fi
+if [[ "$CROSS_COUNT" -lt 1 ]]; then
+  echo "[FAIL] boss_pattern diversity check failed: CROSS pattern missing" >&2
   exit 1
 fi
 
@@ -287,7 +292,7 @@ cat <<EOF
 - output dir: $RUN_DIR
 - smoke:         PASS
 - boss loop:     PASS
-- boss pattern:  PASS (RING=$RING_COUNT, WALL=$WALL_COUNT)
+- boss pattern:  PASS (RING=$RING_COUNT, WALL=$WALL_COUNT, CROSS=$CROSS_COUNT)
 - boss phase2:   PASS
 - elite loop:    PASS
 - relic loop:    PASS (grants=$RELIC_COUNT)

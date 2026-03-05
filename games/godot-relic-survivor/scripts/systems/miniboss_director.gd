@@ -164,6 +164,24 @@ func get_boss_summon_telegraph_remaining() -> float:
 		return 0.0
 	return float(_boss_ref.get_summon_telegraph_remaining())
 
+func is_boss_summon_recovering() -> bool:
+	if not _boss_alive:
+		return false
+	if _boss_ref == null:
+		return false
+	if not _boss_ref.has_method("is_summon_recovering"):
+		return false
+	return bool(_boss_ref.is_summon_recovering())
+
+func get_boss_summon_recovery_remaining() -> float:
+	if not _boss_alive:
+		return 0.0
+	if _boss_ref == null:
+		return 0.0
+	if not _boss_ref.has_method("get_summon_recovery_remaining"):
+		return 0.0
+	return float(_boss_ref.get_summon_recovery_remaining())
+
 func get_boss_pending_summon_pattern() -> String:
 	if not _boss_alive:
 		return ""

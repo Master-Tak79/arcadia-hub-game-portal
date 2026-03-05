@@ -20,7 +20,7 @@
 - 미니보스(경고/등장/처치/보상) + 소환 패턴
 - 보스 처치 UX(배너/보상/슬로우모션/카메라/SFX 슬롯)
 - 보스 대시/소환 텔레그래프 강화(예고/windup, 안전구간, 패턴 로그 검증)
-- 보스 패턴 테스트 안정화(`boss_pattern` 다양성 검증: RING/WALL 최소 1회)
+- 보스 패턴 테스트 안정화(`boss_pattern` 다양성 검증: RING/WALL/CROSS 최소 1회)
 - Elite Pack 01 추가(Elite Grunt / Elite Dasher + elite_loop 검증)
 - Relic System 01 추가(유물 12종 + relic_loop 검증)
 - Stage Event Pack 01 추가(안개/감속/전류 + event_loop 검증)
@@ -151,6 +151,7 @@ cd games/godot-relic-survivor
 - 체크포인트 핸드오프 리포트 자동 생성
 
 ## Key Commits (recent, head branch)
+- `0abacf0` fix: stabilize gui boot runtime option checks
 - `23b1a39` docs: prepare alpha manual QA handoff packet
 - `9a0db13` Content/Fun Expansion Pack 01(CROSS 패턴 + 이벤트 가중치 + 유물 세트 보너스 + QA 재검증)
 - `2323bc2` Options/Settings Pack 01(옵션 메뉴 + 설정 저장/복원 + QA 재검증)

@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.33-dev
+- version: v0.1.34-dev
 - date: 2026-03-03
 
 ## Added
@@ -328,3 +328,9 @@
   - `runtime_options` 키 참조 오류 수정(`boss_test` -> `boss_test_boost`)
   - 비헤드리스 부팅 SCRIPT ERROR 제거
   - 회귀 검증: headless gate + pre-manual + checkpoint 재통과
+
+- QA/Automation Guard Pack 01
+  - boss_pattern 검증에 CROSS 패턴 필수 체크 추가
+  - 자동화 모드 판별 로직 단일화(`is_automation_mode`)
+  - 보스 summon recovery HUD/텔레그래프 피드백 강화
+  - 회귀 검증: headless/pre-manual/checkpoint/leak/freeze 재통과

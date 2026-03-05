@@ -1314,3 +1314,14 @@
   - GUI quick smoke: `RELIC_SURVIVOR_BOOT_OK`, `TITLE_MENU_OPEN`
   - headless gate PASS: `.qa/headless/20260305-181109`
   - checkpoint 최신화: `.qa/reports/checkpoint-20260305-181308.md`
+
+## 2026-03-05 19:52 KST
+### Step 24-A — QA/Automation Guard Pack 01
+- `headless-alpha-gate.sh`에 CROSS 패턴 필수 검증 추가
+- `runtime_options.gd`: `is_automation_mode()` 추가, `game_root.gd` 중복 분기 단일화
+- `enemy_miniboss.gd`/`miniboss_director.gd`/`hud.gd`: summon recovery 상태 피드백 강화
+- QA 재검증
+  - headless gate PASS: `.qa/headless/20260305-194524`
+  - checkpoint PASS: `.qa/reports/checkpoint-20260305-194731.md`
+  - leak trace PASS: `.qa/leak-trace/20260305-194731/leak-summary.txt`
+  - balance freeze PASS
