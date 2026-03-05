@@ -343,6 +343,16 @@
   - headless gate + checkpoint + leak + freeze 통과
 - 상태: 🟡 완료
 
+## M36 — Pattern Fairness/Manual QA Start Assist Pack 03 (v0.1.39-dev)
+- 목표: 패턴 체감 난이도와 수동 QA 착수 성공률 개선
+- 콘텐츠:
+  - 미니보스 combo dash soft-cap
+  - elite spawn 안전 보정(저체력/미션/이벤트)
+  - manual runbook Start 리마인더 + 상태 출력
+- 완료 기준:
+  - headless gate + checkpoint + leak + freeze 통과
+- 상태: 🟡 완료
+
 ## 백로그 (중기)
 - 메인 메뉴 옵션/설정 확장 2차(조작/고급 그래픽/접근성) 구현
 - 캐릭터 전용 무기/액티브 스킬 트리 고도화 구현

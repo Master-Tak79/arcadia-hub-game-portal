@@ -549,3 +549,13 @@
 
 ### 회귀 결과
 - headless/누수/freeze 기준 회귀 없음
+
+## 2026-03-05 (Step 25-C Pattern Fairness/Manual QA Start Assist)
+
+### 변경 요약
+- 보스 dash combo 연속 확률 soft-cap으로 과도한 연속성 완화
+- 엘리트 스폰 확률을 저체력/고압박 상황에서 안전 보정
+- 수동 QA 착수 누락 방지용 runbook 리마인더 추가
+
+### 회귀 결과
+- headless/누수/freeze 기준 회귀 없음

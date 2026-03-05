@@ -243,6 +243,19 @@ func _roll_elite_kind() -> String:
 		grunt_chance *= 0.58
 		dasher_chance *= 0.52
 
+	var hp_ratio: float = float(_state.hp) / max(1.0, float(_state.max_hp))
+	if hp_ratio <= 0.40:
+		grunt_chance *= 0.78
+		dasher_chance *= 0.64
+
+	if bool(_state.mission_active) and String(_state.mission_id) == "dash_drill":
+		grunt_chance *= 0.90
+		dasher_chance *= 0.72
+
+	if String(_state.active_event_id) == "shock_zone" and String(_state.active_event_phase) == "active":
+		grunt_chance *= 0.74
+		dasher_chance *= 0.62
+
 	if _is_boss_active():
 		grunt_chance *= 0.70
 		dasher_chance *= 0.70

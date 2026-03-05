@@ -142,6 +142,11 @@
   - [x] 플레이어 피격 임팩트 스케일링 강화
   - [x] 보스 SFX 믹스/강조 재조정
   - [x] headless/leak/freeze/checkpoint 재검증
+- [x] **Step 25-C — Pattern Fairness/Manual QA Start Assist Pack 03**
+  - [x] 미니보스 combo dash 연속 패턴 soft-cap 적용
+  - [x] elite spawn 확률 안전 보정(저체력/dash_drill/shock_zone)
+  - [x] manual runbook Start 리마인더 + 상태 로그 추가
+  - [x] headless/leak/freeze/checkpoint 재검증
 
 ## 코드 구조 계획
 - `scripts/core/`: 게임 루프/상태/시그널/모드
@@ -182,7 +187,8 @@
 - Step 24-C Manual QA Ops Pack 01: **0.25 ~ 0.5일**
 - Step 25-A Quality/Fairness Polish Pack 01: **0.5 ~ 1.0일**
 - Step 25-B Combat Feel/SFX Mix Polish Pack 02: **0.5 ~ 1.0일**
-- 총합(문서/QA 포함): **21.25 ~ 38.0일**
+- Step 25-C Pattern Fairness/Manual QA Start Assist Pack 03: **0.25 ~ 0.75일**
+- 총합(문서/QA 포함): **21.5 ~ 38.75일**
 
 ## 검증 계획
 - 자동:

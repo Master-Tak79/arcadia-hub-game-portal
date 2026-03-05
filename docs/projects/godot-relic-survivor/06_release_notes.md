@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.38-dev
+- version: v0.1.39-dev
 - date: 2026-03-03
 
 ## Added
@@ -356,4 +356,10 @@
   - 히트 cadence 기반 카메라 임팩트 리듬 튜닝
   - 플레이어 피격 임팩트 강도 스케일링 강화
   - 보스 SFX 믹스 레벨/강조 재조정
+  - 회귀 검증: headless/pre-manual/checkpoint/leak/freeze 재통과
+
+- Pattern Fairness/Manual QA Start Assist Pack 03
+  - 미니보스 combo dash 연속 패턴 soft-cap
+  - elite spawn 안전 보정(저체력/미션/이벤트)
+  - manual runbook Start 리마인더/상태 출력 추가
   - 회귀 검증: headless/pre-manual/checkpoint/leak/freeze 재통과

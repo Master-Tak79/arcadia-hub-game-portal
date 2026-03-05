@@ -640,3 +640,13 @@
 
 ### 검증
 - headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과
+
+## 2026-03-05 (Step 25-C — Pattern Fairness/Manual QA Start Assist Pack 03)
+
+### 변경
+- 미니보스 combo dash 연속 패턴 soft-cap 적용
+- elite spawn 안전 보정(저체력/dash_drill/shock_zone)
+- manual runbook Start 누락 리마인더/세션 상태 출력 추가
+
+### 검증
+- headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과

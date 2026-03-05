@@ -162,6 +162,10 @@
 - 2026-03-05: Step 25-B 반영(combat feel/sfx mix polish).
   - 전투 임팩트 리듬/피격 체감/SFX 믹스 미세 조정
   - 자동 검증 루프 재통과 확인
+- 2026-03-05: Step 25-C 반영(pattern fairness/manual QA start assist).
+  - 연속 dash 패턴 및 elite 압박 안전 보정
+  - manual QA start 누락 방지 보조 로그 추가
+  - 자동 검증 루프 재통과 확인
 - 처리 원칙:
   - 자동 회귀 검증 통과 필수
   - 설계/릴리즈/개발일지 즉시 동기화

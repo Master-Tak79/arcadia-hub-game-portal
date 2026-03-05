@@ -40,6 +40,7 @@
   - non-headless 부트 경로 옵션 키 오류 수정 후 회귀 없음
   - quality/fairness polish 회귀 없음
   - combat feel/sfx polish 회귀 없음
+  - pattern fairness/start assist 회귀 없음
   - elite_variant loop 체크(`ELITE_VARIANT:*`) 통과
   - meta loop 체크(`META_PROFILE_LOADED`, `META_RUN_REWARD`) 통과
   - warning/leak summary 기준 `warnings=0`, `leak_lines=0`

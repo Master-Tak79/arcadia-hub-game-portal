@@ -222,6 +222,12 @@
 - [x] 보스 SFX 믹스 레벨/강조 조정
 - [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
 
+## Step 25-C — Pattern Fairness/Manual QA Start Assist Pack 03
+- [x] 미니보스 combo dash 연속 패턴 soft-cap
+- [x] elite spawn 확률 안전 보정
+- [x] manual runbook Start 리마인더/상태 출력 추가
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+
 ---
 
 ## 결과 기록 템플릿

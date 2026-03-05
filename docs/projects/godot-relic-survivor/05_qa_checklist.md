@@ -17,6 +17,8 @@
 - [x] summon recovery 피드백 배너/HUD 반영 확인
 - [x] hit cadence 카메라 리듬 튜닝 회귀 확인
 - [x] SFX preset별 보스 경고/소환 체감 레벨 확인
+- [x] manual runbook Start 리마인더(`MANUAL_QA_HINT`) 동작 확인
+- [x] manual runbook 상태 출력(`MANUAL_QA_STATUS`) 확인
 
 ## 기능별
 - [ ] 이동/대시 조작 반응성 (수동 QA 보류)

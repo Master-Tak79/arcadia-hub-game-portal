@@ -69,6 +69,7 @@ var _dash_time_left: float = 0.0
 var _dash_windup_left: float = 0.0
 var _dash_recovery_left: float = 0.0
 var _combo_dash_left: int = 0
+var _combo_chain_streak: int = 0
 var _dash_direction: Vector2 = Vector2.RIGHT
 
 var _spawn_grace_left: float = 0.0
@@ -320,10 +321,23 @@ func _process(delta: float) -> void:
 		_dash_direction = to_target.normalized()
 		_dash_windup_left = dash_windup
 		_dash_cooldown_left = dash_interval
-		var base_combo: int = 1 if randf() < combo_dash_chance else 0
-		_combo_dash_left = base_combo + (phase2_combo_bonus if _phase >= 2 else 0)
+		var combo_chance: float = combo_dash_chance
+		if _combo_chain_streak >= 1:
+			combo_chance *= 0.48
+		if _phase >= 2 and _summon_recovery_left > 0.0:
+			combo_chance *= 0.55
+
+		var base_combo: int = 1 if randf() < combo_chance else 0
+		var phase_bonus: int = phase2_combo_bonus if _phase >= 2 else 0
+		if _combo_chain_streak >= 2:
+			phase_bonus = max(0, phase_bonus - 1)
+
+		_combo_dash_left = base_combo + phase_bonus
 		if _combo_dash_left > 0:
+			_combo_chain_streak += 1
 			print("MINIBOSS_COMBO_DASH_ON")
+		else:
+			_combo_chain_streak = 0
 		print("MINIBOSS_DASH_TELEGRAPH_ON")
 		queue_redraw()
 		return
@@ -342,6 +356,7 @@ func _start_phase2_transition() -> void:
 	_dash_windup_left = 0.0
 	_dash_recovery_left = 0.0
 	_combo_dash_left = 0
+	_combo_chain_streak = 0
 	_summon_windup_left = 0.0
 	_summon_recovery_left = 0.0
 	_pending_summon_pattern = ""

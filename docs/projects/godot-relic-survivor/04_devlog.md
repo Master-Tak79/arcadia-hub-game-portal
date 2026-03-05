@@ -1380,3 +1380,14 @@
   - checkpoint PASS: `.qa/reports/checkpoint-20260305-215702.md`
   - leak trace PASS: `.qa/leak-trace/20260305-215702/leak-summary.txt`
   - balance freeze PASS
+
+## 2026-03-05 22:29 KST
+### Step 25-C — Pattern Fairness/Manual QA Start Assist Pack 03
+- `enemy_miniboss.gd`: combo dash 연속 soft-cap 로직 추가
+- `spawn_director.gd`: elite spawn 안전 보정(저체력/미션/이벤트)
+- `manual-qa-runbook.sh`: Start 리마인더/세션 상태(`MANUAL_QA_STATUS`) 출력 추가
+- QA 재검증
+  - headless gate PASS: `.qa/headless/20260305-222636`
+  - checkpoint PASS: `.qa/reports/checkpoint-20260305-222854.md`
+  - leak trace PASS: `.qa/leak-trace/20260305-222854/leak-summary.txt`
+  - balance freeze PASS

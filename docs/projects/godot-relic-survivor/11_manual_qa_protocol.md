@@ -77,3 +77,8 @@ cd /mnt/c/TAK_Projects/Game/godot-relic-survivor/games/godot-relic-survivor
   - camera impact (`off/low/normal/high`)
   - window mode (`windowed/fullscreen`)
 - 게임 종료 후 재실행 시 설정 복원(`user://settings.cfg`) 확인
+
+
+### 실행 보조 로그
+- runbook 사용 시 Start 미입력 상태가 길어지면 `MANUAL_QA_HINT`가 출력됩니다.
+- 종료 시 `MANUAL_QA_STATUS: gameplay_start_detected | title_idle_only`로 세션 상태를 확인합니다.
