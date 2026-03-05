@@ -23,6 +23,9 @@ func setup(balance: RefCounted, state: RefCounted, signal_bus: RefCounted, event
 
 func reset_runtime() -> void:
 	_granted_count = 0
+	if _state:
+		_state.relic_role_counts = {}
+		_state.relic_set_flags = {}
 	if _relic_test_mode:
 		_next_relic_at = float(_balance.RELIC_TEST_FIRST_TIME)
 	else:
@@ -131,10 +134,13 @@ func _apply_relic(def: Dictionary) -> void:
 	_state.relic_obtained_count += 1
 	_state.relic_last_title = title
 	_state.relic_last_desc = desc
+	_register_relic_role(role)
 
 	for raw_effect in Array(def.get("effects", [])):
 		var effect: Dictionary = raw_effect
 		_apply_effect(String(effect.get("key", "")), effect.get("value", 0))
+
+	_apply_relic_set_bonuses()
 
 	if _signal_bus:
 		_signal_bus.emit_signal("relic_obtained", id, title, stack)
@@ -145,6 +151,71 @@ func _apply_relic(def: Dictionary) -> void:
 		_event_banner.show_message("%s RELIC 획득: %s\n%s" % [role_tag, title, desc], 1.9, _role_color(role))
 
 	print("RELIC_GRANTED:%s" % id)
+
+func _register_relic_role(role: String) -> void:
+	if role == "":
+		return
+	var current: int = int(_state.relic_role_counts.get(role, 0))
+	_state.relic_role_counts[role] = current + 1
+
+func _apply_relic_set_bonuses() -> void:
+	_apply_relic_set_bonus_attack_triad()
+	_apply_relic_set_bonus_mobility_triad()
+	_apply_relic_set_bonus_survival_triad()
+	_apply_relic_set_bonus_hybrid_duo()
+
+func _apply_relic_set_bonus_attack_triad() -> void:
+	var count: int = int(_state.relic_role_counts.get("attack", 0))
+	if count < 3:
+		return
+	if bool(_state.relic_set_flags.get("attack_triad", false)):
+		return
+	_state.relic_set_flags["attack_triad"] = true
+	_state.projectile_damage_bonus += 2
+	_state.attack_interval_reduction = min(0.75, float(_state.attack_interval_reduction) + 0.04)
+	print("RELIC_SET_BONUS:attack_triad")
+	if _event_banner:
+		_event_banner.show_message("🟥 RELIC SET: OFFENSE TRIAD (+DMG/+ATK SPD)", 1.25, Color("#7F1D1D"))
+
+func _apply_relic_set_bonus_mobility_triad() -> void:
+	var count: int = int(_state.relic_role_counts.get("mobility", 0))
+	if count < 3:
+		return
+	if bool(_state.relic_set_flags.get("mobility_triad", false)):
+		return
+	_state.relic_set_flags["mobility_triad"] = true
+	_state.player_speed_bonus += 26.0
+	_state.dash_cooldown_reduction = min(0.75, float(_state.dash_cooldown_reduction) + 0.06)
+	print("RELIC_SET_BONUS:mobility_triad")
+	if _event_banner:
+		_event_banner.show_message("🟦 RELIC SET: MOBILITY TRIAD (+MOVE/+DASH)", 1.25, Color("#1E3A8A"))
+
+func _apply_relic_set_bonus_survival_triad() -> void:
+	var count: int = int(_state.relic_role_counts.get("survival", 0))
+	if count < 3:
+		return
+	if bool(_state.relic_set_flags.get("survival_triad", false)):
+		return
+	_state.relic_set_flags["survival_triad"] = true
+	_state.max_hp += 3
+	_state.hp = min(_state.max_hp, _state.hp + 3)
+	_state.player_invuln_bonus += 0.08
+	print("RELIC_SET_BONUS:survival_triad")
+	if _event_banner:
+		_event_banner.show_message("🟩 RELIC SET: SURVIVAL TRIAD (+MAX HP/+INVULN)", 1.25, Color("#14532D"))
+
+func _apply_relic_set_bonus_hybrid_duo() -> void:
+	var count: int = int(_state.relic_role_counts.get("hybrid", 0))
+	if count < 2:
+		return
+	if bool(_state.relic_set_flags.get("hybrid_duo", false)):
+		return
+	_state.relic_set_flags["hybrid_duo"] = true
+	_state.extra_projectiles += 1
+	_state.projectile_lifetime_bonus += 0.12
+	print("RELIC_SET_BONUS:hybrid_duo")
+	if _event_banner:
+		_event_banner.show_message("🟪 RELIC SET: HYBRID DUO (+PROJECTILE)", 1.25, Color("#4C1D95"))
 
 func _apply_effect(effect_key: String, effect_value: Variant) -> void:
 	match effect_key:

@@ -117,12 +117,16 @@ func _process_miniboss_state_transitions() -> void:
 		if _event_banner:
 			if pattern == "wall":
 				_event_banner.show_message("⚠ SUMMON CAST — 전방 차단열 전개", 0.9, Color("#14532D"))
+			elif pattern == "cross":
+				_event_banner.show_message("⚠ SUMMON CAST — 십자 교차 소환", 0.9, Color("#164E63"))
 			else:
 				_event_banner.show_message("⚠ SUMMON CAST — 소환 링 전개", 0.9, Color("#0F4C5C"))
 		if _camera_fx:
 			_camera_fx.play_warning_pulse()
 		if _summon_telegraph_sfx_cd <= 0.0 and _sfx_slots:
 			if pattern == "wall":
+				_sfx_slots.play_boss_spawn()
+			elif pattern == "cross":
 				_sfx_slots.play_boss_spawn()
 			else:
 				_sfx_slots.play_boss_warning()

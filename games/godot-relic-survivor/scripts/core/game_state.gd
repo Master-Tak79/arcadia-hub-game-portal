@@ -67,6 +67,8 @@ var relic_order: Array = []
 var relic_obtained_count: int = 0
 var relic_last_title: String = ""
 var relic_last_desc: String = ""
+var relic_role_counts: Dictionary = {}
+var relic_set_flags: Dictionary = {}
 
 var meta_shards: int = 0
 var meta_total_runs: int = 0
@@ -147,6 +149,8 @@ func reset() -> void:
 	relic_obtained_count = 0
 	relic_last_title = ""
 	relic_last_desc = ""
+	relic_role_counts = {}
+	relic_set_flags = {}
 
 	meta_shards = 0
 	meta_total_runs = 0

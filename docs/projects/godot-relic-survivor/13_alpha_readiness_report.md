@@ -35,6 +35,7 @@
   - combat feel 체크(camera impact) 회귀 없음
   - title/menu framework 회귀 없음
   - options/settings framework 회귀 없음
+  - content/fun expansion 회귀 없음
   - elite_variant loop 체크(`ELITE_VARIANT:*`) 통과
   - meta loop 체크(`META_PROFILE_LOADED`, `META_RUN_REWARD`) 통과
   - warning/leak summary 기준 `warnings=0`, `leak_lines=0`

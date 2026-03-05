@@ -25,6 +25,7 @@ var combo_dash_gap: float = 0.16
 # Summon pattern
 var summon_windup: float = 0.62
 var summon_wall_chance: float = 0.40
+var summon_cross_chance: float = 0.16
 
 # Phase 2 tuning
 var phase2_hp_ratio: float = 0.52
@@ -90,6 +91,7 @@ func setup(
 	summon_interval: float,
 	summon_windup_sec: float,
 	summon_wall_pattern_chance: float,
+	base_summon_cross_pattern_chance: float,
 	summon_count: int,
 	summon_radius: float,
 	summon_cfg: Dictionary,
@@ -122,6 +124,7 @@ func setup(
 
 	summon_windup = max(0.08, summon_windup_sec)
 	summon_wall_chance = clampf(summon_wall_pattern_chance, 0.0, 1.0)
+	summon_cross_chance = clampf(base_summon_cross_pattern_chance, 0.0, 0.45)
 	spawn_grace = max(0.0, base_spawn_grace)
 	contact_damage = base_contact_damage
 	exp_reward = base_exp_reward
@@ -353,8 +356,28 @@ func _start_summon_cast() -> void:
 	if _phase >= 2:
 		wall_chance += 0.08
 
-	wall_chance = clampf(wall_chance, 0.18, 0.82)
-	_pending_summon_pattern = "wall" if randf() < wall_chance else "ring"
+	var cross_chance: float = summon_cross_chance
+	if hp_ratio < 0.45:
+		cross_chance += 0.05
+	if _phase >= 2:
+		cross_chance += 0.06
+	if dist_to_target < 180.0:
+		cross_chance -= 0.05
+
+	wall_chance = clampf(wall_chance, 0.16, 0.78)
+	cross_chance = clampf(cross_chance, 0.06, 0.34)
+	var ring_chance: float = max(0.08, 1.0 - wall_chance - cross_chance)
+	var total: float = wall_chance + cross_chance + ring_chance
+	if total <= 0.0:
+		total = 1.0
+
+	var roll: float = randf() * total
+	if roll < wall_chance:
+		_pending_summon_pattern = "wall"
+	elif roll < wall_chance + cross_chance:
+		_pending_summon_pattern = "cross"
+	else:
+		_pending_summon_pattern = "ring"
 	_summon_windup_left = summon_windup
 	print("MINIBOSS_SUMMON_TELEGRAPH_ON")
 
@@ -362,6 +385,9 @@ func _cast_summon_pattern() -> void:
 	if _pending_summon_pattern == "wall":
 		_summon_wall_wave()
 		print("MINIBOSS_SUMMON_PATTERN_WALL")
+	elif _pending_summon_pattern == "cross":
+		_summon_cross_wave()
+		print("MINIBOSS_SUMMON_PATTERN_CROSS")
 	else:
 		_summon_ring_wave()
 		print("MINIBOSS_SUMMON_PATTERN_RING")
@@ -407,6 +433,34 @@ func _summon_wall_wave() -> void:
 		var grunt := _make_grunt()
 		grunt.position = spawn_pos
 		parent_node.add_child(grunt)
+
+func _summon_cross_wave() -> void:
+	var parent_node := get_parent()
+	if parent_node == null:
+		return
+
+	var to_target: Vector2 = (target.position - position).normalized()
+	if to_target.length() <= 0.001:
+		to_target = Vector2.DOWN
+	var side: Vector2 = Vector2(-to_target.y, to_target.x)
+
+	var arm: float = _summon_radius + 28.0
+	var offsets: Array = [
+		to_target * arm,
+		-to_target * arm,
+		side * arm,
+		-side * arm,
+	]
+
+	for i in range(offsets.size()):
+		var spawn_pos: Vector2 = position + Vector2(offsets[i])
+		var summon: Node2D
+		if i % 2 == 0:
+			summon = _make_dasher()
+		else:
+			summon = _make_grunt()
+		summon.position = spawn_pos
+		parent_node.add_child(summon)
 
 func _make_grunt() -> Node2D:
 	var node := Node2D.new()

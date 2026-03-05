@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.31-dev
+- version: v0.1.32-dev
 - date: 2026-03-03
 
 ## Added
@@ -163,6 +163,11 @@
   - `options_menu.gd` 신규(SFX/카메라 임팩트/창 모드)
   - `game_root.gd` 설정 저장/복원(`user://settings.cfg`) 및 메뉴 연동
   - `camera_fx.gd` 임팩트 강도 설정 API 연동
+  - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- Content/Fun Expansion Pack 01
+  - 보스 소환 CROSS 패턴 추가(`MINIBOSS_SUMMON_PATTERN_CROSS`)
+  - 이벤트 선택 가중치 동적화(반복 완화/압박·체력 기반 안정성 보정)
+  - 유물 세트 보너스(`RELIC_SET_BONUS:*`) 도입
   - 회귀 검증: headless/leak/freeze/checkpoint 재통과
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시

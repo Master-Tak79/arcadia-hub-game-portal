@@ -147,7 +147,8 @@
 - Step 20-C Combat Feel Polish Pack 01: **0.5 ~ 1.0일**
 - Step 21-A Title/Menu Framework Pack 01: **0.5 ~ 1.0일**
 - Step 21-B Options/Settings Pack 01: **0.5 ~ 1.0일**
-- 총합(문서/QA 포함): **18.0 ~ 31.5일**
+- Step 22-A Content/Fun Expansion Pack 01: **0.75 ~ 1.5일**
+- 총합(문서/QA 포함): **18.75 ~ 33.0일**
 
 ## 검증 계획
 - 자동:

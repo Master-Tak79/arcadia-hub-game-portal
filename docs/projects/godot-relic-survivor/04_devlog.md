@@ -1276,3 +1276,13 @@
 - QA 재검증
   - headless gate PASS: `.qa/headless/20260304-073816`
   - pre-manual/checkpoint/leak/freeze PASS
+
+## 2026-03-05 17:33 KST
+### Step 22-A — Content/Fun Expansion Pack 01
+- `enemy_miniboss.gd` CROSS 소환 패턴 추가
+- `stage_event_system.gd` 이벤트 선택 가중치 동적화(반복 완화/안정성 보정)
+- `relic_system.gd` 유물 세트 보너스 도입(`RELIC_SET_BONUS:*`)
+- `game_state.gd` 유물 역할 카운트/세트 플래그 상태 추가
+- QA 재검증
+  - headless gate PASS: `.qa/headless/20260305-171610`
+  - pre-manual/checkpoint/leak/freeze PASS

@@ -174,6 +174,13 @@
 - [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
 - [x] 문서/릴리즈/저널 동기화 반영
 
+## Step 22-A — Content/Fun Expansion Pack 01
+- [x] 보스 CROSS 소환 패턴 추가
+- [x] 이벤트 반복 완화/안정성 기반 동적 가중치 도입
+- [x] 유물 세트 보너스 도입(attack/mobility/survival/hybrid)
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+- [x] 문서/릴리즈/저널 동기화 반영
+
 ---
 
 ## 결과 기록 템플릿
@@ -355,3 +362,10 @@
 - 자동검증 결과: headless gate PASS (`.qa/headless/20260304-073816`), pre-manual PASS, leak trace PASS, balance-freeze PASS
 - 리스크/이슈: 옵션 메뉴 레이아웃(해상도별) 미세 조정 필요
 - 다음 Step 진행 승인: Step22(옵션 확장/콘텐츠 확장) 대기
+
+### Step 22-A 결과 기록
+- Step: Content/Fun Expansion Pack 01
+- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 자동검증 결과: headless gate PASS (`.qa/headless/20260305-171610`), pre-manual PASS, leak trace PASS, balance-freeze PASS
+- 리스크/이슈: CROSS 패턴 난이도 체감은 GUI 수동 QA에서 추가 조정 필요
+- 다음 Step 진행 승인: Step22-B(패턴 2차/시너지 확장) 또는 Step23(알파 확정 QA) 대기

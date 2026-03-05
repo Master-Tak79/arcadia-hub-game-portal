@@ -263,6 +263,16 @@
   - headless gate + leak trace + balance freeze 재통과
 - 상태: 🟡 구현/자동검증 완료 (GUI 수동 QA 대기)
 
+## M28 — Content/Fun Expansion Pack 01 (v0.1.32-dev)
+- 목표: 중후반 전투 변주와 빌드 시너지를 강화해 재미 밀도 상승
+- 콘텐츠:
+  - 보스 소환 CROSS 패턴 추가
+  - 이벤트 동적 가중치(반복 완화/안정성 보정)
+  - 유물 세트 보너스(attack/mobility/survival/hybrid)
+- 완료 기준:
+  - headless gate + leak trace + balance freeze 재통과
+- 상태: 🟡 구현/자동검증 완료 (GUI 수동 QA 대기)
+
 ## 백로그 (중기)
 - 메인 메뉴 옵션/설정 확장 2차(조작/고급 그래픽/접근성) 구현
 - 캐릭터 전용 무기/액티브 스킬 트리 고도화 구현

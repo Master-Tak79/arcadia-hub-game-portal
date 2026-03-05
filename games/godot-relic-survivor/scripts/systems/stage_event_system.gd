@@ -27,6 +27,8 @@ var _shock_hit_cd: float = 0.0
 
 var _test_mode: bool = false
 var _test_cycle_index: int = 0
+var _last_event_id: String = ""
+var _event_repeat_streak: int = 0
 
 func setup(
 	balance: RefCounted,
@@ -59,6 +61,8 @@ func reset_runtime() -> void:
 	_shock_tick_left = 0.0
 	_shock_hit_cd = 0.0
 	_test_cycle_index = 0
+	_last_event_id = ""
+	_event_repeat_streak = 0
 
 	_state.event_move_speed_mult = 1.0
 	_state.event_attack_range_mult = 1.0
@@ -200,6 +204,11 @@ func _end_event() -> void:
 		_event_banner.show_message("EVENT 종료: %s" % _active_label, 0.9, Color("#0B1220"))
 
 	_event_count += 1
+	if _active_id == _last_event_id:
+		_event_repeat_streak += 1
+	else:
+		_event_repeat_streak = 0
+	_last_event_id = _active_id
 	_active_def = {}
 	_active_id = ""
 	_active_label = ""
@@ -250,19 +259,62 @@ func _pick_event_def() -> Dictionary:
 		_test_cycle_index += 1
 		return picked
 
+	var weighted_pool: Array = []
 	var total: float = 0.0
 	for raw in _defs:
-		total += float(raw.get("weight", 1.0))
+		var def: Dictionary = raw
+		var entry: Dictionary = def.duplicate(true)
+		var w: float = _effective_event_weight(def)
+		entry["effective_weight"] = w
+		weighted_pool.append(entry)
+		total += w
+
 	if total <= 0.0:
-		return _defs[0]
+		return weighted_pool[0]
 
 	var roll: float = randf() * total
 	var acc: float = 0.0
-	for raw in _defs:
-		acc += float(raw.get("weight", 1.0))
+	for raw in weighted_pool:
+		var e: Dictionary = raw
+		acc += float(e.get("effective_weight", 1.0))
 		if roll <= acc:
-			return raw
-	return _defs[_defs.size() - 1]
+			return e
+	return weighted_pool[weighted_pool.size() - 1]
+
+func _effective_event_weight(def: Dictionary) -> float:
+	var id: String = String(def.get("id", ""))
+	var weight: float = max(0.01, float(def.get("weight", 1.0)))
+	var elapsed: float = float(_state.elapsed)
+	var pressure: float = float(_state.pressure_hint)
+	var hp_ratio: float = float(_state.hp) / max(1.0, float(_state.max_hp))
+
+	# prevent repetitive same-event streaks
+	if id == _last_event_id:
+		weight *= 0.32
+		if _event_repeat_streak >= 1:
+			weight *= 0.65
+
+	# early game fairness: less shock, more fog/slow guidance
+	if elapsed < 120.0:
+		if id == "shock_zone":
+			weight *= 0.62
+		elif id == "fog" or id == "slow_zone":
+			weight *= 1.12
+
+	# high pressure / low hp safety shaping
+	if pressure >= 0.98 or hp_ratio <= 0.35:
+		if id == "shock_zone":
+			weight *= 0.68
+		elif id == "fog":
+			weight *= 1.18
+		elif id == "slow_zone":
+			weight *= 1.08
+
+	# late phase raises shock relevance back
+	if elapsed >= 260.0 and id == "shock_zone":
+		weight *= 1.16
+
+	return max(0.01, weight)
 
 func _pick_zone_center(radius: float) -> Vector2:
 	var arena_w: float = float(_balance.ARENA_SIZE.x)

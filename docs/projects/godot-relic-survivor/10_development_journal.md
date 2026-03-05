@@ -533,3 +533,13 @@
 
 ### 검증
 - headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과
+
+## 2026-03-05 (Step 22-A — Content/Fun Expansion Pack 01)
+
+### 변경
+- 보스 소환 패턴에 CROSS 변주 추가
+- 이벤트 선택 로직을 상황형 가중치(압박/체력/반복도) 기반으로 개선
+- 유물 세트 보너스로 빌드 시너지 강화
+
+### 검증
+- headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과
