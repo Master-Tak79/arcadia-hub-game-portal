@@ -156,6 +156,7 @@ cd games/godot-relic-survivor
 - 체크포인트 핸드오프 리포트 자동 생성
 
 ## Key Commits (recent, head branch)
+- `1b0200c` docs: record third manual QA idle probe and start-miss hints
 - `939d869` Step25-C Pattern Fairness/Manual QA Start Assist Pack 03(combo soft-cap + elite safety + runbook reminder)
 - `3370c12` Step25-B Combat Feel/SFX Mix Polish Pack 02(hit cadence + player-hit impact + boss sfx mix)
 - `f22aecf` Step25-A Quality/Fairness Polish Pack 01(event defer + recovery feedback + HUD set visibility)
