@@ -115,6 +115,10 @@
   - [x] 배경 연출 업그레이드(스타 레이어/비네트/센터 글로우)
   - [x] 수동 UX 체크 항목(마우스/히스토리/HUD 가독성) 문서 갱신
   - [x] headless/leak/freeze/checkpoint 재검증
+- [x] **Step 23 — Alpha Manual QA Handoff Packet**
+  - [x] 수동 QA 핸드오프 패킷 신규 작성(`21_alpha_manual_qa_handoff_packet.md`)
+  - [x] 최신 자동검증 증적/체크포인트 경로 고정
+  - [x] 수동 QA 기록 템플릿/스크린샷 규격 확정
 
 ## 코드 구조 계획
 - `scripts/core/`: 게임 루프/상태/시그널/모드
@@ -148,8 +152,9 @@
 - Step 21-A Title/Menu Framework Pack 01: **0.5 ~ 1.0일**
 - Step 21-B Options/Settings Pack 01: **0.5 ~ 1.0일**
 - Step 22-A Content/Fun Expansion Pack 01: **0.75 ~ 1.5일**
-Step 22-B Boss Rhythm/Fairness Pack 02: **0.5 ~ 1.0일**
-- 총합(문서/QA 포함): **19.25 ~ 34.0일**
+- Step 22-B Boss Rhythm/Fairness Pack 02: **0.5 ~ 1.0일**
+- Step 23 Alpha Manual QA Handoff Packet: **0.25 ~ 0.5일**
+- 총합(문서/QA 포함): **19.5 ~ 34.5일**
 
 ## 검증 계획
 - 자동:

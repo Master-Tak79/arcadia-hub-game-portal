@@ -1,7 +1,7 @@
 # 13_alpha_readiness_report — Godot Relic Survivor
 
 ## 기준 시점
-- 2026-03-03
+- 2026-03-05
 - 브랜치: `feat/relic-survivor-bootstrap`
 
 ## Alpha Gate 요약
@@ -45,6 +45,7 @@
 ### C. 문서화/운영
 - 상태: **통과**
 - 근거:
+  - 수동 QA 핸드오프 패킷 준비 완료 (`21_alpha_manual_qa_handoff_packet.md`)
   - levelup card mouse click/H history UX 반영 및 운영문서 동기화
   - 청사진/GDD/개발계획/로드맵/개발일지/체크리스트/릴리즈노트 유지
   - 개발지침/업데이트지침/에셋대장/튜닝로그/수동QA프로토콜 반영

@@ -283,6 +283,16 @@
   - headless gate + leak trace + balance freeze 재통과
 - 상태: 🟡 구현/자동검증 완료 (GUI 수동 QA 대기)
 
+## M30 — Alpha Manual QA Handoff Packet (v0.1.33-dev)
+- 목표: 알파 확정 전 수동 QA 실행 효율/일관성 확보
+- 콘텐츠:
+  - `21_alpha_manual_qa_handoff_packet.md` 신설
+  - 최신 자동검증 증적/체크포인트 고정
+  - 수동 QA 기록/스크린샷 규격화
+- 완료 기준:
+  - pre-manual check PASS + checkpoint 최신화
+- 상태: 🟡 완료(수동 QA 실행 대기)
+
 ## 백로그 (중기)
 - 메인 메뉴 옵션/설정 확장 2차(조작/고급 그래픽/접근성) 구현
 - 캐릭터 전용 무기/액티브 스킬 트리 고도화 구현

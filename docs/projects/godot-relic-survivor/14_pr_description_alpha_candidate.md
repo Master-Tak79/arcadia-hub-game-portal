@@ -46,6 +46,7 @@
 - Options/Settings Pack 01 추가(SFX/카메라/창모드 + 설정 저장/복원)
 - Content/Fun Expansion Pack 01 추가(보스 CROSS 패턴 + 이벤트 가중치 + 유물 세트 보너스)
 - Boss Rhythm/Fairness Pack 02 추가(보스 소환 repeat penalty + recovery window)
+- Manual QA Handoff Packet 정리(수동 QA 실행 증적/체크포인트 고정)
 - 레벨업 선택지 가독성 강화(역할 태그/효과 요약/추천 문구/예상 지표)
 - 압박도 기반 추천 보정(웨이브/보스 압박 신호를 가중치에 반영)
 - auto-levelup 선택 로직의 multi-effect 반영 + 스폰 안전 반경/전투 후보 인덱스 적용
@@ -69,6 +70,7 @@
   - `14_pr_description_alpha_candidate.md`
   - `15_merge_handover_checklist.md`
   - `16_alpha_candidate_quality_lock.md`
+  - `21_alpha_manual_qa_handoff_packet.md`
 
 ### Changed
 - `scripts/core/game_root.gd` (orchestrator 중심으로 단순화)

@@ -13,6 +13,7 @@
 - [x] 개발문서 동기화 (`04`, `05`, `06`, `10`, `13`, `14`, `16`)
 - [x] 밸런스 변경 이력 기록 (`12_balance_tuning_log.md`)
 - [x] PR 오픈 완료: https://github.com/Master-Tak79/arcadia-hub-game-portal/pull/74
+- [x] 수동 QA 핸드오프 패킷 정리 (`21_alpha_manual_qa_handoff_packet.md`)
 - [ ] 수동 QA 3회 완료
 - [ ] GUI FPS 실측 완료
 - [ ] 마우스 카드 선택/H 히스토리 패널 수동 확인

@@ -174,6 +174,9 @@
   - 소환 후 recovery window 도입
   - CROSS 텔레그래프 시각 강화
   - 회귀 검증: headless/leak/freeze/checkpoint 재통과
+- Manual QA Handoff Packet 정리
+  - `21_alpha_manual_qa_handoff_packet.md` 추가
+  - Step22-A/22-B 이후 수동 QA 실행용 증적/체크포인트/스크린샷 규격 고정
 - 레벨업 패널 가독성 강화(`ui/level_up_panel.gd`)
   - 선택지 역할 태그(공격/기동/생존/혼합), 효과 요약, 상황별 추천 문구 표시
   - 선택 후 예상 지표(예상 DPS/생존 지표, 간이 추정) 프리뷰 표시

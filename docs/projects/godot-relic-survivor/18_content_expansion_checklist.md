@@ -188,6 +188,12 @@
 - [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
 - [x] 문서/릴리즈/저널 동기화 반영
 
+## Step 23 — Alpha Manual QA Handoff Packet
+- [x] `21_alpha_manual_qa_handoff_packet.md` 작성
+- [x] 최신 자동검증 증적 경로 고정
+- [x] 수동 QA 기록 템플릿/스크린샷 규격 확정
+- [x] `pre-manual-qa-check.sh` / `checkpoint-report.sh` 최신 실행
+
 ---
 
 ## 결과 기록 템플릿

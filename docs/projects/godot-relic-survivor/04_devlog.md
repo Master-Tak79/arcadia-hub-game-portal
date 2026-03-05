@@ -1297,3 +1297,10 @@
   - checkpoint PASS: `.qa/reports/checkpoint-20260305-173850.md`
   - leak trace PASS: `.qa/leak-trace/20260305-173850/leak-summary.txt`
   - balance freeze PASS
+
+## 2026-03-05 17:42 KST
+### Step 23 — Alpha Manual QA Handoff Packet
+- `21_alpha_manual_qa_handoff_packet.md` 신규 작성
+- 최신 자동검증 증적(Headless/Checkpoint/Leak/Freeze) 경로 고정
+- 수동 QA(3회) + FPS 실측용 기록 템플릿/스크린샷 규격 정의
+- `pre-manual-qa-check.sh` 재실행 PASS, checkpoint 최신화

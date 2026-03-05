@@ -553,3 +553,13 @@
 
 ### 검증
 - headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과
+
+## 2026-03-05 (Step 23 — Alpha Manual QA Handoff Packet)
+
+### 변경
+- 수동 QA 핸드오프 패킷 문서 신규 작성
+- 머지 체크리스트/리드니스/릴리즈노트/QA체크리스트 동기화
+
+### 검증
+- pre-manual-qa-check PASS
+- checkpoint-report 최신화

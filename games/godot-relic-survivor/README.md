@@ -237,3 +237,4 @@
 - `docs/projects/godot-relic-survivor/18_content_expansion_checklist.md`
 - `docs/projects/godot-relic-survivor/19_character_weapon_tree_design.md`
 - `docs/projects/godot-relic-survivor/20_quality_upgrade_review.md`
+- `docs/projects/godot-relic-survivor/21_alpha_manual_qa_handoff_packet.md`
