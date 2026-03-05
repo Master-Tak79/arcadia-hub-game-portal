@@ -1369,3 +1369,14 @@
   - checkpoint PASS: `.qa/reports/checkpoint-20260305-214930.md`
   - leak trace PASS: `.qa/leak-trace/20260305-214930/leak-summary.txt`
   - balance freeze PASS
+
+## 2026-03-05 22:00 KST
+### Step 25-B — Combat Feel/SFX Mix Polish Pack 02
+- `combat_system.gd`: hit cadence meter 기반 카메라 임팩트 리듬 튜닝 + 플레이어 피격 임팩트 스케일링
+- `sfx_slots.gd`: 보스 SFX 믹스 레벨(quiet/hype 포함) 재조정 + slot emphasis helper 추가
+- `boss_reward_runtime.gd`: CROSS/recovery 구간 emphasis SFX 사용
+- QA 재검증
+  - headless gate PASS: `.qa/headless/20260305-215448`
+  - checkpoint PASS: `.qa/reports/checkpoint-20260305-215702.md`
+  - leak trace PASS: `.qa/leak-trace/20260305-215702/leak-summary.txt`
+  - balance freeze PASS

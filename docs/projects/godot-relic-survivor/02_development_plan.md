@@ -137,6 +137,11 @@
   - [x] summon recovery 피드백(배너/카메라) 강화
   - [x] HUD 유물 세트 진행도/활성 표시 강화
   - [x] headless/leak/freeze/checkpoint 재검증
+- [x] **Step 25-B — Combat Feel/SFX Mix Polish Pack 02**
+  - [x] 히트 cadence 기반 카메라 임팩트 리듬 튜닝
+  - [x] 플레이어 피격 임팩트 스케일링 강화
+  - [x] 보스 SFX 믹스/강조 재조정
+  - [x] headless/leak/freeze/checkpoint 재검증
 
 ## 코드 구조 계획
 - `scripts/core/`: 게임 루프/상태/시그널/모드
@@ -176,7 +181,8 @@
 - Step 24-B FPS Probe/Manual QA Assist Pack 01: **0.25 ~ 0.5일**
 - Step 24-C Manual QA Ops Pack 01: **0.25 ~ 0.5일**
 - Step 25-A Quality/Fairness Polish Pack 01: **0.5 ~ 1.0일**
-- 총합(문서/QA 포함): **20.75 ~ 37.0일**
+- Step 25-B Combat Feel/SFX Mix Polish Pack 02: **0.5 ~ 1.0일**
+- 총합(문서/QA 포함): **21.25 ~ 38.0일**
 
 ## 검증 계획
 - 자동:

@@ -216,6 +216,12 @@
 - [x] HUD 세트 진행도/활성 세트 표시 강화
 - [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
 
+## Step 25-B — Combat Feel/SFX Mix Polish Pack 02
+- [x] hit cadence 기반 카메라 임팩트 리듬 튜닝
+- [x] 플레이어 피격 임팩트 스케일링 강화
+- [x] 보스 SFX 믹스 레벨/강조 조정
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+
 ---
 
 ## 결과 기록 템플릿

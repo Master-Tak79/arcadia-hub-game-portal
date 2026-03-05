@@ -630,3 +630,13 @@
 
 ### 검증
 - headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과
+
+## 2026-03-05 (Step 25-B — Combat Feel/SFX Mix Polish Pack 02)
+
+### 변경
+- hit cadence 기반 카메라 임팩트 리듬 튜닝
+- 플레이어 피격 임팩트 스케일링 강화
+- 보스 SFX 믹스/강조 보정
+
+### 검증
+- headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과

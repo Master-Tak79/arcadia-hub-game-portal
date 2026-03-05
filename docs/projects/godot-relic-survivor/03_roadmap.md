@@ -333,6 +333,16 @@
   - headless gate + checkpoint + leak + freeze 통과
 - 상태: 🟡 완료
 
+## M35 — Combat Feel/SFX Mix Polish Pack 02 (v0.1.38-dev)
+- 목표: 타격감 리듬과 오디오 믹스를 한 단계 정리
+- 콘텐츠:
+  - 히트 cadence 기반 카메라 임팩트 리듬 튜닝
+  - 플레이어 피격 임팩트 스케일링
+  - 보스 SFX 믹스/강조 조정
+- 완료 기준:
+  - headless gate + checkpoint + leak + freeze 통과
+- 상태: 🟡 완료
+
 ## 백로그 (중기)
 - 메인 메뉴 옵션/설정 확장 2차(조작/고급 그래픽/접근성) 구현
 - 캐릭터 전용 무기/액티브 스킬 트리 고도화 구현

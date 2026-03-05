@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.37-dev
+- version: v0.1.38-dev
 - date: 2026-03-03
 
 ## Added
@@ -350,4 +350,10 @@
   - 보스 구간 이벤트 defer(`EVENT_DEFER_BOSS`)로 난이도 스파이크 완화
   - summon recovery 배너/카메라 피드백 강화
   - HUD 유물 역할 카운트/활성 세트 표시 추가
+  - 회귀 검증: headless/pre-manual/checkpoint/leak/freeze 재통과
+
+- Combat Feel/SFX Mix Polish Pack 02
+  - 히트 cadence 기반 카메라 임팩트 리듬 튜닝
+  - 플레이어 피격 임팩트 강도 스케일링 강화
+  - 보스 SFX 믹스 레벨/강조 재조정
   - 회귀 검증: headless/pre-manual/checkpoint/leak/freeze 재통과

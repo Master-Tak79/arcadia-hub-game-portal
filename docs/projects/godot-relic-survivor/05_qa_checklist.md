@@ -15,6 +15,8 @@
 - [x] 수동 QA 운영 스크립트(`manual-qa-runbook.sh`, `manual-fps-summary.sh`) 준비
 - [x] 보스 구간 이벤트 defer 로그(`EVENT_DEFER_BOSS`) 동작 확인
 - [x] summon recovery 피드백 배너/HUD 반영 확인
+- [x] hit cadence 카메라 리듬 튜닝 회귀 확인
+- [x] SFX preset별 보스 경고/소환 체감 레벨 확인
 
 ## 기능별
 - [ ] 이동/대시 조작 반응성 (수동 QA 보류)

@@ -11,9 +11,9 @@ const _DEFAULT_SLOT_PATHS := {
 }
 
 const _BASE_SLOT_VOLUMES := {
-	SLOT_BOSS_WARNING: -10.5,
-	SLOT_BOSS_SPAWN: -8.0,
-	SLOT_BOSS_DEFEAT: -6.5
+	SLOT_BOSS_WARNING: -11.0,
+	SLOT_BOSS_SPAWN: -8.5,
+	SLOT_BOSS_DEFEAT: -6.8
 }
 
 const _PRESET_VOLUME_OFFSETS := {
@@ -23,13 +23,13 @@ const _PRESET_VOLUME_OFFSETS := {
 		SLOT_BOSS_DEFEAT: 0.0
 	},
 	"quiet": {
-		SLOT_BOSS_WARNING: -3.5,
-		SLOT_BOSS_SPAWN: -3.5,
-		SLOT_BOSS_DEFEAT: -3.5
+		SLOT_BOSS_WARNING: -4.2,
+		SLOT_BOSS_SPAWN: -3.4,
+		SLOT_BOSS_DEFEAT: -2.9
 	},
 	"hype": {
-		SLOT_BOSS_WARNING: 1.0,
-		SLOT_BOSS_SPAWN: 1.5,
+		SLOT_BOSS_WARNING: 0.8,
+		SLOT_BOSS_SPAWN: 1.3,
 		SLOT_BOSS_DEFEAT: 1.0
 	}
 }
@@ -130,6 +130,27 @@ func play_slot(slot: String) -> void:
 	if player.playing:
 		player.stop()
 	player.play()
+
+func play_slot_emphasis(slot: String, gain_db: float = 0.0, pitch_scale: float = 1.0) -> void:
+	if _headless_audio_disabled:
+		return
+	if not _players.has(slot):
+		return
+	var player: AudioStreamPlayer = _players[slot]
+	if player.stream == null:
+		play_slot(slot)
+		return
+
+	var offsets: Dictionary = _PRESET_VOLUME_OFFSETS.get(_active_preset, {})
+	var base_db: float = float(_BASE_SLOT_VOLUMES.get(slot, -8.0))
+	var offset_db: float = float(offsets.get(slot, 0.0))
+	player.volume_db = base_db + offset_db + gain_db
+	player.pitch_scale = max(0.86, min(1.22, pitch_scale))
+	if player.playing:
+		player.stop()
+	player.play()
+	# restore logical preset mix baseline for next regular plays
+	player.volume_db = base_db + offset_db
 
 func play_boss_warning() -> void:
 	play_slot(SLOT_BOSS_WARNING)

@@ -135,7 +135,10 @@ func _process_miniboss_state_transitions() -> void:
 			if pattern == "wall":
 				_sfx_slots.play_boss_spawn()
 			elif pattern == "cross":
-				_sfx_slots.play_boss_spawn()
+				if _sfx_slots.has_method("play_slot_emphasis"):
+					_sfx_slots.play_slot_emphasis("boss_spawn", 1.1, 1.04)
+				else:
+					_sfx_slots.play_boss_spawn()
 			else:
 				_sfx_slots.play_boss_warning()
 			_summon_telegraph_sfx_cd = 0.62
@@ -145,6 +148,11 @@ func _process_miniboss_state_transitions() -> void:
 			_event_banner.show_message("🛡 SUMMON RECOVERY WINDOW", 0.52, Color("#0EA5E9"))
 		if _camera_fx:
 			_camera_fx.play_warning_pulse()
+		if _sfx_slots:
+			if _sfx_slots.has_method("play_slot_emphasis"):
+				_sfx_slots.play_slot_emphasis("boss_warning", 0.45, 1.01)
+			else:
+				_sfx_slots.play_boss_warning()
 
 	if not boss_alive and _last_boss_alive and not _boss_reward_applied:
 		_apply_boss_clear_reward()

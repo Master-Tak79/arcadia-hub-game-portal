@@ -539,3 +539,13 @@
 
 ### 회귀 결과
 - headless/누수/freeze 기준 회귀 없음
+
+## 2026-03-05 (Step 25-B Combat Feel/SFX Mix Polish)
+
+### 변경 요약
+- 전투 리듬: hit cadence meter 기반 카메라 임팩트 변주
+- 피격 체감: player-hit impact cooldown을 피해량 기반 스케일링
+- 오디오: 보스 SFX 볼륨/프리셋 및 emphasis 재조정
+
+### 회귀 결과
+- headless/누수/freeze 기준 회귀 없음

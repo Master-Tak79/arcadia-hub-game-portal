@@ -15,6 +15,8 @@ var _camera_hit_cooldown_left: float = 0.0
 var _camera_kill_cooldown_left: float = 0.0
 var _camera_player_hit_cooldown_left: float = 0.0
 var _dot_effects: Dictionary = {}
+var _hit_cadence_meter: int = 0
+var _hit_cadence_window_left: float = 0.0
 
 var _printed_weapon_pierce: bool = false
 var _printed_weapon_dot: bool = false
@@ -37,6 +39,8 @@ func reset_runtime() -> void:
 	_camera_kill_cooldown_left = 0.0
 	_camera_player_hit_cooldown_left = 0.0
 	_dot_effects = {}
+	_hit_cadence_meter = 0
+	_hit_cadence_window_left = 0.0
 	_printed_weapon_pierce = false
 	_printed_weapon_dot = false
 	_printed_weapon_aoe = false
@@ -57,6 +61,10 @@ func _process(delta: float) -> void:
 		_camera_kill_cooldown_left -= delta
 	if _camera_player_hit_cooldown_left > 0.0:
 		_camera_player_hit_cooldown_left -= delta
+	if _hit_cadence_window_left > 0.0:
+		_hit_cadence_window_left -= delta
+		if _hit_cadence_window_left <= 0.0:
+			_hit_cadence_meter = 0
 
 	var enemy_index: Dictionary = _build_enemy_spatial_index()
 	_process_projectile_hits(enemy_index)
@@ -147,6 +155,7 @@ func _spawn_hit_fx(world_pos: Vector2) -> void:
 	fx.set_script(ImpactFx)
 	fx.setup(world_pos, Color("#67E8F9"), 11.0, 2.0, 0.12)
 	_enemy_container.add_child(fx)
+	_register_hit_cadence(false)
 	_trigger_hit_camera_impact()
 	if not _printed_hit_fx:
 		print("HIT_FX_ON")
@@ -159,18 +168,35 @@ func _spawn_kill_fx(world_pos: Vector2) -> void:
 	fx.set_script(ImpactFx)
 	fx.setup(world_pos, Color("#FCA5A5"), 17.0, 2.6, 0.22)
 	_enemy_container.add_child(fx)
+	_register_hit_cadence(true)
 	_trigger_kill_camera_impact()
 	if not _printed_kill_fx:
 		print("KILL_FX_ON")
 		_printed_kill_fx = true
 
 
+func _register_hit_cadence(is_kill: bool = false) -> void:
+	var bonus: int = 2 if is_kill else 1
+	_hit_cadence_meter = min(8, _hit_cadence_meter + bonus)
+	_hit_cadence_window_left = 0.24
+
 func _trigger_hit_camera_impact() -> void:
 	if _camera_fx == null:
 		return
 	if _camera_hit_cooldown_left > 0.0:
 		return
-	_camera_hit_cooldown_left = 0.045
+
+	var heavy_pulse: bool = _hit_cadence_meter >= 5 and _camera_kill_cooldown_left <= 0.0
+	if heavy_pulse:
+		_camera_hit_cooldown_left = 0.08
+		_camera_kill_cooldown_left = max(_camera_kill_cooldown_left, 0.11)
+		_hit_cadence_meter = max(0, _hit_cadence_meter - 3)
+		if _camera_fx.has_method("play_combat_hit_heavy"):
+			_camera_fx.play_combat_hit_heavy()
+		return
+
+	var pressure_hint: float = clampf(float(_state.pressure_hint), 0.0, 1.0)
+	_camera_hit_cooldown_left = lerpf(0.052, 0.038, pressure_hint)
 	if _camera_fx.has_method("play_combat_hit_light"):
 		_camera_fx.play_combat_hit_light()
 
@@ -179,16 +205,18 @@ func _trigger_kill_camera_impact() -> void:
 		return
 	if _camera_kill_cooldown_left > 0.0:
 		return
-	_camera_kill_cooldown_left = 0.10
+	var pressure_hint: float = clampf(float(_state.pressure_hint), 0.0, 1.0)
+	_camera_kill_cooldown_left = lerpf(0.12, 0.085, pressure_hint)
 	if _camera_fx.has_method("play_combat_hit_heavy"):
 		_camera_fx.play_combat_hit_heavy()
 
-func _trigger_player_hit_camera_impact() -> void:
+func _trigger_player_hit_camera_impact(damage: int = 1) -> void:
 	if _camera_fx == null:
 		return
 	if _camera_player_hit_cooldown_left > 0.0:
 		return
-	_camera_player_hit_cooldown_left = 0.14
+	var hit_scale: float = clampf(float(damage) / 2.0, 0.0, 1.0)
+	_camera_player_hit_cooldown_left = lerpf(0.16, 0.11, hit_scale)
 	if _camera_fx.has_method("play_player_damage_impact"):
 		_camera_fx.play_player_damage_impact()
 
@@ -296,6 +324,7 @@ func _process_player_hits(enemy_index: Dictionary) -> void:
 				damage = max(1, int(enemy.get_contact_damage()))
 			damage = max(1, damage - int(_state.contact_damage_reduction))
 			_state.hp = max(0, _state.hp - damage)
+			_trigger_player_hit_camera_impact(damage)
 			_player_damage_cooldown_left = float(_balance.PLAYER_HIT_INVULN) + float(_state.player_invuln_bonus)
 			if _state.hp <= 0:
 				_state.is_game_over = true
