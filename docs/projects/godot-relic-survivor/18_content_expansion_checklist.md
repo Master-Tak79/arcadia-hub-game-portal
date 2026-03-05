@@ -206,7 +206,7 @@
 
 ### Step 3 결과 기록
 - Step: Stage Event Pack 01 (3종)
-- 구현 커밋: 이번 단계 코드/문서 일괄 커밋 예정
+- 구현 커밋: `9a0db13` (CROSS 패턴 + 이벤트 가중치 + 유물 세트 보너스 + docs sync)
 - 자동검증 결과: headless gate PASS (`event_loop` 포함), pre-manual PASS, leak trace PASS
 - 리스크/이슈: long_sim에서 이벤트 로그량 증가(정보성)
 - 다음 Step 진행 승인: 대기 중
