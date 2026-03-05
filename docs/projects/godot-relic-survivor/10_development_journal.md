@@ -543,3 +543,13 @@
 
 ### 검증
 - headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과
+
+## 2026-03-05 (Step 22-B — Boss Rhythm/Fairness Pack 02)
+
+### 변경
+- 보스 소환 패턴 반복 억제(repeat penalty)
+- 보스 소환 후 recovery window 도입
+- CROSS 패턴 텔레그래프 가독성 강화
+
+### 검증
+- headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과

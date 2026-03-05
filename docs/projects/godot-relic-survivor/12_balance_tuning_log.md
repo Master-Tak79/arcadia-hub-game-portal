@@ -519,3 +519,13 @@
 
 ### 회귀 결과
 - headless/누수/freeze 기준 회귀 없음
+
+## 2026-03-05 (Step 22-B Boss Rhythm/Fairness)
+
+### 변경 요약
+- 보스 소환 리듬 안정화: 반복 패턴 빈도 완화
+- 공정성 개선: 소환 직후 짧은 recovery window 도입
+- 가독성 개선: CROSS 텔레그래프 선명도 향상
+
+### 회귀 결과
+- headless/누수/freeze 기준 회귀 없음

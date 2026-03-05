@@ -1286,3 +1286,14 @@
 - QA 재검증
   - headless gate PASS: `.qa/headless/20260305-171610`
   - pre-manual/checkpoint/leak/freeze PASS
+
+## 2026-03-05 17:40 KST
+### Step 22-B — Boss Rhythm/Fairness Pack 02
+- `enemy_miniboss.gd`: 소환 패턴 repeat penalty + 소환 후 recovery window
+- `balance.gd`/`miniboss_director.gd`: 신규 파라미터(소환 recovery/repeat penalty) 연동
+- CROSS 텔레그래프 가독성 강화
+- QA 재검증
+  - headless gate PASS: `.qa/headless/20260305-173649`
+  - checkpoint PASS: `.qa/reports/checkpoint-20260305-173850.md`
+  - leak trace PASS: `.qa/leak-trace/20260305-173850/leak-summary.txt`
+  - balance freeze PASS

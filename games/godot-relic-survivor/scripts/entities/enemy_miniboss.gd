@@ -26,6 +26,8 @@ var combo_dash_gap: float = 0.16
 var summon_windup: float = 0.62
 var summon_wall_chance: float = 0.40
 var summon_cross_chance: float = 0.16
+var summon_recovery: float = 0.22
+var pattern_repeat_penalty: float = 0.38
 
 # Phase 2 tuning
 var phase2_hp_ratio: float = 0.52
@@ -54,7 +56,10 @@ var _summon_count: int = 3
 var _summon_radius: float = 86.0
 var _summon_cooldown_left: float = 4.5
 var _summon_windup_left: float = 0.0
+var _summon_recovery_left: float = 0.0
 var _pending_summon_pattern: String = ""
+var _last_summon_pattern: String = ""
+var _summon_repeat_streak: int = 0
 var _force_pattern_cycle: bool = false
 var _pattern_cycle_index: int = 0
 var _summon_cfg: Dictionary = {}
@@ -94,6 +99,8 @@ func setup(
 	base_summon_cross_pattern_chance: float,
 	summon_count: int,
 	summon_radius: float,
+	summon_recovery_sec: float,
+	pattern_repeat_penalty_value: float,
 	summon_cfg: Dictionary,
 	phase2_hp_ratio_value: float,
 	phase2_transition_value: float,
@@ -125,6 +132,8 @@ func setup(
 	summon_windup = max(0.08, summon_windup_sec)
 	summon_wall_chance = clampf(summon_wall_pattern_chance, 0.0, 1.0)
 	summon_cross_chance = clampf(base_summon_cross_pattern_chance, 0.0, 0.45)
+	summon_recovery = max(0.05, summon_recovery_sec)
+	pattern_repeat_penalty = clampf(pattern_repeat_penalty_value, 0.15, 0.92)
 	spawn_grace = max(0.0, base_spawn_grace)
 	contact_damage = base_contact_damage
 	exp_reward = base_exp_reward
@@ -150,7 +159,10 @@ func setup(
 	_summon_cfg = summon_cfg.duplicate(true)
 	_summon_cooldown_left = _summon_interval * 0.7
 	_summon_windup_left = 0.0
+	_summon_recovery_left = 0.0
 	_pending_summon_pattern = ""
+	_last_summon_pattern = ""
+	_summon_repeat_streak = 0
 	_force_pattern_cycle = force_pattern_cycle
 	_pattern_cycle_index = 0
 
@@ -181,6 +193,8 @@ func get_contact_damage() -> int:
 	if _dash_windup_left > 0.0:
 		return 0
 	if _summon_windup_left > 0.0:
+		return 0
+	if _summon_recovery_left > 0.0:
 		return 0
 	return contact_damage
 
@@ -256,6 +270,13 @@ func _process(delta: float) -> void:
 		rotation = to_target.angle()
 		_last_target_dir = to_target.normalized()
 
+	if _summon_recovery_left > 0.0:
+		_summon_recovery_left -= delta
+		if to_target.length() > 0.001:
+			position += to_target.normalized() * speed * 0.28 * delta
+		queue_redraw()
+		return
+
 	if _dash_time_left > 0.0:
 		_dash_time_left -= delta
 		position += _dash_direction * dash_speed * delta
@@ -316,6 +337,7 @@ func _start_phase2_transition() -> void:
 	_dash_recovery_left = 0.0
 	_combo_dash_left = 0
 	_summon_windup_left = 0.0
+	_summon_recovery_left = 0.0
 	_pending_summon_pattern = ""
 
 	print("MINIBOSS_PHASE2_TRANSITION")
@@ -367,6 +389,22 @@ func _start_summon_cast() -> void:
 	wall_chance = clampf(wall_chance, 0.16, 0.78)
 	cross_chance = clampf(cross_chance, 0.06, 0.34)
 	var ring_chance: float = max(0.08, 1.0 - wall_chance - cross_chance)
+
+	if _last_summon_pattern == "wall":
+		wall_chance *= pattern_repeat_penalty
+	elif _last_summon_pattern == "cross":
+		cross_chance *= pattern_repeat_penalty
+	elif _last_summon_pattern == "ring":
+		ring_chance *= pattern_repeat_penalty
+
+	if _summon_repeat_streak >= 1 and _last_summon_pattern != "":
+		if _last_summon_pattern == "wall":
+			wall_chance *= 0.72
+		elif _last_summon_pattern == "cross":
+			cross_chance *= 0.72
+		else:
+			ring_chance *= 0.72
+
 	var total: float = wall_chance + cross_chance + ring_chance
 	if total <= 0.0:
 		total = 1.0
@@ -382,18 +420,26 @@ func _start_summon_cast() -> void:
 	print("MINIBOSS_SUMMON_TELEGRAPH_ON")
 
 func _cast_summon_pattern() -> void:
-	if _pending_summon_pattern == "wall":
+	var cast_pattern: String = _pending_summon_pattern
+	if cast_pattern == "wall":
 		_summon_wall_wave()
 		print("MINIBOSS_SUMMON_PATTERN_WALL")
-	elif _pending_summon_pattern == "cross":
+	elif cast_pattern == "cross":
 		_summon_cross_wave()
 		print("MINIBOSS_SUMMON_PATTERN_CROSS")
 	else:
 		_summon_ring_wave()
 		print("MINIBOSS_SUMMON_PATTERN_RING")
 
+	if cast_pattern == _last_summon_pattern:
+		_summon_repeat_streak += 1
+	else:
+		_summon_repeat_streak = 0
+	_last_summon_pattern = cast_pattern
+
 	print("MINIBOSS_SUMMON_CAST")
 	_pending_summon_pattern = ""
+	_summon_recovery_left = summon_recovery
 	_summon_cooldown_left = _summon_interval
 
 func _summon_ring_wave() -> void:
@@ -541,6 +587,12 @@ func _draw() -> void:
 			var side: Vector2 = Vector2(-_last_target_dir.y, _last_target_dir.x)
 			var half_len: float = float(_summon_count + 1) * 22.0
 			draw_line(wall_center - side * half_len, wall_center + side * half_len, Color(summon_color.r, summon_color.g, summon_color.b, 0.42), 5.0)
+		elif _pending_summon_pattern == "cross":
+			var arm: float = _summon_radius + 28.0
+			var main_a: Vector2 = _last_target_dir * arm
+			var side_a: Vector2 = Vector2(-_last_target_dir.y, _last_target_dir.x) * arm
+			draw_line(-main_a, main_a, Color(0.55, 0.95, 1.0, 0.48), 4.8)
+			draw_line(-side_a, side_a, Color(0.55, 0.95, 1.0, 0.48), 4.8)
 		else:
 			draw_arc(Vector2.ZERO, _summon_radius + 14.0, 0.0, TAU, 48, Color(summon_color.r, summon_color.g, summon_color.b, 0.42), 2.6)
 

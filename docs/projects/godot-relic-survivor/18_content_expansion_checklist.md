@@ -181,6 +181,13 @@
 - [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
 - [x] 문서/릴리즈/저널 동기화 반영
 
+## Step 22-B — Boss Rhythm/Fairness Pack 02
+- [x] 보스 소환 패턴 repeat penalty 적용
+- [x] 보스 소환 후 recovery window 도입
+- [x] CROSS 텔레그래프 시각 강화
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+- [x] 문서/릴리즈/저널 동기화 반영
+
 ---
 
 ## 결과 기록 템플릿

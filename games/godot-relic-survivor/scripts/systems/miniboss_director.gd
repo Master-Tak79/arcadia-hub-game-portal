@@ -223,6 +223,8 @@ func _spawn_miniboss() -> void:
 		float(_balance.MINIBOSS_SUMMON_CROSS_CHANCE),
 		int(_balance.MINIBOSS_SUMMON_COUNT),
 		float(_balance.MINIBOSS_SUMMON_RADIUS),
+		float(_balance.MINIBOSS_SUMMON_RECOVERY),
+		float(_balance.MINIBOSS_PATTERN_REPEAT_PENALTY),
 		summon_cfg,
 		float(_balance.MINIBOSS_PHASE2_HP_RATIO),
 		float(_balance.MINIBOSS_PHASE2_TRANSITION),

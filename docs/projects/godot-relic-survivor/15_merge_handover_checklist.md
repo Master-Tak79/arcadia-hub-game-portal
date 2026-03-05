@@ -21,6 +21,7 @@
 - [ ] 타이틀/ESC 메뉴 수동 동작 확인
 - [ ] 옵션 저장/복원 수동 확인
 - [ ] CROSS 패턴/세트 보너스 수동 확인
+- [ ] 소환 repeat penalty/recovery window 수동 확인
 
 ## Merge decision
 - [x] `v0.1.0-alpha-candidate`로 merge 준비 완료

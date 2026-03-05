@@ -273,6 +273,16 @@
   - headless gate + leak trace + balance freeze 재통과
 - 상태: 🟡 구현/자동검증 완료 (GUI 수동 QA 대기)
 
+## M29 — Boss Rhythm/Fairness Pack 02 (v0.1.33-dev)
+- 목표: 보스 소환-대시 사이의 리듬 공정성 강화
+- 콘텐츠:
+  - 소환 패턴 반복 억제(repeat penalty)
+  - 소환 후 recovery window 도입
+  - CROSS 텔레그래프 시각 강화
+- 완료 기준:
+  - headless gate + leak trace + balance freeze 재통과
+- 상태: 🟡 구현/자동검증 완료 (GUI 수동 QA 대기)
+
 ## 백로그 (중기)
 - 메인 메뉴 옵션/설정 확장 2차(조작/고급 그래픽/접근성) 구현
 - 캐릭터 전용 무기/액티브 스킬 트리 고도화 구현
