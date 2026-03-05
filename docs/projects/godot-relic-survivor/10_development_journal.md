@@ -563,3 +563,13 @@
 ### 검증
 - pre-manual-qa-check PASS
 - checkpoint-report 최신화
+
+## 2026-03-05 (Step 23-HF1 — GUI Boot Path Hotfix)
+
+### 변경
+- `game_root.gd` 런타임 옵션 키 불일치 수정(`boss_test_boost`)
+- non-headless 부팅 시 SCRIPT ERROR 제거
+
+### 검증
+- GUI quick smoke 통과
+- headless gate / pre-manual / checkpoint 통과

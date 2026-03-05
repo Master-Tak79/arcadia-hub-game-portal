@@ -323,3 +323,8 @@
 - 실수동 QA 3회(키 입력 기반 조작감/난이도 체감) 사용자 요청으로 보류
 - 실GUI 환경 FPS 실측 체크 보류(수동 QA 재개 시 동시 수행)
 - headless 오디오를 비활성화해 ObjectDB 누수 경고는 해소했으며, GUI 실측 시 오디오 경로 재확인 필요
+
+- Step 23-HF1 GUI Boot Path Hotfix
+  - `runtime_options` 키 참조 오류 수정(`boss_test` -> `boss_test_boost`)
+  - 비헤드리스 부팅 SCRIPT ERROR 제거
+  - 회귀 검증: headless gate + pre-manual + checkpoint 재통과

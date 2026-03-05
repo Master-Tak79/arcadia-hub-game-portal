@@ -1304,3 +1304,13 @@
 - 최신 자동검증 증적(Headless/Checkpoint/Leak/Freeze) 경로 고정
 - 수동 QA(3회) + FPS 실측용 기록 템플릿/스크린샷 규격 정의
 - `pre-manual-qa-check.sh` 재실행 PASS, checkpoint 최신화
+
+## 2026-03-05 18:13 KST
+### Step 23-HF1 — GUI 부트 경로 안정화
+- `game_root.gd`의 잘못된 런타임 옵션 키 참조 수정
+  - `runtime_options.boss_test` -> `runtime_options.boss_test_boost`
+- 비헤드리스 실행 시 발생하던 SCRIPT ERROR 제거 확인
+- 회귀 검증
+  - GUI quick smoke: `RELIC_SURVIVOR_BOOT_OK`, `TITLE_MENU_OPEN`
+  - headless gate PASS: `.qa/headless/20260305-181109`
+  - checkpoint 최신화: `.qa/reports/checkpoint-20260305-181308.md`

@@ -47,6 +47,7 @@
 - Content/Fun Expansion Pack 01 추가(보스 CROSS 패턴 + 이벤트 가중치 + 유물 세트 보너스)
 - Boss Rhythm/Fairness Pack 02 추가(보스 소환 repeat penalty + recovery window)
 - Manual QA Handoff Packet 정리(수동 QA 실행 증적/체크포인트 고정)
+- Step 23-HF1 GUI 부트 경로 안정화(런타임 옵션 키 참조 수정)
 - 레벨업 선택지 가독성 강화(역할 태그/효과 요약/추천 문구/예상 지표)
 - 압박도 기반 추천 보정(웨이브/보스 압박 신호를 가중치에 반영)
 - auto-levelup 선택 로직의 multi-effect 반영 + 스폰 안전 반경/전투 후보 인덱스 적용
@@ -150,6 +151,7 @@ cd games/godot-relic-survivor
 - 체크포인트 핸드오프 리포트 자동 생성
 
 ## Key Commits (recent, head branch)
+- `23b1a39` docs: prepare alpha manual QA handoff packet
 - `9a0db13` Content/Fun Expansion Pack 01(CROSS 패턴 + 이벤트 가중치 + 유물 세트 보너스 + QA 재검증)
 - `2323bc2` Options/Settings Pack 01(옵션 메뉴 + 설정 저장/복원 + QA 재검증)
 - `639ea2f` Title/Menu Framework Pack 01(부트 타이틀 + ESC 메뉴 프레임워크 + QA 재검증)

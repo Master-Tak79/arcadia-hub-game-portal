@@ -478,7 +478,7 @@ func _should_show_title_menu_on_boot() -> bool:
 		return false
 	if bool(_runtime_options.qa_force_damage):
 		return false
-	if bool(_runtime_options.boss_test) or bool(_runtime_options.boss_pattern_test) or bool(_runtime_options.boss_phase2_test):
+	if bool(_runtime_options.boss_test_boost) or bool(_runtime_options.boss_pattern_test) or bool(_runtime_options.boss_phase2_test):
 		return false
 	if bool(_runtime_options.elite_test) or bool(_runtime_options.relic_test) or bool(_runtime_options.event_test):
 		return false
@@ -608,7 +608,7 @@ func _allow_runtime_settings_load() -> bool:
 		return false
 	if bool(_runtime_options.qa_force_damage) or bool(_runtime_options.qa_auto_restart):
 		return false
-	if bool(_runtime_options.boss_test) or bool(_runtime_options.boss_pattern_test) or bool(_runtime_options.boss_phase2_test):
+	if bool(_runtime_options.boss_test_boost) or bool(_runtime_options.boss_pattern_test) or bool(_runtime_options.boss_phase2_test):
 		return false
 	if bool(_runtime_options.elite_test) or bool(_runtime_options.relic_test) or bool(_runtime_options.event_test):
 		return false

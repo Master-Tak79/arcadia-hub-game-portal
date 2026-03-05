@@ -37,6 +37,7 @@
   - options/settings framework 회귀 없음
   - content/fun expansion 회귀 없음
   - boss rhythm/fairness 회귀 없음
+  - non-headless 부트 경로 옵션 키 오류 수정 후 회귀 없음
   - elite_variant loop 체크(`ELITE_VARIANT:*`) 통과
   - meta loop 체크(`META_PROFILE_LOADED`, `META_RUN_REWARD`) 통과
   - warning/leak summary 기준 `warnings=0`, `leak_lines=0`
