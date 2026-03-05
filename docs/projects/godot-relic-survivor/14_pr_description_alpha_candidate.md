@@ -48,6 +48,7 @@
 - Boss Rhythm/Fairness Pack 02 추가(보스 소환 repeat penalty + recovery window)
 - Manual QA Handoff Packet 정리(수동 QA 실행 증적/체크포인트 고정)
 - Step 23-HF1 GUI 부트 경로 안정화(런타임 옵션 키 참조 수정)
+- FPS Probe/Manual QA Assist Pack 01(`--fps-probe` + FPS 로그 보조)
 - 레벨업 선택지 가독성 강화(역할 태그/효과 요약/추천 문구/예상 지표)
 - 압박도 기반 추천 보정(웨이브/보스 압박 신호를 가중치에 반영)
 - auto-levelup 선택 로직의 multi-effect 반영 + 스폰 안전 반경/전투 후보 인덱스 적용
@@ -151,6 +152,8 @@ cd games/godot-relic-survivor
 - 체크포인트 핸드오프 리포트 자동 생성
 
 ## Key Commits (recent, head branch)
+- `7d2a2ab` docs: record step24a commit reference in pr description
+- `da8832c` Step24-A QA/Automation Guard Pack 01(CROSS gate + automation guard unify + summon recovery feedback)
 - `da8832c` Step24-A QA/Automation Guard Pack 01(CROSS gate + automation guard unify + summon recovery feedback)
 - `0abacf0` fix: stabilize gui boot runtime option checks
 - `23b1a39` docs: prepare alpha manual QA handoff packet

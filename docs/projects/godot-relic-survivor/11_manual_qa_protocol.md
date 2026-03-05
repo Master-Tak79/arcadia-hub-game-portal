@@ -11,6 +11,8 @@
 ```bash
 cd /mnt/c/TAK_Projects/Game/godot-relic-survivor/games/godot-relic-survivor
 ../../scripts/godotw --path .
+# FPS 측정 보조(권장)
+../../scripts/godotw --path . -- --fps-probe
 ```
 
 ## 수동 QA 시나리오 (3회)

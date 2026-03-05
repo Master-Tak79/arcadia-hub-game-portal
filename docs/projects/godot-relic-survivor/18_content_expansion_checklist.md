@@ -200,6 +200,11 @@
 - [x] summon recovery HUD/시각 피드백 강화
 - [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
 
+## Step 24-B — FPS Probe/Manual QA Assist Pack 01
+- [x] `--fps-probe` 런타임 옵션 + FPS 로그 샘플링 추가
+- [x] 수동 QA 프로토콜/핸드오프 문서에 probe 절차 반영
+- [x] `headless-alpha-gate.sh` / `pre-manual-qa-check.sh` / `trace-objectdb-leak.sh` / `balance-freeze-check.sh` 재통과
+
 ---
 
 ## 결과 기록 템플릿

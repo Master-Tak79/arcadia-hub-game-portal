@@ -1,7 +1,7 @@
 # 06_release_notes — Godot Relic Survivor
 
 ## Version
-- version: v0.1.34-dev
+- version: v0.1.35-dev
 - date: 2026-03-03
 
 ## Added
@@ -333,4 +333,10 @@
   - boss_pattern 검증에 CROSS 패턴 필수 체크 추가
   - 자동화 모드 판별 로직 단일화(`is_automation_mode`)
   - 보스 summon recovery HUD/텔레그래프 피드백 강화
+  - 회귀 검증: headless/pre-manual/checkpoint/leak/freeze 재통과
+
+- FPS Probe/Manual QA Assist Pack 01
+  - 런타임 옵션 `--fps-probe` 추가
+  - `FPS_PROBE_SAMPLE:cur/avg/min/max` 로그 출력
+  - 수동 QA 문서/핸드오프 패킷에 실행 절차 반영
   - 회귀 검증: headless/pre-manual/checkpoint/leak/freeze 재통과

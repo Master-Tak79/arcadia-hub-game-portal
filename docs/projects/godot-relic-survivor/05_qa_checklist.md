@@ -11,6 +11,7 @@
 - [x] 밸런스 프리즈 검증 확인 (`./tools/qa/balance-freeze-check.sh`)
 - [x] 수동 QA 핸드오프 패킷 문서화 (`21_alpha_manual_qa_handoff_packet.md`)
 - [x] CROSS 패턴이 자동 게이트에서 필수 검증되는지 확인 (`headless-alpha-gate.sh`)
+- [x] FPS probe 로그(`FPS_PROBE_SAMPLE`) 기반 수동 실측 보조 경로 확인
 
 ## 기능별
 - [ ] 이동/대시 조작 반응성 (수동 QA 보류)

@@ -47,6 +47,7 @@
 - 상태: **통과**
 - 근거:
   - 수동 QA 핸드오프 패킷 준비 완료 (`21_alpha_manual_qa_handoff_packet.md`)
+  - FPS probe 로그 경로 준비 완료(`--fps-probe`, `FPS_PROBE_SAMPLE:*`)
   - levelup card mouse click/H history UX 반영 및 운영문서 동기화
   - 청사진/GDD/개발계획/로드맵/개발일지/체크리스트/릴리즈노트 유지
   - 개발지침/업데이트지침/에셋대장/튜닝로그/수동QA프로토콜 반영

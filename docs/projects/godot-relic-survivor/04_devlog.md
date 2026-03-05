@@ -1325,3 +1325,14 @@
   - checkpoint PASS: `.qa/reports/checkpoint-20260305-194731.md`
   - leak trace PASS: `.qa/leak-trace/20260305-194731/leak-summary.txt`
   - balance freeze PASS
+
+## 2026-03-05 20:10 KST
+### Step 24-B — FPS Probe/Manual QA Assist Pack 01
+- `runtime_options.gd`: `--fps-probe` 플래그 추가
+- `game_root.gd`: `FPS_PROBE_SAMPLE:cur/avg/min/max` 주기 로그 추가
+- `11_manual_qa_protocol.md`/`21_alpha_manual_qa_handoff_packet.md`에 probe 실행 절차 반영
+- QA 재검증
+  - headless gate PASS: `.qa/headless/20260305-200550`
+  - checkpoint PASS: `.qa/reports/checkpoint-20260305-200754.md`
+  - leak trace PASS: `.qa/leak-trace/20260305-200754/leak-summary.txt`
+  - balance freeze PASS

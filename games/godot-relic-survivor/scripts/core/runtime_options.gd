@@ -29,6 +29,7 @@ var qa_force_damage_interval: float = 0.9
 var qa_autopilot: bool = false
 
 var sfx_preset: String = "default"  # default | quiet | hype
+var fps_probe: bool = false
 
 func parse_user_args(args: Array) -> void:
 	for arg in args:
@@ -96,6 +97,8 @@ func parse_user_args(args: Array) -> void:
 			sfx_preset = _sanitize_sfx_preset(String(arg).get_slice("=", 1))
 		elif String(arg).begins_with("--sfx="):
 			sfx_preset = _sanitize_sfx_preset(String(arg).get_slice("=", 1))
+		elif arg == "--fps-probe" or arg == "fps-probe":
+			fps_probe = true
 
 func apply_round_boost_if_needed(state: RefCounted) -> void:
 	if not boss_test_boost:
@@ -151,6 +154,8 @@ func print_enabled_flags() -> void:
 		print("QA_AUTOPILOT_ON")
 	if sfx_preset != "default":
 		print("SFX_PRESET:%s" % sfx_preset)
+	if fps_probe:
+		print("FPS_PROBE_ON")
 
 func _sanitize_sfx_preset(raw: String) -> String:
 	var preset := raw.strip_edges().to_lower()

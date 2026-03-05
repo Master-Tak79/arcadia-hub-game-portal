@@ -303,6 +303,16 @@
   - headless gate + pre-manual + checkpoint + leak + freeze 재통과
 - 상태: 🟡 구현/자동검증 완료
 
+## M32 — FPS Probe/Manual QA Assist Pack 01 (v0.1.35-dev)
+- 목표: 수동 QA 중 FPS 실측을 로그 기반으로 표준화
+- 콘텐츠:
+  - 런타임 옵션 `--fps-probe` 추가
+  - `FPS_PROBE_SAMPLE:*` 주기 로그 제공
+  - 수동 QA 프로토콜/핸드오프 문서에 반영
+- 완료 기준:
+  - GUI quick probe + headless/leak/freeze/checkpoint 재통과
+- 상태: 🟡 완료
+
 ## 백로그 (중기)
 - 메인 메뉴 옵션/설정 확장 2차(조작/고급 그래픽/접근성) 구현
 - 캐릭터 전용 무기/액티브 스킬 트리 고도화 구현

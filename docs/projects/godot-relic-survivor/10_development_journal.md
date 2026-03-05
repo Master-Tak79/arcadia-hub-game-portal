@@ -583,3 +583,12 @@
 
 ### 검증
 - headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과
+
+## 2026-03-05 (Step 24-B — FPS Probe/Manual QA Assist Pack 01)
+
+### 변경
+- `--fps-probe` 옵션/로그 샘플링 추가
+- 수동 QA 문서에 FPS 실측 보조 절차 반영
+
+### 검증
+- headless gate / pre-manual / checkpoint / leak trace / balance-freeze 통과

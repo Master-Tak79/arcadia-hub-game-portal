@@ -88,6 +88,12 @@ var _setting_window_mode: String = "windowed"
 const _SETTINGS_PATH := "user://settings.cfg"
 var _tree_ui_test_done: bool = false
 var _last_game_over: bool = false
+var _fps_probe_enabled: bool = false
+var _fps_probe_tick_left: float = 0.0
+var _fps_probe_samples: int = 0
+var _fps_probe_sum: float = 0.0
+var _fps_probe_min: float = 9999.0
+var _fps_probe_max: float = 0.0
 
 func _ready() -> void:
 	_state = GameState.new()
@@ -98,6 +104,7 @@ func _ready() -> void:
 
 	_runtime_options.parse_user_args(OS.get_cmdline_user_args())
 	_input_actions.ensure_default_bindings()
+	_fps_probe_enabled = bool(_runtime_options.fps_probe)
 
 	_player.setup(_balance, _state)
 	_hud.setup(_state, _player, _enemy_container, _projectile_container)
@@ -228,6 +235,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	_boss_reward_runtime.process(delta)
 	_track_game_over_edge()
+	_process_fps_probe(delta)
 
 	if _title_menu_open:
 		return
@@ -622,6 +630,29 @@ func _apply_window_mode(mode: String) -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+
+func _process_fps_probe(delta: float) -> void:
+	if not _fps_probe_enabled:
+		return
+	if DisplayServer.get_name() == "headless":
+		return
+
+	var fps: float = float(Engine.get_frames_per_second())
+	if fps <= 0.0:
+		return
+
+	_fps_probe_samples += 1
+	_fps_probe_sum += fps
+	_fps_probe_min = min(_fps_probe_min, fps)
+	_fps_probe_max = max(_fps_probe_max, fps)
+
+	_fps_probe_tick_left -= delta
+	if _fps_probe_tick_left > 0.0:
+		return
+	_fps_probe_tick_left = 5.0
+	var avg: float = _fps_probe_sum / max(1.0, float(_fps_probe_samples))
+	print("FPS_PROBE_SAMPLE:cur=%.1f,avg=%.1f,min=%.1f,max=%.1f,samples=%d" % [fps, avg, _fps_probe_min, _fps_probe_max, _fps_probe_samples])
+
 func _on_title_quit_requested() -> void:
 	get_tree().quit()
 

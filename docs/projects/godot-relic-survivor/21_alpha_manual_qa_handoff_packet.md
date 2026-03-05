@@ -11,13 +11,13 @@
 
 ## 자동검증 최신 증적 (Step 22-B 이후)
 - Headless gate PASS:
-  - `.qa/headless/20260305-194524`
+  - `.qa/headless/20260305-200550`
   - `warnings=0`, `leak_lines=0`
-  - warning summary: `.qa/headless/20260305-194524/warnings-summary.txt`
+  - warning summary: `.qa/headless/20260305-200550/warnings-summary.txt`
 - Checkpoint report:
-  - `.qa/reports/checkpoint-20260305-194731.md`
+  - `.qa/reports/checkpoint-20260305-200754.md`
 - Leak trace summary:
-  - `.qa/leak-trace/20260305-194731/leak-summary.txt`
+  - `.qa/leak-trace/20260305-200754/leak-summary.txt`
 - Balance freeze:
   - `./tools/qa/balance-freeze-check.sh` PASS
 
@@ -26,6 +26,8 @@
 cd /mnt/c/TAK_Projects/Game/godot-relic-survivor/games/godot-relic-survivor
 ./tools/qa/pre-manual-qa-check.sh
 ../../scripts/godotw --path .
+# FPS 측정 보조
+../../scripts/godotw --path . -- --fps-probe
 ```
 
 ## 수동 QA 실행 순서 (필수)
