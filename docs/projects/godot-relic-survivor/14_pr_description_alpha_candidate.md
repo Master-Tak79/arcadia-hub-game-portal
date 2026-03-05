@@ -151,6 +151,7 @@ cd games/godot-relic-survivor
 - 체크포인트 핸드오프 리포트 자동 생성
 
 ## Key Commits (recent, head branch)
+- `da8832c` Step24-A QA/Automation Guard Pack 01(CROSS gate + automation guard unify + summon recovery feedback)
 - `0abacf0` fix: stabilize gui boot runtime option checks
 - `23b1a39` docs: prepare alpha manual QA handoff packet
 - `9a0db13` Content/Fun Expansion Pack 01(CROSS 패턴 + 이벤트 가중치 + 유물 세트 보너스 + QA 재검증)
