@@ -153,6 +153,7 @@ cd games/godot-relic-survivor
 - 체크포인트 핸드오프 리포트 자동 생성
 
 ## Key Commits (recent, head branch)
+- `1514f50` Step24-C Manual QA Ops Pack 01(runbook + fps summary + run sheet)
 - `444eee0` docs: record step24b commit reference in pr description
 - `74e7294` Step24-B FPS Probe/Manual QA Assist Pack 01(fps probe + docs sync + QA 재검증)
 - `74e7294` Step24-B FPS Probe/Manual QA Assist Pack 01(fps probe + docs sync + QA 재검증)
